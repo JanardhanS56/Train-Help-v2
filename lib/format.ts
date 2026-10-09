@@ -22,6 +22,8 @@ export function formatPriceDifference(diff: number): string {
   return diff > 0 ? `+${formatted}` : `-${formatted}`;
 }
 
+export const formatFareDifference = formatPriceDifference;
+
 // ─── Date & Time ───────────────────────────────────────────────────
 
 const timeFormatter = new Intl.DateTimeFormat("en-IN", {
@@ -57,6 +59,11 @@ export function formatFullDate(date: Date): string {
 
 export function formatDateTime(date: Date): string {
   return `${formatDate(date)}, ${formatTime(date)}`;
+}
+
+export function formatTimeWithDay(date: Date, dayOffset?: string): string {
+  const timeStr = formatTime(date);
+  return dayOffset ? `${timeStr} (${dayOffset})` : timeStr;
 }
 
 // ─── Duration ──────────────────────────────────────────────────────

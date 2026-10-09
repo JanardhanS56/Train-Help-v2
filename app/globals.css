@@ -1,26 +1,226 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * TravelRescue Design Tokens
+ * Light:
+ * Background #FAF7F2, surface #FFFFFF, border #E8E2D9, text #1F2328
+ * Muted #5F6670, primary #1E3A5F (hover #16304F)
+ * Success #2F7D6B, warning #B7791F, disruption #C2574A
+ *
+ * Dark:
+ * Background #14171A, surface #1C2024, border #2C3238, text #ECEDEE
+ * Muted #9AA2AB, primary #6E9BD1
+ * Success #5DB89F, warning #D9A441, disruption #E07A6C
+ *
+ * Radius: cards 12px, buttons/inputs 8px, badges pill
+ * Shadow: 0 1px 2px rgba(0,0,0,.05)
+ * Font: Inter 16px/1.6, 8px spacing grid
+ */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Custom design tokens */
+  --color-success: var(--success);
+  --color-success-foreground: #FFFFFF;
+  --color-warning: var(--warning);
+  --color-warning-foreground: #FFFFFF;
+  --color-disruption: var(--disruption);
+  --color-disruption-foreground: #FFFFFF;
+  --color-surface: var(--surface);
+  --color-primary-hover: var(--primary-hover);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #FAF7F2;
+  --foreground: #1F2328;
+  --surface: #FFFFFF;
+  --card: #FFFFFF;
+  --card-foreground: #1F2328;
+  --popover: #FFFFFF;
+  --popover-foreground: #1F2328;
+  --primary: #1E3A5F;
+  --primary-hover: #16304F;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F0EBE3;
+  --secondary-foreground: #1F2328;
+  --muted: #F0EBE3;
+  --muted-foreground: #5F6670;
+  --accent: #F0EBE3;
+  --accent-foreground: #1F2328;
+  --destructive: #C2574A;
+  --border: #E8E2D9;
+  --input: #E8E2D9;
+  --ring: #1E3A5F;
+  --radius: 0.5rem;
+
+  --success: #2F7D6B;
+  --warning: #B7791F;
+  --disruption: #C2574A;
+
+  /* Sidebar */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1F2328;
+  --sidebar-primary: #1E3A5F;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F0EBE3;
+  --sidebar-accent-foreground: #1F2328;
+  --sidebar-border: #E8E2D9;
+  --sidebar-ring: #1E3A5F;
+}
+
+.dark {
+  --background: #14171A;
+  --foreground: #ECEDEE;
+  --surface: #1C2024;
+  --card: #1C2024;
+  --card-foreground: #ECEDEE;
+  --popover: #1C2024;
+  --popover-foreground: #ECEDEE;
+  --primary: #6E9BD1;
+  --primary-hover: #5A87BD;
+  --primary-foreground: #14171A;
+  --secondary: #24292E;
+  --secondary-foreground: #ECEDEE;
+  --muted: #24292E;
+  --muted-foreground: #9AA2AB;
+  --accent: #24292E;
+  --accent-foreground: #ECEDEE;
+  --destructive: #E07A6C;
+  --border: #2C3238;
+  --input: #2C3238;
+  --ring: #6E9BD1;
+
+  --success: #5DB89F;
+  --warning: #D9A441;
+  --disruption: #E07A6C;
+
+  /* Sidebar in dark mode */
+  --sidebar: #1C2024;
+  --sidebar-foreground: #ECEDEE;
+  --sidebar-primary: #6E9BD1;
+  --sidebar-primary-foreground: #14171A;
+  --sidebar-accent: #24292E;
+  --sidebar-accent-foreground: #ECEDEE;
+  --sidebar-border: #2C3238;
+  --sidebar-ring: #6E9BD1;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 16px;
+    line-height: 1.6;
+    font-family: var(--font-sans), Inter, system-ui, -apple-system, sans-serif;
+  }
+  html {
+    @apply font-sans;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Custom utilities ──────────────────────────────────────────── */
+
+@layer utilities {
+  .shadow-card {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .radius-card {
+    border-radius: 12px;
+  }
+
+  .radius-button {
+    border-radius: 8px;
+  }
+
+  .radius-badge {
+    border-radius: 9999px;
+  }
+
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* ─── Motion and Accessibility ──────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ─── Print Styles ──────────────────────────────────────────────── */
+
+@media print {
+  aside,
+  nav,
+  .no-print,
+  #bottom-nav,
+  .chat-floating-button,
+  .demo-menu-container {
+    display: none !important;
+  }
+
+  body,
+  main {
+    background: #ffffff !important;
+    color: #1f2328 !important;
+  }
+
+  .shadow-card {
+    box-shadow: none !important;
+  }
 }

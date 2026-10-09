@@ -1,4 +1,4 @@
-import type { TripStatus } from "./types";
+import type { TripStatus, TravelClass, NearbyStation, AppTheme } from "./types";
 
 // ─── Routes ────────────────────────────────────────────────────────
 
@@ -17,7 +17,7 @@ export const ROUTES = {
 export interface NavItem {
   label: string;
   href: string;
-  iconName: "layout-dashboard" | "plane" | "settings" | "bell" | "help-circle";
+  iconName: "layout-dashboard" | "train" | "settings" | "bell" | "help-circle";
   matchPattern: string;
 }
 
@@ -84,49 +84,104 @@ export const STATUS_CONFIG: Record<TripStatus, StatusConfig> = {
   },
 } as const;
 
-// ─── Carriers ──────────────────────────────────────────────────────
+// ─── Stations ──────────────────────────────────────────────────────
 
-export const CARRIERS = [
-  "IndiGo",
-  "Air India",
-  "Air India Express",
-  "Akasa Air",
-  "SpiceJet",
-] as const;
-
-export type Carrier = (typeof CARRIERS)[number];
-
-// ─── Airports ──────────────────────────────────────────────────────
-
-export const AIRPORTS = {
-  BLR: { code: "BLR", city: "Bengaluru", name: "Kempegowda International" },
-  DEL: { code: "DEL", city: "Delhi", name: "Indira Gandhi International" },
-  BOM: { code: "BOM", city: "Mumbai", name: "Chhatrapati Shivaji Maharaj" },
-  MAA: { code: "MAA", city: "Chennai", name: "Chennai International" },
-  HYD: { code: "HYD", city: "Hyderabad", name: "Rajiv Gandhi International" },
-  CCU: { code: "CCU", city: "Kolkata", name: "Netaji Subhas Chandra Bose" },
-  GOI: { code: "GOI", city: "Goa", name: "Manohar International" },
+export const STATIONS = {
+  SBC: { code: "SBC", city: "Bengaluru", name: "KSR Bengaluru City" },
+  YPR: { code: "YPR", city: "Bengaluru", name: "Yesvantpur Junction" },
+  BNC: { code: "BNC", city: "Bengaluru", name: "Bengaluru Cantonment" },
+  NDLS: { code: "NDLS", city: "Delhi", name: "New Delhi Railway Station" },
+  NZM: { code: "NZM", city: "Delhi", name: "Hazrat Nizamuddin" },
+  ANVT: { code: "ANVT", city: "Delhi", name: "Anand Vihar Terminal" },
+  CSMT: { code: "CSMT", city: "Mumbai", name: "Chhatrapati Shivaji Maharaj Terminus" },
+  MMCT: { code: "MMCT", city: "Mumbai", name: "Mumbai Central" },
+  DR: { code: "DR", city: "Mumbai", name: "Dadar Central" },
+  MAS: { code: "MAS", city: "Chennai", name: "Puratchi Thalaivar Dr. MGR Central" },
+  HYB: { code: "HYB", city: "Hyderabad", name: "Hyderabad Deccan" },
+  SC: { code: "SC", city: "Secunderabad", name: "Secunderabad Junction" },
+  HWH: { code: "HWH", city: "Kolkata", name: "Howrah Junction" },
+  MAO: { code: "MAO", city: "Goa", name: "Madgaon Junction" },
+  BPL: { code: "BPL", city: "Bhopal", name: "Bhopal Junction" },
+  NGP: { code: "NGP", city: "Nagpur", name: "Nagpur Junction" },
 } as const;
+
+// 2 nearby stations per major city (name, code, travel time & distance from main station)
+export const NEARBY_STATIONS: Record<string, NearbyStation[]> = {
+  Bengaluru: [
+    {
+      name: "Yesvantpur Junction",
+      code: "YPR",
+      travelTime: "25 min",
+      distance: "8 km",
+      city: "Bengaluru",
+      mainStationCode: "SBC",
+    },
+    {
+      name: "Bengaluru Cantonment",
+      code: "BNC",
+      travelTime: "15 min",
+      distance: "4 km",
+      city: "Bengaluru",
+      mainStationCode: "SBC",
+    },
+  ],
+  Delhi: [
+    {
+      name: "Hazrat Nizamuddin",
+      code: "NZM",
+      travelTime: "20 min",
+      distance: "7 km",
+      city: "Delhi",
+      mainStationCode: "NDLS",
+    },
+    {
+      name: "Anand Vihar Terminal",
+      code: "ANVT",
+      travelTime: "35 min",
+      distance: "14 km",
+      city: "Delhi",
+      mainStationCode: "NDLS",
+    },
+  ],
+};
+
+export const TRAVEL_CLASSES: { code: TravelClass; name: string }[] = [
+  { code: "SL", name: "Sleeper Class (SL)" },
+  { code: "3A", name: "AC 3-Tier (3A)" },
+  { code: "2A", name: "AC 2-Tier (2A)" },
+  { code: "1A", name: "AC First Class (1A)" },
+  { code: "CC", name: "AC Chair Car (CC)" },
+  { code: "EC", name: "Exec Chair Car (EC)" },
+];
 
 // ─── Defaults ──────────────────────────────────────────────────────
 
 export const DEFAULT_PREFERENCES = {
-  preferredCarriers: [] as string[],
-  maxBudget: 15000,
+  preferredTrains: [] as string[],
+  maxBudget: 3500,
   prioritiseArrivalTime: true,
-  baggageRequired: true,
-  seatPreference: "none" as const,
+  preferredClass: "3A" as TravelClass,
+  seatPreference: "lower" as const,
   autoRecover: false,
+  preferredTransport: "train" as const,
+  maxChangesPreference: "any" as const,
+  departureWindow: "any" as const,
+  latestArrival: "09:00",
+  flexibleSchedule: true,
+  includeNearbyStations: false,
 };
 
 export const DEFAULT_FILTERS = {
-  maxPrice: null,
-  maxStops: null,
-  carriersOnly: [] as string[],
-  baggageOnly: false,
-  sortBy: "arrival" as const,
+  maxFare: null,
+  maxChanges: null,
+  classFilter: "any" as TravelClass | "any",
+  availableOnly: false,
+  trainsOnly: [] as string[],
+  sortBy: "best-match" as const,
   sortDirection: "asc" as const,
 };
+
+export const DEFAULT_THEME: AppTheme = "system";
 
 // ─── Breakpoints ───────────────────────────────────────────────────
 
@@ -139,4 +194,4 @@ export const BREAKPOINTS = {
 // ─── App Meta ──────────────────────────────────────────────────────
 
 export const APP_NAME = "TravelRescue";
-export const APP_TAGLINE = "Something went wrong. We\u2019ve got this.";
+export const APP_TAGLINE = "Your train was disrupted. We\u2019ve got this.";
