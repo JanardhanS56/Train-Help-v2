@@ -56,8 +56,10 @@
 travel-rescue/
 ├── app/
 │   ├── (app)/
-│   │   ├── dashboard/          # Trips overview, disruption banner, demo controls
+│   │   ├── dashboard/          # Active recovery overview, featured ticket & trip list
+│   │   ├── trips/              # My Trips view (?status=all|upcoming|attention|recovered|past)
 │   │   ├── trips/[id]/         # Trip details & cancellation refund tracker
+│   │   ├── recovery/           # Recovery Centre (?tab=active|refunds|history)
 │   │   ├── recovery/[id]/      # 4-stage recovery flow (progress, alts, itinerary, success)
 │   │   ├── preferences/        # Budget slider, class options, nearby stations
 │   │   ├── notifications/      # Notification feed with read status sync
@@ -69,10 +71,10 @@ travel-rescue/
 │   ├── chat/                   # Assistant side panel & quick action chips
 │   ├── help/                   # Accordion FAQ & support request modal
 │   ├── landing/                # Hero navbar & before/after preview
-│   ├── layout/                 # AppShell, Desktop Sidebar, Mobile BottomNav
+│   ├── layout/                 # AppShell, Desktop Sidebar (7 items), Mobile BottomNav (4 items)
 │   ├── preferences/            # Transport modes, class selector, budget slider
 │   ├── recovery/               # Progress bar, alternative cards, timeline, itinerary
-│   └── trips/                  # Trip cards, dashboard header, booking modal
+│   └── trips/                  # Ticket-stub cards, trip rows, dashboard header, booking modal
 ├── context/
 │   ├── app-context.tsx         # Unified state provider with derived rankings
 │   └── state-storage.ts        # Versioned localStorage hydration & sync
@@ -80,6 +82,8 @@ travel-rescue/
 │   ├── use-hydrated.ts         # Cascading render-safe client hydration detector
 │   └── use-media-query.ts      # Reactive media query listener via useSyncExternalStore
 ├── lib/
+│   ├── clock.ts                # Deterministic clock helper (getNow)
+│   ├── tripGroups.ts           # Mutually exclusive trip classifier & useTripGroups hook
 │   ├── confirmation.ts         # Fixed RAC / Waitlist probability rules
 │   ├── constants.ts            # Station database, route codes, design tokens
 │   ├── format.ts               # Indian Rupee (en-IN), date offsets, durations
@@ -89,7 +93,7 @@ travel-rescue/
     ├── data.ts                 # Central mock exports
     ├── mock-alternatives.ts    # 5 verified corridor trains with timeline halts
     ├── mock-messages.ts        # 6 notifications & 8 decision tree responses
-    └── mock-trips.ts           # 5 diverse real-world Indian train itineraries
+    └── mock-trips.ts           # 7 diverse real-world Indian train itineraries
 ```
 
 ---
@@ -105,7 +109,7 @@ travel-rescue/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/travel-rescue.git
+git clone https://github.com/dkayush7373/Train-Help.git
 cd travel-rescue
 
 # 2. Install dependencies
@@ -116,6 +120,21 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+#### Quick Localhost Links:
+* **Dashboard**: [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
+* **My Trips**: [http://localhost:3000/trips](http://localhost:3000/trips)
+  * *Needs Attention*: [http://localhost:3000/trips?status=attention](http://localhost:3000/trips?status=attention)
+  * *Upcoming*: [http://localhost:3000/trips?status=upcoming](http://localhost:3000/trips?status=upcoming)
+  * *Recovered*: [http://localhost:3000/trips?status=recovered](http://localhost:3000/trips?status=recovered)
+  * *Past*: [http://localhost:3000/trips?status=past](http://localhost:3000/trips?status=past)
+* **Recovery Centre**: [http://localhost:3000/recovery](http://localhost:3000/recovery)
+  * *Active Recovery*: [http://localhost:3000/recovery?tab=active](http://localhost:3000/recovery?tab=active)
+  * *Refunds Tracker*: [http://localhost:3000/recovery?tab=refunds](http://localhost:3000/recovery?tab=refunds)
+  * *History*: [http://localhost:3000/recovery?tab=history](http://localhost:3000/recovery?tab=history)
+* **Preferences**: [http://localhost:3000/preferences](http://localhost:3000/preferences)
+* **Notifications**: [http://localhost:3000/notifications](http://localhost:3000/notifications)
+* **Help & Support**: [http://localhost:3000/help](http://localhost:3000/help)
 
 ---
 
