@@ -8,33 +8,37 @@ import { TripRow } from "@/components/trips/trip-row";
 import { BookingModal } from "@/components/trips/booking-modal";
 import type { Trip } from "@/lib/types";
 
+import { useTripGroups } from "@/lib/tripGroups";
+
 export function TripList() {
   const { state } = useApp();
   const dispatch = useAppDispatch();
+  const tripGroups = useTripGroups();
   const [selectedBookingTrip, setSelectedBookingTrip] = useState<Trip | null>(null);
 
-  // 1. Identify "Needs attention" trip: Cancelled trip first, or delayed trip if no cancelled
+  // 1. Identify "Needs attention" trip from centralized classification: Cancelled trip first, then delayed
   const attentionTrip = useMemo(() => {
-    const cancelled = state.trips.find((t) => t.status === "cancelled");
+    const cancelled = tripGroups.attention.find((t) => t.status === "cancelled");
     if (cancelled) return cancelled;
-    return state.trips.find((t) => t.status === "delayed");
-  }, [state.trips]);
+    return tripGroups.attention[0] ?? null;
+  }, [tripGroups.attention]);
 
-  // 2. Upcoming trips: On-time or delayed (if not featured)
+  // 2. Upcoming trips: remaining upcoming trips
   const upcomingTrips = useMemo(() => {
-    return state.trips.filter((t) => {
+    return tripGroups.upcoming.filter((t) => {
       if (attentionTrip && t.id === attentionTrip.id) return false;
-      return t.status === "on-time" || t.status === "delayed";
+      return true;
     });
-  }, [state.trips, attentionTrip]);
+  }, [tripGroups.upcoming, attentionTrip]);
 
-  // 3. Earlier trips: Recovered or past trips
+  // 3. Earlier trips: recovered and past trips
   const earlierTrips = useMemo(() => {
-    return state.trips.filter((t) => {
+    const combined = [...tripGroups.recovered, ...tripGroups.past];
+    return combined.filter((t) => {
       if (attentionTrip && t.id === attentionTrip.id) return false;
-      return t.status === "recovered";
+      return true;
     });
-  }, [state.trips, attentionTrip]);
+  }, [tripGroups.recovered, tripGroups.past, attentionTrip]);
 
   // Loading State: Skeleton loaders in the exact layout shapes (no spinners)
   if (state.demoState === "loading") {

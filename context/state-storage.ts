@@ -7,6 +7,7 @@ export const STORAGE_KEY = "travelrescue-train-state-v4";
 interface PersistedData {
   selectedTripId?: string;
   recoveryStage?: AppState["recoveryStage"];
+  recoveryByTripId?: Record<string, AppState["recoveryStage"]>;
   selectedAlternativeId?: string;
   preferences?: AppState["preferences"];
   theme?: AppTheme;
@@ -68,6 +69,7 @@ export function loadPersistedState(initialState: AppState): Partial<AppState> {
       trips: updatedTrips,
       selectedTripId: parsed.selectedTripId ?? initialState.selectedTripId,
       recoveryStage: parsed.recoveryStage ?? initialState.recoveryStage,
+      recoveryByTripId: parsed.recoveryByTripId ?? initialState.recoveryByTripId,
       selectedAlternativeId: parsed.selectedAlternativeId ?? initialState.selectedAlternativeId,
       preferences: { ...DEFAULT_PREFERENCES, ...(parsed.preferences ?? {}) },
       notifications: updatedNotifs,
@@ -90,6 +92,7 @@ export function savePersistedState(state: AppState) {
     const dataToSave: PersistedData = {
       selectedTripId: state.selectedTripId ?? undefined,
       recoveryStage: state.recoveryStage,
+      recoveryByTripId: state.recoveryByTripId,
       selectedAlternativeId: state.selectedAlternativeId ?? undefined,
       preferences: state.preferences,
       theme: state.theme,

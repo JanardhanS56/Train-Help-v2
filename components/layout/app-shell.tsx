@@ -11,6 +11,14 @@ interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
   return (
     <div className="flex h-dvh overflow-hidden">
+      {/* Accessible skip to main content */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:shadow-md focus:text-xs focus:font-medium outline-none focus:ring-2 focus:ring-ring"
+      >
+        Skip to content
+      </a>
+
       {/* Desktop sidebar */}
       <Sidebar />
 
@@ -19,6 +27,7 @@ export function AppShell({ children }: AppShellProps) {
         className="flex-1 overflow-y-auto pb-20 md:pb-0"
         id="main-content"
         role="main"
+        tabIndex={-1}
       >
         <div className="mx-auto max-w-[1120px] px-4 py-6 md:px-6 md:py-8">
           {children}

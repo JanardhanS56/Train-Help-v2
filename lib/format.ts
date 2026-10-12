@@ -78,8 +78,10 @@ export function formatDuration(minutes: number): string {
 
 // ─── Relative Time ─────────────────────────────────────────────────
 
+import { getNow } from "@/lib/clock";
+
 export function formatRelativeTime(date: Date): string {
-  const now = new Date();
+  const now = getNow();
   const diffMs = now.getTime() - date.getTime();
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMins / 60);
@@ -95,7 +97,7 @@ export function formatRelativeTime(date: Date): string {
 // ─── Helpers ───────────────────────────────────────────────────────
 
 /**
- * Create a date relative to today.
+ * Create a date relative to today using getNow().
  * daysOffset: 0 = today, 1 = tomorrow, -1 = yesterday
  * hour/minute set the time of day.
  */
@@ -104,7 +106,7 @@ export function relativeDate(
   hour: number,
   minute: number
 ): Date {
-  const d = new Date();
+  const d = new Date(getNow().getTime());
   d.setDate(d.getDate() + daysOffset);
   d.setHours(hour, minute, 0, 0);
   return d;

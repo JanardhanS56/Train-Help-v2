@@ -7,11 +7,13 @@ import { useApp, useAppDispatch } from "@/context/app-context";
 import { cannedResponses } from "@/mock/data";
 import { ChatQuickActions } from "@/components/chat/chat-quick-actions";
 
+import { useChatAssistantState } from "@/components/chat/chat-controller";
+
 export function ChatAssistant() {
   const router = useRouter();
   const { state, alternatives, rankedAlternatives } = useApp();
   const dispatch = useAppDispatch();
-  const [open, setOpen] = useState(false);
+  const { isOpen: open, closeChat, toggleChat } = useChatAssistantState();
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -33,6 +35,16 @@ export function ChatAssistant() {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [open, state.chatMessages]);
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape" && open) {
+        closeChat();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open, closeChat]);
 
   function handleQuickAction(action: string) {
     const timestamp = new Date();
@@ -146,7 +158,7 @@ export function ChatAssistant() {
       {/* Floating Button */}
       <button
         type="button"
-        onClick={() => setOpen(!open)}
+        onClick={(e) => toggleChat(e.currentTarget)}
         className="fixed bottom-20 md:bottom-6 right-6 z-40 h-10 px-4 rounded-[8px] bg-primary text-primary-foreground hover:bg-primary-hover transition-colors flex items-center justify-center gap-2 select-none"
         aria-label="Open recovery assistant"
         aria-expanded={open}
@@ -170,7 +182,7 @@ export function ChatAssistant() {
             </div>
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={closeChat}
               className="p-1 rounded text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Close assistant"
             >

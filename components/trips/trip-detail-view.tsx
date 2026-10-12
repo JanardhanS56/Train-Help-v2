@@ -17,22 +17,22 @@ export function TripDetailView({ tripId }: TripDetailViewProps) {
   const { state } = useApp();
   const [bookingOpen, setBookingOpen] = useState(false);
 
-  const trip = state.trips.find((t) => t.id === tripId) ?? state.trips[3];
+  const trip = state.trips.find((t) => t.id === tripId);
 
   if (!trip) {
     return (
       <div className="py-12 text-center max-w-md mx-auto space-y-3">
         <h2 className="text-base font-medium text-foreground">
-          Trip record not found
+          Trip not found
         </h2>
         <p className="text-xs text-muted-foreground mb-4">
-          We could not locate railway booking records for this journey.
+          We could not locate railway booking records for trip #{tripId}.
         </p>
         <Link
-          href="/dashboard"
+          href="/trips"
           className="h-10 px-4 rounded-[8px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors inline-flex items-center justify-center"
         >
-          Return to Dashboard
+          Return to My Trips
         </Link>
       </div>
     );
@@ -47,11 +47,11 @@ export function TripDetailView({ tripId }: TripDetailViewProps) {
       {/* Navigation */}
       <div className="flex items-center justify-between">
         <Link
-          href="/dashboard"
+          href="/trips"
           className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Trips</span>
+          <span>Back to My Trips</span>
         </Link>
 
         <button

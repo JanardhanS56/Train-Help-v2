@@ -8,7 +8,7 @@ import { STATUS_CONFIG } from "@/lib/constants";
 
 interface TripRowProps {
   trip: Trip;
-  onViewBooking: (trip: Trip) => void;
+  onViewBooking?: (trip: Trip) => void;
   isEarlier?: boolean;
 }
 
@@ -20,6 +20,7 @@ const STATUS_ICONS = {
 };
 
 export function TripRow({ trip, onViewBooking, isEarlier = false }: TripRowProps) {
+  void onViewBooking;
   const segment = trip.segments[0];
   const statusCfg = STATUS_CONFIG[trip.status];
   const StatusIcon = STATUS_ICONS[trip.status] ?? CheckCircle;
@@ -49,7 +50,9 @@ export function TripRow({ trip, onViewBooking, isEarlier = false }: TripRowProps
         <div className="flex-1 min-w-0 pr-4">
           <div className="flex items-baseline gap-2">
             <h3 className="font-medium text-foreground text-sm truncate">
-              {segment.departureStation.city} → {segment.arrivalStation.city}
+              <Link href={`/trips/${trip.id}`} className="hover:underline">
+                {segment.departureStation.city} → {segment.arrivalStation.city}
+              </Link>
             </h3>
             <span className="text-xs text-muted-foreground truncate">
               {segment.trainName}
@@ -94,32 +97,32 @@ export function TripRow({ trip, onViewBooking, isEarlier = false }: TripRowProps
           </span>
         </div>
 
-        {/* 5. Quiet Action */}
-        <div className="w-32 shrink-0 flex items-center justify-end gap-2">
+        {/* 5. Actions by status: Cancelled = Find Alternatives, Delayed = View Status, Other = View Trip */}
+        <div className="w-36 shrink-0 flex items-center justify-end gap-2">
           {trip.status === "cancelled" ? (
             <Link
               href={`/recovery/${trip.id}`}
-              className="text-xs font-medium text-primary hover:underline flex items-center gap-1"
+              className="text-xs font-medium text-primary hover:underline flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-primary rounded"
             >
-              <span>Recover</span>
+              <span>Find Alternatives</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
-          ) : trip.status === "recovered" ? (
+          ) : trip.status === "delayed" ? (
             <Link
               href={`/trips/${trip.id}`}
-              className="text-xs font-medium text-primary hover:underline flex items-center gap-1"
+              className="text-xs font-medium text-primary hover:underline flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-primary rounded"
             >
-              <span>View New Ticket</span>
+              <span>View Status</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
           ) : (
-            <button
-              type="button"
-              onClick={() => onViewBooking(trip)}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors font-medium"
+            <Link
+              href={`/trips/${trip.id}`}
+              className="text-xs font-medium text-primary hover:underline flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-primary rounded"
             >
-              View booking
-            </button>
+              <span>View Trip</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
           )}
         </div>
       </div>
@@ -145,7 +148,9 @@ export function TripRow({ trip, onViewBooking, isEarlier = false }: TripRowProps
 
         <div>
           <h3 className="font-medium text-foreground text-sm">
-            {segment.departureStation.city} → {segment.arrivalStation.city}
+            <Link href={`/trips/${trip.id}`} className="hover:underline">
+              {segment.departureStation.city} → {segment.arrivalStation.city}
+            </Link>
           </h3>
           <p className="text-xs text-muted-foreground mt-0.5">
             {segment.trainName} · #{segment.trainNumber} · Class {trip.travelClass}
@@ -178,13 +183,28 @@ export function TripRow({ trip, onViewBooking, isEarlier = false }: TripRowProps
           <span className="font-mono text-xs text-muted-foreground">
             {formatCurrency(trip.fare)}
           </span>
-          <button
-            type="button"
-            onClick={() => onViewBooking(trip)}
-            className="text-xs font-medium text-primary hover:underline touch-target flex items-center"
-          >
-            View booking details →
-          </button>
+          {trip.status === "cancelled" ? (
+            <Link
+              href={`/recovery/${trip.id}`}
+              className="text-xs font-medium text-primary hover:underline touch-target flex items-center"
+            >
+              Find Alternatives →
+            </Link>
+          ) : trip.status === "delayed" ? (
+            <Link
+              href={`/trips/${trip.id}`}
+              className="text-xs font-medium text-primary hover:underline touch-target flex items-center"
+            >
+              View Status →
+            </Link>
+          ) : (
+            <Link
+              href={`/trips/${trip.id}`}
+              className="text-xs font-medium text-primary hover:underline touch-target flex items-center"
+            >
+              View Trip →
+            </Link>
+          )}
         </div>
       </div>
     </article>

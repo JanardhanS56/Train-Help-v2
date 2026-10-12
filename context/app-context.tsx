@@ -26,6 +26,9 @@ const initialState: AppState = {
   trips: mockTrips,
   selectedTripId: "trip-4",
   recoveryStage: "alternatives",
+  recoveryByTripId: {
+    "trip-4": "alternatives",
+  },
   filters: DEFAULT_FILTERS,
   preferences: DEFAULT_PREFERENCES,
   selectedAlternativeId: "alt-1",
@@ -40,8 +43,17 @@ function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case "SELECT_TRIP":
       return { ...state, selectedTripId: action.tripId };
-    case "SET_RECOVERY_STAGE":
-      return { ...state, recoveryStage: action.stage };
+    case "SET_RECOVERY_STAGE": {
+      const tripId = state.selectedTripId || "trip-4";
+      return {
+        ...state,
+        recoveryStage: action.stage,
+        recoveryByTripId: {
+          ...state.recoveryByTripId,
+          [tripId]: action.stage,
+        },
+      };
+    }
     case "SET_FILTERS":
       return { ...state, filters: { ...state.filters, ...action.filters } };
     case "RESET_FILTERS":
@@ -84,6 +96,10 @@ function appReducer(state: AppState, action: AppAction): AppState {
         trips: updatedTrips,
         selectedAlternativeId: action.alternativeId,
         recoveryStage: "success",
+        recoveryByTripId: {
+          ...state.recoveryByTripId,
+          [action.tripId]: "success",
+        },
       };
     }
     case "UPDATE_PREFERENCES":

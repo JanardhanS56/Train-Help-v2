@@ -195,6 +195,7 @@ export interface AppState {
   trips: Trip[];
   selectedTripId: string | null;
   recoveryStage: RecoveryStage;
+  recoveryByTripId?: Record<string, RecoveryStage>;
   filters: AlternativeFilters;
   preferences: UserPreferences;
   selectedAlternativeId: string | null;
