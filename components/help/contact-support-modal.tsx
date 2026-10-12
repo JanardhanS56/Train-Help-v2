@@ -38,28 +38,28 @@ export function ContactSupportModal({ open, onOpenChange }: ContactSupportModalP
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md bg-surface p-6 rounded-xl border border-border shadow-card">
+      <DialogContent className="max-w-md bg-surface p-6 rounded-xl border border-border">
         {submitted ? (
           <div className="py-6 text-center space-y-4 animate-in fade-in-50 duration-200">
-            <div className="w-14 h-14 rounded-full bg-success/10 text-success flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-8 h-8" />
+            <div className="w-12 h-12 rounded-full bg-success-tint text-success border border-success/30 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-6 h-6 stroke-[2]" />
             </div>
             <div className="space-y-1">
-              <DialogTitle className="text-xl font-bold text-foreground">
+              <DialogTitle className="text-xl font-display font-medium text-foreground">
                 Request Received
               </DialogTitle>
               <DialogDescription className="text-xs text-muted-foreground">
-                Case reference: <span className="font-mono font-bold text-foreground">#TR-88492</span>
+                Case reference: <span className="font-mono font-semibold text-foreground">#TR-88492</span>
               </DialogDescription>
             </div>
-            <p className="text-xs text-foreground/80 leading-relaxed max-w-xs mx-auto">
-              A dedicated recovery specialist is reviewing your 10-digit PNR <strong>{pnr}</strong> and will connect via SMS and phone within 5 minutes.
+            <p className="text-xs text-muted-foreground leading-relaxed max-w-xs mx-auto">
+              A recovery specialist is reviewing your 10-digit PNR <strong className="text-foreground">{pnr}</strong> and will follow up with verified alternatives.
             </p>
             <div className="pt-2">
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-6 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary-hover transition-colors touch-target shadow-card"
+                className="h-10 px-6 rounded-[8px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors"
               >
                 Done
               </button>
@@ -145,13 +145,13 @@ export function ContactSupportModal({ open, onOpenChange }: ContactSupportModalP
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-4 py-2 rounded-lg border border-border bg-surface text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-background transition-colors touch-target"
+                className="h-10 px-4 rounded-[8px] border border-border bg-surface text-xs font-medium text-foreground hover:bg-background transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-bold hover:bg-primary-hover transition-colors touch-target shadow-card flex items-center gap-1.5"
+                className="h-10 px-5 rounded-[8px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors flex items-center gap-1.5"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Submit Request</span>

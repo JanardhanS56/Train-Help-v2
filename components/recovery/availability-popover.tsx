@@ -28,7 +28,7 @@ export function AvailabilityPopover({ availability }: AvailabilityPopoverProps) 
 
   if (status === "available") {
     return (
-      <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-success/10 text-success font-semibold">
+      <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-full bg-success-tint text-success border border-success/30 font-medium">
         <span className="w-1.5 h-1.5 rounded-full bg-success" />
         <span>Available ({availability.count ?? 12} seats)</span>
       </span>
@@ -47,20 +47,16 @@ export function AvailabilityPopover({ availability }: AvailabilityPopoverProps) 
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className={`inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full font-semibold border transition-colors ${
-          isRac
-            ? "bg-warning/15 text-warning border-warning/30 hover:bg-warning/20"
-            : "bg-disruption/10 text-disruption border-disruption/20 hover:bg-disruption/20"
-        }`}
+        className="inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-full font-medium bg-warning-tint text-warning border border-warning/30 hover:border-warning/50 transition-colors"
         aria-expanded={open}
       >
-        <AlertTriangle className={`w-3 h-3 ${isRac ? "text-warning" : "text-disruption"}`} />
+        <AlertTriangle className="w-3 h-3 text-warning stroke-[1.5]" />
         <span>
           {isRac
             ? `RAC ${availability.racNumber ?? availability.count ?? 14}`
             : `Waitlist ${availability.wlNumber ?? availability.count ?? 8}`}
         </span>
-        <HelpCircle className="w-3 h-3 opacity-80 ml-0.5" />
+        <HelpCircle className="w-3 h-3 text-warning/70 ml-0.5" />
       </button>
 
       {open && (

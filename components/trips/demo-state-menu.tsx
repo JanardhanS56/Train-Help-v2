@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MoreHorizontal, RotateCcw, AlertCircle, Loader2, Inbox, Check, SlidersHorizontal } from "lucide-react";
+import { RotateCcw, AlertCircle, Loader2, Inbox, Check, SlidersHorizontal } from "lucide-react";
 import { useApp, useAppDispatch } from "@/context/app-context";
 import type { DemoState } from "@/lib/types";
 
@@ -51,21 +51,18 @@ export function DemoStateMenu() {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-surface text-muted-foreground hover:text-foreground text-xs font-medium transition-colors touch-target shadow-card"
+        className="inline-flex items-center gap-1.5 px-2 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded transition-colors"
         aria-label="Demo controls and sample states"
         aria-expanded={open}
       >
-        <MoreHorizontal className="w-4 h-4" />
-        <span className="hidden sm:inline">Demo</span>
-        <span className="text-[10px] px-1.5 py-0.2 rounded bg-background border border-border text-muted-foreground">
-          Sample data
-        </span>
+        <span>Demo</span>
+        <span className="text-[10px] font-mono text-muted-foreground">▾</span>
       </button>
 
       {open && (
         <div
           role="menu"
-          className="absolute right-0 mt-1 w-56 rounded-xl bg-surface border border-border shadow-card z-50 py-1 text-xs animate-in fade-in-50 duration-150"
+          className="absolute right-0 mt-1.5 w-52 rounded-lg bg-surface border border-border z-50 py-1 text-xs animate-in fade-in-50 duration-150"
         >
           <div className="px-3 py-1.5 border-b border-border flex items-center justify-between">
             <span className="font-semibold text-muted-foreground">Demo Controls</span>

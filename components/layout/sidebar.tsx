@@ -12,8 +12,6 @@ import {
   Moon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useApp, useAppDispatch } from "@/context/app-context";
 import { APP_NAME } from "@/lib/constants";
@@ -81,20 +79,20 @@ export function Sidebar() {
 
   return (
     <aside
-      className="hidden md:flex md:flex-col md:w-64 bg-surface border-r border-border h-full"
+      className="hidden md:flex md:flex-col md:w-60 bg-sidebar border-r border-sidebar-border h-full select-none"
       role="navigation"
       aria-label="Main navigation"
     >
       {/* Logo / Brand */}
-      <div className="flex items-center justify-between px-6 py-5">
+      <div className="flex items-center justify-between px-5 py-5 border-b border-sidebar-border/60">
         <Link
           href="/dashboard"
-          className="flex items-center gap-3 hover:opacity-85 transition-opacity"
+          className="flex items-center gap-2.5 hover:opacity-85 transition-opacity"
         >
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground">
-            <Shield className="w-4 h-4" aria-hidden="true" />
+          <div className="flex items-center justify-center w-6 h-6 rounded bg-primary text-primary-foreground">
+            <Shield className="w-3.5 h-3.5 stroke-[1.5]" aria-hidden="true" />
           </div>
-          <span className="text-base font-bold text-foreground tracking-tight">
+          <span className="text-sm font-semibold tracking-tight text-foreground font-sans">
             {APP_NAME}
           </span>
         </Link>
@@ -103,19 +101,17 @@ export function Sidebar() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="p-1.5 rounded-md hover:bg-background text-muted-foreground hover:text-foreground transition-colors touch-target"
+          className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-sidebar-accent transition-colors touch-target"
           aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
           title={isDark ? "Switch to light mode" : "Switch to dark mode"}
         >
-          {isDark ? <Sun className="w-4 h-4 text-warning" /> : <Moon className="w-4 h-4" />}
+          {isDark ? <Sun className="w-4 h-4 text-warning stroke-[1.5]" /> : <Moon className="w-4 h-4 stroke-[1.5]" />}
         </button>
       </div>
 
-      <Separator className="mx-4" />
-
       {/* Navigation */}
-      <ScrollArea className="flex-1 px-3 py-4">
-        <nav className="flex flex-col gap-1">
+      <ScrollArea className="flex-1 py-3">
+        <nav className="flex flex-col">
           {navItems.map((item) => {
             const Icon = ICON_MAP[item.iconName];
             const isActive =
@@ -132,22 +128,19 @@ export function Sidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 touch-target",
+                  "flex items-center gap-3 px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                   isActive
-                    ? "bg-primary/10 text-primary font-semibold"
-                    : "text-muted-foreground hover:bg-background hover:text-foreground"
+                    ? "border-primary bg-sidebar-accent text-primary font-medium"
+                    : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
                 )}
                 aria-current={isActive ? "page" : undefined}
               >
-                <Icon className="w-5 h-5 shrink-0" aria-hidden="true" />
+                <Icon className="w-5 h-5 stroke-[1.5] shrink-0" aria-hidden="true" />
                 <span className="flex-1">{item.label}</span>
                 {item.badge !== undefined && item.badge > 0 && (
-                  <Badge
-                    variant="destructive"
-                    className="radius-badge text-xs px-2 py-0.5 min-w-[20px] text-center"
-                  >
+                  <span className="text-[11px] font-mono font-medium px-1.5 py-0.2 rounded bg-muted text-muted-foreground">
                     {item.badge}
-                  </Badge>
+                  </span>
                 )}
               </Link>
             );
@@ -156,17 +149,14 @@ export function Sidebar() {
       </ScrollArea>
 
       {/* Footer */}
-      <Separator className="mx-4" />
-      <div className="px-6 py-4 space-y-2">
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Something went wrong?
-          <br />
-          We&rsquo;ve got this.
+      <div className="px-5 py-4 border-t border-sidebar-border/60 space-y-1.5 text-xs text-muted-foreground">
+        <p className="leading-normal">
+          Indian Railways Disruption Recovery
         </p>
         <div className="flex items-center gap-1.5 pt-1">
-          <span className="w-2 h-2 rounded-full bg-success" />
-          <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
-            Sample data
+          <span className="w-1.5 h-1.5 rounded-full bg-success" />
+          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+            Active System
           </span>
         </div>
       </div>

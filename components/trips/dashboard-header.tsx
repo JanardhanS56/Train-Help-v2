@@ -33,51 +33,49 @@ export function DashboardHeader() {
   }
 
   return (
-    <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border mb-6">
+    <header className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-6 border-b border-border/60 mb-10">
       <div>
-        <h1 className="text-2xl font-bold text-foreground tracking-tight">
+        <h1 className="text-[32px] font-display text-foreground tracking-tight leading-none">
           {greeting}, Vikram
         </h1>
-        <p className="text-sm text-muted-foreground mt-0.5">
+        <p className="text-sm text-muted-foreground mt-2">
           Here is the status of your upcoming journeys.
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 self-start sm:self-auto">
+        {/* Discreet Demo Menu */}
+        <DemoStateMenu />
+
         {/* Dark/Light mode toggle */}
         <button
           type="button"
           onClick={toggleTheme}
-          className="p-2 rounded-lg border border-border bg-surface text-muted-foreground hover:text-foreground hover:bg-background transition-colors touch-target flex items-center justify-center shadow-card"
+          className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted/40 rounded transition-colors"
           aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
           title={isDark ? "Switch to light mode" : "Switch to dark mode"}
         >
-          {isDark ? <Sun className="w-4 h-4 text-warning" /> : <Moon className="w-4 h-4" />}
+          {isDark ? <Sun className="w-4 h-4 text-warning stroke-[1.5]" /> : <Moon className="w-4 h-4 stroke-[1.5]" />}
         </button>
-
-        {/* Discreet Demo Menu */}
-        <DemoStateMenu />
 
         {/* Notifications Bell with unread badge */}
         <Link
           href="/notifications"
-          className="relative p-2 rounded-lg border border-border bg-surface text-muted-foreground hover:text-foreground hover:bg-background transition-colors touch-target flex items-center justify-center shadow-card"
+          className="relative p-2 text-muted-foreground hover:text-foreground hover:bg-muted/40 rounded transition-colors"
           aria-label={`Notifications (${unreadCount} unread)`}
         >
-          <Bell className="w-4 h-4" />
+          <Bell className="w-4 h-4 stroke-[1.5]" />
           {unreadCount > 0 && (
             <span
-              className="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-4 px-1 text-[10px] font-bold text-white bg-disruption rounded-full"
+              className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-primary"
               aria-hidden="true"
-            >
-              {unreadCount}
-            </span>
+            />
           )}
         </Link>
 
         {/* User Avatar */}
         <div
-          className="w-8 h-8 rounded-full bg-primary text-primary-foreground font-semibold text-xs flex items-center justify-center ring-2 ring-border"
+          className="w-7 h-7 rounded-full bg-muted border border-border text-foreground font-mono text-[11px] font-medium flex items-center justify-center ml-1"
           aria-label="Vikram Patel profile"
           title="Vikram Patel"
         >

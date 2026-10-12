@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 // Helper function to merge class names
 const cn = (...classes: string[]) => {

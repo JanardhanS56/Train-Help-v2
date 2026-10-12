@@ -12,9 +12,9 @@ export function TransportPreferences({ prefs, onUpdate }: TransportPreferencesPr
   const isTrainActive = prefs.preferredTransport === "train";
 
   return (
-    <section className="bg-surface rounded-xl border border-border p-5 shadow-card space-y-3">
+    <section className="bg-surface rounded-xl border border-border p-5 space-y-3">
       <div>
-        <h2 className="text-sm font-bold text-foreground">
+        <h2 className="text-sm font-medium text-foreground">
           Preferred Transport Mode
         </h2>
         <p className="text-xs text-muted-foreground mt-0.5">
@@ -27,50 +27,40 @@ export function TransportPreferences({ prefs, onUpdate }: TransportPreferencesPr
         <button
           type="button"
           onClick={() => onUpdate("preferredTransport", "train")}
-          className={`flex items-center gap-3 p-3 rounded-lg border-2 text-left touch-target ${
+          className={`flex items-center gap-3 p-3 rounded-lg border text-left ${
             isTrainActive
-              ? "border-primary bg-primary/[0.03]"
+              ? "border-primary bg-primary text-primary-foreground font-medium"
               : "border-border bg-background"
           }`}
         >
-          <div className="w-8 h-8 rounded-md bg-primary text-primary-foreground flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded bg-primary/20 text-current flex items-center justify-center shrink-0">
             <Train className="w-4 h-4" />
           </div>
           <div>
-            <p className="text-xs font-bold text-foreground">Trains</p>
-            <p className="text-[10px] text-success font-medium">Active mode</p>
+            <p className="text-xs font-medium">Trains</p>
+            <p className="text-[10px] opacity-80">Active mode</p>
           </div>
         </button>
 
         {/* Flight - Disabled */}
-        <div className="flex items-center gap-3 p-3 rounded-lg border border-border bg-muted/40 text-left opacity-60 cursor-not-allowed">
-          <div className="w-8 h-8 rounded-md bg-muted text-muted-foreground flex items-center justify-center shrink-0">
+        <div className="flex items-center gap-3 p-3 rounded-lg border border-border bg-muted/30 text-left opacity-50 cursor-not-allowed">
+          <div className="w-8 h-8 rounded bg-muted text-muted-foreground flex items-center justify-center shrink-0">
             <Plane className="w-4 h-4" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <p className="text-xs font-semibold text-muted-foreground">Flights</p>
-              <span className="text-[9px] px-1.5 py-0.5 rounded bg-muted-foreground/15 text-muted-foreground uppercase font-bold tracking-wider">
-                Coming soon
-              </span>
-            </div>
-            <p className="text-[10px] text-muted-foreground">Air recovery</p>
+            <p className="text-xs font-medium text-muted-foreground">Flights</p>
+            <p className="text-[10px] text-muted-foreground">Coming soon</p>
           </div>
         </div>
 
         {/* Bus - Disabled */}
-        <div className="flex items-center gap-3 p-3 rounded-lg border border-border bg-muted/40 text-left opacity-60 cursor-not-allowed">
-          <div className="w-8 h-8 rounded-md bg-muted text-muted-foreground flex items-center justify-center shrink-0">
+        <div className="flex items-center gap-3 p-3 rounded-lg border border-border bg-muted/30 text-left opacity-50 cursor-not-allowed">
+          <div className="w-8 h-8 rounded bg-muted text-muted-foreground flex items-center justify-center shrink-0">
             <Bus className="w-4 h-4" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <p className="text-xs font-semibold text-muted-foreground">Buses</p>
-              <span className="text-[9px] px-1.5 py-0.5 rounded bg-muted-foreground/15 text-muted-foreground uppercase font-bold tracking-wider">
-                Coming soon
-              </span>
-            </div>
-            <p className="text-[10px] text-muted-foreground">Intercity luxury</p>
+            <p className="text-xs font-medium text-muted-foreground">Buses</p>
+            <p className="text-[10px] text-muted-foreground">Coming soon</p>
           </div>
         </div>
       </div>

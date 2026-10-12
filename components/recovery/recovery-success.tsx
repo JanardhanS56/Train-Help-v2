@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle2, Train, ArrowRight, ShieldCheck, User } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import type { Trip, Alternative } from "@/lib/types";
 import { formatTime, formatDate, formatTimeWithDay } from "@/lib/format";
 
@@ -12,93 +12,125 @@ interface RecoverySuccessProps {
 
 export function RecoverySuccess({ trip, alternative }: RecoverySuccessProps) {
   return (
-    <div className="max-w-2xl mx-auto space-y-6 py-6 text-center animate-in fade-in-50 zoom-in-95 duration-200">
-      {/* Success Badge & Headline */}
+    <div className="max-w-2xl mx-auto space-y-8 py-6 text-center animate-in fade-in-50 duration-200">
+      {/* Success Headline & One success-coloured check icon (no confetti) */}
       <div className="space-y-3">
-        <div className="w-16 h-16 rounded-full bg-success/10 text-success flex items-center justify-center mx-auto shadow-card">
-          <CheckCircle2 className="w-9 h-9" />
+        <div className="w-12 h-12 rounded-full bg-success-tint border border-success/30 text-success flex items-center justify-center mx-auto">
+          <Check className="w-6 h-6 stroke-[2]" aria-hidden="true" />
         </div>
-        <h1 className="text-3xl font-bold text-foreground tracking-tight">
+        <h1 className="text-[32px] font-display text-foreground tracking-tight leading-tight">
           You&rsquo;re back on track
         </h1>
         <p className="text-sm text-muted-foreground max-w-md mx-auto">
-          Your replacement train has been confirmed. We have updated your itinerary and issued your new ticket details.
+          Your replacement train has been confirmed. Your updated railway ticket details are below.
         </p>
       </div>
 
-      {/* Confirmed Itinerary Card */}
-      <div className="bg-surface rounded-xl border border-success/30 p-6 shadow-card text-left space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-border">
+      {/* Signature Element: Confirmed Railway Ticket-Stub Card */}
+      <article
+        className="w-full bg-surface border border-border rounded-xl p-6 text-left space-y-4 relative overflow-hidden"
+        aria-label="Confirmed replacement railway ticket"
+      >
+        {/* Top Ticket Header */}
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-hairline text-xs">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-success animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-wider text-success">
-              Confirmed Train Manifest
+            <span className="w-2 h-2 rounded-full bg-success" />
+            <span className="micro-label text-success font-semibold tracking-wider">
+              CONFIRMED RAILWAY MANIFEST
             </span>
           </div>
-          <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-background border border-border">
-            PNR: {trip.pnr}
+          <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-background border border-border text-foreground">
+            PNR {trip.pnr}
           </span>
         </div>
 
-        {/* Train & Route */}
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 flex-wrap">
-            <Train className="w-4 h-4 text-primary" />
-            <span className="font-bold text-base text-foreground">
-              {alternative.trainName} (#{alternative.trainNumber})
-            </span>
-            <span className="text-xs text-muted-foreground">
-              ({alternative.changes === 0 ? "Direct" : "1 Change"})
-            </span>
-            <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded">
-              Class {alternative.travelClass} · {alternative.coachBerth ?? "Coach B4 · Berth 23 (Lower)"}
-            </span>
+        {/* Train & Route in Display Font */}
+        <div>
+          <h2 className="text-xl font-display font-medium text-foreground">
+            {alternative.trainName}
+          </h2>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground font-mono mt-0.5">
+            <span>#{alternative.trainNumber}</span>
+            <span>•</span>
+            <span>Class {alternative.travelClass} ({alternative.coachBerth ?? "Coach B4 · Berth 23"})</span>
+            <span>•</span>
+            <span>{alternative.changes === 0 ? "Direct" : "1 change"}</span>
           </div>
-          <p className="text-xs text-muted-foreground">
-            {alternative.fromStation.city} ({alternative.fromStation.code}) to {alternative.toStation.city} ({alternative.toStation.code})
-          </p>
         </div>
 
-        {/* Timestamps */}
-        <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-background border border-border text-xs">
-          <div>
-            <p className="text-muted-foreground uppercase text-[10px] font-semibold">Boarding Time</p>
-            <p className="text-lg font-bold text-foreground mt-0.5">{formatTime(alternative.departureTime)}</p>
-            <p className="text-muted-foreground">{alternative.fromStation.code} · {formatDate(alternative.departureTime)}</p>
+        {/* Dotted Route Line with Station Codes & Train Icon */}
+        <div className="ticket-route-line my-3">
+          <div className="w-full flex items-center justify-between text-xs text-muted-foreground font-mono">
+            <span>{alternative.fromStation.name} ({alternative.fromStation.code})</span>
+            <span>{alternative.toStation.name} ({alternative.toStation.code})</span>
           </div>
+        </div>
+
+        {/* Departure & Arrival: Label-over-value separated by hairline */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2 border-t border-hairline text-xs">
           <div>
-            <p className="text-muted-foreground uppercase text-[10px] font-semibold">Arrival Time</p>
-            <p className="text-lg font-bold text-success mt-0.5">
+            <span className="micro-label block">BOARDING</span>
+            <p className="font-mono text-base font-semibold text-foreground mt-0.5">
+              {formatTime(alternative.departureTime)}
+            </p>
+            <p className="font-mono text-[11px] text-muted-foreground">
+              {alternative.fromStation.code} · {formatDate(alternative.departureTime)}
+            </p>
+          </div>
+
+          <div>
+            <span className="micro-label block">ARRIVAL</span>
+            <p className="font-mono text-base font-semibold text-success mt-0.5">
               {formatTimeWithDay(alternative.arrivalTime, alternative.dayOffset)}
             </p>
-            <p className="text-muted-foreground">{alternative.toStation.code} · {formatDate(alternative.arrivalTime)}</p>
+            <p className="font-mono text-[11px] text-muted-foreground">
+              {alternative.toStation.code} · {formatDate(alternative.arrivalTime)}
+            </p>
+          </div>
+
+          <div>
+            <span className="micro-label block">PASSENGER</span>
+            <p className="text-sm font-medium text-foreground mt-1">
+              {trip.passengerName}
+            </p>
+            <p className="font-mono text-[11px] text-muted-foreground">Adult (Confirm)</p>
+          </div>
+
+          <div>
+            <span className="micro-label block">PLATFORM</span>
+            <p className="font-mono text-sm font-semibold text-foreground mt-1">
+              Platform 1 ({alternative.fromStation.code})
+            </p>
+            <p className="text-[11px] text-muted-foreground">Standard gate access</p>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between text-xs text-muted-foreground pt-1 gap-2">
-          <span className="flex items-center gap-1.5">
-            <User className="w-3.5 h-3.5 text-primary" />
-            <span>Passenger: {trip.passengerName}</span>
-          </span>
-          <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-success" />
-            <span>Boarding Platform 1 (SBC)</span>
-          </span>
+        {/* Signature Element: Dashed Stub Divider with Notch Cutouts */}
+        <div className="relative flex items-center my-4 -mx-6" aria-hidden="true">
+          <div className="w-3.5 h-6 bg-background border-y border-r border-border rounded-r-full -ml-px flex-shrink-0" />
+          <div className="flex-1 border-t border-dashed border-border mx-2" />
+          <div className="w-3.5 h-6 bg-background border-y border-l border-border rounded-l-full -mr-px flex-shrink-0" />
         </div>
-      </div>
 
-      {/* Action Buttons */}
+        {/* Counterfoil Metadata */}
+        <div className="flex flex-wrap items-center justify-between text-xs text-muted-foreground font-mono pt-1">
+          <span>Fare: ₹{alternative.fare} (Confirmed)</span>
+          <span>Original ticket refund: 100% full refund active</span>
+        </div>
+      </article>
+
+      {/* Action Buttons: Exactly ONE primary, ONE secondary */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
         <Link
           href={`/trips/${trip.id}`}
-          className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary-hover transition-colors touch-target shadow-card flex items-center justify-center gap-1.5"
+          className="w-full sm:w-auto h-10 px-5 rounded-[8px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors flex items-center justify-center gap-1.5 focus-visible:ring-2 focus-visible:ring-primary"
         >
           <span>View Trip Details</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          <ArrowRight className="w-3.5 h-3.5 stroke-[1.5]" />
         </Link>
         <Link
           href="/dashboard"
-          className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-border bg-surface text-foreground text-xs font-semibold hover:bg-background transition-colors touch-target"
+          className="w-full sm:w-auto h-10 px-5 rounded-[8px] border border-border bg-surface text-foreground text-xs font-medium hover:bg-background transition-colors flex items-center justify-center"
         >
           Back to Dashboard
         </Link>

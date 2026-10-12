@@ -90,10 +90,10 @@ export function RecoveryView({ tripId }: RecoveryViewProps) {
             <button
               type="button"
               onClick={() => dispatch({ type: "SET_RECOVERY_STAGE", stage: "itinerary" })}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary-hover transition-colors touch-target shadow-card"
+              className="inline-flex items-center gap-1.5 h-8 px-3 rounded-[6px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors"
             >
               <span>Review selected ({selectedAlt.trainName})</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 stroke-[1.5]" />
             </button>
           )}
         </div>

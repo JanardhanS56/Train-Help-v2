@@ -18,9 +18,9 @@ interface ClassPreferencesProps {
 
 export function ClassPreferences({ preferredClass, onUpdate }: ClassPreferencesProps) {
   return (
-    <section className="bg-surface rounded-xl border border-border p-5 shadow-card space-y-3">
+    <section className="bg-surface rounded-xl border border-border p-5 space-y-3">
       <div>
-        <h2 className="text-sm font-bold text-foreground">Preferred Travel Class</h2>
+        <h2 className="text-sm font-medium text-foreground">Preferred Travel Class</h2>
         <p className="text-xs text-muted-foreground mt-0.5">
           Trains offering your preferred class receive top rank priority.
         </p>
@@ -31,14 +31,14 @@ export function ClassPreferences({ preferredClass, onUpdate }: ClassPreferencesP
             key={tc.code}
             type="button"
             onClick={() => onUpdate(tc.code)}
-            className={`p-2.5 rounded-lg border text-left transition-colors touch-target ${
+            className={`p-2.5 rounded-lg border text-left transition-colors ${
               preferredClass === tc.code
-                ? "border-primary bg-primary/10 text-primary font-semibold"
-                : "border-border bg-background text-muted-foreground hover:text-foreground"
+                ? "border-primary bg-primary text-primary-foreground font-medium"
+                : "border-border bg-background text-foreground hover:bg-surface"
             }`}
           >
-            <p className="text-xs font-bold">{tc.label}</p>
-            <p className="text-[10px] text-muted-foreground">{tc.desc}</p>
+            <p className="text-xs font-medium">{tc.label}</p>
+            <p className="text-[10px] opacity-75">{tc.desc}</p>
           </button>
         ))}
       </div>

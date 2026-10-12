@@ -20,7 +20,7 @@ export function AppShell({ children }: AppShellProps) {
         id="main-content"
         role="main"
       >
-        <div className="mx-auto max-w-6xl px-4 py-6 md:px-8 md:py-8">
+        <div className="mx-auto max-w-[1120px] px-4 py-6 md:px-6 md:py-8">
           {children}
         </div>
       </main>

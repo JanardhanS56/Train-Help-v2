@@ -1,8 +1,7 @@
 "use client";
 
-import { AlertTriangle, Clock, Receipt, CheckCircle2 } from "lucide-react";
 import type { Trip } from "@/lib/types";
-import { formatTimeWithDay, formatCurrency } from "@/lib/format";
+import { formatTimeWithDay, formatDate, formatCurrency } from "@/lib/format";
 
 interface RecoveryHeaderProps {
   trip: Trip;
@@ -15,85 +14,126 @@ export function RecoveryHeader({ trip, onViewBooking }: RecoveryHeaderProps) {
 
   return (
     <section
-      className="p-5 rounded-xl border border-disruption/40 bg-disruption/10 text-foreground space-y-4 shadow-card"
+      className="w-full bg-disruption-tint border border-disruption/30 rounded-xl p-6 text-foreground relative overflow-hidden transition-colors duration-150"
       aria-labelledby="recovery-disruption-title"
     >
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-disruption">
-            <AlertTriangle className="w-5 h-5 shrink-0" aria-hidden="true" />
-            <h1 id="recovery-disruption-title" className="text-lg font-bold">
-              Your train has been cancelled
-            </h1>
+      {/* Top Meta Line */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-disruption/20 text-xs">
+        <div className="flex items-center gap-2">
+          <span className="micro-label text-disruption font-semibold tracking-wider">
+            TRAIN CANCELLED · DISRUPTION RECOVERY
+          </span>
+          <span className="text-muted-foreground">•</span>
+          <span className="font-mono text-muted-foreground">
+            PNR {trip.pnr}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 text-xs">
+          <span className="font-medium text-foreground">{segment.trainName}</span>
+          <span className="font-mono text-muted-foreground">#{segment.trainNumber}</span>
+          <span className="font-mono font-medium text-foreground">Class {trip.travelClass}</span>
+        </div>
+      </div>
+
+      {/* Route & Times */}
+      <div className="pt-4 pb-2 space-y-4">
+        <h1
+          id="recovery-disruption-title"
+          className="text-[26px] md:text-[28px] font-display text-foreground tracking-tight leading-tight"
+        >
+          {segment.departureStation.city} to {segment.arrivalStation.city}
+        </h1>
+
+        {/* Railway Route Line */}
+        <div className="ticket-route-line my-2">
+          <div className="w-full flex items-center justify-between text-xs text-muted-foreground font-mono">
+            <span>{segment.departureStation.name}</span>
+            <span>{segment.arrivalStation.name}</span>
           </div>
-          <p className="text-sm text-foreground/90 leading-relaxed max-w-2xl">
-            {segment.trainName} ({segment.trainNumber}) from {segment.departureStation.city} ({segment.departureStation.code}) to {segment.arrivalStation.city} ({segment.arrivalStation.code}) was cancelled due to {trip.disruptionReason ? trip.disruptionReason.toLowerCase() : "track maintenance"}.
-          </p>
+        </div>
+
+        {/* Departure & Arrival separated by hairline */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2 border-t border-hairline">
+          <div>
+            <span className="micro-label block">ORIGINAL DEPARTURE</span>
+            <p className="font-mono text-lg font-semibold text-foreground mt-0.5">
+              {formatTimeWithDay(segment.departureTime)}
+            </p>
+            <p className="text-xs text-muted-foreground font-mono">
+              {segment.departureStation.code} · {formatDate(segment.departureTime)}
+            </p>
+          </div>
+
+          <div>
+            <span className="micro-label block">ORIGINAL ARRIVAL</span>
+            <p className="font-mono text-lg font-semibold text-foreground mt-0.5">
+              {formatTimeWithDay(segment.arrivalTime, segment.dayOffset)}
+            </p>
+            <p className="text-xs text-muted-foreground font-mono">
+              {segment.arrivalStation.code} · {formatDate(segment.arrivalTime)}
+            </p>
+          </div>
+
+          <div>
+            <span className="micro-label block">PASSENGER</span>
+            <p className="text-sm font-medium text-foreground mt-1">
+              {trip.passengerName}
+            </p>
+            <p className="text-xs text-muted-foreground font-mono">
+              {trip.coach ? `Coach ${trip.coach} · ${trip.berth}` : "Berth unassigned"}
+            </p>
+          </div>
+
+          <div>
+            <span className="micro-label block">ORIGINAL FARE</span>
+            <p className="font-mono text-sm font-semibold text-disruption mt-1">
+              {formatCurrency(trip.fare)} (100% Refundable)
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Direct railway refund
+            </p>
+          </div>
+        </div>
+
+        {/* Plain Explanation */}
+        <p className="text-xs text-foreground/90 leading-relaxed pt-1">
+          {segment.trainName} ({segment.trainNumber}) was cancelled due to {trip.disruptionReason ? trip.disruptionReason.toLowerCase() : "track maintenance"}.
           {trip.neededByTime && (
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium pt-1">
-              <Clock className="w-3.5 h-3.5 text-primary" />
-              <span>
-                Target arrival: <strong className="text-foreground">{formatTimeWithDay(trip.neededByTime, segment.dayOffset)}</strong> in {segment.arrivalStation.city}
-              </span>
-            </div>
+            <span className="text-muted-foreground ml-1">
+              Your scheduled arrival deadline in {segment.arrivalStation.city} is {formatTimeWithDay(trip.neededByTime, segment.dayOffset)}.
+            </span>
+          )}
+        </p>
+      </div>
+
+      {/* Ticket Stub Divider with Notches */}
+      <div className="relative flex items-center my-4 -mx-6" aria-hidden="true">
+        <div className="w-3.5 h-6 bg-background border-y border-r border-disruption/30 rounded-r-full -ml-px flex-shrink-0" />
+        <div className="flex-1 border-t border-dashed border-disruption/30 mx-2" />
+        <div className="w-3.5 h-6 bg-background border-y border-l border-disruption/30 rounded-l-full -mr-px flex-shrink-0" />
+      </div>
+
+      {/* Refund Block as a Quiet Row with Action */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1 text-xs">
+        <div className="text-muted-foreground">
+          {refund ? (
+            <span>
+              100% full refund of <strong className="text-foreground font-mono">{formatCurrency(refund.refundAmount)}</strong> is in progress to {refund.refundMethod}. Credited in {refund.expectedDays} business days.
+            </span>
+          ) : (
+            <span>Automated IRCTC zero-fee refund initiated.</span>
           )}
         </div>
 
         <button
           type="button"
           onClick={onViewBooking}
-          className="self-start sm:self-center px-3.5 py-2 rounded-lg border border-border bg-surface text-xs font-semibold text-foreground hover:bg-background transition-colors touch-target whitespace-nowrap shadow-card"
+          className="self-start sm:self-auto h-9 px-4 rounded-[8px] border border-border bg-surface text-xs font-medium text-foreground hover:bg-background transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 whitespace-nowrap"
         >
-          View Booking Details
+          View booking details
         </button>
       </div>
-
-      {/* Visual Refund Tracker Card */}
-      {refund && (
-        <div className="p-3.5 rounded-lg bg-surface border border-border text-xs space-y-2.5">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2">
-            <span className="font-bold text-foreground flex items-center gap-1.5">
-              <Receipt className="w-4 h-4 text-primary" />
-              100% Full Refund In Progress
-            </span>
-            <span className="font-bold text-success font-mono">
-              {formatCurrency(refund.refundAmount)} (Zero deductions)
-            </span>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2 py-1">
-            {(["Requested", "Processing", "Refunded"] as const).map((step, idx) => {
-              const isCurrent = refund.status === step;
-              const isCompleted =
-                (refund.status === "Refunded") ||
-                (refund.status === "Processing" && idx <= 1) ||
-                (refund.status === "Requested" && idx === 0);
-
-              return (
-                <div key={step} className="flex flex-col items-center text-center">
-                  <div
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold mb-1 transition-colors ${
-                      isCompleted
-                        ? "bg-success text-white"
-                        : "bg-muted text-muted-foreground border border-border"
-                    }`}
-                  >
-                    {isCompleted ? <CheckCircle2 className="w-3.5 h-3.5" /> : idx + 1}
-                  </div>
-                  <span className={`text-[11px] font-semibold ${isCurrent ? "text-primary" : "text-muted-foreground"}`}>
-                    {step}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="border-t border-border pt-1.5 flex flex-wrap justify-between text-[11px] text-muted-foreground">
-            <span>Method: {refund.refundMethod}</span>
-            <span>Credited in {refund.expectedDays} business days</span>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

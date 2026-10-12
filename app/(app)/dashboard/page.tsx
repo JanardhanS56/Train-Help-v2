@@ -9,19 +9,9 @@ export const metadata: Metadata = {
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <DashboardHeader />
-      <section aria-labelledby="trips-section-title">
-        <div className="flex items-center justify-between mb-4">
-          <h2 id="trips-section-title" className="text-lg font-bold text-foreground">
-            Your Trips
-          </h2>
-          <span className="text-xs text-muted-foreground">
-            Live status monitored automatically
-          </span>
-        </div>
-        <TripList />
-      </section>
+      <TripList />
     </div>
   );
 }

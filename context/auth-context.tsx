@@ -85,11 +85,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Hydrate user + saved credentials on mount
   useEffect(() => {
-    const existingUser = loadUser();
-    const existingCreds = loadCredentials();
-    if (existingUser) setUser(existingUser);
-    if (existingCreds) setSavedCredentials(existingCreds);
-    setIsLoading(false);
+    queueMicrotask(() => {
+      const existingUser = loadUser();
+      const existingCreds = loadCredentials();
+      if (existingUser) setUser(existingUser);
+      if (existingCreds) setSavedCredentials(existingCreds);
+      setIsLoading(false);
+    });
   }, []);
 
   const signIn = useCallback(

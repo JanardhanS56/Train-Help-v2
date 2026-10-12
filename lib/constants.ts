@@ -62,25 +62,25 @@ export const STATUS_CONFIG: Record<TripStatus, StatusConfig> = {
     label: "On time",
     iconName: "check-circle",
     colorClass: "text-success",
-    bgClass: "bg-success/10",
+    bgClass: "bg-success-tint border border-success/30",
   },
   delayed: {
     label: "Delayed",
     iconName: "clock",
     colorClass: "text-warning",
-    bgClass: "bg-warning/10",
+    bgClass: "bg-warning-tint border border-warning/30",
   },
   cancelled: {
     label: "Cancelled",
     iconName: "x-circle",
     colorClass: "text-disruption",
-    bgClass: "bg-disruption/10",
+    bgClass: "bg-disruption-tint border border-disruption/30",
   },
   recovered: {
     label: "Recovered",
     iconName: "refresh-cw",
     colorClass: "text-success",
-    bgClass: "bg-success/10",
+    bgClass: "bg-success-tint border border-success/30",
   },
 } as const;
 
