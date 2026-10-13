@@ -16,9 +16,10 @@ import type {
   Alternative,
   RankedAlternative,
   Trip,
+  UserPreferences,
 } from "@/lib/types";
 import { DEFAULT_FILTERS, DEFAULT_PREFERENCES, DEFAULT_THEME } from "@/lib/constants";
-import { rankAlternatives } from "@/lib/ranking";
+import { evaluateAlternatives, getActiveTrip } from "@/lib/matching";
 import { mockTrips, mockAlternatives, mockNotifications, initialChatMessages } from "@/mock/data";
 import { loadPersistedState, savePersistedState, clearPersistedState } from "@/context/state-storage";
 
@@ -176,38 +177,59 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [state.trips, state.selectedTripId]
   );
 
-  const alternatives: Alternative[] = useMemo(() => {
-    const targetTripId = state.selectedTripId || "trip-4";
-    let alts = mockAlternatives.filter((a) => a.tripId === targetTripId);
+  const activeTrip: Trip | null = useMemo(
+    () => getActiveTrip(state.trips, state.selectedTripId, state.recoveryByTripId),
+    [state.trips, state.selectedTripId, state.recoveryByTripId]
+  );
+
+  const rawAlternatives = useMemo(() => {
+    const targetTripId = activeTrip?.id || state.selectedTripId || "trip-4";
+    return mockAlternatives.filter((a) => a.tripId === targetTripId);
+  }, [activeTrip?.id, state.selectedTripId]);
+
+  const effectivePreferences: UserPreferences = useMemo(() => {
+    const p = { ...state.preferences };
     const f = state.filters;
-    if (f.maxFare !== null) alts = alts.filter((a) => a.fare <= f.maxFare!);
-    if (f.maxChanges !== null) alts = alts.filter((a) => a.changes <= f.maxChanges!);
-    if (f.classFilter !== "any") alts = alts.filter((a) => a.travelClass === f.classFilter);
-    if (f.availableOnly) alts = alts.filter((a) => a.availability.type === "available");
-    if (f.trainsOnly.length > 0) alts = alts.filter((a) => f.trainsOnly.includes(a.trainNumber));
-    return alts;
-  }, [state.selectedTripId, state.filters]);
+    if (f.maxFare !== null) p.maxBudget = f.maxFare;
+    if (f.maxChanges !== null) p.maxChanges = f.maxChanges;
+    if (f.classFilter !== "any") {
+      p.classes = [f.classFilter];
+      p.onlyTheseClasses = true;
+    }
+    if (f.availableOnly) {
+      p.seatPreference = "confirmed-only";
+    }
+    return p;
+  }, [state.preferences, state.filters]);
+
+  const evaluationResult = useMemo(() => {
+    return evaluateAlternatives(rawAlternatives, effectivePreferences, activeTrip ?? selectedTrip);
+  }, [rawAlternatives, effectivePreferences, activeTrip, selectedTrip]);
 
   const rankedAlternatives: RankedAlternative[] = useMemo(() => {
-    if (!selectedTrip) return [];
-    const ranked = rankAlternatives(alternatives, selectedTrip, state.preferences);
+    const ranked = [...evaluationResult.ranked];
     const { sortBy, sortDirection } = state.filters;
-    const dir = sortDirection === "asc" ? 1 : -1;
-    ranked.sort((a, b) => {
-      switch (sortBy) {
-        case "price":
-          return (a.fare - b.fare) * dir;
-        case "duration":
-          return (a.duration - b.duration) * dir;
-        case "arrival":
-          return (a.arrivalTime.getTime() - b.arrivalTime.getTime()) * dir;
-        case "best-match":
-        default:
-          return (b.overallScore - a.overallScore) * dir;
-      }
-    });
+    if (sortBy !== "best-match") {
+      const dir = sortDirection === "asc" ? 1 : -1;
+      ranked.sort((a, b) => {
+        switch (sortBy) {
+          case "price":
+            return (a.fare - b.fare) * dir;
+          case "duration":
+            return (a.duration - b.duration) * dir;
+          case "arrival":
+            return (a.arrivalTime.getTime() - b.arrivalTime.getTime()) * dir;
+          default:
+            return 0;
+        }
+      });
+    }
     return ranked;
-  }, [alternatives, selectedTrip, state.preferences, state.filters]);
+  }, [evaluationResult.ranked, state.filters]);
+
+  const alternatives: Alternative[] = useMemo(() => {
+    return evaluationResult.eligible;
+  }, [evaluationResult.eligible]);
 
   const unreadCount = useMemo(
     () => state.notifications.filter((n) => !n.read).length,
@@ -222,8 +244,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       rankedAlternatives,
       unreadCount,
       selectedTrip,
+      activeTrip,
     }),
-    [state, alternatives, rankedAlternatives, unreadCount, selectedTrip]
+    [state, alternatives, rankedAlternatives, unreadCount, selectedTrip, activeTrip]
   );
 
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;

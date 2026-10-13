@@ -14,9 +14,11 @@ import {
 export interface AuthUser {
   name: string;
   email: string;
+  avatar?: string;
+  isDemo?: boolean;
 }
 
-interface StoredCredentials {
+export interface StoredCredentials {
   email: string;
   password: string;
   name: string;
@@ -27,8 +29,10 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
   savedCredentials: StoredCredentials | null;
-  signIn: (email: string, password: string) => Promise<boolean>;
-  signUp: (name: string, email: string, password: string) => Promise<boolean>;
+  signIn: (email: string, password: string, remember?: boolean) => Promise<boolean>;
+  signUp: (name: string, email: string, password: string, remember?: boolean) => Promise<boolean>;
+  signInDemo: () => Promise<boolean>;
+  signInGoogle: () => Promise<boolean>;
   signOut: () => void;
 }
 
@@ -42,6 +46,8 @@ const AUTH_CREDENTIALS_KEY = "travelrescue-auth-credentials";
 function loadUser(): AuthUser | null {
   if (typeof window === "undefined") return null;
   try {
+    const session = sessionStorage.getItem(AUTH_USER_KEY);
+    if (session) return JSON.parse(session);
     const stored = localStorage.getItem(AUTH_USER_KEY);
     return stored ? JSON.parse(stored) : null;
   } catch {
@@ -49,14 +55,28 @@ function loadUser(): AuthUser | null {
   }
 }
 
-function saveUser(user: AuthUser) {
+function saveUser(user: AuthUser, remember: boolean = false) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+  try {
+    sessionStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+    if (remember) {
+      localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(AUTH_USER_KEY);
+    }
+  } catch {
+    // ignore
+  }
 }
 
 function clearUser() {
   if (typeof window === "undefined") return;
-  localStorage.removeItem(AUTH_USER_KEY);
+  try {
+    sessionStorage.removeItem(AUTH_USER_KEY);
+    localStorage.removeItem(AUTH_USER_KEY);
+  } catch {
+    // ignore
+  }
 }
 
 function loadCredentials(): StoredCredentials | null {
@@ -71,7 +91,11 @@ function loadCredentials(): StoredCredentials | null {
 
 function saveCredentials(creds: StoredCredentials) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(AUTH_CREDENTIALS_KEY, JSON.stringify(creds));
+  try {
+    localStorage.setItem(AUTH_CREDENTIALS_KEY, JSON.stringify(creds));
+  } catch {
+    // ignore
+  }
 }
 
 // ─── Context ───────────────────────────────────────────────────────
@@ -95,21 +119,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signIn = useCallback(
-    async (email: string, password: string): Promise<boolean> => {
-      // Simulated sign-in: check against stored credentials or accept any
-      const creds = loadCredentials();
-      if (creds && creds.email === email && creds.password !== password) {
-        return false; // Wrong password for known account
+    async (email: string, password: string, remember: boolean = false): Promise<boolean> => {
+      const cleanEmail = email.trim();
+      const cleanPass = password.trim();
+
+      if (!cleanEmail || !cleanPass) {
+        return false;
       }
 
-      const name = creds?.name || email.split("@")[0];
-      const authUser: AuthUser = { name, email };
-      setUser(authUser);
-      saveUser(authUser);
+      // Check against stored credentials
+      const creds = loadCredentials();
+      if (creds && creds.email.toLowerCase() === cleanEmail.toLowerCase() && creds.password !== cleanPass) {
+        return false; // Wrong password
+      }
 
-      // Remember credentials for next time
-      saveCredentials({ email, password, name });
-      setSavedCredentials({ email, password, name });
+      const name = creds?.name || cleanEmail.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      const authUser: AuthUser = { name, email: cleanEmail };
+      setUser(authUser);
+      saveUser(authUser, remember);
+
+      // Remember credentials for suggestions
+      const newCreds: StoredCredentials = { email: cleanEmail, password: cleanPass, name };
+      saveCredentials(newCreds);
+      setSavedCredentials(newCreds);
 
       return true;
     },
@@ -117,26 +149,52 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const signUp = useCallback(
-    async (name: string, email: string, password: string): Promise<boolean> => {
-      // Save the new account credentials
-      const creds: StoredCredentials = { email, password, name };
+    async (name: string, email: string, password: string, remember: boolean = false): Promise<boolean> => {
+      const cleanName = name.trim();
+      const cleanEmail = email.trim();
+      const cleanPass = password.trim();
+
+      if (!cleanName || !cleanEmail || !cleanPass) {
+        return false;
+      }
+
+      const creds: StoredCredentials = { email: cleanEmail, password: cleanPass, name: cleanName };
       saveCredentials(creds);
       setSavedCredentials(creds);
 
-      // Automatically sign the user in
-      const authUser: AuthUser = { name, email };
+      const authUser: AuthUser = { name: cleanName, email: cleanEmail };
       setUser(authUser);
-      saveUser(authUser);
+      saveUser(authUser, remember);
 
       return true;
     },
     []
   );
 
+  const signInDemo = useCallback(async (): Promise<boolean> => {
+    const demoUser: AuthUser = {
+      name: "Vikram Patel",
+      email: "vikram.patel@railmail.in",
+      isDemo: true,
+    };
+    setUser(demoUser);
+    saveUser(demoUser, false);
+    return true;
+  }, []);
+
+  const signInGoogle = useCallback(async (): Promise<boolean> => {
+    const googleUser: AuthUser = {
+      name: "Vikram Patel",
+      email: "vikram.patel@gmail.com",
+    };
+    setUser(googleUser);
+    saveUser(googleUser, false);
+    return true;
+  }, []);
+
   const signOut = useCallback(() => {
     setUser(null);
     clearUser();
-    // Keep saved credentials so they can be suggested on re-login
   }, []);
 
   return (
@@ -148,6 +206,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         savedCredentials,
         signIn,
         signUp,
+        signInDemo,
+        signInGoogle,
         signOut,
       }}
     >

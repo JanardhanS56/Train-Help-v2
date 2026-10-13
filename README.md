@@ -1,191 +1,249 @@
-# TravelRescue AI 🚆
+<div align="center">
 
-> *"Something went wrong. We've got this."*
+# 🚆 TravelRescue AI
+### Indian Train Disruption Recovery & Autonomous Rail Re-routing Platform
 
-**TravelRescue AI** is a portfolio-grade, human-centered web application built to help Indian train travellers recover from sudden cancellations and severe delays. It eliminates the chaos of overcrowded station counters by instantly answering three critical questions: **What happened? What can I do? What happens next?**
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.3_App_Router-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19.2-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![TypeScript 5](https://img.shields.io/badge/TypeScript-5.0_Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4_Tokens-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![WCAG AA](https://img.shields.io/badge/Accessibility-WCAG_2.1_AA-2E7D32?style=for-the-badge&logo=w3c&logoColor=white)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg?style=for-the-badge)](LICENSE)
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.3-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2-blue?style=for-the-badge&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![WCAG](https://img.shields.io/badge/Accessibility-WCAG_AA-success?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+<p align="center">
+  <b>"Something went wrong with your train. We've got this."</b><br/>
+  An intelligent railway disruption recovery assistant answering the 3 critical questions in Indian Railways crises:<br/>
+  <b>1. What happened?</b> &nbsp;•&nbsp; <b>2. What can I do?</b> &nbsp;•&nbsp; <b>3. What happens next?</b>
+</p>
 
----
+[Quick Start](#-quick-start--how-to-open-localhost) • [Live App Routes](#-live-application-routes) • [Core Features](#-features--capabilities) • [Preferences Engine](#-deterministic-preferences--matching-engine) • [Tech Stack](#-technical-architecture)
 
-## 🎯 Key Features
-
-- **🚨 Disruption Alert & Plain-English Explanations:**
-  Immediate status indicators with reasons (e.g., *track maintenance*, *late inbound rake*) and target arrival fit reminders.
-- **💰 100% Automatic Refund Tracker:**
-  Visual 3-stage refund tracker (`Requested` → `Processing` → `Refunded`) showing full fare credit with zero clerkage deductions.
-- **📊 Deterministic Alternative Ranking Engine:**
-  Mathematically weighted scoring algorithm balancing Budget (30%), Arrival Deadline (30%), Direct vs Connecting (15%), Duration (15%), and Preference Fit (10%).
-- **💺 RAC & Waitlist Confirmation Intelligence:**
-  Embedded railway heuristic popovers explaining real-world confirmation chances (`WL 1–5 = Likely`, `WL 6–15 = Uncertain`, `WL 16+ = Unlikely`, `RAC = Shared lower berth`).
-- **📍 Alternate Metropolitan Terminal Routing:**
-  Nearby station detection (e.g., boarding at *Yesvantpur Junction (YPR)* instead of *KSR Bengaluru (SBC)* with exact transit times).
-- **🗺️ Vertical Journey Halts Timeline:**
-  Complete stop-by-stop route comparison with scheduled halt times, station codes, and assigned platform tracking.
-- **📄 Print & Clipboard Export:**
-  One-click clipboard summary and zero-dependency, print-optimized stylesheet (`window.print()`).
-- **💬 Canned Recovery Assistant:**
-  Floating side panel (mobile bottom sheet) with calculated disruption counts and actionable UI triggers (*Show fastest*, *Change budget*, *Help me decide*).
-- **🌓 Accessible Light & Dark Mode:**
-  Strict WCAG AA contrast ratios with system preference detection and localStorage persistence.
-- **🧪 Interactive Demo State Matrix:**
-  Discreet demo menu to simulate Loading skeletons, Empty states, Connection errors, and 1-click state resets.
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## ⚡ Quick Start / How to Open Localhost
 
-| Layer | Technology | Rationale |
-| :--- | :--- | :--- |
-| **Framework** | Next.js 16 (App Router) | Server-side rendering, instant client routing, Turbopack bundling |
-| **Language** | TypeScript (Strict mode) | 100% typed domain models, zero `any` types |
-| **UI Library** | React 19 | Standard React primitives, `useSyncExternalStore` hydration |
-| **Styling** | Tailwind CSS v4 & Vanilla CSS | Curated HSL tokens, 8px grid, accessible dark mode, print media |
-| **Icons** | Lucide React | Lightweight, accessible semantic iconography |
-| **State** | React Context + `useReducer` | Single source of truth, versioned localStorage persistence (`v4`) |
+> [!IMPORTANT]
+> **Why `http://localhost:3000` might not open right away:**  
+> A `localhost` address runs **on your computer**. If your terminal is not currently running `npm run dev`, your browser will say *"This site can't be reached"*.  
+> **Follow the 3 quick steps below to run it anytime (today, in 10 days, or on any new machine):**
 
----
+### 1-Line Quick Launch
 
-## 📁 Folder Structure
-
-```
-travel-rescue/
-├── app/
-│   ├── (app)/
-│   │   ├── dashboard/          # Active recovery overview, featured ticket & trip list
-│   │   ├── trips/              # My Trips view (?status=all|upcoming|attention|recovered|past)
-│   │   ├── trips/[id]/         # Trip details & cancellation refund tracker
-│   │   ├── recovery/           # Recovery Centre (?tab=active|refunds|history)
-│   │   ├── recovery/[id]/      # 4-stage recovery flow (progress, alts, itinerary, success)
-│   │   ├── preferences/        # Budget slider, class options, nearby stations
-│   │   ├── notifications/      # Notification feed with read status sync
-│   │   └── help/               # FAQs & emergency support modal
-│   ├── globals.css             # Design tokens, WCAG AA dark mode, print CSS
-│   ├── layout.tsx              # Root HTML wrapper with Inter font & AppProvider
-│   └── page.tsx                # Landing page with static transformation preview
-├── components/
-│   ├── chat/                   # Assistant side panel & quick action chips
-│   ├── help/                   # Accordion FAQ & support request modal
-│   ├── landing/                # Hero navbar & before/after preview
-│   ├── layout/                 # AppShell, Desktop Sidebar (7 items), Mobile BottomNav (4 items)
-│   ├── preferences/            # Transport modes, class selector, budget slider
-│   ├── recovery/               # Progress bar, alternative cards, timeline, itinerary
-│   └── trips/                  # Ticket-stub cards, trip rows, dashboard header, booking modal
-├── context/
-│   ├── app-context.tsx         # Unified state provider with derived rankings
-│   └── state-storage.ts        # Versioned localStorage hydration & sync
-├── hooks/
-│   ├── use-hydrated.ts         # Cascading render-safe client hydration detector
-│   └── use-media-query.ts      # Reactive media query listener via useSyncExternalStore
-├── lib/
-│   ├── clock.ts                # Deterministic clock helper (getNow)
-│   ├── tripGroups.ts           # Mutually exclusive trip classifier & useTripGroups hook
-│   ├── confirmation.ts         # Fixed RAC / Waitlist probability rules
-│   ├── constants.ts            # Station database, route codes, design tokens
-│   ├── format.ts               # Indian Rupee (en-IN), date offsets, durations
-│   ├── ranking.ts              # 5-factor weighted train ranking algorithm
-│   └── types.ts                # Strict TypeScript contracts & domain entities
-└── mock/
-    ├── data.ts                 # Central mock exports
-    ├── mock-alternatives.ts    # 5 verified corridor trains with timeline halts
-    ├── mock-messages.ts        # 6 notifications & 8 decision tree responses
-    └── mock-trips.ts           # 7 diverse real-world Indian train itineraries
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Node.js**: v18.18.0 or later
-- **npm**: v9.0.0 or later
-
-### Installation
+Open your terminal or command prompt inside the `travel-rescue` folder and run:
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/dkayush7373/Train-Help.git
-cd travel-rescue
+npm install && npm run dev
+```
 
-# 2. Install dependencies
+### Step-by-Step Instructions
+
+```bash
+# 1. Clone this repository
+git clone https://github.com/dkayush7373/Train-Help.git
+
+# 2. Enter project folder
+cd Train-Help/travel-rescue
+# (or cd Train-Help depending on where your package.json is located)
+
+# 3. Install packages (only needed on first run)
 npm install
 
-# 3. Start local development server
+# 4. Start the local server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+Once you see:
+```text
+▲ Next.js 16.3 (Turbopack)
+- Local: http://localhost:3000
+✓ Ready in 1.2s
+```
 
-#### Quick Localhost Links:
-* **Dashboard**: [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
-* **My Trips**: [http://localhost:3000/trips](http://localhost:3000/trips)
-  * *Needs Attention*: [http://localhost:3000/trips?status=attention](http://localhost:3000/trips?status=attention)
-  * *Upcoming*: [http://localhost:3000/trips?status=upcoming](http://localhost:3000/trips?status=upcoming)
-  * *Recovered*: [http://localhost:3000/trips?status=recovered](http://localhost:3000/trips?status=recovered)
-  * *Past*: [http://localhost:3000/trips?status=past](http://localhost:3000/trips?status=past)
-* **Recovery Centre**: [http://localhost:3000/recovery](http://localhost:3000/recovery)
-  * *Active Recovery*: [http://localhost:3000/recovery?tab=active](http://localhost:3000/recovery?tab=active)
-  * *Refunds Tracker*: [http://localhost:3000/recovery?tab=refunds](http://localhost:3000/recovery?tab=refunds)
-  * *History*: [http://localhost:3000/recovery?tab=history](http://localhost:3000/recovery?tab=history)
-* **Preferences**: [http://localhost:3000/preferences](http://localhost:3000/preferences)
-* **Notifications**: [http://localhost:3000/notifications](http://localhost:3000/notifications)
-* **Help & Support**: [http://localhost:3000/help](http://localhost:3000/help)
+You can click any of the links below in your browser:
+
+### 🔗 Direct Page Links
+
+| Destination | Localhost Link | Description |
+| :--- | :--- | :--- |
+| **🏠 Home Landing** | [http://localhost:3000](http://localhost:3000) | Product overview, live crisis simulation & feature tour |
+| **⚙️ Preferences** | [http://localhost:3000/preferences](http://localhost:3000/preferences) | **New:** 4 presets, budget slider, class matrix, arrival deadlines & live match counter |
+| **🚨 Recovery Centre** | [http://localhost:3000/recovery](http://localhost:3000/recovery) | Disruption tracker with automatic 100% refund progress & verified alternatives |
+| **🎫 Disrupted Trip #4** | [http://localhost:3000/recovery/trip-4](http://localhost:3000/recovery/trip-4) | Pivotal Karnataka Express recovery workflow, timeline halts & confirmation review |
+| **📊 Dashboard** | [http://localhost:3000/dashboard](http://localhost:3000/dashboard) | Active PNR monitoring, boarding card, quick disruption actions |
+| **🧳 All Trips** | [http://localhost:3000/trips](http://localhost:3000/trips) | Categorized tickets (Needs Attention, Upcoming, Recovered, Past) |
+| **🔔 Notifications** | [http://localhost:3000/notifications](http://localhost:3000/notifications) | High-priority railway disruption advisories & platform changes |
+| **❓ Help & Support** | [http://localhost:3000/help](http://localhost:3000/help) | Plain-English railway FAQs, TDR filing guides & emergency contacts |
 
 ---
 
-## ⚙️ Environment Variables
+## 🌐 Deploy to Permanent Cloud URL (Works 24/7 Forever)
 
-The frontend MVP operates entirely client-side with mock data and zero external dependencies. For planned backend integrations (Supabase & LLM reasoning), copy the template below:
+Want a permanent link that opens anywhere without keeping your laptop terminal running? Deploy free in 60 seconds:
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/dkayush7373/Train-Help)
+
+Or run via CLI:
 ```bash
-cp .env.example .env.local
+npx vercel
+```
+This generates a permanent URL like `https://train-help.vercel.app` accessible from any phone or browser 24/7!
+
+---
+
+## ✨ Features & Capabilities
+
+```text
+ ┌─────────────────────────────────────────────────────────────────────────────┐
+ │                       TRAVELRESCUE AI PLATFORM                             │
+ ├───────────────────────┬───────────────────────────┬─────────────────────────┤
+ │  🚨 CRISIS DETECTION  │   🧠 DETERMINISTIC MATCH  │   🛡️ COMPLETE RELIEF    │
+ │  • Real-time alerts   │   • 5-factor scoring      │   • 100% auto refund    │
+ │  • Plain-English text │   • Hard/Soft constraints │   • Instant manifest    │
+ │  • Root-cause context │   • Relaxation suggestion │   • Offline print sheet │
+ └───────────────────────┴───────────────────────────┴─────────────────────────┘
 ```
 
-### `.env.example` Reference
+### 1. 🎛️ Dynamic Travel Preferences Engine (`/preferences`)
+* **4 Smart Presets:**
+  * 🏷️ **Best Value:** Budget ₹2,500 max · SL, 3A · Confirmed or RAC · Direct or 1 change · ±3h flex
+  * ⚡ **Fastest:** Direct journeys only · ₹6,000 max · Confirmed or RAC · ±1h flex
+  * 👑 **Most Comfortable:** 1A, 2A, EC · Confirmed only · ₹6,000 max · Up to 1 change · ±3h flex
+  * 🛡️ **Confirmed Seats Only:** Guaranteed berth before boarding · Balanced ranking
+* **Linked Dual-Mode Budget Control:** Mono text box linked to range slider with real-fare tick markers and Indian Rupee formatting (`₹500` to `₹10,000`).
+* **Multi-Select Class Matrix:** 6 class tiles (3A, 2A, 1A, SL, CC, EC) with comfort hints, zero-selection guard, and strict vs soft filtering toggle.
+* **Precise Arrival Timers:** Day selector (*Same day*, *Next day*, *In 2 days*) + styled hour/minute/AM-PM selectors and 1-click sync with active trip's meeting deadline.
+* **Alternate Metropolitan Hubs:** Seamless detection of neighboring terminal stations (e.g. Yesvantpur Junction `YPR` +25 min for Bengaluru, Nizamuddin `NZM` for Delhi).
+* **Zero-Result Relaxation Advisor:** When choices eliminate all options, automatically identifies the single most optimal relaxation (e.g. *"Raise budget to ₹2,500 to see 2 trains"*) with 1-click apply.
+* **Instant Undo Snapshot:** Safe 6-second toast with full snapshot restoration on reset.
 
-```env
-# ── Application Configuration ──
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_APP_ENV=development
+### 2. 🚆 Disruption Recovery Workflow (`/recovery/[id]`)
+* **Original vs Alternative Comparison:** Direct split-view comparing original cancelled train against candidate trains.
+* **Vertical Halt Timelines:** Exact intermediate stops, layover timings, and platform allocations.
+* **Railway Charting Heuristics:** Plain-English explanations of RAC rights and waitlist confirmation chances (`GNWL`, `RLWL`).
+* **Dynamic Preference Fit Summary:** Itemized breakdown on the confirmation page indicating which user criteria are satisfied (*Within budget*, *Direct journey*, *Arrives before deadline*).
 
-# ── Supabase (Database & Auth) ──
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_secret
+### 3. 💰 100% Automatic Refund Monitor
+* Visual 3-stage progress monitor (`Requested` → `Processing` → `Refunded`) guaranteeing zero clerkage charge deductions for railway-cancelled services.
 
-# ── LLM Inference (Groq / OpenRouter / NVIDIA NIM) ──
-GROQ_API_KEY=gsk_...
-OPENROUTER_API_KEY=sk-or-v1-...
-NVIDIA_NIM_API_KEY=nvapi-...
+### 4. 🌗 Human-Centric Design & Accessibility
+* **Theme Support:** Polished light mode and true dark mode with semantic CSS variable tokens.
+* **Zero Visual Clutter:** No distracting neon glows or glassmorphic blur; clean typography, 44px touch targets, and full keyboard navigability.
+* **Print Optimized:** Native print stylesheet (`window.print()`) outputting high-contrast offline journey manifests.
 
-# ── Notifications & SMS Gateway ──
-TWILIO_ACCOUNT_SID=AC...
-TWILIO_AUTH_TOKEN=...
-RESEND_API_KEY=re_...
+---
+
+## 🔬 Deterministic Preferences & Matching Engine
+
+All filtering and ranking logic is governed by a pure, deterministic function located in [`lib/matching.ts`](lib/matching.ts):
+
+$$\text{Overall Score} = w_{\text{budget}} \cdot S_{\text{budget}} + w_{\text{arrival}} \cdot S_{\text{arrival}} + w_{\text{changes}} \cdot S_{\text{changes}} + w_{\text{duration}} \cdot S_{\text{duration}} + w_{\text{pref}} \cdot S_{\text{pref}}$$
+
+### Profile Weight Distributions (Sum = 100):
+
+| Profile | Budget | Arrival | Changes | Duration | Comfort/Pref |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Balanced** | 30% | 30% | 15% | 15% | 10% |
+| **Lowest Fare** | 45% | 20% | 10% | 10% | 15% |
+| **Fastest** | 15% | 30% | 15% | 35% | 5% |
+| **Comfort** | 10% | 20% | 15% | 10% | 45% |
+
+### Departure Half-Open Interval Standard:
+* **Early Morning:** `[04:00, 08:00)`
+* **Morning:** `[08:00, 12:00)` *(8:00 AM strictly belongs to Morning)*
+* **Afternoon:** `[12:00, 16:00)`
+* **Evening:** `[16:00, 21:00)`
+* **Night:** `[21:00, 04:00)` *(wraps cleanly across midnight)*
+
+---
+
+## 🛠️ Technical Architecture
+
+| Layer | Technologies | Role & Highlights |
+| :--- | :--- | :--- |
+| **Frontend Framework** | **Next.js 16.3** | Turbopack compilation, React Server Components & App Router |
+| **UI Primitives** | **React 19.2** | Concurrent rendering, typed state reducers, accessible dialogs & sheets |
+| **Language** | **TypeScript 5 (Strict)** | End-to-end type safety with zero `any` declarations |
+| **Styling & Theme** | **Tailwind CSS v4** | CSS Variables design system (`--surface`, `--border`, `--primary`) |
+| **State Management** | **React Context + Reducer** | Unified state with versioned `localStorage` migration (`v5`) |
+| **Icons** | **Lucide React** | Lightweight, accessible vector iconography |
+
+---
+
+## 📁 Repository Structure
+
+```text
+travel-rescue/
+├── app/
+│   ├── (app)/
+│   │   ├── dashboard/          # Recovery overview, featured ticket & trip list
+│   │   ├── preferences/        # Dynamic preferences page with live matching panel
+│   │   ├── recovery/           # Active recovery hub & refund tracking
+│   │   ├── recovery/[id]/      # 4-stage recovery flow (Select, Review, Confirm, Success)
+│   │   ├── trips/              # Categorized trip stub cards (Attention, Upcoming, Past)
+│   │   ├── notifications/      # Critical alert feed with read synchronization
+│   │   └── help/               # FAQs, emergency contacts & TDR guidance
+│   ├── globals.css             # Design tokens, theme variables, print media rules
+│   └── layout.tsx              # Root HTML layout with theme hydration & AppShell
+├── components/
+│   ├── preferences/            # Modular preference controls:
+│   │   ├── presets-section.tsx         # 4 preset cards & priority segmented bar
+│   │   ├── budget-section.tsx          # Dual input & slider with real fare ticks
+│   │   ├── class-section.tsx           # 6 class tiles with strict/soft mode toggle
+│   │   ├── seats-section.tsx           # Confirmed / RAC / Waitlist radio group
+│   │   ├── changes-section.tsx         # Direct / 1 change / 2 changes options
+│   │   ├── timing-section.tsx          # Departure chips & styled arrival selects
+│   │   ├── nearby-stations-section.tsx # Alternate terminal station chips
+│   │   ├── berth-section.tsx           # Berth preferences with requested disclaimer
+│   │   ├── results-panel.tsx           # Sticky matching panel & mobile bottom sheet
+│   │   └── preferences-form.tsx        # Master coordinator with Undo snapshot toast
+│   ├── recovery/               # Alternative cards, halt timelines & comparison grids
+│   ├── trips/                  # Ticket stubs & cancellation refund trackers
+│   └── ui/                     # Accessible switch, sheet, dialog, badge & button primitives
+├── context/
+│   ├── app-context.tsx         # AppProvider coordinating evaluation engine & trips
+│   └── state-storage.ts        # Versioned localStorage storage with schema v5 migration
+├── lib/
+│   ├── matching.ts             # Deterministic matching & ranking engine (evaluateAlternatives)
+│   ├── constants.ts            # Canonical defaults, presets config & station database
+│   ├── format.ts               # Indian Rupee Intl currency, dates & durations
+│   └── types.ts                # TypeScript interfaces and domain models
+└── mock/
+    ├── mock-alternatives.ts    # Realistic alternative trains with fare spread ₹980–₹5,200
+    └── mock-trips.ts           # 7 diverse mock journeys spanning Indian rail corridors
 ```
 
 ---
 
-## 🧪 Quality & Validation Scripts
+## 🧪 Testing & Verification
+
+Run the test suite and validation scripts locally:
 
 ```bash
-# Run linting with zero warnings or errors
+# 1. Typecheck TypeScript across all files
+npx tsc --noEmit
+
+# 2. Run ESLint checks
 npm run lint
 
-# Generate production build bundle
+# 3. Create production build bundle
 npm run build
-
-# Start production server
-npm run start
 ```
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and suggestions are welcome!
+1. Fork this repository.
+2. Create your branch (`git checkout -b feature/amazing-feature`).
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`).
+4. Push to your branch (`git push origin feature/amazing-feature`).
+5. Open a Pull Request.
 
 ---
 
 ## 📜 License
 
-MIT License. Designed and built as a human-centered railway disruption assistant.
+Distributed under the **MIT License**. Built with care for Indian railway passengers.

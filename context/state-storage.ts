@@ -1,24 +1,119 @@
-import type { AppState, AppTheme } from "@/lib/types";
+import type { AppState, AppTheme, UserPreferences, TravelClass, BerthPreference, FlexibilityTolerance } from "@/lib/types";
 import { mockAlternatives } from "@/mock/data";
-import { DEFAULT_PREFERENCES, DEFAULT_THEME } from "@/lib/constants";
+import { DEFAULT_PREFERENCES, DEFAULT_THEME, detectActivePreset } from "@/lib/constants";
 
-export const STORAGE_KEY = "travelrescue-train-state-v4";
+export const STORAGE_KEY = "travelrescue-train-state-v5";
 
 interface PersistedData {
   selectedTripId?: string;
   recoveryStage?: AppState["recoveryStage"];
   recoveryByTripId?: Record<string, AppState["recoveryStage"]>;
   selectedAlternativeId?: string;
-  preferences?: AppState["preferences"];
+  preferences?: Partial<UserPreferences>;
   theme?: AppTheme;
   recoveredTripUpdates?: { tripId: string; altId: string }[];
   readNotificationIds?: string[];
 }
 
+const VALID_CLASSES: TravelClass[] = ["SL", "3A", "2A", "1A", "CC", "EC"];
+
+export function migratePreferences(stored: Partial<UserPreferences> | undefined): UserPreferences {
+  if (!stored || typeof stored !== "object") return { ...DEFAULT_PREFERENCES };
+
+  // Validate or migrate classes
+  let classes: TravelClass[] = Array.isArray(stored.classes)
+    ? (stored.classes.filter((c) => VALID_CLASSES.includes(c)) as TravelClass[])
+    : [];
+  if (classes.length === 0) {
+    if (stored.preferredClass && VALID_CLASSES.includes(stored.preferredClass as TravelClass)) {
+      classes = [stored.preferredClass as TravelClass];
+    } else {
+      classes = [...DEFAULT_PREFERENCES.classes];
+    }
+  }
+
+  // Validate or migrate maxChanges
+  let maxChanges = typeof stored.maxChanges === "number" ? stored.maxChanges : undefined;
+  if (maxChanges === undefined) {
+    if (stored.maxChangesPreference === "direct") maxChanges = 0;
+    else if (stored.maxChangesPreference === "max-1") maxChanges = 1;
+    else maxChanges = 2;
+  }
+  maxChanges = Math.min(2, Math.max(0, maxChanges));
+
+  // Validate seatPreference
+  let seatPreference = stored.seatPreference;
+  if (seatPreference !== "confirmed-only" && seatPreference !== "confirmed-or-rac" && seatPreference !== "any") {
+    seatPreference = DEFAULT_PREFERENCES.seatPreference;
+  }
+
+  // Validate berthPreference
+  let berthPreference = stored.berthPreference;
+  if (!berthPreference || !["no-preference", "lower", "middle", "upper", "side-lower", "side-upper"].includes(berthPreference)) {
+    const legacySeat = (stored as Record<string, unknown>).seatPreference;
+    if (typeof legacySeat === "string" && ["lower", "middle", "upper", "side-lower", "side-upper"].includes(legacySeat)) {
+      berthPreference = legacySeat as BerthPreference;
+    } else {
+      berthPreference = "no-preference";
+    }
+  }
+
+  // Validate deadline
+  const deadlineDay = ["same-day", "next-day", "in-2-days", "none"].includes(stored.deadlineDay as string)
+    ? stored.deadlineDay!
+    : (stored.latestArrival ? "next-day" : DEFAULT_PREFERENCES.deadlineDay);
+
+  const deadlineTime = typeof stored.deadlineTime === "string" || stored.deadlineTime === null
+    ? stored.deadlineTime
+    : (stored.latestArrival || null);
+
+  const priorityProfile = ["balanced", "lowest-fare", "fastest", "comfort"].includes(stored.priorityProfile as string)
+    ? stored.priorityProfile!
+    : DEFAULT_PREFERENCES.priorityProfile;
+
+  const departureWindow = ["any", "early-morning", "morning", "afternoon", "evening", "night"].includes(stored.departureWindow as string)
+    ? stored.departureWindow!
+    : (stored.departureWindow === "morning" || stored.departureWindow === "afternoon" || stored.departureWindow === "evening"
+      ? stored.departureWindow
+      : DEFAULT_PREFERENCES.departureWindow);
+
+  const flexibilityHours = [1, 3, 6].includes(stored.flexibilityHours as number)
+    ? (stored.flexibilityHours as FlexibilityTolerance)
+    : DEFAULT_PREFERENCES.flexibilityHours;
+
+  const maxBudget = typeof stored.maxBudget === "number" && !isNaN(stored.maxBudget)
+    ? Math.min(10000, Math.max(500, Math.round(stored.maxBudget)))
+    : DEFAULT_PREFERENCES.maxBudget;
+
+  const migrated: UserPreferences = {
+    ...DEFAULT_PREFERENCES,
+    ...stored,
+    maxBudget,
+    classes,
+    onlyTheseClasses: Boolean(stored.onlyTheseClasses),
+    seatPreference,
+    maxChanges,
+    departureWindow,
+    deadlineDay,
+    deadlineTime,
+    flexibleSchedule: stored.flexibleSchedule !== undefined ? Boolean(stored.flexibleSchedule) : DEFAULT_PREFERENCES.flexibleSchedule,
+    flexibilityHours,
+    includeNearbyStations: Boolean(stored.includeNearbyStations),
+    selectedNearbyStationCodes: Array.isArray(stored.selectedNearbyStationCodes) ? stored.selectedNearbyStationCodes : [],
+    berthPreference,
+    priorityProfile,
+    preset: stored.preset && ["best-value", "fastest", "comfort", "confirmed-only", "custom"].includes(stored.preset) ? stored.preset : "custom",
+  };
+
+  migrated.preset = detectActivePreset(migrated);
+  return migrated;
+}
+
 export function loadPersistedState(initialState: AppState): Partial<AppState> {
   if (typeof window === "undefined") return {};
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    // Try current v5 storage key first, fallback to v4 if upgrading
+    const stored = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("travelrescue-train-state-v4");
     if (!stored) return {};
     const parsed: PersistedData = JSON.parse(stored);
 
@@ -71,7 +166,7 @@ export function loadPersistedState(initialState: AppState): Partial<AppState> {
       recoveryStage: parsed.recoveryStage ?? initialState.recoveryStage,
       recoveryByTripId: parsed.recoveryByTripId ?? initialState.recoveryByTripId,
       selectedAlternativeId: parsed.selectedAlternativeId ?? initialState.selectedAlternativeId,
-      preferences: { ...DEFAULT_PREFERENCES, ...(parsed.preferences ?? {}) },
+      preferences: migratePreferences(parsed.preferences),
       notifications: updatedNotifs,
       theme: parsed.theme ?? DEFAULT_THEME,
     };

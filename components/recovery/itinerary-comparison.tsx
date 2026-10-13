@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Check, ShieldCheck, Copy, Printer } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ArrowRight, Check, X, ShieldCheck, Copy, Printer } from "lucide-react";
 import type { Trip, Alternative } from "@/lib/types";
 import { formatTime, formatTimeWithDay } from "@/lib/format";
 import { JourneyTimeline } from "@/components/recovery/journey-timeline";
 import { JourneyCardComparison } from "@/components/recovery/journey-card-comparison";
+import { useApp } from "@/context/app-context";
+import { getPreferenceFitItems } from "@/lib/matching";
 
 interface ItineraryComparisonProps {
   trip: Trip;
@@ -20,9 +22,15 @@ export function ItineraryComparison({
   onConfirm,
   onBack,
 }: ItineraryComparisonProps) {
+  const { state } = useApp();
   const orig = trip.segments[0];
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fitItems = useMemo(
+    () => getPreferenceFitItems(alternative, state.preferences, trip),
+    [alternative, state.preferences, trip]
+  );
 
   function handleCopySummary() {
     const text = [
@@ -123,36 +131,24 @@ export function ItineraryComparison({
       <JourneyTimeline stops={timelineStops} />
 
       {/* Preference Match Summary Banner */}
-      <div className="p-4 rounded-xl bg-surface border border-border space-y-2 text-xs">
+      <div className="p-4 rounded-xl bg-surface border border-border space-y-2.5 text-xs">
         <p className="micro-label font-semibold text-foreground flex items-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-success stroke-[1.5]" />
           PREFERENCE FIT SUMMARY
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-muted-foreground pt-1">
-          <div className="flex items-center gap-2">
-            <Check className="w-3.5 h-3.5 text-success stroke-[2] shrink-0" />
-            <span className="text-foreground">
-              Arrives by <strong>{formatTimeWithDay(alternative.arrivalTime, alternative.dayOffset)}</strong> (meets Delhi deadline)
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Check className="w-3.5 h-3.5 text-success stroke-[2] shrink-0" />
-            <span className="text-foreground">
-              {(alternative.availability.status || alternative.availability.type) === "available"
-                ? `Confirmed berths (${alternative.availability.count ?? 12} available)`
-                : (alternative.availability.status || alternative.availability.type) === "rac"
-                ? `RAC status (${alternative.availability.racNumber ?? alternative.availability.count ?? 14})`
-                : `Waitlist status (${alternative.availability.wlNumber ?? alternative.availability.count ?? 8})`}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Check className="w-3.5 h-3.5 text-success stroke-[2] shrink-0" />
-            <span className="text-foreground">Stays within ₹3,500 travel budget</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Check className="w-3.5 h-3.5 text-success stroke-[2] shrink-0" />
-            <span className="text-foreground">Instant confirmation manifest generated</span>
-          </div>
+          {fitItems.map((item) => (
+            <div key={item.key} className="flex items-center gap-2">
+              {item.met ? (
+                <Check className="w-3.5 h-3.5 text-success stroke-[2] shrink-0" />
+              ) : (
+                <X className="w-3.5 h-3.5 text-warning stroke-[2] shrink-0" />
+              )}
+              <span className={item.met ? "text-foreground" : "text-muted-foreground"}>
+                {item.label}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 

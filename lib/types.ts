@@ -162,19 +162,46 @@ export interface ChatOption {
   value: string;
 }
 
+export type PriorityProfile = "balanced" | "lowest-fare" | "fastest" | "comfort";
+export type SeatPreferenceType = "confirmed-only" | "confirmed-or-rac" | "any";
+export type BerthPreference = "no-preference" | "lower" | "middle" | "upper" | "side-lower" | "side-upper";
+export type DepartureWindow = "any" | "early-morning" | "morning" | "afternoon" | "evening" | "night";
+export type DeadlineDay = "same-day" | "next-day" | "in-2-days" | "none";
+export type PresetName = "best-value" | "fastest" | "comfort" | "confirmed-only" | "custom";
+export type FlexibilityTolerance = 1 | 3 | 6;
+
+export interface PresetDefinition {
+  id: PresetName;
+  name: string;
+  tagline: string;
+  fields: Partial<UserPreferences>;
+}
+
 export interface UserPreferences {
-  preferredTrains: string[];
   maxBudget: number;
-  prioritiseArrivalTime: boolean;
-  preferredClass: TravelClass | "any";
-  seatPreference: "lower" | "middle" | "upper" | "side-lower" | "none";
-  autoRecover: boolean;
-  preferredTransport: "train" | "flight" | "bus";
-  maxChangesPreference: "any" | "direct" | "max-1";
-  departureWindow: "any" | "morning" | "afternoon" | "evening";
-  latestArrival: string;
+  classes: TravelClass[];
+  onlyTheseClasses: boolean;
+  seatPreference: SeatPreferenceType;
+  maxChanges: number;
+  departureWindow: DepartureWindow;
+  deadlineDay: DeadlineDay;
+  deadlineTime: string | null;
   flexibleSchedule: boolean;
+  flexibilityHours: FlexibilityTolerance;
   includeNearbyStations: boolean;
+  selectedNearbyStationCodes: string[];
+  berthPreference: BerthPreference;
+  priorityProfile: PriorityProfile;
+  preset: PresetName;
+
+  // Preserved for backward compatibility
+  preferredTrains?: string[];
+  preferredClass?: TravelClass | "any";
+  prioritiseArrivalTime?: boolean;
+  autoRecover?: boolean;
+  preferredTransport?: "train" | "flight" | "bus";
+  maxChangesPreference?: "any" | "direct" | "max-1" | "max-2";
+  latestArrival?: string;
 }
 
 // ─── Filter State ──────────────────────────────────────────────────
@@ -234,4 +261,6 @@ export interface AppContextValue {
   rankedAlternatives: RankedAlternative[];
   unreadCount: number;
   selectedTrip: Trip | null;
+  activeTrip: Trip | null;
 }
+

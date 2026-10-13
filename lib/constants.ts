@@ -1,6 +1,7 @@
-import type { TripStatus, TravelClass, NearbyStation, AppTheme } from "./types";
+import type { TripStatus, TravelClass, NearbyStation, AppTheme, UserPreferences, PresetName, PresetDefinition } from "./types";
 
 // ─── Routes ────────────────────────────────────────────────────────
+
 
 export const ROUTES = {
   landing: "/",
@@ -154,21 +155,108 @@ export const TRAVEL_CLASSES: { code: TravelClass; name: string }[] = [
   { code: "EC", name: "Exec Chair Car (EC)" },
 ];
 
+// ─── Presets Configuration ─────────────────────────────────────────
+
+export const PRESETS_CONFIG: Record<Exclude<PresetName, "custom">, PresetDefinition> = {
+  "best-value": {
+    id: "best-value",
+    name: "Best value",
+    tagline: "Lowest fare, flexible schedule",
+    fields: {
+      priorityProfile: "lowest-fare",
+      maxBudget: 2500,
+      classes: ["SL", "3A"],
+      seatPreference: "confirmed-or-rac",
+      maxChanges: 1,
+      flexibleSchedule: true,
+      flexibilityHours: 3,
+    },
+  },
+  fastest: {
+    id: "fastest",
+    name: "Fastest",
+    tagline: "Direct trains & speed priority",
+    fields: {
+      priorityProfile: "fastest",
+      maxBudget: 6000,
+      seatPreference: "confirmed-or-rac",
+      maxChanges: 0,
+      flexibleSchedule: true,
+      flexibilityHours: 1,
+    },
+  },
+  comfort: {
+    id: "comfort",
+    name: "Most comfortable",
+    tagline: "AC tiers & guaranteed berths",
+    fields: {
+      priorityProfile: "comfort",
+      maxBudget: 6000,
+      classes: ["1A", "2A", "EC"],
+      seatPreference: "confirmed-only",
+      maxChanges: 1,
+      flexibleSchedule: true,
+      flexibilityHours: 3,
+    },
+  },
+  "confirmed-only": {
+    id: "confirmed-only",
+    name: "Confirmed seats only",
+    tagline: "Guaranteed berth before booking",
+    fields: {
+      priorityProfile: "balanced",
+      seatPreference: "confirmed-only",
+    },
+  },
+};
+
+export function detectActivePreset(prefs: UserPreferences): PresetName {
+  for (const [id, def] of Object.entries(PRESETS_CONFIG) as [Exclude<PresetName, "custom">, PresetDefinition][]) {
+    const f = def.fields;
+    let match = true;
+    if (f.priorityProfile !== undefined && prefs.priorityProfile !== f.priorityProfile) match = false;
+    if (f.maxBudget !== undefined && prefs.maxBudget !== f.maxBudget) match = false;
+    if (f.seatPreference !== undefined && prefs.seatPreference !== f.seatPreference) match = false;
+    if (f.maxChanges !== undefined && prefs.maxChanges !== f.maxChanges) match = false;
+    if (f.flexibleSchedule !== undefined && prefs.flexibleSchedule !== f.flexibleSchedule) match = false;
+    if (f.flexibilityHours !== undefined && prefs.flexibilityHours !== f.flexibilityHours) match = false;
+    if (f.classes !== undefined) {
+      if (prefs.classes.length !== f.classes.length || !f.classes.every((c) => prefs.classes.includes(c))) {
+        match = false;
+      }
+    }
+    if (match) return id;
+  }
+  return "custom";
+}
+
 // ─── Defaults ──────────────────────────────────────────────────────
 
-export const DEFAULT_PREFERENCES = {
-  preferredTrains: [] as string[],
+export const DEFAULT_PREFERENCES: UserPreferences = {
   maxBudget: 3500,
-  prioritiseArrivalTime: true,
-  preferredClass: "3A" as TravelClass,
-  seatPreference: "lower" as const,
-  autoRecover: false,
-  preferredTransport: "train" as const,
-  maxChangesPreference: "any" as const,
-  departureWindow: "any" as const,
-  latestArrival: "09:00",
+  classes: ["3A"],
+  onlyTheseClasses: false,
+  seatPreference: "confirmed-or-rac",
+  maxChanges: 1,
+  departureWindow: "any",
+  deadlineDay: "none",
+  deadlineTime: null,
   flexibleSchedule: true,
+  flexibilityHours: 3,
   includeNearbyStations: false,
+  selectedNearbyStationCodes: [],
+  berthPreference: "no-preference",
+  priorityProfile: "balanced",
+  preset: "custom",
+
+  // Legacy compatibility fields
+  preferredTrains: [],
+  preferredClass: "3A",
+  prioritiseArrivalTime: true,
+  autoRecover: false,
+  preferredTransport: "train",
+  maxChangesPreference: "max-1",
+  latestArrival: "09:00",
 };
 
 export const DEFAULT_FILTERS = {

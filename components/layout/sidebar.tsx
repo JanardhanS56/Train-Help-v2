@@ -15,10 +15,13 @@ import {
   Shield,
   Sun,
   Moon,
+  LogOut,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useApp, useAppDispatch } from "@/context/app-context";
+import { useAuth } from "@/context/auth-context";
 import { useTripGroups } from "@/lib/tripGroups";
 import { useChatAssistantState } from "@/components/chat/chat-controller";
 import { APP_NAME } from "@/lib/constants";
@@ -58,6 +61,7 @@ export function Sidebar() {
   const dispatch = useAppDispatch();
   const tripGroups = useTripGroups();
   const { isOpen: isAssistantOpen, toggleChat } = useChatAssistantState();
+  const { user, signOut } = useAuth();
 
   const assistantBtnRef = useRef<HTMLButtonElement>(null);
   const tripsSubnavId = useId();
@@ -660,8 +664,57 @@ export function Sidebar() {
         </div>
       )}
 
+      {/* ── User Profile & Sign Out ── */}
+      <div className="border-t border-sidebar-border/60 p-3 lg:p-4 bg-surface/50">
+        {/* Desktop User Row */}
+        <div className="hidden lg:flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-semibold text-xs shrink-0">
+              {user?.name ? user.name.slice(0, 2).toUpperCase() : "PA"}
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-semibold text-foreground truncate">
+                {user?.name || "Passenger"}
+              </div>
+              <div className="text-[10px] text-muted-foreground truncate font-mono">
+                {user?.email || "passenger@railmail.in"}
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            id="btn-sidebar-signout"
+            onClick={signOut}
+            title="Sign out"
+            aria-label="Sign out"
+            className="p-1.5 rounded-md text-muted-foreground hover:text-disruption hover:bg-disruption-tint/50 transition-colors shrink-0"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Tablet Rail User Icon */}
+        <div className="lg:hidden flex justify-center relative group">
+          <button
+            type="button"
+            id="btn-tablet-signout"
+            onClick={signOut}
+            aria-label="Sign out"
+            className="h-9 w-9 rounded-md flex items-center justify-center text-muted-foreground hover:text-disruption hover:bg-disruption-tint/50 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
+          <div
+            role="tooltip"
+            className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap"
+          >
+            Sign out ({user?.name || "Passenger"})
+          </div>
+        </div>
+      </div>
+
       {/* ── Footer ── */}
-      <div className="hidden lg:block px-5 py-4 border-t border-sidebar-border/60 space-y-1 text-xs text-muted-foreground">
+      <div className="hidden lg:block px-5 py-3 border-t border-sidebar-border/60 space-y-0.5 text-xs text-muted-foreground">
         <p className="leading-normal">Train disruption recovery</p>
         <p className="text-[11px] font-mono text-muted-foreground/75">Sample data</p>
       </div>

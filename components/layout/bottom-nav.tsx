@@ -15,14 +15,17 @@ import {
   X,
   Sun,
   Moon,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useApp, useAppDispatch } from "@/context/app-context";
+import { useAuth } from "@/context/auth-context";
 import { useChatAssistantState } from "@/components/chat/chat-controller";
 
 export function BottomNav() {
   const pathname = usePathname();
   const { state, unreadCount } = useApp();
+  const { user, signOut } = useAuth();
   const dispatch = useAppDispatch();
   const { openChat } = useChatAssistantState();
 
@@ -313,6 +316,35 @@ export function BottomNav() {
                 <HelpCircle className="w-5 h-5 stroke-[1.5]" aria-hidden="true" />
                 <span className="flex-1 font-medium">Help</span>
               </Link>
+
+              {/* 5. User Profile & Sign Out */}
+              <div className="pt-2 mt-1 border-t border-hairline flex items-center justify-between gap-3 px-2">
+                <div className="min-w-0 flex items-center gap-2.5">
+                  <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-semibold text-xs shrink-0">
+                    {user?.name ? user.name.slice(0, 2).toUpperCase() : "PA"}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-xs font-semibold text-foreground truncate">
+                      {user?.name || "Passenger"}
+                    </div>
+                    <div className="text-[10px] text-muted-foreground truncate font-mono">
+                      {user?.email || "passenger@railmail.in"}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  id="btn-mobile-signout"
+                  onClick={() => {
+                    closeMore();
+                    signOut();
+                  }}
+                  className="px-3 py-1.5 rounded-lg border border-disruption/30 text-disruption bg-disruption-tint/40 hover:bg-disruption-tint text-xs font-medium flex items-center gap-1.5 transition-colors touch-target"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Sign out</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
