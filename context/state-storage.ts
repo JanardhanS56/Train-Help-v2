@@ -1,4 +1,4 @@
-import type { AppState, AppTheme, UserPreferences, TravelClass, BerthPreference, FlexibilityTolerance } from "@/lib/types";
+import type { AppState, AppTheme, UserPreferences, TravelClass, BerthPreference, FlexibilityTolerance, Trip, TrainSegment } from "@/lib/types";
 import { mockAlternatives } from "@/mock/data";
 import { DEFAULT_PREFERENCES, DEFAULT_THEME, detectActivePreset } from "@/lib/constants";
 
@@ -117,7 +117,28 @@ export function loadPersistedState(initialState: AppState): Partial<AppState> {
     if (!stored) return {};
     const parsed: PersistedData = JSON.parse(stored);
 
-    let updatedTrips = [...initialState.trips];
+    // Load any custom bookings saved in storage
+    const customStoredBookings = typeof window !== "undefined" ? (() => {
+      try {
+        const raw = localStorage.getItem("tr_custom_bookings_v1");
+        if (!raw) return [];
+        interface StoredSegment { departureTime: string; arrivalTime: string }
+        interface StoredTrip extends Omit<Trip, "segments"> { segments: (Omit<TrainSegment, "departureTime" | "arrivalTime"> & StoredSegment)[] }
+        const parsed: StoredTrip[] = JSON.parse(raw);
+        return parsed.map((t) => ({
+          ...t,
+          segments: t.segments.map((s) => ({
+            ...s,
+            departureTime: new Date(s.departureTime),
+            arrivalTime: new Date(s.arrivalTime),
+          })),
+        })) as Trip[];
+      } catch {
+        return [];
+      }
+    })() : [];
+
+    let updatedTrips = [...customStoredBookings, ...initialState.trips];
     if (Array.isArray(parsed.recoveredTripUpdates)) {
       parsed.recoveredTripUpdates.forEach((up) => {
         const alt = mockAlternatives.find((a) => a.id === up.altId);
