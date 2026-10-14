@@ -218,6 +218,26 @@ export interface AlternativeFilters {
 
 // ─── App State ─────────────────────────────────────────────────────
 
+export type BookingQuota = "GN" | "TQ" | "LD" | "SS" | "HP";
+export type BookingBerthPreference = "LB" | "MB" | "UB" | "SL" | "SU" | "WS" | "NONE";
+
+export interface BookingPassenger {
+  id?: string;
+  name: string;
+  age: number;
+  gender: "M" | "F" | "O";
+  berthPreference: BookingBerthPreference;
+}
+
+export interface VibeFeedback {
+  trainNumber: string;
+  water: "yes" | "low" | "none";
+  sockets: "all" | "some" | "broken";
+  cleanliness: number;
+  punctuality: "on-time" | "moderate-crawl" | "heavy-delay";
+  submittedAt: number;
+}
+
 export interface AppState {
   trips: Trip[];
   selectedTripId: string | null;
@@ -231,6 +251,7 @@ export interface AppState {
   chatInputDraft: string;
   demoState: DemoState;
   theme: AppTheme;
+  vibeRatings?: Record<string, VibeFeedback[]>;
 }
 
 // ─── Actions ───────────────────────────────────────────────────────
@@ -246,6 +267,9 @@ export type AppAction =
   | { type: "MARK_NOTIFICATION_READ"; notificationId: string }
   | { type: "MARK_ALL_NOTIFICATIONS_READ" }
   | { type: "ADD_CHAT_MESSAGE"; message: ChatMessage }
+  | { type: "CLEAR_CHAT_MESSAGES" }
+  | { type: "ADD_TRIP"; trip: Trip }
+  | { type: "SUBMIT_VIBE_FEEDBACK"; feedback: VibeFeedback }
   | { type: "SET_CHAT_INPUT"; value: string }
   | { type: "SET_DEMO_STATE"; demoState: DemoState }
   | { type: "SET_THEME"; theme: AppTheme }
