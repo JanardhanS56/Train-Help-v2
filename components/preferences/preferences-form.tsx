@@ -16,6 +16,7 @@ import { ChangesSection } from "@/components/preferences/changes-section";
 import { TimingSection } from "@/components/preferences/timing-section";
 import { NearbyStationsSection } from "@/components/preferences/nearby-stations-section";
 import { BerthSection } from "@/components/preferences/berth-section";
+import { QuotaEligibilityAssistant } from "@/components/quota/quota-eligibility-assistant";
 import { ResultsPanel } from "@/components/preferences/results-panel";
 
 export function PreferencesForm() {
@@ -195,6 +196,11 @@ export function PreferencesForm() {
 
           {/* h. Berth Location */}
           <BerthSection preferences={preferences} onChange={handleUpdate} />
+
+          {/* i. Quota & Multi-Persona Eligibility Assistant */}
+          <QuotaEligibilityAssistant
+            initialClass={preferences.classes[0] || "3A"}
+          />
         </main>
 
         {/* Results Panel: Sticky on Desktop, Bottom Sheet on Mobile */}

@@ -119,6 +119,21 @@ function appReducer(state: AppState, action: AppAction): AppState {
       };
     case "ADD_CHAT_MESSAGE":
       return { ...state, chatMessages: [...state.chatMessages, action.message] };
+    case "CLEAR_CHAT_MESSAGES":
+      return { ...state, chatMessages: [] };
+    case "ADD_TRIP":
+      return { ...state, trips: [action.trip, ...state.trips] };
+    case "SUBMIT_VIBE_FEEDBACK": {
+      const trainNum = action.feedback.trainNumber;
+      const existing = state.vibeRatings?.[trainNum] || [];
+      return {
+        ...state,
+        vibeRatings: {
+          ...state.vibeRatings,
+          [trainNum]: [action.feedback, ...existing],
+        },
+      };
+    }
     case "SET_CHAT_INPUT":
       return { ...state, chatInputDraft: action.value };
     case "SET_DEMO_STATE":

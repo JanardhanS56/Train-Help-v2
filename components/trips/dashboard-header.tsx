@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Bell, Moon, Sun } from "lucide-react";
+import { Bell, Moon, Sun, Plus } from "lucide-react";
 import { useApp, useAppDispatch } from "@/context/app-context";
 import { DemoStateMenu } from "@/components/trips/demo-state-menu";
 import { useHydrated } from "@/hooks/use-hydrated";
+import { TrainBookingDialog } from "@/components/booking/train-booking-dialog";
+import { LiveDateWidget } from "@/components/status/live-date-widget";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
@@ -17,6 +20,7 @@ export function DashboardHeader() {
   const { state, unreadCount } = useApp();
   const dispatch = useAppDispatch();
   const isHydrated = useHydrated();
+  const [bookingOpen, setBookingOpen] = useState(false);
 
   const greeting = isHydrated ? getGreeting() : "Welcome";
   const isDark =
@@ -43,7 +47,10 @@ export function DashboardHeader() {
         </p>
       </div>
 
-      <div className="flex items-center gap-1.5 self-start sm:self-auto">
+      <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+        {/* Minimalist Live Date & Time Indicator */}
+        <LiveDateWidget />
+
         {/* Discreet Demo Menu */}
         <DemoStateMenu />
 
@@ -73,6 +80,16 @@ export function DashboardHeader() {
           )}
         </Link>
 
+        {/* Reserve Ticket / New Booking CTA */}
+        <button
+          type="button"
+          onClick={() => setBookingOpen(true)}
+          className="h-8 px-3 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors flex items-center gap-1.5 shadow-xs"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          <span>New Reservation</span>
+        </button>
+
         {/* User Avatar */}
         <div
           className="w-7 h-7 rounded-full bg-muted border border-border text-foreground font-mono text-[11px] font-medium flex items-center justify-center ml-1"
@@ -82,6 +99,11 @@ export function DashboardHeader() {
           VP
         </div>
       </div>
+
+      <TrainBookingDialog
+        open={bookingOpen}
+        onOpenChange={setBookingOpen}
+      />
     </header>
   );
 }

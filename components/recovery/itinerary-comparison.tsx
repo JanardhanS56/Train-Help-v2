@@ -8,6 +8,7 @@ import { JourneyTimeline } from "@/components/recovery/journey-timeline";
 import { JourneyCardComparison } from "@/components/recovery/journey-card-comparison";
 import { useApp } from "@/context/app-context";
 import { getPreferenceFitItems } from "@/lib/matching";
+import { TrainBookingDialog } from "@/components/booking/train-booking-dialog";
 
 interface ItineraryComparisonProps {
   trip: Trip;
@@ -26,6 +27,7 @@ export function ItineraryComparison({
   const orig = trip.segments[0];
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [customBookingOpen, setCustomBookingOpen] = useState(false);
 
   const fitItems = useMemo(
     () => getPreferenceFitItems(alternative, state.preferences, trip),
@@ -162,16 +164,43 @@ export function ItineraryComparison({
           Choose Another Option
         </button>
 
-        <button
-          type="button"
-          onClick={handleSafeConfirm}
-          disabled={isSubmitting}
-          className="w-full sm:w-auto h-10 px-6 rounded-[8px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
-        >
-          <span>{isSubmitting ? "Confirming..." : "Confirm Recovery"}</span>
-          <ArrowRight className="w-4 h-4 stroke-[1.5]" />
-        </button>
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={() => setCustomBookingOpen(true)}
+            className="w-full sm:w-auto h-10 px-4 rounded-[8px] border border-primary/30 bg-primary/5 text-primary text-xs font-medium hover:bg-primary/10 transition-colors"
+          >
+            Customize Class & Quota
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSafeConfirm}
+            disabled={isSubmitting}
+            className="w-full sm:w-auto h-10 px-6 rounded-[8px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+          >
+            <span>{isSubmitting ? "Confirming..." : "1-Click Express Confirm"}</span>
+            <ArrowRight className="w-4 h-4 stroke-[1.5]" />
+          </button>
+        </div>
       </div>
+
+      <TrainBookingDialog
+        open={customBookingOpen}
+        onOpenChange={setCustomBookingOpen}
+        trainInfo={{
+          trainNumber: alternative.trainNumber,
+          trainName: alternative.trainName,
+          fromStation: alternative.fromStation,
+          toStation: alternative.toStation,
+          departureTime: alternative.departureTime,
+          arrivalTime: alternative.arrivalTime,
+          defaultClass: alternative.travelClass,
+        }}
+        onBookingSuccess={() => {
+          onConfirm();
+        }}
+      />
     </div>
   );
 }
