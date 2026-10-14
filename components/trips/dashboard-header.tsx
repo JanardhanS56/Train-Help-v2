@@ -7,6 +7,7 @@ import { useApp, useAppDispatch } from "@/context/app-context";
 import { DemoStateMenu } from "@/components/trips/demo-state-menu";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { TrainBookingDialog } from "@/components/booking/train-booking-dialog";
+import { LiveDateWidget } from "@/components/status/live-date-widget";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
@@ -46,7 +47,10 @@ export function DashboardHeader() {
         </p>
       </div>
 
-      <div className="flex items-center gap-1.5 self-start sm:self-auto">
+      <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+        {/* Minimalist Live Date & Time Indicator */}
+        <LiveDateWidget />
+
         {/* Discreet Demo Menu */}
         <DemoStateMenu />
 

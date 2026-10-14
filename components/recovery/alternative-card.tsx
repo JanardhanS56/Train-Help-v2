@@ -10,6 +10,7 @@ import {
   formatTimeWithDay,
 } from "@/lib/format";
 import { AvailabilityPopover } from "@/components/recovery/availability-popover";
+import { TrainStatusBadge } from "@/components/status/train-status-badge";
 
 interface AlternativeCardProps {
   alternative: RankedAlternative;
@@ -48,6 +49,10 @@ export function AlternativeCard({
           </div>
 
           <div className="flex items-center gap-2">
+            <TrainStatusBadge
+              departureTime={alternative.departureTime}
+              arrivalTime={alternative.arrivalTime}
+            />
             <AvailabilityPopover availability={alternative.availability} />
           </div>
         </div>
@@ -200,8 +205,12 @@ export function AlternativeCard({
           </p>
         </div>
 
-        {/* Availability Badge */}
-        <div className="w-36 shrink-0 flex items-center justify-start">
+        {/* Availability Badge & Operational Status */}
+        <div className="w-56 shrink-0 flex items-center justify-start gap-1.5">
+          <TrainStatusBadge
+            departureTime={alternative.departureTime}
+            arrivalTime={alternative.arrivalTime}
+          />
           <AvailabilityPopover availability={alternative.availability} />
         </div>
 

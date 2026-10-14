@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Clock, XCircle, RefreshCw } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { Trip } from "@/lib/types";
 import { formatTimeWithDay, formatDate, formatCurrency } from "@/lib/format";
-import { STATUS_CONFIG } from "@/lib/constants";
+import { TrainStatusBadge } from "@/components/status/train-status-badge";
 
 interface TripRowProps {
   trip: Trip;
@@ -12,18 +12,9 @@ interface TripRowProps {
   isEarlier?: boolean;
 }
 
-const STATUS_ICONS = {
-  "on-time": CheckCircle,
-  delayed: Clock,
-  cancelled: XCircle,
-  recovered: RefreshCw,
-};
-
 export function TripRow({ trip, onViewBooking, isEarlier = false }: TripRowProps) {
   void onViewBooking;
   const segment = trip.segments[0];
-  const statusCfg = STATUS_CONFIG[trip.status];
-  const StatusIcon = STATUS_ICONS[trip.status] ?? CheckCircle;
 
   return (
     <article
@@ -87,14 +78,14 @@ export function TripRow({ trip, onViewBooking, isEarlier = false }: TripRowProps
           </p>
         </div>
 
-        {/* 4. Status Badge */}
-        <div className="w-32 shrink-0 flex items-center justify-start">
-          <span
-            className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${statusCfg.bgClass} ${statusCfg.colorClass}`}
-          >
-            <StatusIcon className="w-3.5 h-3.5 stroke-[1.5] shrink-0" aria-hidden="true" />
-            <span>{statusCfg.label}</span>
-          </span>
+        {/* 4. Dynamic Real-time Operational Status Badge */}
+        <div className="w-44 shrink-0 flex items-center justify-start">
+          <TrainStatusBadge
+            departureTime={segment.departureTime}
+            arrivalTime={segment.arrivalTime}
+            tripStatus={trip.status}
+            showDetail={false}
+          />
         </div>
 
         {/* 5. Actions by status: Cancelled = Find Alternatives, Delayed = View Status, Other = View Trip */}
@@ -138,12 +129,11 @@ export function TripRow({ trip, onViewBooking, isEarlier = false }: TripRowProps
               · PNR {trip.pnr}
             </span>
           </div>
-          <span
-            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${statusCfg.bgClass} ${statusCfg.colorClass}`}
-          >
-            <StatusIcon className="w-3 h-3 stroke-[1.5] shrink-0" aria-hidden="true" />
-            <span>{statusCfg.label}</span>
-          </span>
+          <TrainStatusBadge
+            departureTime={segment.departureTime}
+            arrivalTime={segment.arrivalTime}
+            tripStatus={trip.status}
+          />
         </div>
 
         <div>

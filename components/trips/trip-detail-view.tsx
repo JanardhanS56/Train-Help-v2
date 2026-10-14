@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/app-context";
 import { formatTimeWithDay, formatCurrency, formatDate } from "@/lib/format";
-import { STATUS_CONFIG } from "@/lib/constants";
 import { BookingModal } from "@/components/trips/booking-modal";
 import { RefundTrackerCard } from "@/components/trips/refund-tracker-card";
+import { TrainStatusBadge } from "@/components/status/train-status-badge";
 
 interface TripDetailViewProps {
   tripId: string;
@@ -39,7 +39,6 @@ export function TripDetailView({ tripId }: TripDetailViewProps) {
   }
 
   const segment = trip.segments[0];
-  const statusCfg = STATUS_CONFIG[trip.status];
   const refund = trip.refund;
 
   return (
@@ -128,8 +127,13 @@ export function TripDetailView({ tripId }: TripDetailViewProps) {
               {segment.departureStation.city} to {segment.arrivalStation.city}
             </h1>
           </div>
-          <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${statusCfg.bgClass} ${statusCfg.colorClass}`}>
-            <span>{statusCfg.label}</span>
+          <div>
+            <TrainStatusBadge
+              departureTime={segment.departureTime}
+              arrivalTime={segment.arrivalTime}
+              tripStatus={trip.status}
+              showDetail={true}
+            />
           </div>
         </div>
 
