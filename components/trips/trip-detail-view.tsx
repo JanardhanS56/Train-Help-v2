@@ -8,6 +8,7 @@ import { formatTimeWithDay, formatCurrency, formatDate } from "@/lib/format";
 import { BookingModal } from "@/components/trips/booking-modal";
 import { RefundTrackerCard } from "@/components/trips/refund-tracker-card";
 import { TrainStatusBadge } from "@/components/status/train-status-badge";
+import { TrainVibeMeter } from "@/components/vibe/train-vibe-meter";
 
 interface TripDetailViewProps {
   tripId: string;
@@ -194,6 +195,12 @@ export function TripDetailView({ tripId }: TripDetailViewProps) {
           </div>
         </div>
       </article>
+
+      {/* Crowdsourced Coach Vibe & Cleanliness Meter */}
+      <TrainVibeMeter
+        trainNumber={segment.trainNumber}
+        trainName={segment.trainName}
+      />
 
       <BookingModal
         trip={trip}

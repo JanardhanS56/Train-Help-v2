@@ -11,6 +11,7 @@ import {
 } from "@/lib/format";
 import { AvailabilityPopover } from "@/components/recovery/availability-popover";
 import { TrainStatusBadge } from "@/components/status/train-status-badge";
+import { TrainVibeMeter } from "@/components/vibe/train-vibe-meter";
 
 interface AlternativeCardProps {
   alternative: RankedAlternative;
@@ -76,6 +77,15 @@ export function AlternativeCard({
               {formatFareDifference(alternative.fareDifference)} vs original
             </p>
           </div>
+        </div>
+
+        {/* Crowdsourced Coach Vibe & Cleanliness Snapshot */}
+        <div className="pb-3">
+          <TrainVibeMeter
+            trainNumber={alternative.trainNumber}
+            trainName={alternative.trainName}
+            compact={true}
+          />
         </div>
 
         {/* Times Row with Mono Type */}
