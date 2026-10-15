@@ -2,11 +2,13 @@
 
 import { useState, useRef, useEffect, useMemo, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Trash2, Bot, Loader2, Sparkles, AlertCircle } from "lucide-react";
 import { useApp, useAppDispatch } from "@/context/app-context";
 import { ChatQuickActions } from "@/components/chat/chat-quick-actions";
 import { useChatAssistantState } from "@/components/chat/chat-controller";
 import { ChatMarkdown } from "@/components/chat/chat-markdown";
+import { useAntiSpam } from "@/lib/hooks/use-anti-spam";
 
 export function ChatAssistant() {
   const router = useRouter();
@@ -19,6 +21,7 @@ export function ChatAssistant() {
   const [activeProviderBadge, setActiveProviderBadge] = useState<string>("TravelRescue AI");
   const [, startTransition] = useTransition();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { isLocked: isSpamLocked, executeProtectedAction } = useAntiSpam({ cooldownMs: 750 });
 
   const totalAlts = alternatives.length || 5;
   const matchingCount = useMemo(() => {
@@ -229,143 +232,151 @@ export function ChatAssistant() {
         <span className="text-xs font-semibold tracking-wide">AI Assistant</span>
       </button>
 
-      {/* Slide-over dockable drawer */}
-      {open && (
-        <aside
-          role="dialog"
-          aria-label="TravelRescue AI Train Assistant"
-          className="fixed inset-x-0 bottom-0 md:inset-y-0 md:left-auto md:right-0 md:w-[420px] z-50 bg-surface border-t md:border-t-0 md:border-l border-border flex flex-col max-h-[90vh] md:max-h-full rounded-t-2xl md:rounded-none shadow-2xl animate-in slide-in-from-bottom md:slide-in-from-right duration-200"
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between p-3.5 border-b border-hairline bg-surface/80 backdrop-blur-sm">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-                <Bot className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-sm font-semibold text-foreground">TravelRescue AI</h2>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted font-mono text-muted-foreground border border-border">
-                    {activeProviderBadge}
-                  </span>
+      {/* Slide-over dockable drawer with smooth spring animations */}
+      <AnimatePresence>
+        {open && (
+          <motion.aside
+            role="dialog"
+            aria-label="TravelRescue AI Train Assistant"
+            initial={{ opacity: 0, x: 28, y: 10, scale: 0.98 }}
+            animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 28, y: 10, scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 350, damping: 30 }}
+            className="fixed inset-x-0 bottom-0 md:inset-y-0 md:left-auto md:right-0 md:w-[420px] z-50 bg-surface border-t md:border-t-0 md:border-l border-border flex flex-col max-h-[90vh] md:max-h-full rounded-t-2xl md:rounded-none shadow-2xl overflow-hidden"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-3.5 border-b border-hairline bg-surface/80 backdrop-blur-sm">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+                  <Bot className="w-4 h-4" />
                 </div>
-                <p className="text-[11px] text-muted-foreground">Train schedules, booking & policies</p>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-sm font-semibold text-foreground">TravelRescue AI</h2>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted font-mono text-muted-foreground border border-border">
+                      {activeProviderBadge}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground">Train schedules, booking & policies</p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={handleClearChat}
-                className="p-1.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-                title="Clear chat history"
-                aria-label="Clear chat history"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={closeChat}
-                className="p-1.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-                aria-label="Close assistant"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Quick Reply Suggestion Chips */}
-          <ChatQuickActions onAction={handleQuickAction} />
-
-          {/* Error Banner if any */}
-          {errorMessage && (
-            <div className="px-3 py-2 bg-destructive/10 border-b border-destructive/20 text-destructive text-xs flex items-center gap-2">
-              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">{errorMessage}</span>
-            </div>
-          )}
-
-          {/* Message History */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 text-xs">
-            {/* System welcome bubble */}
-            <div className="p-3 rounded-xl bg-neutral-tint text-foreground text-xs leading-relaxed border border-border/50">
-              <div className="flex items-center gap-1.5 font-medium text-primary mb-1">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Live Rail Intelligence</span>
-              </div>
-              <p>{dynamicWelcome}</p>
-            </div>
-
-            {state.chatMessages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}
-              >
-                <div
-                  className={`p-3 rounded-xl max-w-[88%] leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-primary text-primary-foreground font-normal rounded-br-xs shadow-sm"
-                      : "bg-neutral-tint text-foreground rounded-bl-xs border border-border/60 shadow-xs"
-                  }`}
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={handleClearChat}
+                  className="p-1.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  title="Clear chat history"
+                  aria-label="Clear chat history"
                 >
-                  {msg.role === "assistant" ? (
-                    <ChatMarkdown content={msg.content} />
-                  ) : (
-                    <p className="whitespace-pre-wrap">{msg.content}</p>
-                  )}
-                </div>
-                <span className="text-[10px] text-muted-foreground mt-1 px-1 font-mono">
-                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                </span>
+                  <Trash2 className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={closeChat}
+                  className="p-1.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  aria-label="Close assistant"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
-            ))}
+            </div>
 
-            {/* Thinking / Streaming indicator */}
-            {isLoading && (
-              <div className="flex items-center gap-2 text-muted-foreground text-xs p-2">
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
-                <span>Assistant is checking train schedules...</span>
+            {/* Quick Reply Suggestion Chips */}
+            <ChatQuickActions onAction={handleQuickAction} />
+
+            {/* Error Banner if any */}
+            {errorMessage && (
+              <div className="px-3 py-2 bg-destructive/10 border-b border-destructive/20 text-destructive text-xs flex items-center gap-2">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">{errorMessage}</span>
               </div>
             )}
 
-            <div ref={messagesEndRef} />
-          </div>
+            {/* Message History */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 text-xs">
+              {/* System welcome bubble */}
+              <div className="p-3 rounded-xl bg-neutral-tint text-foreground text-xs leading-relaxed border border-border/50">
+                <div className="flex items-center gap-1.5 font-medium text-primary mb-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Live Rail Intelligence</span>
+                </div>
+                <p>{dynamicWelcome}</p>
+              </div>
 
-          {/* Input Form */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const text = input.trim();
-              if (text) {
-                setInput("");
-                sendMessageToAssistant(text);
-              }
-            }}
-            className="p-3 border-t border-hairline bg-surface flex items-center gap-2"
-          >
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about trains, Tatkal rules, refunds..."
-              disabled={isLoading}
-              className="flex-1 text-xs rounded-lg border border-border bg-background px-3.5 py-2.5 text-foreground focus:ring-1 focus:ring-primary outline-none transition-colors"
-            />
-            <button
-              type="submit"
-              disabled={!input.trim() || isLoading}
-              className="h-9 px-3.5 rounded-lg bg-primary text-primary-foreground disabled:opacity-40 hover:bg-primary-hover transition-colors flex items-center justify-center shrink-0 shadow-xs"
-              aria-label="Send message"
-            >
-              {isLoading ? (
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              ) : (
-                <Send className="w-3.5 h-3.5" />
+              {state.chatMessages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}
+                >
+                  <div
+                    className={`p-3 rounded-xl max-w-[88%] leading-relaxed ${
+                      msg.role === "user"
+                        ? "bg-primary text-primary-foreground font-normal rounded-br-xs shadow-sm"
+                        : "bg-neutral-tint text-foreground rounded-bl-xs border border-border/60 shadow-xs"
+                    }`}
+                  >
+                    {msg.role === "assistant" ? (
+                      <ChatMarkdown content={msg.content} />
+                    ) : (
+                      <p className="whitespace-pre-wrap">{msg.content}</p>
+                    )}
+                  </div>
+                  <span className="text-[10px] text-muted-foreground mt-1 px-1 font-mono">
+                    {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  </span>
+                </div>
+              ))}
+
+              {/* Thinking / Streaming indicator */}
+              {isLoading && (
+                <div className="flex items-center gap-2 text-muted-foreground text-xs p-2">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+                  <span>Assistant is checking train schedules...</span>
+                </div>
               )}
-            </button>
-          </form>
-        </aside>
-      )}
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Form with Anti-Spam protection */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const text = input.trim();
+                if (text && !isLoading && !isSpamLocked) {
+                  executeProtectedAction(() => {
+                    setInput("");
+                    return sendMessageToAssistant(text);
+                  });
+                }
+              }}
+              className="p-3 border-t border-hairline bg-surface flex items-center gap-2"
+            >
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask about trains, Tatkal rules, refunds..."
+                disabled={isLoading}
+                className="flex-1 text-xs rounded-lg border border-border bg-background px-3.5 py-2.5 text-foreground focus:ring-1 focus:ring-primary outline-none transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={!input.trim() || isLoading || isSpamLocked}
+                className="h-9 px-3.5 rounded-lg bg-primary text-primary-foreground disabled:opacity-40 hover:bg-primary-hover transition-colors flex items-center justify-center shrink-0 shadow-xs active:scale-95"
+                aria-label="Send message"
+              >
+                {isLoading ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Send className="w-3.5 h-3.5" />
+                )}
+              </button>
+            </form>
+          </motion.aside>
+        )}
+      </AnimatePresence>
     </>
   );
 }

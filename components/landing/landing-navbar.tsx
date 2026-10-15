@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Shield, ArrowRight, LogOut } from "lucide-react";
+import { TrainFront, ArrowRight, LogOut } from "lucide-react";
 import { APP_NAME } from "@/lib/constants";
 import { useAuth } from "@/context/auth-context";
 
@@ -14,7 +14,7 @@ export function LandingNavbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
           <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center">
-            <Shield className="w-3.5 h-3.5 stroke-[1.5]" />
+            <TrainFront className="w-3.5 h-3.5 stroke-[1.5]" />
           </div>
           <span className="font-semibold text-sm text-foreground tracking-tight">
             {APP_NAME}
@@ -29,8 +29,14 @@ export function LandingNavbar() {
           <a href="#how-it-works" className="hover:text-foreground transition-colors">
             How it works
           </a>
+          <Link href="/simulation" className="hover:text-foreground transition-colors">
+            Simulation
+          </Link>
           <Link href="/help" className="hover:text-foreground transition-colors">
             Help & FAQs
+          </Link>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">
+            Privacy
           </Link>
         </nav>
 

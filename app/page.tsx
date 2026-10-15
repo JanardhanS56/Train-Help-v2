@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Check, Shield } from "lucide-react";
+import { ArrowRight, ShieldCheck, Check, Shield, Activity, Sparkles } from "lucide-react";
 import { LandingNavbar } from "@/components/landing/landing-navbar";
+import { RailwayHeroVisual } from "@/components/landing/railway-hero-visual";
 import { FeaturedTicketCard } from "@/components/trips/featured-ticket-card";
 import { APP_NAME, APP_TAGLINE } from "@/lib/constants";
 import { mockTrips } from "@/mock/data";
 
 export const metadata: Metadata = {
-  title: "TravelRescue — Something went wrong. We've got this.",
+  title: "TravelRescue — Indian Railways disruption recovery",
   description:
     "When your train gets delayed or cancelled, TravelRescue ranks the best alternative railway schedules and gets you back on track in minutes.",
 };
@@ -22,38 +23,52 @@ export default function LandingPage() {
       <LandingNavbar />
 
       <main className="flex-1">
-        {/* 2. Left-aligned Hero with generous whitespace */}
+        {/* 2. Indian Railways recovery hero */}
         <section className="max-w-[1120px] mx-auto px-4 md:px-6 pt-16 pb-20 space-y-12">
-          <div className="max-w-2xl space-y-5">
-            <span className="micro-label text-primary font-semibold tracking-wider">
-              INDIAN RAILWAYS DISRUPTION RECOVERY
-            </span>
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(340px,0.8fr)] lg:gap-12">
+            <div className="max-w-2xl space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+                <span>MADE FOR INDIAN RAILWAYS JOURNEYS</span>
+              </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-[56px] font-display font-medium text-foreground tracking-tight leading-[1.12]">
-              Something went wrong.
-              <br />
-              <span className="text-primary italic">We&rsquo;ve got this.</span>
-            </h1>
+              <h1 className="text-4xl sm:text-5xl md:text-[56px] font-display font-medium text-foreground tracking-tight leading-[1.12]">
+                Your journey.
+                <br />
+                <span className="text-primary italic">Back on track.</span>
+              </h1>
 
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              When your train is cancelled or delayed, TravelRescue ranks verified alternative train schedules, preserves your travel budget, and gets you rebooked with confirmed berths in minutes.
-            </p>
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                When your train is cancelled or delayed, TravelRescue helps you
+                compare alternative rail journeys, protect your budget, and get
+                your next steps clear.
+              </p>
 
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <Link
-                href="/dashboard"
-                className="h-10 px-6 rounded-[8px] bg-primary text-primary-foreground text-sm font-medium hover:bg-primary-hover transition-colors flex items-center justify-center gap-2"
-              >
-                <span>Open Dashboard</span>
-                <ArrowRight className="w-4 h-4 stroke-[1.5]" />
-              </Link>
-              <Link
-                href="/help"
-                className="h-10 px-5 rounded-[8px] border border-border bg-surface text-foreground text-sm font-medium hover:bg-background transition-colors flex items-center justify-center"
-              >
-                How refunds work
-              </Link>
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <Link
+                  href="/dashboard"
+                  className="h-10 px-6 rounded-[8px] bg-primary text-primary-foreground text-sm font-medium hover:bg-primary-hover transition-colors flex items-center justify-center gap-2 shadow-xs"
+                >
+                  <span>Open Passenger Dashboard</span>
+                  <ArrowRight className="w-4 h-4 stroke-[1.5]" />
+                </Link>
+                <Link
+                  href="/simulation"
+                  className="h-10 px-5 rounded-[8px] border border-primary/30 bg-primary/5 text-primary text-sm font-medium hover:bg-primary/10 transition-colors flex items-center justify-center gap-2"
+                >
+                  <Activity className="w-4 h-4 stroke-[1.5]" />
+                  <span>Explore Rail Simulation</span>
+                </Link>
+                <Link
+                  href="/help"
+                  className="h-10 px-5 rounded-[8px] border border-border bg-surface text-foreground text-sm font-medium hover:bg-background transition-colors flex items-center justify-center"
+                >
+                  How refunds work
+                </Link>
+              </div>
             </div>
+
+            <RailwayHeroVisual />
           </div>
 
           {/* Real Product Preview: The Featured Ticket Card */}
@@ -192,6 +207,9 @@ export default function LandingPage() {
             </Link>
             <Link href="/help" className="hover:text-foreground transition-colors">
               Help & FAQs
+            </Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">
+              Privacy & Cookies
             </Link>
           </div>
         </div>

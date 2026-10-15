@@ -5,11 +5,17 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { trainRepository } from "@/lib/data/train-repository";
+import { GENERAL_API_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
+
+export const runtime = "nodejs";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   context: { params: Promise<{ number: string }> }
 ) {
+  const rateLimit = await enforceRateLimit(request, GENERAL_API_RATE_LIMIT);
+  if (!rateLimit.success) return rateLimit.response;
+
   const { number } = await context.params;
 
   try {

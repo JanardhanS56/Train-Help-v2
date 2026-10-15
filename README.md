@@ -63,6 +63,12 @@ Once you see:
 
 You can click any of the links below in your browser:
 
+### Shared API Rate Limits
+
+For production, set `REDIS_URL` to a private `redis://` or `rediss://` connection URL. Chat, simulation, and database health API limits are stored atomically in Redis and shared across app instances. Production API requests fail closed with HTTP 503 if Redis is unavailable or not configured. Local development can omit `REDIS_URL`; its in-memory fallback only protects that one server process.
+
+Add the setting to your local environment from `.env.example` and configure the same variable in your deployment provider. Do not expose the Redis URL through a `NEXT_PUBLIC_` variable. Since limits use the request IP, configure the trusted reverse proxy to overwrite client-supplied `X-Forwarded-For` and `X-Real-IP` headers.
+
 ### 🔗 Direct Page Links
 
 | Destination | Localhost Link | Description |

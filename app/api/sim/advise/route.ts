@@ -7,6 +7,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProviderConfig } from "@/lib/ai/providers";
 import type { CandidatePlan } from "@/lib/sim/types";
+import { ADVISE_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
+
+export const runtime = "nodejs";
 
 interface AdviseRequestPayload {
   train: {
@@ -69,6 +72,13 @@ function buildDeterministicAdvice(
 }
 
 export async function POST(request: NextRequest) {
+  const rateLimit = await enforceRateLimit(
+    request,
+    ADVISE_RATE_LIMIT,
+    "Rate limit exceeded. Please wait before requesting more advice."
+  );
+  if (!rateLimit.success) return rateLimit.response;
+
   let payload: AdviseRequestPayload;
   try {
     payload = await request.json();

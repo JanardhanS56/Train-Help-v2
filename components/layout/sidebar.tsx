@@ -25,6 +25,7 @@ import { useAuth } from "@/context/auth-context";
 import { useTripGroups } from "@/lib/tripGroups";
 import { useChatAssistantState } from "@/components/chat/chat-controller";
 import { APP_NAME } from "@/lib/constants";
+import { DatabaseConnectionStatus } from "@/components/status/database-connection-status";
 
 const STORAGE_EXPANDED_KEY = "tr_nav_expanded_v1";
 
@@ -745,10 +746,13 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* ── Footer ── */}
-      <div className="hidden lg:block px-5 py-3 border-t border-sidebar-border/60 space-y-0.5 text-xs text-muted-foreground">
-        <p className="leading-normal">Train disruption recovery</p>
-        <p className="text-[11px] font-mono text-muted-foreground/75">Sample data</p>
+      {/* ── Footer & DB Status ── */}
+      <div className="hidden lg:block px-5 py-3 border-t border-sidebar-border/60 space-y-2 text-xs text-muted-foreground">
+        <DatabaseConnectionStatus />
+        <div className="space-y-0.5">
+          <p className="leading-normal">Train disruption recovery</p>
+          <p className="text-[11px] font-mono text-muted-foreground/75">Railway Passenger System</p>
+        </div>
       </div>
     </aside>
   );

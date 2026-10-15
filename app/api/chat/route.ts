@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { executeAIChat, getProviderConfig } from "@/lib/ai/providers";
 import { AIChatMessage } from "@/lib/ai/types";
+import { CHAT_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
+
+export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
+  const rateLimit = await enforceRateLimit(req, CHAT_RATE_LIMIT);
+  if (!rateLimit.success) return rateLimit.response;
+
   try {
     const body = await req.json();
     const messages: AIChatMessage[] = body.messages || [];
@@ -14,15 +20,26 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const config = getProviderConfig();
-    const result = await executeAIChat(messages, config);
+    // Limit message history length to prevent oversized payloads
+    const trimmedMessages = messages.slice(-20);
 
-    return NextResponse.json({
-      reply: result.text,
-      provider: result.provider,
-      model: result.model,
-      isMock: result.isMock,
-    });
+    const config = getProviderConfig();
+    const result = await executeAIChat(trimmedMessages, config);
+
+    return NextResponse.json(
+      {
+        reply: result.text,
+        provider: result.provider,
+        model: result.model,
+        isMock: result.isMock,
+      },
+      {
+        headers: {
+          "X-RateLimit-Remaining": String(rateLimit.limit.remaining),
+          "X-RateLimit-Reset": String(Math.ceil(rateLimit.limit.resetMs / 1000)),
+        },
+      }
+    );
   } catch (error: unknown) {
     const err = error as Error;
     const errorMessage = err.message || "An unexpected error occurred.";

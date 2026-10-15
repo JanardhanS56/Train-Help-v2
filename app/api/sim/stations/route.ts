@@ -3,10 +3,16 @@
  * Stations listing for route canvas and station search.
  */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { trainRepository } from "@/lib/data/train-repository";
+import { GENERAL_API_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
 
-export async function GET() {
+export const runtime = "nodejs";
+
+export async function GET(request: NextRequest) {
+  const rateLimit = await enforceRateLimit(request, GENERAL_API_RATE_LIMIT);
+  if (!rateLimit.success) return rateLimit.response;
+
   try {
     const stations = await trainRepository.getAllStations();
     return NextResponse.json({
