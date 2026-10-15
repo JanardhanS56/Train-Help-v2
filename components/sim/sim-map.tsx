@@ -302,7 +302,7 @@ export function SimMap({
 
             return (
               <g
-                key={s.stationCode}
+                key={`${s.stationCode}-${idx}`}
                 className="cursor-pointer transition-transform"
                 onClick={() => onStationClick?.(s.stationCode)}
                 onMouseEnter={() => setHoveredStation(s.stationCode)}
