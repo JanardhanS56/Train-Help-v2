@@ -2,12 +2,21 @@ import { AIChatMessage, AIProviderConfig, AIProviderName } from "./types";
 import { TRAIN_ASSISTANT_SYSTEM_PROMPT } from "./system-prompt";
 
 export function getProviderConfig(): AIProviderConfig {
-  const provider = (process.env.AI_PROVIDER?.toLowerCase() || "groq") as AIProviderName;
-  const apiKey = process.env.AI_API_KEY || "";
-  const modelOverride = process.env.AI_MODEL;
-  const baseOverride = process.env.AI_BASE_URL;
+  const deepseekKey = process.env.DEEPSEEK_API_KEY;
+  const providerEnv = process.env.AI_PROVIDER?.toLowerCase();
+  const provider = (deepseekKey ? "deepseek" : providerEnv || "deepseek") as AIProviderName;
+  const apiKey = deepseekKey || process.env.AI_API_KEY || "";
+  const modelOverride = process.env.AI_MODEL || process.env.DEEPSEEK_MODEL;
+  const baseOverride = process.env.AI_BASE_URL || process.env.DEEPSEEK_BASE_URL;
 
   switch (provider) {
+    case "deepseek":
+      return {
+        provider: "deepseek",
+        apiKey,
+        model: modelOverride || "deepseek-chat",
+        baseUrl: baseOverride || "https://api.deepseek.com/v1/chat/completions",
+      };
     case "openrouter":
       return {
         provider: "openrouter",

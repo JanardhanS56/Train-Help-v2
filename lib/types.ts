@@ -162,6 +162,12 @@ export interface ChatMessage {
   content: string;
   timestamp: Date;
   options?: ChatOption[];
+  actions?: Array<{
+    type: string;
+    raw: string;
+    payload: Record<string, string>;
+    label: string;
+  }>;
 }
 
 export interface ChatOption {

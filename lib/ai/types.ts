@@ -1,4 +1,4 @@
-export type AIProviderName = "groq" | "openrouter" | "nvidia" | "mock";
+export type AIProviderName = "deepseek" | "groq" | "openrouter" | "nvidia" | "mock";
 
 export interface AIChatMessage {
   role: "system" | "user" | "assistant";
