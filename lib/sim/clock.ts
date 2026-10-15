@@ -5,7 +5,7 @@
 
 import type { SimScheduleStop } from "./types";
 
-export type SpeedMultiplier = 1 | 10 | 60 | 300;
+export type SpeedMultiplier = 1 | 2 | 5 | 10 | 60 | 300;
 
 export interface ClockState {
   currentMinute: number;
