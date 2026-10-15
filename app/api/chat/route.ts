@@ -1,8 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { executeAIChat, getProviderConfig } from "@/lib/ai/providers";
 import { AIChatMessage } from "@/lib/ai/types";
+import { checkRateLimit, getClientIdentifier, CHAT_RATE_LIMIT } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
+  // ── Rate limiting ──────────────────────────────────────────────
+  const clientId = getClientIdentifier(req.headers);
+  const limit = checkRateLimit(clientId, CHAT_RATE_LIMIT);
+
+  if (!limit.success) {
+    return NextResponse.json(
+      {
+        error: `Rate limit exceeded. Please wait ${Math.ceil((limit.retryAfterMs ?? 30_000) / 1000)} seconds before sending another message.`,
+        isError: true,
+        retryAfterMs: limit.retryAfterMs,
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((limit.retryAfterMs ?? 30_000) / 1000)),
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": String(Math.ceil(limit.resetMs / 1000)),
+        },
+      }
+    );
+  }
+
   try {
     const body = await req.json();
     const messages: AIChatMessage[] = body.messages || [];
@@ -14,15 +37,26 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const config = getProviderConfig();
-    const result = await executeAIChat(messages, config);
+    // Limit message history length to prevent oversized payloads
+    const trimmedMessages = messages.slice(-20);
 
-    return NextResponse.json({
-      reply: result.text,
-      provider: result.provider,
-      model: result.model,
-      isMock: result.isMock,
-    });
+    const config = getProviderConfig();
+    const result = await executeAIChat(trimmedMessages, config);
+
+    return NextResponse.json(
+      {
+        reply: result.text,
+        provider: result.provider,
+        model: result.model,
+        isMock: result.isMock,
+      },
+      {
+        headers: {
+          "X-RateLimit-Remaining": String(limit.remaining),
+          "X-RateLimit-Reset": String(Math.ceil(limit.resetMs / 1000)),
+        },
+      }
+    );
   } catch (error: unknown) {
     const err = error as Error;
     const errorMessage = err.message || "An unexpected error occurred.";

@@ -3,11 +3,19 @@
  * Health check endpoint for database connectivity and latency monitoring.
  */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/data/supabase-client";
 import fallbackSnapshot from "@/data/clean/sim-snapshot.json";
+import { checkRateLimit, getClientIdentifier, createRateLimitResponse, DB_RATE_LIMIT } from "@/lib/rate-limit";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Rate limiting to protect Supabase connectivity against flooding
+  const clientId = getClientIdentifier(request.headers);
+  const limit = checkRateLimit(clientId, DB_RATE_LIMIT);
+  if (!limit.success) {
+    return createRateLimitResponse(limit, "Too many database status checks. Please wait a moment.");
+  }
+
   const start = Date.now();
   const supabase = getSupabaseClient();
 

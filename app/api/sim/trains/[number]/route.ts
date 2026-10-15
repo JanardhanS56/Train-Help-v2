@@ -5,11 +5,18 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { trainRepository } from "@/lib/data/train-repository";
+import { checkRateLimit, getClientIdentifier, createRateLimitResponse, GENERAL_API_RATE_LIMIT } from "@/lib/rate-limit";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   context: { params: Promise<{ number: string }> }
 ) {
+  const clientId = getClientIdentifier(request.headers);
+  const limitCheck = checkRateLimit(clientId, GENERAL_API_RATE_LIMIT);
+  if (!limitCheck.success) {
+    return createRateLimitResponse(limitCheck);
+  }
+
   const { number } = await context.params;
 
   try {
