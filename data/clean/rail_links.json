@@ -1,0 +1,6764 @@
+[
+  {
+    "station_a": "BNC",
+    "station_b": "SBC",
+    "distance_km": 30.2,
+    "typical_duration_min": 28,
+    "traversals": 15
+  },
+  {
+    "station_a": "BNC",
+    "station_b": "JTJ",
+    "distance_km": 90.5,
+    "typical_duration_min": 100,
+    "traversals": 2
+  },
+  {
+    "station_a": "JTJ",
+    "station_b": "KPD",
+    "distance_km": 50.0,
+    "typical_duration_min": 105,
+    "traversals": 10
+  },
+  {
+    "station_a": "KPD",
+    "station_b": "MAS",
+    "distance_km": 90.5,
+    "typical_duration_min": 136,
+    "traversals": 9
+  },
+  {
+    "station_a": "KJT",
+    "station_b": "LNL",
+    "distance_km": 39.7,
+    "typical_duration_min": 79,
+    "traversals": 4
+  },
+  {
+    "station_a": "LNL",
+    "station_b": "SVJR",
+    "distance_km": 39.7,
+    "typical_duration_min": 29,
+    "traversals": 2
+  },
+  {
+    "station_a": "PUNE",
+    "station_b": "SVJR",
+    "distance_km": 39.7,
+    "typical_duration_min": 15,
+    "traversals": 2
+  },
+  {
+    "station_a": "LKO",
+    "station_b": "SPN",
+    "distance_km": 66.0,
+    "typical_duration_min": 107,
+    "traversals": 3
+  },
+  {
+    "station_a": "BRY",
+    "station_b": "SPN",
+    "distance_km": 54.8,
+    "typical_duration_min": 86,
+    "traversals": 5
+  },
+  {
+    "station_a": "BRY",
+    "station_b": "MB",
+    "distance_km": 66.0,
+    "typical_duration_min": 89,
+    "traversals": 7
+  },
+  {
+    "station_a": "GZB",
+    "station_b": "MB",
+    "distance_km": 98.6,
+    "typical_duration_min": 169,
+    "traversals": 1
+  },
+  {
+    "station_a": "GZB",
+    "station_b": "NDLS",
+    "distance_km": 54.8,
+    "typical_duration_min": 46,
+    "traversals": 5
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "MAS",
+    "distance_km": 138.5,
+    "typical_duration_min": 386,
+    "traversals": 7
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "KMT",
+    "distance_km": 27.9,
+    "typical_duration_min": 102,
+    "traversals": 15
+  },
+  {
+    "station_a": "KMT",
+    "station_b": "WL",
+    "distance_km": 64.5,
+    "typical_duration_min": 54,
+    "traversals": 10
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "WL",
+    "distance_km": 123.1,
+    "typical_duration_min": 184,
+    "traversals": 9
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "NGP",
+    "distance_km": 123.1,
+    "typical_duration_min": 167,
+    "traversals": 21
+  },
+  {
+    "station_a": "ET",
+    "station_b": "NGP",
+    "distance_km": 157.7,
+    "typical_duration_min": 253,
+    "traversals": 6
+  },
+  {
+    "station_a": "BPL",
+    "station_b": "ET",
+    "distance_km": 42.9,
+    "typical_duration_min": 89,
+    "traversals": 27
+  },
+  {
+    "station_a": "BPL",
+    "station_b": "JHS",
+    "distance_km": 120.2,
+    "typical_duration_min": 93,
+    "traversals": 20
+  },
+  {
+    "station_a": "GWL",
+    "station_b": "JHS",
+    "distance_km": 50.5,
+    "typical_duration_min": 76,
+    "traversals": 28
+  },
+  {
+    "station_a": "AGC",
+    "station_b": "GWL",
+    "distance_km": 72.6,
+    "typical_duration_min": 66,
+    "traversals": 20
+  },
+  {
+    "station_a": "AGC",
+    "station_b": "NZM",
+    "distance_km": 157.7,
+    "typical_duration_min": 148,
+    "traversals": 10
+  },
+  {
+    "station_a": "NDLS",
+    "station_b": "NZM",
+    "distance_km": 64.5,
+    "typical_duration_min": 54,
+    "traversals": 4
+  },
+  {
+    "station_a": "BNC",
+    "station_b": "YNK",
+    "distance_km": 72.6,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "HUP",
+    "station_b": "YNK",
+    "distance_km": 72.5,
+    "typical_duration_min": 58,
+    "traversals": 6
+  },
+  {
+    "station_a": "HUP",
+    "station_b": "PKD",
+    "distance_km": 72.6,
+    "typical_duration_min": 22,
+    "traversals": 2
+  },
+  {
+    "station_a": "PKD",
+    "station_b": "SSPN",
+    "distance_km": 72.6,
+    "typical_duration_min": 14,
+    "traversals": 2
+  },
+  {
+    "station_a": "DMM",
+    "station_b": "SSPN",
+    "distance_km": 72.6,
+    "typical_duration_min": 51,
+    "traversals": 4
+  },
+  {
+    "station_a": "ATP",
+    "station_b": "DMM",
+    "distance_km": 67.1,
+    "typical_duration_min": 80,
+    "traversals": 12
+  },
+  {
+    "station_a": "ATP",
+    "station_b": "GTL",
+    "distance_km": 67.0,
+    "typical_duration_min": 100,
+    "traversals": 8
+  },
+  {
+    "station_a": "AD",
+    "station_b": "GTL",
+    "distance_km": 49.4,
+    "typical_duration_min": 86,
+    "traversals": 17
+  },
+  {
+    "station_a": "AD",
+    "station_b": "MALM",
+    "distance_km": 49.4,
+    "typical_duration_min": 86,
+    "traversals": 17
+  },
+  {
+    "station_a": "MALM",
+    "station_b": "RC",
+    "distance_km": 49.4,
+    "typical_duration_min": 85,
+    "traversals": 21
+  },
+  {
+    "station_a": "RC",
+    "station_b": "YG",
+    "distance_km": 59.2,
+    "typical_duration_min": 84,
+    "traversals": 18
+  },
+  {
+    "station_a": "WADI",
+    "station_b": "YG",
+    "distance_km": 49.4,
+    "typical_duration_min": 83,
+    "traversals": 13
+  },
+  {
+    "station_a": "SUR",
+    "station_b": "WADI",
+    "distance_km": 49.4,
+    "typical_duration_min": 89,
+    "traversals": 19
+  },
+  {
+    "station_a": "KWV",
+    "station_b": "SUR",
+    "distance_km": 41.6,
+    "typical_duration_min": 85,
+    "traversals": 5
+  },
+  {
+    "station_a": "DD",
+    "station_b": "KWV",
+    "distance_km": 49.4,
+    "typical_duration_min": 98,
+    "traversals": 3
+  },
+  {
+    "station_a": "ANG",
+    "station_b": "DD",
+    "distance_km": 72.6,
+    "typical_duration_min": 104,
+    "traversals": 10
+  },
+  {
+    "station_a": "ANG",
+    "station_b": "BAP",
+    "distance_km": 52.0,
+    "typical_duration_min": 88,
+    "traversals": 11
+  },
+  {
+    "station_a": "BAP",
+    "station_b": "KPG",
+    "distance_km": 52.0,
+    "typical_duration_min": 78,
+    "traversals": 11
+  },
+  {
+    "station_a": "KPG",
+    "station_b": "MMR",
+    "distance_km": 52.0,
+    "typical_duration_min": 69,
+    "traversals": 17
+  },
+  {
+    "station_a": "JL",
+    "station_b": "MMR",
+    "distance_km": 65.0,
+    "typical_duration_min": 133,
+    "traversals": 8
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "JL",
+    "distance_km": 36.7,
+    "typical_duration_min": 26,
+    "traversals": 18
+  },
+  {
+    "station_a": "BAU",
+    "station_b": "BSL",
+    "distance_km": 54.0,
+    "typical_duration_min": 50,
+    "traversals": 4
+  },
+  {
+    "station_a": "BAU",
+    "station_b": "KNW",
+    "distance_km": 54.0,
+    "typical_duration_min": 61,
+    "traversals": 7
+  },
+  {
+    "station_a": "ET",
+    "station_b": "KNW",
+    "distance_km": 52.0,
+    "typical_duration_min": 143,
+    "traversals": 15
+  },
+  {
+    "station_a": "BINA",
+    "station_b": "BPL",
+    "distance_km": 50.5,
+    "typical_duration_min": 124,
+    "traversals": 10
+  },
+  {
+    "station_a": "BINA",
+    "station_b": "JHS",
+    "distance_km": 64.5,
+    "typical_duration_min": 112,
+    "traversals": 10
+  },
+  {
+    "station_a": "AGC",
+    "station_b": "MTJ",
+    "distance_km": 42.8,
+    "typical_duration_min": 53,
+    "traversals": 10
+  },
+  {
+    "station_a": "MTJ",
+    "station_b": "NZM",
+    "distance_km": 51.7,
+    "typical_duration_min": 160,
+    "traversals": 9
+  },
+  {
+    "station_a": "TK",
+    "station_b": "YPR",
+    "distance_km": 90.2,
+    "typical_duration_min": 78,
+    "traversals": 12
+  },
+  {
+    "station_a": "ASK",
+    "station_b": "TK",
+    "distance_km": 90.2,
+    "typical_duration_min": 79,
+    "traversals": 12
+  },
+  {
+    "station_a": "ASK",
+    "station_b": "DVG",
+    "distance_km": 183.1,
+    "typical_duration_min": 149,
+    "traversals": 4
+  },
+  {
+    "station_a": "DVG",
+    "station_b": "DWR",
+    "distance_km": 200.3,
+    "typical_duration_min": 214,
+    "traversals": 2
+  },
+  {
+    "station_a": "BGM",
+    "station_b": "DWR",
+    "distance_km": 93.3,
+    "typical_duration_min": 132,
+    "traversals": 4
+  },
+  {
+    "station_a": "BGM",
+    "station_b": "MRJ",
+    "distance_km": 93.3,
+    "typical_duration_min": 138,
+    "traversals": 4
+  },
+  {
+    "station_a": "MRJ",
+    "station_b": "PUNE",
+    "distance_km": 200.4,
+    "typical_duration_min": 322,
+    "traversals": 2
+  },
+  {
+    "station_a": "MMR",
+    "station_b": "PUNE",
+    "distance_km": 200.4,
+    "typical_duration_min": 281,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "MMR",
+    "distance_km": 90.2,
+    "typical_duration_min": 140,
+    "traversals": 12
+  },
+  {
+    "station_a": "BPL",
+    "station_b": "BSL",
+    "distance_km": 192.1,
+    "typical_duration_min": 335,
+    "traversals": 4
+  },
+  {
+    "station_a": "BHS",
+    "station_b": "BPL",
+    "distance_km": 42.8,
+    "typical_duration_min": 52,
+    "traversals": 8
+  },
+  {
+    "station_a": "BHS",
+    "station_b": "JHS",
+    "distance_km": 200.4,
+    "typical_duration_min": 193,
+    "traversals": 2
+  },
+  {
+    "station_a": "JHS",
+    "station_b": "NZM",
+    "distance_km": 200.4,
+    "typical_duration_min": 318,
+    "traversals": 6
+  },
+  {
+    "station_a": "DVG",
+    "station_b": "GDG",
+    "distance_km": 183.1,
+    "typical_duration_min": 131,
+    "traversals": 2
+  },
+  {
+    "station_a": "GDG",
+    "station_b": "KBL",
+    "distance_km": 183.2,
+    "typical_duration_min": 131,
+    "traversals": 2
+  },
+  {
+    "station_a": "GTL",
+    "station_b": "KBL",
+    "distance_km": 183.1,
+    "typical_duration_min": 131,
+    "traversals": 2
+  },
+  {
+    "station_a": "GTL",
+    "station_b": "KRNT",
+    "distance_km": 183.1,
+    "typical_duration_min": 131,
+    "traversals": 2
+  },
+  {
+    "station_a": "KRNT",
+    "station_b": "MBNR",
+    "distance_km": 183.2,
+    "typical_duration_min": 141,
+    "traversals": 2
+  },
+  {
+    "station_a": "KCG",
+    "station_b": "MBNR",
+    "distance_km": 89.8,
+    "typical_duration_min": 76,
+    "traversals": 4
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "KCG",
+    "distance_km": 183.1,
+    "typical_duration_min": 237,
+    "traversals": 2
+  },
+  {
+    "station_a": "BPL",
+    "station_b": "NGP",
+    "distance_km": 120.2,
+    "typical_duration_min": 239,
+    "traversals": 13
+  },
+  {
+    "station_a": "GWL",
+    "station_b": "NZM",
+    "distance_km": 183.1,
+    "typical_duration_min": 228,
+    "traversals": 4
+  },
+  {
+    "station_a": "AJJ",
+    "station_b": "MAS",
+    "distance_km": 32.9,
+    "typical_duration_min": 81,
+    "traversals": 7
+  },
+  {
+    "station_a": "AJJ",
+    "station_b": "KPD",
+    "distance_km": 32.9,
+    "typical_duration_min": 61,
+    "traversals": 6
+  },
+  {
+    "station_a": "BWT",
+    "station_b": "JTJ",
+    "distance_km": 50.0,
+    "typical_duration_min": 102,
+    "traversals": 10
+  },
+  {
+    "station_a": "BNC",
+    "station_b": "BWT",
+    "distance_km": 30.1,
+    "typical_duration_min": 53,
+    "traversals": 9
+  },
+  {
+    "station_a": "BMT",
+    "station_b": "HYB",
+    "distance_km": 41.6,
+    "typical_duration_min": 44,
+    "traversals": 4
+  },
+  {
+    "station_a": "BMT",
+    "station_b": "LPI",
+    "distance_km": 41.6,
+    "typical_duration_min": 45,
+    "traversals": 4
+  },
+  {
+    "station_a": "LPI",
+    "station_b": "VKB",
+    "distance_km": 41.5,
+    "typical_duration_min": 31,
+    "traversals": 4
+  },
+  {
+    "station_a": "TDU",
+    "station_b": "VKB",
+    "distance_km": 41.6,
+    "typical_duration_min": 40,
+    "traversals": 4
+  },
+  {
+    "station_a": "SEM",
+    "station_b": "TDU",
+    "distance_km": 41.6,
+    "typical_duration_min": 36,
+    "traversals": 2
+  },
+  {
+    "station_a": "CT",
+    "station_b": "SEM",
+    "distance_km": 41.6,
+    "typical_duration_min": 36,
+    "traversals": 2
+  },
+  {
+    "station_a": "CT",
+    "station_b": "WADI",
+    "distance_km": 41.6,
+    "typical_duration_min": 36,
+    "traversals": 2
+  },
+  {
+    "station_a": "SDB",
+    "station_b": "WADI",
+    "distance_km": 56.4,
+    "typical_duration_min": 11,
+    "traversals": 1
+  },
+  {
+    "station_a": "GUR",
+    "station_b": "SDB",
+    "distance_km": 56.5,
+    "typical_duration_min": 53,
+    "traversals": 1
+  },
+  {
+    "station_a": "GUR",
+    "station_b": "SUR",
+    "distance_km": 56.4,
+    "typical_duration_min": 92,
+    "traversals": 1
+  },
+  {
+    "station_a": "KWV",
+    "station_b": "PUNE",
+    "distance_km": 56.4,
+    "typical_duration_min": 180,
+    "traversals": 1
+  },
+  {
+    "station_a": "KYN",
+    "station_b": "PUNE",
+    "distance_km": 56.5,
+    "typical_duration_min": 69,
+    "traversals": 6
+  },
+  {
+    "station_a": "DR",
+    "station_b": "KYN",
+    "distance_km": 41.6,
+    "typical_duration_min": 42,
+    "traversals": 9
+  },
+  {
+    "station_a": "IGP",
+    "station_b": "KYN",
+    "distance_km": 52.0,
+    "typical_duration_min": 67,
+    "traversals": 8
+  },
+  {
+    "station_a": "IGP",
+    "station_b": "NK",
+    "distance_km": 52.0,
+    "typical_duration_min": 61,
+    "traversals": 8
+  },
+  {
+    "station_a": "JL",
+    "station_b": "NK",
+    "distance_km": 78.7,
+    "typical_duration_min": 184,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "MKU",
+    "distance_km": 36.6,
+    "typical_duration_min": 54,
+    "traversals": 10
+  },
+  {
+    "station_a": "MKU",
+    "station_b": "SEG",
+    "distance_km": 52.0,
+    "typical_duration_min": 45,
+    "traversals": 5
+  },
+  {
+    "station_a": "AK",
+    "station_b": "SEG",
+    "distance_km": 36.6,
+    "typical_duration_min": 30,
+    "traversals": 10
+  },
+  {
+    "station_a": "AK",
+    "station_b": "BD",
+    "distance_km": 65.0,
+    "typical_duration_min": 81,
+    "traversals": 6
+  },
+  {
+    "station_a": "BD",
+    "station_b": "WR",
+    "distance_km": 65.0,
+    "typical_duration_min": 69,
+    "traversals": 4
+  },
+  {
+    "station_a": "NGP",
+    "station_b": "WR",
+    "distance_km": 36.6,
+    "typical_duration_min": 66,
+    "traversals": 7
+  },
+  {
+    "station_a": "BRD",
+    "station_b": "NGP",
+    "distance_km": 45.8,
+    "typical_duration_min": 55,
+    "traversals": 7
+  },
+  {
+    "station_a": "BRD",
+    "station_b": "G",
+    "distance_km": 78.8,
+    "typical_duration_min": 48,
+    "traversals": 2
+  },
+  {
+    "station_a": "G",
+    "station_b": "RJN",
+    "distance_km": 78.7,
+    "typical_duration_min": 79,
+    "traversals": 2
+  },
+  {
+    "station_a": "DURG",
+    "station_b": "RJN",
+    "distance_km": 36.7,
+    "typical_duration_min": 37,
+    "traversals": 9
+  },
+  {
+    "station_a": "DURG",
+    "station_b": "R",
+    "distance_km": 36.6,
+    "typical_duration_min": 48,
+    "traversals": 11
+  },
+  {
+    "station_a": "BSP",
+    "station_b": "R",
+    "distance_km": 78.7,
+    "typical_duration_min": 97,
+    "traversals": 8
+  },
+  {
+    "station_a": "BSP",
+    "station_b": "RIG",
+    "distance_km": 78.8,
+    "typical_duration_min": 105,
+    "traversals": 2
+  },
+  {
+    "station_a": "JSG",
+    "station_b": "RIG",
+    "distance_km": 78.7,
+    "typical_duration_min": 64,
+    "traversals": 2
+  },
+  {
+    "station_a": "JSG",
+    "station_b": "ROU",
+    "distance_km": 45.8,
+    "typical_duration_min": 80,
+    "traversals": 5
+  },
+  {
+    "station_a": "CKP",
+    "station_b": "ROU",
+    "distance_km": 36.6,
+    "typical_duration_min": 77,
+    "traversals": 9
+  },
+  {
+    "station_a": "CKP",
+    "station_b": "TATA",
+    "distance_km": 36.7,
+    "typical_duration_min": 63,
+    "traversals": 9
+  },
+  {
+    "station_a": "KGP",
+    "station_b": "TATA",
+    "distance_km": 36.6,
+    "typical_duration_min": 105,
+    "traversals": 9
+  },
+  {
+    "station_a": "KGP",
+    "station_b": "SRC",
+    "distance_km": 45.7,
+    "typical_duration_min": 91,
+    "traversals": 8
+  },
+  {
+    "station_a": "HWH",
+    "station_b": "SRC",
+    "distance_km": 27.9,
+    "typical_duration_min": 34,
+    "traversals": 10
+  },
+  {
+    "station_a": "SBC",
+    "station_b": "YPR",
+    "distance_km": 40.2,
+    "typical_duration_min": 53,
+    "traversals": 5
+  },
+  {
+    "station_a": "HAS",
+    "station_b": "YPR",
+    "distance_km": 40.1,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "HAS",
+    "station_b": "SKLR",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "SBHR",
+    "station_b": "SKLR",
+    "distance_km": 40.1,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "KBPR",
+    "station_b": "SBHR",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "BNTL",
+    "station_b": "KBPR",
+    "distance_km": 40.1,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "BNTL",
+    "station_b": "SL",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "MULK",
+    "station_b": "SL",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "MULK",
+    "station_b": "UD",
+    "distance_km": 40.1,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "BKJ",
+    "station_b": "UD",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "BKJ",
+    "station_b": "KUDA",
+    "distance_km": 40.1,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "BYNR",
+    "station_b": "KUDA",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "BTKL",
+    "station_b": "BYNR",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "BTKL",
+    "station_b": "MRDW",
+    "distance_km": 40.1,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "HNA",
+    "station_b": "MRDW",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "HNA",
+    "station_b": "KT",
+    "distance_km": 40.1,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "GOK",
+    "station_b": "KT",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "ANKL",
+    "station_b": "GOK",
+    "distance_km": 40.1,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "ANKL",
+    "station_b": "KAWR",
+    "distance_km": 40.2,
+    "typical_duration_min": 68,
+    "traversals": 1
+  },
+  {
+    "station_a": "KPD",
+    "station_b": "SA",
+    "distance_km": 129.6,
+    "typical_duration_min": 77,
+    "traversals": 1
+  },
+  {
+    "station_a": "KRR",
+    "station_b": "SA",
+    "distance_km": 129.6,
+    "typical_duration_min": 78,
+    "traversals": 1
+  },
+  {
+    "station_a": "DG",
+    "station_b": "KRR",
+    "distance_km": 129.6,
+    "typical_duration_min": 77,
+    "traversals": 1
+  },
+  {
+    "station_a": "DG",
+    "station_b": "MDU",
+    "distance_km": 129.6,
+    "typical_duration_min": 78,
+    "traversals": 1
+  },
+  {
+    "station_a": "MYS",
+    "station_b": "SBC",
+    "distance_km": 117.3,
+    "typical_duration_min": 114,
+    "traversals": 6
+  },
+  {
+    "station_a": "KPD",
+    "station_b": "SBC",
+    "distance_km": 125.0,
+    "typical_duration_min": 190,
+    "traversals": 6
+  },
+  {
+    "station_a": "SBC",
+    "station_b": "SSPN",
+    "distance_km": 157.7,
+    "typical_duration_min": 129,
+    "traversals": 3
+  },
+  {
+    "station_a": "GTL",
+    "station_b": "SSPN",
+    "distance_km": 157.6,
+    "typical_duration_min": 88,
+    "traversals": 2
+  },
+  {
+    "station_a": "GTL",
+    "station_b": "RC",
+    "distance_km": 132.9,
+    "typical_duration_min": 71,
+    "traversals": 4
+  },
+  {
+    "station_a": "SEM",
+    "station_b": "YG",
+    "distance_km": 157.6,
+    "typical_duration_min": 88,
+    "traversals": 2
+  },
+  {
+    "station_a": "SC",
+    "station_b": "SEM",
+    "distance_km": 157.7,
+    "typical_duration_min": 88,
+    "traversals": 2
+  },
+  {
+    "station_a": "KZJ",
+    "station_b": "SC",
+    "distance_km": 37.3,
+    "typical_duration_min": 135,
+    "traversals": 10
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "KZJ",
+    "distance_km": 89.8,
+    "typical_duration_min": 82,
+    "traversals": 7
+  },
+  {
+    "station_a": "DHNE",
+    "station_b": "SSPN",
+    "distance_km": 229.7,
+    "typical_duration_min": 225,
+    "traversals": 1
+  },
+  {
+    "station_a": "DHNE",
+    "station_b": "SC",
+    "distance_km": 229.7,
+    "typical_duration_min": 225,
+    "traversals": 1
+  },
+  {
+    "station_a": "AGC",
+    "station_b": "JHS",
+    "distance_km": 229.7,
+    "typical_duration_min": 225,
+    "traversals": 1
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "BZA",
+    "distance_km": 217.6,
+    "typical_duration_min": 340,
+    "traversals": 3
+  },
+  {
+    "station_a": "JHS",
+    "station_b": "NGP",
+    "distance_km": 362.3,
+    "typical_duration_min": 519,
+    "traversals": 4
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "WL",
+    "distance_km": 75.3,
+    "typical_duration_min": 184,
+    "traversals": 9
+  },
+  {
+    "station_a": "MAO",
+    "station_b": "THVM",
+    "distance_km": 85.0,
+    "typical_duration_min": 110,
+    "traversals": 6
+  },
+  {
+    "station_a": "KUDL",
+    "station_b": "THVM",
+    "distance_km": 209.4,
+    "typical_duration_min": 205,
+    "traversals": 2
+  },
+  {
+    "station_a": "KUDL",
+    "station_b": "RN",
+    "distance_km": 209.4,
+    "typical_duration_min": 205,
+    "traversals": 2
+  },
+  {
+    "station_a": "PNVL",
+    "station_b": "RN",
+    "distance_km": 209.4,
+    "typical_duration_min": 222,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSR",
+    "station_b": "PNVL",
+    "distance_km": 59.3,
+    "typical_duration_min": 98,
+    "traversals": 7
+  },
+  {
+    "station_a": "BSR",
+    "station_b": "ST",
+    "distance_km": 106.6,
+    "typical_duration_min": 127,
+    "traversals": 12
+  },
+  {
+    "station_a": "BRC",
+    "station_b": "ST",
+    "distance_km": 59.2,
+    "typical_duration_min": 183,
+    "traversals": 24
+  },
+  {
+    "station_a": "BRC",
+    "station_b": "RTM",
+    "distance_km": 106.6,
+    "typical_duration_min": 219,
+    "traversals": 17
+  },
+  {
+    "station_a": "KOTA",
+    "station_b": "RTM",
+    "distance_km": 119.3,
+    "typical_duration_min": 197,
+    "traversals": 13
+  },
+  {
+    "station_a": "KOTA",
+    "station_b": "NZM",
+    "distance_km": 209.4,
+    "typical_duration_min": 429,
+    "traversals": 8
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "NGP",
+    "distance_km": 287.9,
+    "typical_duration_min": 307,
+    "traversals": 2
+  },
+  {
+    "station_a": "NGP",
+    "station_b": "R",
+    "distance_km": 281.2,
+    "typical_duration_min": 201,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSP",
+    "station_b": "TATA",
+    "distance_km": 281.2,
+    "typical_duration_min": 361,
+    "traversals": 4
+  },
+  {
+    "station_a": "HWH",
+    "station_b": "TATA",
+    "distance_km": 281.1,
+    "typical_duration_min": 190,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "KYN",
+    "distance_km": 281.1,
+    "typical_duration_min": 219,
+    "traversals": 6
+  },
+  {
+    "station_a": "AK",
+    "station_b": "BSL",
+    "distance_km": 115.8,
+    "typical_duration_min": 122,
+    "traversals": 4
+  },
+  {
+    "station_a": "AK",
+    "station_b": "NGP",
+    "distance_km": 281.1,
+    "typical_duration_min": 184,
+    "traversals": 2
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "SC",
+    "distance_km": 415.0,
+    "typical_duration_min": 272,
+    "traversals": 2
+  },
+  {
+    "station_a": "KYN",
+    "station_b": "NK",
+    "distance_km": 55.3,
+    "typical_duration_min": 175,
+    "traversals": 5
+  },
+  {
+    "station_a": "ASN",
+    "station_b": "HWH",
+    "distance_km": 239.7,
+    "typical_duration_min": 289,
+    "traversals": 5
+  },
+  {
+    "station_a": "ASN",
+    "station_b": "JSME",
+    "distance_km": 306.2,
+    "typical_duration_min": 265,
+    "traversals": 2
+  },
+  {
+    "station_a": "JSME",
+    "station_b": "PNBE",
+    "distance_km": 255.2,
+    "typical_duration_min": 225,
+    "traversals": 4
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "PNBE",
+    "distance_km": 255.1,
+    "typical_duration_min": 411,
+    "traversals": 4
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "NDLS",
+    "distance_km": 110.0,
+    "typical_duration_min": 329,
+    "traversals": 14
+  },
+  {
+    "station_a": "BWN",
+    "station_b": "HWH",
+    "distance_km": 48.4,
+    "typical_duration_min": 73,
+    "traversals": 12
+  },
+  {
+    "station_a": "BWN",
+    "station_b": "MDP",
+    "distance_km": 255.1,
+    "typical_duration_min": 121,
+    "traversals": 2
+  },
+  {
+    "station_a": "JSME",
+    "station_b": "MDP",
+    "distance_km": 35.5,
+    "typical_duration_min": 26,
+    "traversals": 6
+  },
+  {
+    "station_a": "BSR",
+    "station_b": "PUNE",
+    "distance_km": 111.5,
+    "typical_duration_min": 106,
+    "traversals": 5
+  },
+  {
+    "station_a": "ASN",
+    "station_b": "DHN",
+    "distance_km": 48.4,
+    "typical_duration_min": 112,
+    "traversals": 11
+  },
+  {
+    "station_a": "DHN",
+    "station_b": "PNME",
+    "distance_km": 48.4,
+    "typical_duration_min": 71,
+    "traversals": 10
+  },
+  {
+    "station_a": "GAYA",
+    "station_b": "PNME",
+    "distance_km": 241.5,
+    "typical_duration_min": 113,
+    "traversals": 2
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "GAYA",
+    "distance_km": 241.5,
+    "typical_duration_min": 388,
+    "traversals": 3
+  },
+  {
+    "station_a": "BD",
+    "station_b": "BSL",
+    "distance_km": 418.5,
+    "typical_duration_min": 337,
+    "traversals": 2
+  },
+  {
+    "station_a": "BD",
+    "station_b": "NGP",
+    "distance_km": 115.8,
+    "typical_duration_min": 169,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "CNB",
+    "distance_km": 380.0,
+    "typical_duration_min": 647,
+    "traversals": 4
+  },
+  {
+    "station_a": "DR",
+    "station_b": "TNA",
+    "distance_km": 45.8,
+    "typical_duration_min": 62,
+    "traversals": 8
+  },
+  {
+    "station_a": "PNVL",
+    "station_b": "TNA",
+    "distance_km": 85.0,
+    "typical_duration_min": 69,
+    "traversals": 4
+  },
+  {
+    "station_a": "CHI",
+    "station_b": "PNVL",
+    "distance_km": 85.0,
+    "typical_duration_min": 175,
+    "traversals": 2
+  },
+  {
+    "station_a": "CHI",
+    "station_b": "RN",
+    "distance_km": 85.0,
+    "typical_duration_min": 62,
+    "traversals": 2
+  },
+  {
+    "station_a": "KKW",
+    "station_b": "RN",
+    "distance_km": 85.0,
+    "typical_duration_min": 93,
+    "traversals": 4
+  },
+  {
+    "station_a": "KKW",
+    "station_b": "KUDL",
+    "distance_km": 85.0,
+    "typical_duration_min": 21,
+    "traversals": 2
+  },
+  {
+    "station_a": "KUDL",
+    "station_b": "SWV",
+    "distance_km": 85.0,
+    "typical_duration_min": 8,
+    "traversals": 2
+  },
+  {
+    "station_a": "SWV",
+    "station_b": "THVM",
+    "distance_km": 85.0,
+    "typical_duration_min": 12,
+    "traversals": 2
+  },
+  {
+    "station_a": "KHED",
+    "station_b": "PNVL",
+    "distance_km": 109.3,
+    "typical_duration_min": 130,
+    "traversals": 2
+  },
+  {
+    "station_a": "KHED",
+    "station_b": "RN",
+    "distance_km": 109.2,
+    "typical_duration_min": 130,
+    "traversals": 2
+  },
+  {
+    "station_a": "KKW",
+    "station_b": "THVM",
+    "distance_km": 109.3,
+    "typical_duration_min": 130,
+    "traversals": 2
+  },
+  {
+    "station_a": "SC",
+    "station_b": "WL",
+    "distance_km": 116.5,
+    "typical_duration_min": 202,
+    "traversals": 4
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "EE",
+    "distance_km": 27.8,
+    "typical_duration_min": 82,
+    "traversals": 22
+  },
+  {
+    "station_a": "EE",
+    "station_b": "SLO",
+    "distance_km": 71.0,
+    "typical_duration_min": 104,
+    "traversals": 4
+  },
+  {
+    "station_a": "SLO",
+    "station_b": "VSKP",
+    "distance_km": 67.2,
+    "typical_duration_min": 155,
+    "traversals": 6
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "SLO",
+    "distance_km": 139.8,
+    "typical_duration_min": 186,
+    "traversals": 2
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "VSKP",
+    "distance_km": 221.0,
+    "typical_duration_min": 276,
+    "traversals": 2
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "GNT",
+    "distance_km": 66.3,
+    "typical_duration_min": 74,
+    "traversals": 7
+  },
+  {
+    "station_a": "GNT",
+    "station_b": "SC",
+    "distance_km": 66.3,
+    "typical_duration_min": 194,
+    "traversals": 3
+  },
+  {
+    "station_a": "LNL",
+    "station_b": "PUNE",
+    "distance_km": 41.5,
+    "typical_duration_min": 139,
+    "traversals": 8
+  },
+  {
+    "station_a": "BSR",
+    "station_b": "LNL",
+    "distance_km": 157.7,
+    "typical_duration_min": 178,
+    "traversals": 2
+  },
+  {
+    "station_a": "ADI",
+    "station_b": "ST",
+    "distance_km": 157.8,
+    "typical_duration_min": 178,
+    "traversals": 2
+  },
+  {
+    "station_a": "PUNE",
+    "station_b": "SUR",
+    "distance_km": 66.3,
+    "typical_duration_min": 99,
+    "traversals": 12
+  },
+  {
+    "station_a": "TDU",
+    "station_b": "WADI",
+    "distance_km": 85.4,
+    "typical_duration_min": 52,
+    "traversals": 2
+  },
+  {
+    "station_a": "NGP",
+    "station_b": "SEGM",
+    "distance_km": 64.5,
+    "typical_duration_min": 74,
+    "traversals": 10
+  },
+  {
+    "station_a": "CD",
+    "station_b": "SEGM",
+    "distance_km": 67.0,
+    "typical_duration_min": 113,
+    "traversals": 4
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "CD",
+    "distance_km": 42.8,
+    "typical_duration_min": 55,
+    "traversals": 16
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "MCI",
+    "distance_km": 42.9,
+    "typical_duration_min": 95,
+    "traversals": 14
+  },
+  {
+    "station_a": "KZJ",
+    "station_b": "MCI",
+    "distance_km": 67.0,
+    "typical_duration_min": 90,
+    "traversals": 6
+  },
+  {
+    "station_a": "DGR",
+    "station_b": "HWH",
+    "distance_km": 35.5,
+    "typical_duration_min": 82,
+    "traversals": 4
+  },
+  {
+    "station_a": "ASN",
+    "station_b": "DGR",
+    "distance_km": 35.4,
+    "typical_duration_min": 71,
+    "traversals": 14
+  },
+  {
+    "station_a": "ASN",
+    "station_b": "CRJ",
+    "distance_km": 35.5,
+    "typical_duration_min": 51,
+    "traversals": 4
+  },
+  {
+    "station_a": "CRJ",
+    "station_b": "JMT",
+    "distance_km": 35.5,
+    "typical_duration_min": 46,
+    "traversals": 4
+  },
+  {
+    "station_a": "JMT",
+    "station_b": "MDP",
+    "distance_km": 35.4,
+    "typical_duration_min": 27,
+    "traversals": 4
+  },
+  {
+    "station_a": "JAJ",
+    "station_b": "JSME",
+    "distance_km": 35.5,
+    "typical_duration_min": 40,
+    "traversals": 4
+  },
+  {
+    "station_a": "JAJ",
+    "station_b": "JMU",
+    "distance_km": 35.4,
+    "typical_duration_min": 33,
+    "traversals": 4
+  },
+  {
+    "station_a": "JMU",
+    "station_b": "LKR",
+    "distance_km": 35.5,
+    "typical_duration_min": 43,
+    "traversals": 2
+  },
+  {
+    "station_a": "HTZ",
+    "station_b": "LKR",
+    "distance_km": 35.5,
+    "typical_duration_min": 40,
+    "traversals": 2
+  },
+  {
+    "station_a": "HTZ",
+    "station_b": "MKA",
+    "distance_km": 35.4,
+    "typical_duration_min": 35,
+    "traversals": 2
+  },
+  {
+    "station_a": "BARH",
+    "station_b": "MKA",
+    "distance_km": 35.5,
+    "typical_duration_min": 26,
+    "traversals": 4
+  },
+  {
+    "station_a": "BARH",
+    "station_b": "BKP",
+    "distance_km": 35.5,
+    "typical_duration_min": 18,
+    "traversals": 4
+  },
+  {
+    "station_a": "BKP",
+    "station_b": "PNC",
+    "distance_km": 35.4,
+    "typical_duration_min": 64,
+    "traversals": 4
+  },
+  {
+    "station_a": "PNBE",
+    "station_b": "PNC",
+    "distance_km": 35.5,
+    "typical_duration_min": 62,
+    "traversals": 4
+  },
+  {
+    "station_a": "ASN",
+    "station_b": "JMT",
+    "distance_km": 59.1,
+    "typical_duration_min": 85,
+    "traversals": 2
+  },
+  {
+    "station_a": "JMT",
+    "station_b": "JSME",
+    "distance_km": 59.1,
+    "typical_duration_min": 85,
+    "traversals": 2
+  },
+  {
+    "station_a": "JSME",
+    "station_b": "LKR",
+    "distance_km": 59.2,
+    "typical_duration_min": 85,
+    "traversals": 2
+  },
+  {
+    "station_a": "LKR",
+    "station_b": "MKA",
+    "distance_km": 59.1,
+    "typical_duration_min": 85,
+    "traversals": 2
+  },
+  {
+    "station_a": "BKP",
+    "station_b": "MKA",
+    "distance_km": 59.1,
+    "typical_duration_min": 85,
+    "traversals": 2
+  },
+  {
+    "station_a": "MYA",
+    "station_b": "MYS",
+    "distance_km": 46.3,
+    "typical_duration_min": 78,
+    "traversals": 12
+  },
+  {
+    "station_a": "MYA",
+    "station_b": "SBC",
+    "distance_km": 67.1,
+    "typical_duration_min": 124,
+    "traversals": 4
+  },
+  {
+    "station_a": "BVI",
+    "station_b": "VAPI",
+    "distance_km": 54.6,
+    "typical_duration_min": 102,
+    "traversals": 10
+  },
+  {
+    "station_a": "ST",
+    "station_b": "VAPI",
+    "distance_km": 59.2,
+    "typical_duration_min": 143,
+    "traversals": 15
+  },
+  {
+    "station_a": "BH",
+    "station_b": "ST",
+    "distance_km": 36.6,
+    "typical_duration_min": 58,
+    "traversals": 10
+  },
+  {
+    "station_a": "BH",
+    "station_b": "BRC",
+    "distance_km": 36.7,
+    "typical_duration_min": 62,
+    "traversals": 10
+  },
+  {
+    "station_a": "ANND",
+    "station_b": "BRC",
+    "distance_km": 21.3,
+    "typical_duration_min": 85,
+    "traversals": 26
+  },
+  {
+    "station_a": "ANND",
+    "station_b": "ND",
+    "distance_km": 21.3,
+    "typical_duration_min": 89,
+    "traversals": 24
+  },
+  {
+    "station_a": "ADI",
+    "station_b": "ND",
+    "distance_km": 39.7,
+    "typical_duration_min": 91,
+    "traversals": 21
+  },
+  {
+    "station_a": "ADI",
+    "station_b": "BRC",
+    "distance_km": 122.8,
+    "typical_duration_min": 210,
+    "traversals": 2
+  },
+  {
+    "station_a": "KOTA",
+    "station_b": "KPTN",
+    "distance_km": 50.9,
+    "typical_duration_min": 48,
+    "traversals": 2
+  },
+  {
+    "station_a": "KPTN",
+    "station_b": "SWM",
+    "distance_km": 50.9,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "GGC",
+    "station_b": "SWM",
+    "distance_km": 50.9,
+    "typical_duration_min": 88,
+    "traversals": 4
+  },
+  {
+    "station_a": "GGC",
+    "station_b": "HAN",
+    "distance_km": 50.9,
+    "typical_duration_min": 87,
+    "traversals": 4
+  },
+  {
+    "station_a": "BXN",
+    "station_b": "HAN",
+    "distance_km": 50.8,
+    "typical_duration_min": 83,
+    "traversals": 4
+  },
+  {
+    "station_a": "BTE",
+    "station_b": "BXN",
+    "distance_km": 50.9,
+    "typical_duration_min": 27,
+    "traversals": 2
+  },
+  {
+    "station_a": "BTE",
+    "station_b": "MTJ",
+    "distance_km": 50.9,
+    "typical_duration_min": 39,
+    "traversals": 2
+  },
+  {
+    "station_a": "BVH",
+    "station_b": "MTJ",
+    "distance_km": 44.1,
+    "typical_duration_min": 94,
+    "traversals": 4
+  },
+  {
+    "station_a": "BVH",
+    "station_b": "NZM",
+    "distance_km": 50.9,
+    "typical_duration_min": 23,
+    "traversals": 3
+  },
+  {
+    "station_a": "MAS",
+    "station_b": "SPE",
+    "distance_km": 35.9,
+    "typical_duration_min": 62,
+    "traversals": 8
+  },
+  {
+    "station_a": "GDR",
+    "station_b": "SPE",
+    "distance_km": 35.9,
+    "typical_duration_min": 54,
+    "traversals": 8
+  },
+  {
+    "station_a": "GDR",
+    "station_b": "NLR",
+    "distance_km": 36.0,
+    "typical_duration_min": 52,
+    "traversals": 16
+  },
+  {
+    "station_a": "KVZ",
+    "station_b": "NLR",
+    "distance_km": 43.9,
+    "typical_duration_min": 46,
+    "traversals": 4
+  },
+  {
+    "station_a": "KVZ",
+    "station_b": "OGL",
+    "distance_km": 44.0,
+    "typical_duration_min": 53,
+    "traversals": 4
+  },
+  {
+    "station_a": "CLX",
+    "station_b": "OGL",
+    "distance_km": 35.9,
+    "typical_duration_min": 54,
+    "traversals": 10
+  },
+  {
+    "station_a": "CLX",
+    "station_b": "TEL",
+    "distance_km": 50.4,
+    "typical_duration_min": 68,
+    "traversals": 4
+  },
+  {
+    "station_a": "NGNT",
+    "station_b": "TEL",
+    "distance_km": 50.5,
+    "typical_duration_min": 86,
+    "traversals": 2
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "NGNT",
+    "distance_km": 50.4,
+    "typical_duration_min": 86,
+    "traversals": 2
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "ETW",
+    "distance_km": 69.6,
+    "typical_duration_min": 105,
+    "traversals": 6
+  },
+  {
+    "station_a": "ALJN",
+    "station_b": "ETW",
+    "distance_km": 109.3,
+    "typical_duration_min": 86,
+    "traversals": 2
+  },
+  {
+    "station_a": "ALJN",
+    "station_b": "GZB",
+    "distance_km": 109.3,
+    "typical_duration_min": 54,
+    "traversals": 2
+  },
+  {
+    "station_a": "HLN",
+    "station_b": "MYS",
+    "distance_km": 93.3,
+    "typical_duration_min": 86,
+    "traversals": 2
+  },
+  {
+    "station_a": "HAS",
+    "station_b": "HLN",
+    "distance_km": 93.3,
+    "typical_duration_min": 25,
+    "traversals": 2
+  },
+  {
+    "station_a": "ASK",
+    "station_b": "HAS",
+    "distance_km": 93.3,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "ASK",
+    "station_b": "RRB",
+    "distance_km": 93.2,
+    "typical_duration_min": 80,
+    "traversals": 6
+  },
+  {
+    "station_a": "DVG",
+    "station_b": "RRB",
+    "distance_km": 93.3,
+    "typical_duration_min": 107,
+    "traversals": 2
+  },
+  {
+    "station_a": "DVG",
+    "station_b": "HRR",
+    "distance_km": 93.3,
+    "typical_duration_min": 14,
+    "traversals": 2
+  },
+  {
+    "station_a": "HRR",
+    "station_b": "RNR",
+    "distance_km": 93.3,
+    "typical_duration_min": 21,
+    "traversals": 2
+  },
+  {
+    "station_a": "DWR",
+    "station_b": "RNR",
+    "distance_km": 93.3,
+    "typical_duration_min": 161,
+    "traversals": 2
+  },
+  {
+    "station_a": "MRJ",
+    "station_b": "SLI",
+    "distance_km": 93.2,
+    "typical_duration_min": 24,
+    "traversals": 2
+  },
+  {
+    "station_a": "KRD",
+    "station_b": "SLI",
+    "distance_km": 93.3,
+    "typical_duration_min": 65,
+    "traversals": 2
+  },
+  {
+    "station_a": "KRD",
+    "station_b": "STR",
+    "distance_km": 93.3,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "PUNE",
+    "station_b": "STR",
+    "distance_km": 93.3,
+    "typical_duration_min": 178,
+    "traversals": 2
+  },
+  {
+    "station_a": "ANG",
+    "station_b": "PUNE",
+    "distance_km": 52.0,
+    "typical_duration_min": 194,
+    "traversals": 5
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "KNW",
+    "distance_km": 90.2,
+    "typical_duration_min": 103,
+    "traversals": 8
+  },
+  {
+    "station_a": "JP",
+    "station_b": "KSG",
+    "distance_km": 106.6,
+    "typical_duration_min": 83,
+    "traversals": 4
+  },
+  {
+    "station_a": "AII",
+    "station_b": "KSG",
+    "distance_km": 61.1,
+    "typical_duration_min": 68,
+    "traversals": 8
+  },
+  {
+    "station_a": "AII",
+    "station_b": "BHL",
+    "distance_km": 68.1,
+    "typical_duration_min": 74,
+    "traversals": 5
+  },
+  {
+    "station_a": "BHL",
+    "station_b": "COR",
+    "distance_km": 68.2,
+    "typical_duration_min": 70,
+    "traversals": 7
+  },
+  {
+    "station_a": "COR",
+    "station_b": "NMH",
+    "distance_km": 68.1,
+    "typical_duration_min": 74,
+    "traversals": 5
+  },
+  {
+    "station_a": "MDS",
+    "station_b": "NMH",
+    "distance_km": 68.1,
+    "typical_duration_min": 70,
+    "traversals": 7
+  },
+  {
+    "station_a": "MDS",
+    "station_b": "RTM",
+    "distance_km": 68.1,
+    "typical_duration_min": 71,
+    "traversals": 7
+  },
+  {
+    "station_a": "BSR",
+    "station_b": "KYN",
+    "distance_km": 63.5,
+    "typical_duration_min": 136,
+    "traversals": 7
+  },
+  {
+    "station_a": "SUR",
+    "station_b": "YG",
+    "distance_km": 106.6,
+    "typical_duration_min": 83,
+    "traversals": 4
+  },
+  {
+    "station_a": "GTL",
+    "station_b": "MALM",
+    "distance_km": 106.6,
+    "typical_duration_min": 83,
+    "traversals": 4
+  },
+  {
+    "station_a": "CTA",
+    "station_b": "GTL",
+    "distance_km": 90.2,
+    "typical_duration_min": 75,
+    "traversals": 8
+  },
+  {
+    "station_a": "CTA",
+    "station_b": "JRU",
+    "distance_km": 106.6,
+    "typical_duration_min": 83,
+    "traversals": 4
+  },
+  {
+    "station_a": "JRU",
+    "station_b": "RRB",
+    "distance_km": 106.6,
+    "typical_duration_min": 83,
+    "traversals": 4
+  },
+  {
+    "station_a": "LKO",
+    "station_b": "RBL",
+    "distance_km": 89.8,
+    "typical_duration_min": 78,
+    "traversals": 4
+  },
+  {
+    "station_a": "AME",
+    "station_b": "RBL",
+    "distance_km": 89.8,
+    "typical_duration_min": 50,
+    "traversals": 4
+  },
+  {
+    "station_a": "AME",
+    "station_b": "MKP",
+    "distance_km": 89.8,
+    "typical_duration_min": 132,
+    "traversals": 4
+  },
+  {
+    "station_a": "MKP",
+    "station_b": "STA",
+    "distance_km": 52.0,
+    "typical_duration_min": 98,
+    "traversals": 13
+  },
+  {
+    "station_a": "KTE",
+    "station_b": "STA",
+    "distance_km": 89.8,
+    "typical_duration_min": 115,
+    "traversals": 5
+  },
+  {
+    "station_a": "JBP",
+    "station_b": "KTE",
+    "distance_km": 52.0,
+    "typical_duration_min": 89,
+    "traversals": 13
+  },
+  {
+    "station_a": "JBP",
+    "station_b": "NU",
+    "distance_km": 89.9,
+    "typical_duration_min": 47,
+    "traversals": 6
+  },
+  {
+    "station_a": "NU",
+    "station_b": "PPI",
+    "distance_km": 52.0,
+    "typical_duration_min": 58,
+    "traversals": 8
+  },
+  {
+    "station_a": "ET",
+    "station_b": "PPI",
+    "distance_km": 51.9,
+    "typical_duration_min": 91,
+    "traversals": 13
+  },
+  {
+    "station_a": "BZU",
+    "station_b": "ET",
+    "distance_km": 50.5,
+    "typical_duration_min": 101,
+    "traversals": 11
+  },
+  {
+    "station_a": "BZU",
+    "station_b": "NGP",
+    "distance_km": 89.8,
+    "typical_duration_min": 90,
+    "traversals": 4
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "SEGM",
+    "distance_km": 89.8,
+    "typical_duration_min": 65,
+    "traversals": 2
+  },
+  {
+    "station_a": "KZJ",
+    "station_b": "MJF",
+    "distance_km": 89.8,
+    "typical_duration_min": 65,
+    "traversals": 2
+  },
+  {
+    "station_a": "KCG",
+    "station_b": "MJF",
+    "distance_km": 89.8,
+    "typical_duration_min": 65,
+    "traversals": 2
+  },
+  {
+    "station_a": "GWD",
+    "station_b": "MBNR",
+    "distance_km": 67.0,
+    "typical_duration_min": 53,
+    "traversals": 4
+  },
+  {
+    "station_a": "GWD",
+    "station_b": "KRNT",
+    "distance_km": 67.1,
+    "typical_duration_min": 57,
+    "traversals": 4
+  },
+  {
+    "station_a": "DHNE",
+    "station_b": "KRNT",
+    "distance_km": 67.0,
+    "typical_duration_min": 58,
+    "traversals": 4
+  },
+  {
+    "station_a": "DHNE",
+    "station_b": "GY",
+    "distance_km": 87.0,
+    "typical_duration_min": 65,
+    "traversals": 4
+  },
+  {
+    "station_a": "ATP",
+    "station_b": "GY",
+    "distance_km": 87.1,
+    "typical_duration_min": 65,
+    "traversals": 4
+  },
+  {
+    "station_a": "DMM",
+    "station_b": "HUP",
+    "distance_km": 67.0,
+    "typical_duration_min": 97,
+    "traversals": 8
+  },
+  {
+    "station_a": "YNK",
+    "station_b": "YPR",
+    "distance_km": 87.0,
+    "typical_duration_min": 65,
+    "traversals": 4
+  },
+  {
+    "station_a": "GDR",
+    "station_b": "MAS",
+    "distance_km": 51.9,
+    "typical_duration_min": 107,
+    "traversals": 10
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "NLR",
+    "distance_km": 75.2,
+    "typical_duration_min": 204,
+    "traversals": 2
+  },
+  {
+    "station_a": "MCI",
+    "station_b": "WL",
+    "distance_km": 64.4,
+    "typical_duration_min": 96,
+    "traversals": 4
+  },
+  {
+    "station_a": "CD",
+    "station_b": "HGT",
+    "distance_km": 64.4,
+    "typical_duration_min": 72,
+    "traversals": 4
+  },
+  {
+    "station_a": "HGT",
+    "station_b": "SEGM",
+    "distance_km": 42.9,
+    "typical_duration_min": 44,
+    "traversals": 6
+  },
+  {
+    "station_a": "NGP",
+    "station_b": "PAR",
+    "distance_km": 42.8,
+    "typical_duration_min": 96,
+    "traversals": 6
+  },
+  {
+    "station_a": "BZU",
+    "station_b": "PAR",
+    "distance_km": 67.1,
+    "typical_duration_min": 80,
+    "traversals": 4
+  },
+  {
+    "station_a": "BPL",
+    "station_b": "SEH",
+    "distance_km": 61.2,
+    "typical_duration_min": 34,
+    "traversals": 5
+  },
+  {
+    "station_a": "SEH",
+    "station_b": "SJP",
+    "distance_km": 61.2,
+    "typical_duration_min": 77,
+    "traversals": 7
+  },
+  {
+    "station_a": "BCH",
+    "station_b": "SJP",
+    "distance_km": 61.1,
+    "typical_duration_min": 77,
+    "traversals": 7
+  },
+  {
+    "station_a": "BCH",
+    "station_b": "UJN",
+    "distance_km": 61.2,
+    "typical_duration_min": 79,
+    "traversals": 7
+  },
+  {
+    "station_a": "NAD",
+    "station_b": "UJN",
+    "distance_km": 61.2,
+    "typical_duration_min": 82,
+    "traversals": 8
+  },
+  {
+    "station_a": "NAD",
+    "station_b": "VMA",
+    "distance_km": 64.4,
+    "typical_duration_min": 31,
+    "traversals": 6
+  },
+  {
+    "station_a": "CMU",
+    "station_b": "VMA",
+    "distance_km": 64.4,
+    "typical_duration_min": 23,
+    "traversals": 6
+  },
+  {
+    "station_a": "CMU",
+    "station_b": "SGZ",
+    "distance_km": 67.0,
+    "typical_duration_min": 18,
+    "traversals": 4
+  },
+  {
+    "station_a": "BWM",
+    "station_b": "SGZ",
+    "distance_km": 64.4,
+    "typical_duration_min": 25,
+    "traversals": 6
+  },
+  {
+    "station_a": "BWM",
+    "station_b": "RMA",
+    "distance_km": 64.3,
+    "typical_duration_min": 24,
+    "traversals": 6
+  },
+  {
+    "station_a": "KOTA",
+    "station_b": "RMA",
+    "distance_km": 61.2,
+    "typical_duration_min": 45,
+    "traversals": 7
+  },
+  {
+    "station_a": "KOTA",
+    "station_b": "SWM",
+    "distance_km": 64.4,
+    "typical_duration_min": 106,
+    "traversals": 10
+  },
+  {
+    "station_a": "DPA",
+    "station_b": "SWM",
+    "distance_km": 64.4,
+    "typical_duration_min": 93,
+    "traversals": 6
+  },
+  {
+    "station_a": "DPA",
+    "station_b": "JP",
+    "distance_km": 64.4,
+    "typical_duration_min": 15,
+    "traversals": 6
+  },
+  {
+    "station_a": "KATL",
+    "station_b": "PAR",
+    "distance_km": 75.2,
+    "typical_duration_min": 34,
+    "traversals": 1
+  },
+  {
+    "station_a": "KATL",
+    "station_b": "NGP",
+    "distance_km": 75.3,
+    "typical_duration_min": 64,
+    "traversals": 1
+  },
+  {
+    "station_a": "BWN",
+    "station_b": "PAN",
+    "distance_km": 54.0,
+    "typical_duration_min": 44,
+    "traversals": 2
+  },
+  {
+    "station_a": "DGR",
+    "station_b": "PAN",
+    "distance_km": 53.9,
+    "typical_duration_min": 12,
+    "traversals": 2
+  },
+  {
+    "station_a": "DGR",
+    "station_b": "RNG",
+    "distance_km": 54.0,
+    "typical_duration_min": 18,
+    "traversals": 2
+  },
+  {
+    "station_a": "ASN",
+    "station_b": "RNG",
+    "distance_km": 54.0,
+    "typical_duration_min": 20,
+    "traversals": 2
+  },
+  {
+    "station_a": "ASN",
+    "station_b": "BRR",
+    "distance_km": 54.0,
+    "typical_duration_min": 18,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRR",
+    "station_b": "DHN",
+    "distance_km": 53.9,
+    "typical_duration_min": 42,
+    "traversals": 2
+  },
+  {
+    "station_a": "PNME",
+    "station_b": "PSB",
+    "distance_km": 54.0,
+    "typical_duration_min": 23,
+    "traversals": 2
+  },
+  {
+    "station_a": "KQR",
+    "station_b": "PSB",
+    "distance_km": 54.0,
+    "typical_duration_min": 14,
+    "traversals": 2
+  },
+  {
+    "station_a": "GAYA",
+    "station_b": "KQR",
+    "distance_km": 48.4,
+    "typical_duration_min": 74,
+    "traversals": 8
+  },
+  {
+    "station_a": "DOS",
+    "station_b": "GAYA",
+    "distance_km": 48.3,
+    "typical_duration_min": 71,
+    "traversals": 6
+  },
+  {
+    "station_a": "DOS",
+    "station_b": "SSM",
+    "distance_km": 48.4,
+    "typical_duration_min": 69,
+    "traversals": 8
+  },
+  {
+    "station_a": "BBU",
+    "station_b": "SSM",
+    "distance_km": 48.4,
+    "typical_duration_min": 59,
+    "traversals": 8
+  },
+  {
+    "station_a": "BBU",
+    "station_b": "CAR",
+    "distance_km": 48.4,
+    "typical_duration_min": 77,
+    "traversals": 4
+  },
+  {
+    "station_a": "CAR",
+    "station_b": "MZP",
+    "distance_km": 48.4,
+    "typical_duration_min": 57,
+    "traversals": 6
+  },
+  {
+    "station_a": "BDL",
+    "station_b": "MZP",
+    "distance_km": 48.3,
+    "typical_duration_min": 54,
+    "traversals": 6
+  },
+  {
+    "station_a": "BDL",
+    "station_b": "SRJ",
+    "distance_km": 53.9,
+    "typical_duration_min": 176,
+    "traversals": 2
+  },
+  {
+    "station_a": "MKP",
+    "station_b": "SRJ",
+    "distance_km": 54.0,
+    "typical_duration_min": 113,
+    "traversals": 5
+  },
+  {
+    "station_a": "MYR",
+    "station_b": "STA",
+    "distance_km": 52.0,
+    "typical_duration_min": 35,
+    "traversals": 8
+  },
+  {
+    "station_a": "KTE",
+    "station_b": "MYR",
+    "distance_km": 51.9,
+    "typical_duration_min": 52,
+    "traversals": 8
+  },
+  {
+    "station_a": "JBP",
+    "station_b": "SRID",
+    "distance_km": 53.8,
+    "typical_duration_min": 49,
+    "traversals": 3
+  },
+  {
+    "station_a": "NU",
+    "station_b": "SRID",
+    "distance_km": 52.0,
+    "typical_duration_min": 18,
+    "traversals": 4
+  },
+  {
+    "station_a": "KY",
+    "station_b": "NU",
+    "distance_km": 54.0,
+    "typical_duration_min": 16,
+    "traversals": 2
+  },
+  {
+    "station_a": "GAR",
+    "station_b": "KY",
+    "distance_km": 53.9,
+    "typical_duration_min": 19,
+    "traversals": 2
+  },
+  {
+    "station_a": "GAR",
+    "station_b": "PPI",
+    "distance_km": 54.0,
+    "typical_duration_min": 32,
+    "traversals": 2
+  },
+  {
+    "station_a": "ET",
+    "station_b": "HD",
+    "distance_km": 53.9,
+    "typical_duration_min": 64,
+    "traversals": 2
+  },
+  {
+    "station_a": "HD",
+    "station_b": "KNW",
+    "distance_km": 54.0,
+    "typical_duration_min": 81,
+    "traversals": 2
+  },
+  {
+    "station_a": "CSN",
+    "station_b": "JL",
+    "distance_km": 45.8,
+    "typical_duration_min": 63,
+    "traversals": 4
+  },
+  {
+    "station_a": "CSN",
+    "station_b": "MMR",
+    "distance_km": 45.7,
+    "typical_duration_min": 75,
+    "traversals": 4
+  },
+  {
+    "station_a": "MMR",
+    "station_b": "NK",
+    "distance_km": 45.8,
+    "typical_duration_min": 68,
+    "traversals": 5
+  },
+  {
+    "station_a": "KSRA",
+    "station_b": "KYN",
+    "distance_km": 45.8,
+    "typical_duration_min": 64,
+    "traversals": 2
+  },
+  {
+    "station_a": "KSRA",
+    "station_b": "NK",
+    "distance_km": 53.9,
+    "typical_duration_min": 108,
+    "traversals": 1
+  },
+  {
+    "station_a": "DVD",
+    "station_b": "VSKP",
+    "distance_km": 27.9,
+    "typical_duration_min": 46,
+    "traversals": 14
+  },
+  {
+    "station_a": "DVD",
+    "station_b": "SLO",
+    "distance_km": 123.1,
+    "typical_duration_min": 125,
+    "traversals": 2
+  },
+  {
+    "station_a": "SLO",
+    "station_b": "TDD",
+    "distance_km": 60.0,
+    "typical_duration_min": 71,
+    "traversals": 9
+  },
+  {
+    "station_a": "EE",
+    "station_b": "TDD",
+    "distance_km": 27.9,
+    "typical_duration_min": 32,
+    "traversals": 18
+  },
+  {
+    "station_a": "KYN",
+    "station_b": "TNA",
+    "distance_km": 45.7,
+    "typical_duration_min": 58,
+    "traversals": 4
+  },
+  {
+    "station_a": "IGP",
+    "station_b": "KSRA",
+    "distance_km": 45.8,
+    "typical_duration_min": 36,
+    "traversals": 1
+  },
+  {
+    "station_a": "DVL",
+    "station_b": "IGP",
+    "distance_km": 45.7,
+    "typical_duration_min": 43,
+    "traversals": 1
+  },
+  {
+    "station_a": "DVL",
+    "station_b": "NK",
+    "distance_km": 45.8,
+    "typical_duration_min": 13,
+    "traversals": 1
+  },
+  {
+    "station_a": "MKU",
+    "station_b": "NN",
+    "distance_km": 36.6,
+    "typical_duration_min": 18,
+    "traversals": 5
+  },
+  {
+    "station_a": "JM",
+    "station_b": "NN",
+    "distance_km": 45.8,
+    "typical_duration_min": 8,
+    "traversals": 1
+  },
+  {
+    "station_a": "JM",
+    "station_b": "SEG",
+    "distance_km": 45.7,
+    "typical_duration_min": 8,
+    "traversals": 1
+  },
+  {
+    "station_a": "AK",
+    "station_b": "MZR",
+    "distance_km": 36.6,
+    "typical_duration_min": 27,
+    "traversals": 6
+  },
+  {
+    "station_a": "BD",
+    "station_b": "MZR",
+    "distance_km": 36.7,
+    "typical_duration_min": 46,
+    "traversals": 6
+  },
+  {
+    "station_a": "BD",
+    "station_b": "DMN",
+    "distance_km": 44.0,
+    "typical_duration_min": 31,
+    "traversals": 4
+  },
+  {
+    "station_a": "DMN",
+    "station_b": "PLO",
+    "distance_km": 43.9,
+    "typical_duration_min": 22,
+    "traversals": 4
+  },
+  {
+    "station_a": "PLO",
+    "station_b": "WR",
+    "distance_km": 44.0,
+    "typical_duration_min": 15,
+    "traversals": 4
+  },
+  {
+    "station_a": "BRD",
+    "station_b": "TMR",
+    "distance_km": 36.7,
+    "typical_duration_min": 20,
+    "traversals": 7
+  },
+  {
+    "station_a": "G",
+    "station_b": "TMR",
+    "distance_km": 45.7,
+    "typical_duration_min": 38,
+    "traversals": 5
+  },
+  {
+    "station_a": "DGG",
+    "station_b": "G",
+    "distance_km": 45.8,
+    "typical_duration_min": 55,
+    "traversals": 5
+  },
+  {
+    "station_a": "DGG",
+    "station_b": "RJN",
+    "distance_km": 36.6,
+    "typical_duration_min": 28,
+    "traversals": 7
+  },
+  {
+    "station_a": "BYT",
+    "station_b": "R",
+    "distance_km": 36.6,
+    "typical_duration_min": 54,
+    "traversals": 5
+  },
+  {
+    "station_a": "BSP",
+    "station_b": "BYT",
+    "distance_km": 36.7,
+    "typical_duration_min": 53,
+    "traversals": 5
+  },
+  {
+    "station_a": "BSP",
+    "station_b": "CPH",
+    "distance_km": 45.8,
+    "typical_duration_min": 71,
+    "traversals": 3
+  },
+  {
+    "station_a": "CPH",
+    "station_b": "SKT",
+    "distance_km": 45.8,
+    "typical_duration_min": 19,
+    "traversals": 1
+  },
+  {
+    "station_a": "KHS",
+    "station_b": "SKT",
+    "distance_km": 45.7,
+    "typical_duration_min": 10,
+    "traversals": 1
+  },
+  {
+    "station_a": "KHS",
+    "station_b": "RIG",
+    "distance_km": 36.6,
+    "typical_duration_min": 20,
+    "traversals": 3
+  },
+  {
+    "station_a": "BPH",
+    "station_b": "RIG",
+    "distance_km": 36.7,
+    "typical_duration_min": 36,
+    "traversals": 3
+  },
+  {
+    "station_a": "BPH",
+    "station_b": "BRJN",
+    "distance_km": 36.6,
+    "typical_duration_min": 19,
+    "traversals": 3
+  },
+  {
+    "station_a": "BRJN",
+    "station_b": "JSG",
+    "distance_km": 36.6,
+    "typical_duration_min": 35,
+    "traversals": 5
+  },
+  {
+    "station_a": "HWH",
+    "station_b": "KGP",
+    "distance_km": 53.6,
+    "typical_duration_min": 100,
+    "traversals": 9
+  },
+  {
+    "station_a": "BSP",
+    "station_b": "JSG",
+    "distance_km": 115.8,
+    "typical_duration_min": 172,
+    "traversals": 2
+  },
+  {
+    "station_a": "DURG",
+    "station_b": "G",
+    "distance_km": 115.7,
+    "typical_duration_min": 113,
+    "traversals": 2
+  },
+  {
+    "station_a": "G",
+    "station_b": "NGP",
+    "distance_km": 115.8,
+    "typical_duration_min": 118,
+    "traversals": 2
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "NK",
+    "distance_km": 115.8,
+    "typical_duration_min": 86,
+    "traversals": 6
+  },
+  {
+    "station_a": "BLS",
+    "station_b": "KGP",
+    "distance_km": 51.9,
+    "typical_duration_min": 90,
+    "traversals": 10
+  },
+  {
+    "station_a": "BBS",
+    "station_b": "BLS",
+    "distance_km": 91.2,
+    "typical_duration_min": 105,
+    "traversals": 3
+  },
+  {
+    "station_a": "BBS",
+    "station_b": "KUR",
+    "distance_km": 27.9,
+    "typical_duration_min": 33,
+    "traversals": 12
+  },
+  {
+    "station_a": "BAM",
+    "station_b": "KUR",
+    "distance_km": 87.1,
+    "typical_duration_min": 121,
+    "traversals": 6
+  },
+  {
+    "station_a": "BAM",
+    "station_b": "VZM",
+    "distance_km": 87.0,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "DVD",
+    "station_b": "VZM",
+    "distance_km": 87.1,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "DVD",
+    "distance_km": 87.0,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "GNT",
+    "station_b": "NRT",
+    "distance_km": 87.0,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "MRK",
+    "station_b": "NRT",
+    "distance_km": 87.0,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "GID",
+    "station_b": "MRK",
+    "distance_km": 87.1,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "GID",
+    "station_b": "NDL",
+    "distance_km": 87.0,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "DHNE",
+    "station_b": "NDL",
+    "distance_km": 87.1,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "HUP",
+    "station_b": "SSPN",
+    "distance_km": 87.0,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "BBS",
+    "station_b": "CTC",
+    "distance_km": 51.9,
+    "typical_duration_min": 44,
+    "traversals": 9
+  },
+  {
+    "station_a": "BLS",
+    "station_b": "CTC",
+    "distance_km": 52.0,
+    "typical_duration_min": 148,
+    "traversals": 9
+  },
+  {
+    "station_a": "BPP",
+    "station_b": "CLX",
+    "distance_km": 35.9,
+    "typical_duration_min": 40,
+    "traversals": 6
+  },
+  {
+    "station_a": "BPP",
+    "station_b": "TEL",
+    "distance_km": 43.9,
+    "typical_duration_min": 28,
+    "traversals": 4
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "TEL",
+    "distance_km": 35.9,
+    "typical_duration_min": 50,
+    "traversals": 10
+  },
+  {
+    "station_a": "KMT",
+    "station_b": "MABD",
+    "distance_km": 27.9,
+    "typical_duration_min": 44,
+    "traversals": 5
+  },
+  {
+    "station_a": "MABD",
+    "station_b": "WL",
+    "distance_km": 27.9,
+    "typical_duration_min": 49,
+    "traversals": 5
+  },
+  {
+    "station_a": "PDPL",
+    "station_b": "WL",
+    "distance_km": 44.0,
+    "typical_duration_min": 44,
+    "traversals": 4
+  },
+  {
+    "station_a": "MCI",
+    "station_b": "PDPL",
+    "distance_km": 42.8,
+    "typical_duration_min": 26,
+    "traversals": 3
+  },
+  {
+    "station_a": "CD",
+    "station_b": "WRR",
+    "distance_km": 43.9,
+    "typical_duration_min": 33,
+    "traversals": 2
+  },
+  {
+    "station_a": "HGT",
+    "station_b": "WRR",
+    "distance_km": 42.8,
+    "typical_duration_min": 29,
+    "traversals": 4
+  },
+  {
+    "station_a": "HGT",
+    "station_b": "WR",
+    "distance_km": 43.9,
+    "typical_duration_min": 38,
+    "traversals": 2
+  },
+  {
+    "station_a": "NN",
+    "station_b": "SEG",
+    "distance_km": 36.7,
+    "typical_duration_min": 18,
+    "traversals": 4
+  },
+  {
+    "station_a": "DXG",
+    "station_b": "JL",
+    "distance_km": 36.6,
+    "typical_duration_min": 25,
+    "traversals": 4
+  },
+  {
+    "station_a": "AN",
+    "station_b": "DXG",
+    "distance_km": 36.6,
+    "typical_duration_min": 28,
+    "traversals": 4
+  },
+  {
+    "station_a": "AN",
+    "station_b": "SNK",
+    "distance_km": 36.7,
+    "typical_duration_min": 46,
+    "traversals": 4
+  },
+  {
+    "station_a": "DDE",
+    "station_b": "SNK",
+    "distance_km": 36.6,
+    "typical_duration_min": 31,
+    "traversals": 4
+  },
+  {
+    "station_a": "DDE",
+    "station_b": "NDB",
+    "distance_km": 36.6,
+    "typical_duration_min": 38,
+    "traversals": 4
+  },
+  {
+    "station_a": "NDB",
+    "station_b": "VYA",
+    "distance_km": 44.0,
+    "typical_duration_min": 77,
+    "traversals": 2
+  },
+  {
+    "station_a": "UDN",
+    "station_b": "VYA",
+    "distance_km": 43.9,
+    "typical_duration_min": 54,
+    "traversals": 2
+  },
+  {
+    "station_a": "ST",
+    "station_b": "UDN",
+    "distance_km": 21.9,
+    "typical_duration_min": 9,
+    "traversals": 5
+  },
+  {
+    "station_a": "AKV",
+    "station_b": "ST",
+    "distance_km": 43.9,
+    "typical_duration_min": 76,
+    "traversals": 8
+  },
+  {
+    "station_a": "AKV",
+    "station_b": "BRC",
+    "distance_km": 44.0,
+    "typical_duration_min": 89,
+    "traversals": 8
+  },
+  {
+    "station_a": "MAN",
+    "station_b": "ND",
+    "distance_km": 21.4,
+    "typical_duration_min": 41,
+    "traversals": 4
+  },
+  {
+    "station_a": "ADI",
+    "station_b": "MAN",
+    "distance_km": 21.3,
+    "typical_duration_min": 66,
+    "traversals": 7
+  },
+  {
+    "station_a": "HYB",
+    "station_b": "SC",
+    "distance_km": 27.9,
+    "typical_duration_min": 27,
+    "traversals": 10
+  },
+  {
+    "station_a": "KMC",
+    "station_b": "SC",
+    "distance_km": 70.8,
+    "typical_duration_min": 86,
+    "traversals": 2
+  },
+  {
+    "station_a": "KMC",
+    "station_b": "NZB",
+    "distance_km": 68.1,
+    "typical_duration_min": 50,
+    "traversals": 3
+  },
+  {
+    "station_a": "MUE",
+    "station_b": "NZB",
+    "distance_km": 70.7,
+    "typical_duration_min": 83,
+    "traversals": 2
+  },
+  {
+    "station_a": "MUE",
+    "station_b": "PAU",
+    "distance_km": 68.1,
+    "typical_duration_min": 71,
+    "traversals": 3
+  },
+  {
+    "station_a": "BMF",
+    "station_b": "PAU",
+    "distance_km": 68.1,
+    "typical_duration_min": 38,
+    "traversals": 3
+  },
+  {
+    "station_a": "BMF",
+    "station_b": "HNL",
+    "distance_km": 68.1,
+    "typical_duration_min": 56,
+    "traversals": 3
+  },
+  {
+    "station_a": "HNL",
+    "station_b": "WHM",
+    "distance_km": 68.1,
+    "typical_duration_min": 53,
+    "traversals": 3
+  },
+  {
+    "station_a": "AK",
+    "station_b": "WHM",
+    "distance_km": 68.1,
+    "typical_duration_min": 75,
+    "traversals": 3
+  },
+  {
+    "station_a": "AK",
+    "station_b": "MKU",
+    "distance_km": 68.1,
+    "typical_duration_min": 69,
+    "traversals": 3
+  },
+  {
+    "station_a": "BAU",
+    "station_b": "MKU",
+    "distance_km": 68.1,
+    "typical_duration_min": 66,
+    "traversals": 3
+  },
+  {
+    "station_a": "BPL",
+    "station_b": "UJN",
+    "distance_km": 68.1,
+    "typical_duration_min": 112,
+    "traversals": 3
+  },
+  {
+    "station_a": "RTM",
+    "station_b": "UJN",
+    "distance_km": 70.7,
+    "typical_duration_min": 58,
+    "traversals": 2
+  },
+  {
+    "station_a": "NBH",
+    "station_b": "NMH",
+    "distance_km": 70.7,
+    "typical_duration_min": 35,
+    "traversals": 2
+  },
+  {
+    "station_a": "COR",
+    "station_b": "NBH",
+    "distance_km": 70.7,
+    "typical_duration_min": 27,
+    "traversals": 2
+  },
+  {
+    "station_a": "BHL",
+    "station_b": "BJNR",
+    "distance_km": 61.2,
+    "typical_duration_min": 39,
+    "traversals": 3
+  },
+  {
+    "station_a": "AII",
+    "station_b": "BJNR",
+    "distance_km": 70.7,
+    "typical_duration_min": 45,
+    "traversals": 2
+  },
+  {
+    "station_a": "FL",
+    "station_b": "KSG",
+    "distance_km": 68.1,
+    "typical_duration_min": 56,
+    "traversals": 3
+  },
+  {
+    "station_a": "FL",
+    "station_b": "JP",
+    "distance_km": 68.1,
+    "typical_duration_min": 56,
+    "traversals": 3
+  },
+  {
+    "station_a": "ADI",
+    "station_b": "ANND",
+    "distance_km": 81.0,
+    "typical_duration_min": 67,
+    "traversals": 4
+  },
+  {
+    "station_a": "NDB",
+    "station_b": "ST",
+    "distance_km": 77.3,
+    "typical_duration_min": 147,
+    "traversals": 4
+  },
+  {
+    "station_a": "AN",
+    "station_b": "NDB",
+    "distance_km": 77.3,
+    "typical_duration_min": 105,
+    "traversals": 4
+  },
+  {
+    "station_a": "AN",
+    "station_b": "JL",
+    "distance_km": 77.3,
+    "typical_duration_min": 97,
+    "traversals": 4
+  },
+  {
+    "station_a": "DD",
+    "station_b": "SUR",
+    "distance_km": 59.2,
+    "typical_duration_min": 91,
+    "traversals": 10
+  },
+  {
+    "station_a": "RC",
+    "station_b": "WADI",
+    "distance_km": 77.3,
+    "typical_duration_min": 121,
+    "traversals": 4
+  },
+  {
+    "station_a": "HUP",
+    "station_b": "YPR",
+    "distance_km": 77.3,
+    "typical_duration_min": 102,
+    "traversals": 4
+  },
+  {
+    "station_a": "AJJ",
+    "station_b": "RU",
+    "distance_km": 59.2,
+    "typical_duration_min": 85,
+    "traversals": 6
+  },
+  {
+    "station_a": "KOU",
+    "station_b": "RU",
+    "distance_km": 49.4,
+    "typical_duration_min": 86,
+    "traversals": 7
+  },
+  {
+    "station_a": "KOU",
+    "station_b": "RJP",
+    "distance_km": 49.4,
+    "typical_duration_min": 85,
+    "traversals": 7
+  },
+  {
+    "station_a": "HX",
+    "station_b": "RJP",
+    "distance_km": 49.4,
+    "typical_duration_min": 86,
+    "traversals": 7
+  },
+  {
+    "station_a": "HX",
+    "station_b": "YA",
+    "distance_km": 49.4,
+    "typical_duration_min": 86,
+    "traversals": 7
+  },
+  {
+    "station_a": "TU",
+    "station_b": "YA",
+    "distance_km": 49.3,
+    "typical_duration_min": 85,
+    "traversals": 7
+  },
+  {
+    "station_a": "GY",
+    "station_b": "TU",
+    "distance_km": 49.4,
+    "typical_duration_min": 86,
+    "traversals": 7
+  },
+  {
+    "station_a": "GTL",
+    "station_b": "GY",
+    "distance_km": 49.4,
+    "typical_duration_min": 85,
+    "traversals": 7
+  },
+  {
+    "station_a": "BOR",
+    "station_b": "BSR",
+    "distance_km": 59.2,
+    "typical_duration_min": 85,
+    "traversals": 6
+  },
+  {
+    "station_a": "BOR",
+    "station_b": "VAPI",
+    "distance_km": 59.2,
+    "typical_duration_min": 85,
+    "traversals": 6
+  },
+  {
+    "station_a": "AJJ",
+    "station_b": "PER",
+    "distance_km": 30.1,
+    "typical_duration_min": 85,
+    "traversals": 10
+  },
+  {
+    "station_a": "MAS",
+    "station_b": "PER",
+    "distance_km": 30.2,
+    "typical_duration_min": 81,
+    "traversals": 11
+  },
+  {
+    "station_a": "PNBE",
+    "station_b": "RPR",
+    "distance_km": 285.0,
+    "typical_duration_min": 214,
+    "traversals": 4
+  },
+  {
+    "station_a": "RPR",
+    "station_b": "STA",
+    "distance_km": 285.0,
+    "typical_duration_min": 214,
+    "traversals": 4
+  },
+  {
+    "station_a": "JBP",
+    "station_b": "STA",
+    "distance_km": 162.1,
+    "typical_duration_min": 197,
+    "traversals": 6
+  },
+  {
+    "station_a": "ET",
+    "station_b": "JBP",
+    "distance_km": 162.2,
+    "typical_duration_min": 217,
+    "traversals": 6
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "ET",
+    "distance_km": 129.5,
+    "typical_duration_min": 85,
+    "traversals": 8
+  },
+  {
+    "station_a": "CD",
+    "station_b": "NGP",
+    "distance_km": 120.2,
+    "typical_duration_min": 111,
+    "traversals": 4
+  },
+  {
+    "station_a": "BG",
+    "station_b": "SC",
+    "distance_km": 27.9,
+    "typical_duration_min": 56,
+    "traversals": 4
+  },
+  {
+    "station_a": "BG",
+    "station_b": "ZN",
+    "distance_km": 42.9,
+    "typical_duration_min": 30,
+    "traversals": 2
+  },
+  {
+    "station_a": "KZJ",
+    "station_b": "ZN",
+    "distance_km": 27.9,
+    "typical_duration_min": 49,
+    "traversals": 6
+  },
+  {
+    "station_a": "JMKT",
+    "station_b": "KZJ",
+    "distance_km": 42.8,
+    "typical_duration_min": 39,
+    "traversals": 2
+  },
+  {
+    "station_a": "JMKT",
+    "station_b": "MCI",
+    "distance_km": 44.1,
+    "typical_duration_min": 63,
+    "traversals": 1
+  },
+  {
+    "station_a": "BUX",
+    "station_b": "CD",
+    "distance_km": 42.8,
+    "typical_duration_min": 26,
+    "traversals": 2
+  },
+  {
+    "station_a": "BUX",
+    "station_b": "WRR",
+    "distance_km": 42.8,
+    "typical_duration_min": 20,
+    "traversals": 2
+  },
+  {
+    "station_a": "SEGM",
+    "station_b": "SNI",
+    "distance_km": 42.8,
+    "typical_duration_min": 26,
+    "traversals": 2
+  },
+  {
+    "station_a": "AJNI",
+    "station_b": "SNI",
+    "distance_km": 44.1,
+    "typical_duration_min": 34,
+    "traversals": 1
+  },
+  {
+    "station_a": "AJNI",
+    "station_b": "NGP",
+    "distance_km": 44.1,
+    "typical_duration_min": 15,
+    "traversals": 2
+  },
+  {
+    "station_a": "MTY",
+    "station_b": "PAR",
+    "distance_km": 42.8,
+    "typical_duration_min": 41,
+    "traversals": 3
+  },
+  {
+    "station_a": "AMLA",
+    "station_b": "MTY",
+    "distance_km": 42.9,
+    "typical_duration_min": 17,
+    "traversals": 3
+  },
+  {
+    "station_a": "AMLA",
+    "station_b": "BZU",
+    "distance_km": 42.8,
+    "typical_duration_min": 39,
+    "traversals": 5
+  },
+  {
+    "station_a": "BZU",
+    "station_b": "GDYA",
+    "distance_km": 42.8,
+    "typical_duration_min": 55,
+    "traversals": 4
+  },
+  {
+    "station_a": "ET",
+    "station_b": "GDYA",
+    "distance_km": 42.8,
+    "typical_duration_min": 68,
+    "traversals": 4
+  },
+  {
+    "station_a": "BAQ",
+    "station_b": "BHS",
+    "distance_km": 42.8,
+    "typical_duration_min": 42,
+    "traversals": 4
+  },
+  {
+    "station_a": "BAQ",
+    "station_b": "MABA",
+    "distance_km": 42.8,
+    "typical_duration_min": 24,
+    "traversals": 2
+  },
+  {
+    "station_a": "BINA",
+    "station_b": "MABA",
+    "distance_km": 42.8,
+    "typical_duration_min": 27,
+    "traversals": 2
+  },
+  {
+    "station_a": "BINA",
+    "station_b": "LAR",
+    "distance_km": 42.9,
+    "typical_duration_min": 71,
+    "traversals": 4
+  },
+  {
+    "station_a": "BAB",
+    "station_b": "LAR",
+    "distance_km": 42.8,
+    "typical_duration_min": 48,
+    "traversals": 2
+  },
+  {
+    "station_a": "BAB",
+    "station_b": "JHS",
+    "distance_km": 42.8,
+    "typical_duration_min": 29,
+    "traversals": 2
+  },
+  {
+    "station_a": "DAA",
+    "station_b": "JHS",
+    "distance_km": 42.8,
+    "typical_duration_min": 53,
+    "traversals": 4
+  },
+  {
+    "station_a": "DAA",
+    "station_b": "DBA",
+    "distance_km": 42.8,
+    "typical_duration_min": 52,
+    "traversals": 4
+  },
+  {
+    "station_a": "DBA",
+    "station_b": "GWL",
+    "distance_km": 42.9,
+    "typical_duration_min": 56,
+    "traversals": 4
+  },
+  {
+    "station_a": "GWL",
+    "station_b": "MRA",
+    "distance_km": 42.8,
+    "typical_duration_min": 58,
+    "traversals": 8
+  },
+  {
+    "station_a": "AGC",
+    "station_b": "MRA",
+    "distance_km": 42.8,
+    "typical_duration_min": 59,
+    "traversals": 4
+  },
+  {
+    "station_a": "BVH",
+    "station_b": "FDB",
+    "distance_km": 42.8,
+    "typical_duration_min": 10,
+    "traversals": 2
+  },
+  {
+    "station_a": "FDB",
+    "station_b": "NZM",
+    "distance_km": 42.8,
+    "typical_duration_min": 31,
+    "traversals": 4
+  },
+  {
+    "station_a": "BALU",
+    "station_b": "KUR",
+    "distance_km": 52.0,
+    "typical_duration_min": 70,
+    "traversals": 4
+  },
+  {
+    "station_a": "BALU",
+    "station_b": "CAP",
+    "distance_km": 51.9,
+    "typical_duration_min": 43,
+    "traversals": 2
+  },
+  {
+    "station_a": "BAM",
+    "station_b": "CAP",
+    "distance_km": 27.9,
+    "typical_duration_min": 17,
+    "traversals": 4
+  },
+  {
+    "station_a": "BAM",
+    "station_b": "IPM",
+    "distance_km": 27.9,
+    "typical_duration_min": 22,
+    "traversals": 6
+  },
+  {
+    "station_a": "IPM",
+    "station_b": "SPT",
+    "distance_km": 27.9,
+    "typical_duration_min": 14,
+    "traversals": 4
+  },
+  {
+    "station_a": "PSA",
+    "station_b": "SPT",
+    "distance_km": 27.8,
+    "typical_duration_min": 31,
+    "traversals": 4
+  },
+  {
+    "station_a": "NWP",
+    "station_b": "PSA",
+    "distance_km": 27.9,
+    "typical_duration_min": 27,
+    "traversals": 4
+  },
+  {
+    "station_a": "CHE",
+    "station_b": "NWP",
+    "distance_km": 27.9,
+    "typical_duration_min": 34,
+    "traversals": 4
+  },
+  {
+    "station_a": "CHE",
+    "station_b": "CPP",
+    "distance_km": 27.9,
+    "typical_duration_min": 29,
+    "traversals": 4
+  },
+  {
+    "station_a": "CPP",
+    "station_b": "VZM",
+    "distance_km": 27.9,
+    "typical_duration_min": 29,
+    "traversals": 4
+  },
+  {
+    "station_a": "VSKP",
+    "station_b": "VZM",
+    "distance_km": 51.9,
+    "typical_duration_min": 82,
+    "traversals": 6
+  },
+  {
+    "station_a": "AKP",
+    "station_b": "VSKP",
+    "distance_km": 52.0,
+    "typical_duration_min": 75,
+    "traversals": 2
+  },
+  {
+    "station_a": "AKP",
+    "station_b": "TUNI",
+    "distance_km": 31.9,
+    "typical_duration_min": 57,
+    "traversals": 5
+  },
+  {
+    "station_a": "ANV",
+    "station_b": "TUNI",
+    "distance_km": 27.9,
+    "typical_duration_min": 22,
+    "traversals": 8
+  },
+  {
+    "station_a": "ANV",
+    "station_b": "SLO",
+    "distance_km": 31.8,
+    "typical_duration_min": 56,
+    "traversals": 7
+  },
+  {
+    "station_a": "NDD",
+    "station_b": "SLO",
+    "distance_km": 51.9,
+    "typical_duration_min": 87,
+    "traversals": 2
+  },
+  {
+    "station_a": "NDD",
+    "station_b": "TDD",
+    "distance_km": 27.9,
+    "typical_duration_min": 22,
+    "traversals": 7
+  },
+  {
+    "station_a": "NLR",
+    "station_b": "OGL",
+    "distance_km": 51.9,
+    "typical_duration_min": 82,
+    "traversals": 8
+  },
+  {
+    "station_a": "NLDA",
+    "station_b": "SC",
+    "distance_km": 67.2,
+    "typical_duration_min": 127,
+    "traversals": 2
+  },
+  {
+    "station_a": "MRGA",
+    "station_b": "NLDA",
+    "distance_km": 67.1,
+    "typical_duration_min": 29,
+    "traversals": 2
+  },
+  {
+    "station_a": "MRGA",
+    "station_b": "PGRL",
+    "distance_km": 67.2,
+    "typical_duration_min": 57,
+    "traversals": 2
+  },
+  {
+    "station_a": "GNT",
+    "station_b": "PGRL",
+    "distance_km": 67.2,
+    "typical_duration_min": 74,
+    "traversals": 2
+  },
+  {
+    "station_a": "CHE",
+    "station_b": "VZM",
+    "distance_km": 67.2,
+    "typical_duration_min": 55,
+    "traversals": 2
+  },
+  {
+    "station_a": "CHE",
+    "station_b": "PSA",
+    "distance_km": 67.2,
+    "typical_duration_min": 61,
+    "traversals": 2
+  },
+  {
+    "station_a": "IPM",
+    "station_b": "PSA",
+    "distance_km": 67.2,
+    "typical_duration_min": 49,
+    "traversals": 2
+  },
+  {
+    "station_a": "BAM",
+    "station_b": "KIT",
+    "distance_km": 67.2,
+    "typical_duration_min": 31,
+    "traversals": 2
+  },
+  {
+    "station_a": "BALU",
+    "station_b": "KIT",
+    "distance_km": 67.2,
+    "typical_duration_min": 64,
+    "traversals": 2
+  },
+  {
+    "station_a": "JOB",
+    "station_b": "JP",
+    "distance_km": 61.2,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "JOB",
+    "station_b": "KSG",
+    "distance_km": 61.2,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "AII",
+    "station_b": "NSD",
+    "distance_km": 61.2,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "BJNR",
+    "station_b": "NSD",
+    "distance_km": 61.2,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "BHL",
+    "station_b": "CNA",
+    "distance_km": 61.2,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "BUDI",
+    "station_b": "CNA",
+    "distance_km": 61.2,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "BUDI",
+    "station_b": "KOTA",
+    "distance_km": 61.1,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "NAD",
+    "station_b": "RMA",
+    "distance_km": 61.2,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "MAS",
+    "station_b": "TRL",
+    "distance_km": 49.4,
+    "typical_duration_min": 84,
+    "traversals": 1
+  },
+  {
+    "station_a": "AJJ",
+    "station_b": "TRL",
+    "distance_km": 32.9,
+    "typical_duration_min": 70,
+    "traversals": 2
+  },
+  {
+    "station_a": "AJJ",
+    "station_b": "TRT",
+    "distance_km": 49.4,
+    "typical_duration_min": 84,
+    "traversals": 1
+  },
+  {
+    "station_a": "PUT",
+    "station_b": "TRT",
+    "distance_km": 49.3,
+    "typical_duration_min": 84,
+    "traversals": 1
+  },
+  {
+    "station_a": "PUT",
+    "station_b": "RU",
+    "distance_km": 49.4,
+    "typical_duration_min": 84,
+    "traversals": 1
+  },
+  {
+    "station_a": "KSN",
+    "station_b": "RC",
+    "distance_km": 49.4,
+    "typical_duration_min": 84,
+    "traversals": 1
+  },
+  {
+    "station_a": "KSN",
+    "station_b": "YG",
+    "distance_km": 49.3,
+    "typical_duration_min": 84,
+    "traversals": 1
+  },
+  {
+    "station_a": "DD",
+    "station_b": "PUNE",
+    "distance_km": 49.4,
+    "typical_duration_min": 81,
+    "traversals": 3
+  },
+  {
+    "station_a": "KK",
+    "station_b": "PUNE",
+    "distance_km": 49.3,
+    "typical_duration_min": 84,
+    "traversals": 1
+  },
+  {
+    "station_a": "KK",
+    "station_b": "KYN",
+    "distance_km": 49.4,
+    "typical_duration_min": 84,
+    "traversals": 1
+  },
+  {
+    "station_a": "BRC",
+    "station_b": "DHD",
+    "distance_km": 64.3,
+    "typical_duration_min": 127,
+    "traversals": 2
+  },
+  {
+    "station_a": "DHD",
+    "station_b": "MGN",
+    "distance_km": 64.4,
+    "typical_duration_min": 24,
+    "traversals": 2
+  },
+  {
+    "station_a": "MGN",
+    "station_b": "RTM",
+    "distance_km": 64.4,
+    "typical_duration_min": 69,
+    "traversals": 2
+  },
+  {
+    "station_a": "NAD",
+    "station_b": "RTM",
+    "distance_km": 64.4,
+    "typical_duration_min": 32,
+    "traversals": 9
+  },
+  {
+    "station_a": "CMU",
+    "station_b": "SVA",
+    "distance_km": 64.4,
+    "typical_duration_min": 13,
+    "traversals": 2
+  },
+  {
+    "station_a": "SGZ",
+    "station_b": "SVA",
+    "distance_km": 64.4,
+    "typical_duration_min": 12,
+    "traversals": 2
+  },
+  {
+    "station_a": "ANND",
+    "station_b": "CYI",
+    "distance_km": 69.2,
+    "typical_duration_min": 88,
+    "traversals": 4
+  },
+  {
+    "station_a": "CYI",
+    "station_b": "GDA",
+    "distance_km": 119.3,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "DHD",
+    "station_b": "GDA",
+    "distance_km": 119.4,
+    "typical_duration_min": 79,
+    "traversals": 2
+  },
+  {
+    "station_a": "DHD",
+    "station_b": "RTM",
+    "distance_km": 69.1,
+    "typical_duration_min": 91,
+    "traversals": 4
+  },
+  {
+    "station_a": "KOTA",
+    "station_b": "MTJ",
+    "distance_km": 119.4,
+    "typical_duration_min": 229,
+    "traversals": 3
+  },
+  {
+    "station_a": "AJNI",
+    "station_b": "WR",
+    "distance_km": 52.0,
+    "typical_duration_min": 57,
+    "traversals": 1
+  },
+  {
+    "station_a": "DUD",
+    "station_b": "WADI",
+    "distance_km": 41.5,
+    "typical_duration_min": 45,
+    "traversals": 1
+  },
+  {
+    "station_a": "DUD",
+    "station_b": "SUR",
+    "distance_km": 41.6,
+    "typical_duration_min": 45,
+    "traversals": 1
+  },
+  {
+    "station_a": "KEM",
+    "station_b": "KWV",
+    "distance_km": 41.6,
+    "typical_duration_min": 45,
+    "traversals": 1
+  },
+  {
+    "station_a": "JEUR",
+    "station_b": "KEM",
+    "distance_km": 41.5,
+    "typical_duration_min": 45,
+    "traversals": 1
+  },
+  {
+    "station_a": "DD",
+    "station_b": "JEUR",
+    "distance_km": 41.6,
+    "typical_duration_min": 45,
+    "traversals": 1
+  },
+  {
+    "station_a": "DD",
+    "station_b": "KDG",
+    "distance_km": 41.6,
+    "typical_duration_min": 45,
+    "traversals": 1
+  },
+  {
+    "station_a": "KDG",
+    "station_b": "URI",
+    "distance_km": 41.6,
+    "typical_duration_min": 45,
+    "traversals": 1
+  },
+  {
+    "station_a": "PUNE",
+    "station_b": "URI",
+    "distance_km": 41.6,
+    "typical_duration_min": 45,
+    "traversals": 1
+  },
+  {
+    "station_a": "KYN",
+    "station_b": "LNL",
+    "distance_km": 41.6,
+    "typical_duration_min": 131,
+    "traversals": 3
+  },
+  {
+    "station_a": "AKP",
+    "station_b": "DVD",
+    "distance_km": 27.9,
+    "typical_duration_min": 32,
+    "traversals": 12
+  },
+  {
+    "station_a": "AKP",
+    "station_b": "ANV",
+    "distance_km": 60.0,
+    "typical_duration_min": 86,
+    "traversals": 2
+  },
+  {
+    "station_a": "OGL",
+    "station_b": "TEL",
+    "distance_km": 60.0,
+    "typical_duration_min": 86,
+    "traversals": 2
+  },
+  {
+    "station_a": "AKP",
+    "station_b": "NASP",
+    "distance_km": 70.9,
+    "typical_duration_min": 82,
+    "traversals": 2
+  },
+  {
+    "station_a": "NASP",
+    "station_b": "TUNI",
+    "distance_km": 70.9,
+    "typical_duration_min": 82,
+    "traversals": 2
+  },
+  {
+    "station_a": "SLO",
+    "station_b": "TUNI",
+    "distance_km": 70.9,
+    "typical_duration_min": 82,
+    "traversals": 2
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "OGL",
+    "distance_km": 70.9,
+    "typical_duration_min": 119,
+    "traversals": 5
+  },
+  {
+    "station_a": "KZJ",
+    "station_b": "WL",
+    "distance_km": 27.9,
+    "typical_duration_min": 17,
+    "traversals": 5
+  },
+  {
+    "station_a": "APT",
+    "station_b": "NDD",
+    "distance_km": 31.8,
+    "typical_duration_min": 50,
+    "traversals": 3
+  },
+  {
+    "station_a": "APT",
+    "station_b": "SLO",
+    "distance_km": 31.8,
+    "typical_duration_min": 39,
+    "traversals": 3
+  },
+  {
+    "station_a": "PAP",
+    "station_b": "SLO",
+    "distance_km": 27.9,
+    "typical_duration_min": 10,
+    "traversals": 3
+  },
+  {
+    "station_a": "ANV",
+    "station_b": "PAP",
+    "distance_km": 27.9,
+    "typical_duration_min": 17,
+    "traversals": 3
+  },
+  {
+    "station_a": "NRP",
+    "station_b": "TUNI",
+    "distance_km": 37.3,
+    "typical_duration_min": 19,
+    "traversals": 1
+  },
+  {
+    "station_a": "NRP",
+    "station_b": "YLM",
+    "distance_km": 37.4,
+    "typical_duration_min": 16,
+    "traversals": 1
+  },
+  {
+    "station_a": "AKP",
+    "station_b": "YLM",
+    "distance_km": 27.9,
+    "typical_duration_min": 31,
+    "traversals": 3
+  },
+  {
+    "station_a": "NVS",
+    "station_b": "ST",
+    "distance_km": 21.3,
+    "typical_duration_min": 43,
+    "traversals": 6
+  },
+  {
+    "station_a": "BL",
+    "station_b": "NVS",
+    "distance_km": 39.7,
+    "typical_duration_min": 80,
+    "traversals": 4
+  },
+  {
+    "station_a": "BL",
+    "station_b": "VAPI",
+    "distance_km": 21.9,
+    "typical_duration_min": 53,
+    "traversals": 5
+  },
+  {
+    "station_a": "DRD",
+    "station_b": "VAPI",
+    "distance_km": 21.9,
+    "typical_duration_min": 38,
+    "traversals": 3
+  },
+  {
+    "station_a": "BSR",
+    "station_b": "DRD",
+    "distance_km": 39.7,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "BIRD",
+    "station_b": "BSR",
+    "distance_km": 39.7,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "BIRD",
+    "station_b": "KYN",
+    "distance_km": 39.6,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "KJT",
+    "station_b": "KYN",
+    "distance_km": 39.7,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "KGI",
+    "station_b": "MYA",
+    "distance_km": 46.4,
+    "typical_duration_min": 53,
+    "traversals": 8
+  },
+  {
+    "station_a": "KGI",
+    "station_b": "SBC",
+    "distance_km": 46.3,
+    "typical_duration_min": 51,
+    "traversals": 8
+  },
+  {
+    "station_a": "HRI",
+    "station_b": "LKO",
+    "distance_km": 61.6,
+    "typical_duration_min": 85,
+    "traversals": 1
+  },
+  {
+    "station_a": "HRI",
+    "station_b": "SPN",
+    "distance_km": 54.7,
+    "typical_duration_min": 58,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRY",
+    "station_b": "RMU",
+    "distance_km": 54.8,
+    "typical_duration_min": 49,
+    "traversals": 2
+  },
+  {
+    "station_a": "MB",
+    "station_b": "RMU",
+    "distance_km": 54.8,
+    "typical_duration_min": 39,
+    "traversals": 2
+  },
+  {
+    "station_a": "HPU",
+    "station_b": "MB",
+    "distance_km": 54.7,
+    "typical_duration_min": 88,
+    "traversals": 2
+  },
+  {
+    "station_a": "GZB",
+    "station_b": "HPU",
+    "distance_km": 54.8,
+    "typical_duration_min": 76,
+    "traversals": 4
+  },
+  {
+    "station_a": "AMG",
+    "station_b": "HRI",
+    "distance_km": 54.8,
+    "typical_duration_min": 108,
+    "traversals": 1
+  },
+  {
+    "station_a": "AMG",
+    "station_b": "LKO",
+    "distance_km": 54.8,
+    "typical_duration_min": 93,
+    "traversals": 1
+  },
+  {
+    "station_a": "BVI",
+    "station_b": "DR",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "BOR",
+    "station_b": "BVI",
+    "distance_km": 21.4,
+    "typical_duration_min": 20,
+    "traversals": 1
+  },
+  {
+    "station_a": "BOR",
+    "station_b": "DRD",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "DRD",
+    "station_b": "UBR",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "BLD",
+    "station_b": "UBR",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "BLD",
+    "station_b": "VAPI",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "UVD",
+    "station_b": "VAPI",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "BL",
+    "station_b": "UVD",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "BIM",
+    "station_b": "BL",
+    "distance_km": 21.3,
+    "typical_duration_min": 21,
+    "traversals": 3
+  },
+  {
+    "station_a": "BIM",
+    "station_b": "NVS",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "KIM",
+    "station_b": "ST",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "KIM",
+    "station_b": "KSB",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "AKV",
+    "station_b": "KSB",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "AKV",
+    "station_b": "BH",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "BH",
+    "station_b": "PLJ",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "MYG",
+    "station_b": "PLJ",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRC",
+    "station_b": "MYG",
+    "distance_km": 21.3,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "BJD",
+    "station_b": "ND",
+    "distance_km": 21.3,
+    "typical_duration_min": 20,
+    "traversals": 1
+  },
+  {
+    "station_a": "BJD",
+    "station_b": "MAN",
+    "distance_km": 21.4,
+    "typical_duration_min": 20,
+    "traversals": 1
+  },
+  {
+    "station_a": "BOR",
+    "station_b": "PLG",
+    "distance_km": 21.3,
+    "typical_duration_min": 36,
+    "traversals": 1
+  },
+  {
+    "station_a": "BVI",
+    "station_b": "PLG",
+    "distance_km": 21.4,
+    "typical_duration_min": 42,
+    "traversals": 2
+  },
+  {
+    "station_a": "NDO",
+    "station_b": "TEL",
+    "distance_km": 35.9,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "BPP",
+    "station_b": "NDO",
+    "distance_km": 36.0,
+    "typical_duration_min": 39,
+    "traversals": 2
+  },
+  {
+    "station_a": "OGL",
+    "station_b": "SKM",
+    "distance_km": 35.9,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "KVZ",
+    "station_b": "SKM",
+    "distance_km": 35.9,
+    "typical_duration_min": 42,
+    "traversals": 2
+  },
+  {
+    "station_a": "BTTR",
+    "station_b": "KVZ",
+    "distance_km": 35.9,
+    "typical_duration_min": 36,
+    "traversals": 2
+  },
+  {
+    "station_a": "BTTR",
+    "station_b": "NLR",
+    "distance_km": 35.9,
+    "typical_duration_min": 14,
+    "traversals": 2
+  },
+  {
+    "station_a": "BWT",
+    "station_b": "YPR",
+    "distance_km": 61.5,
+    "typical_duration_min": 120,
+    "traversals": 4
+  },
+  {
+    "station_a": "JTJ",
+    "station_b": "WJR",
+    "distance_km": 61.5,
+    "typical_duration_min": 100,
+    "traversals": 2
+  },
+  {
+    "station_a": "AJJ",
+    "station_b": "WJR",
+    "distance_km": 61.5,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "AJJ",
+    "station_b": "SHU",
+    "distance_km": 30.2,
+    "typical_duration_min": 12,
+    "traversals": 4
+  },
+  {
+    "station_a": "SHU",
+    "station_b": "WJR",
+    "distance_km": 30.2,
+    "typical_duration_min": 23,
+    "traversals": 4
+  },
+  {
+    "station_a": "KPD",
+    "station_b": "WJR",
+    "distance_km": 30.1,
+    "typical_duration_min": 28,
+    "traversals": 4
+  },
+  {
+    "station_a": "AB",
+    "station_b": "KPD",
+    "distance_km": 30.2,
+    "typical_duration_min": 50,
+    "traversals": 5
+  },
+  {
+    "station_a": "AB",
+    "station_b": "JTJ",
+    "distance_km": 32.9,
+    "typical_duration_min": 25,
+    "traversals": 2
+  },
+  {
+    "station_a": "JTJ",
+    "station_b": "KPN",
+    "distance_km": 30.2,
+    "typical_duration_min": 49,
+    "traversals": 5
+  },
+  {
+    "station_a": "BWT",
+    "station_b": "KPN",
+    "distance_km": 30.2,
+    "typical_duration_min": 44,
+    "traversals": 5
+  },
+  {
+    "station_a": "AB",
+    "station_b": "VN",
+    "distance_km": 30.2,
+    "typical_duration_min": 45,
+    "traversals": 3
+  },
+  {
+    "station_a": "JTJ",
+    "station_b": "VN",
+    "distance_km": 30.1,
+    "typical_duration_min": 45,
+    "traversals": 3
+  },
+  {
+    "station_a": "PER",
+    "station_b": "TRL",
+    "distance_km": 32.9,
+    "typical_duration_min": 56,
+    "traversals": 1
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "MDR",
+    "distance_km": 35.0,
+    "typical_duration_min": 53,
+    "traversals": 2
+  },
+  {
+    "station_a": "KMT",
+    "station_b": "MDR",
+    "distance_km": 35.0,
+    "typical_duration_min": 40,
+    "traversals": 2
+  },
+  {
+    "station_a": "DKJ",
+    "station_b": "KMT",
+    "distance_km": 35.0,
+    "typical_duration_min": 44,
+    "traversals": 2
+  },
+  {
+    "station_a": "DKJ",
+    "station_b": "MABD",
+    "distance_km": 35.0,
+    "typical_duration_min": 39,
+    "traversals": 2
+  },
+  {
+    "station_a": "KDM",
+    "station_b": "MABD",
+    "distance_km": 35.0,
+    "typical_duration_min": 36,
+    "traversals": 2
+  },
+  {
+    "station_a": "KDM",
+    "station_b": "WL",
+    "distance_km": 35.0,
+    "typical_duration_min": 24,
+    "traversals": 2
+  },
+  {
+    "station_a": "CHZ",
+    "station_b": "ZN",
+    "distance_km": 35.0,
+    "typical_duration_min": 50,
+    "traversals": 2
+  },
+  {
+    "station_a": "CHZ",
+    "station_b": "SC",
+    "distance_km": 35.0,
+    "typical_duration_min": 35,
+    "traversals": 2
+  },
+  {
+    "station_a": "EE",
+    "station_b": "NZD",
+    "distance_km": 31.8,
+    "typical_duration_min": 43,
+    "traversals": 2
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "NZD",
+    "distance_km": 31.8,
+    "typical_duration_min": 43,
+    "traversals": 2
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "SOP",
+    "distance_km": 35.5,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "PDRD",
+    "station_b": "SOP",
+    "distance_km": 35.5,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "JLL",
+    "station_b": "PDRD",
+    "distance_km": 35.5,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "JLL",
+    "station_b": "JOP",
+    "distance_km": 35.5,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "JOP",
+    "station_b": "LBA",
+    "distance_km": 35.5,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "LBA",
+    "station_b": "SLN",
+    "distance_km": 35.5,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "MFKA",
+    "station_b": "SLN",
+    "distance_km": 35.5,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "LKO",
+    "station_b": "MFKA",
+    "distance_km": 35.5,
+    "typical_duration_min": 60,
+    "traversals": 2
+  },
+  {
+    "station_a": "ADH",
+    "station_b": "BVI",
+    "distance_km": 21.9,
+    "typical_duration_min": 43,
+    "traversals": 1
+  },
+  {
+    "station_a": "DRD",
+    "station_b": "PLG",
+    "distance_km": 22.0,
+    "typical_duration_min": 27,
+    "traversals": 1
+  },
+  {
+    "station_a": "AML",
+    "station_b": "BIM",
+    "distance_km": 21.9,
+    "typical_duration_min": 6,
+    "traversals": 1
+  },
+  {
+    "station_a": "AML",
+    "station_b": "NVS",
+    "distance_km": 21.9,
+    "typical_duration_min": 12,
+    "traversals": 1
+  },
+  {
+    "station_a": "MRL",
+    "station_b": "NVS",
+    "distance_km": 21.9,
+    "typical_duration_min": 8,
+    "traversals": 1
+  },
+  {
+    "station_a": "MRL",
+    "station_b": "SCH",
+    "distance_km": 22.0,
+    "typical_duration_min": 7,
+    "traversals": 1
+  },
+  {
+    "station_a": "SCH",
+    "station_b": "UDN",
+    "distance_km": 21.9,
+    "typical_duration_min": 12,
+    "traversals": 1
+  },
+  {
+    "station_a": "DR",
+    "station_b": "LNL",
+    "distance_km": 96.0,
+    "typical_duration_min": 113,
+    "traversals": 1
+  },
+  {
+    "station_a": "MAO",
+    "station_b": "RN",
+    "distance_km": 293.9,
+    "typical_duration_min": 186,
+    "traversals": 2
+  },
+  {
+    "station_a": "MAJN",
+    "station_b": "MAO",
+    "distance_km": 293.9,
+    "typical_duration_min": 257,
+    "traversals": 2
+  },
+  {
+    "station_a": "ERS",
+    "station_b": "MAJN",
+    "distance_km": 293.9,
+    "typical_duration_min": 475,
+    "traversals": 2
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "MZP",
+    "distance_km": 90.2,
+    "typical_duration_min": 51,
+    "traversals": 4
+  },
+  {
+    "station_a": "MZP",
+    "station_b": "STA",
+    "distance_km": 90.2,
+    "typical_duration_min": 50,
+    "traversals": 4
+  },
+  {
+    "station_a": "ANG",
+    "station_b": "KPG",
+    "distance_km": 90.2,
+    "typical_duration_min": 50,
+    "traversals": 4
+  },
+  {
+    "station_a": "CTA",
+    "station_b": "DRU",
+    "distance_km": 90.2,
+    "typical_duration_min": 50,
+    "traversals": 4
+  },
+  {
+    "station_a": "ASK",
+    "station_b": "DRU",
+    "distance_km": 90.2,
+    "typical_duration_min": 50,
+    "traversals": 4
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "PER",
+    "distance_km": 162.2,
+    "typical_duration_min": 214,
+    "traversals": 2
+  },
+  {
+    "station_a": "KPD",
+    "station_b": "PER",
+    "distance_km": 172.9,
+    "typical_duration_min": 387,
+    "traversals": 1
+  },
+  {
+    "station_a": "BNC",
+    "station_b": "HUP",
+    "distance_km": 67.0,
+    "typical_duration_min": 119,
+    "traversals": 2
+  },
+  {
+    "station_a": "DHNE",
+    "station_b": "GTL",
+    "distance_km": 67.0,
+    "typical_duration_min": 80,
+    "traversals": 2
+  },
+  {
+    "station_a": "JCL",
+    "station_b": "MBNR",
+    "distance_km": 67.0,
+    "typical_duration_min": 16,
+    "traversals": 2
+  },
+  {
+    "station_a": "JCL",
+    "station_b": "KCG",
+    "distance_km": 67.1,
+    "typical_duration_min": 85,
+    "traversals": 2
+  },
+  {
+    "station_a": "KCG",
+    "station_b": "KZJ",
+    "distance_km": 67.0,
+    "typical_duration_min": 145,
+    "traversals": 2
+  },
+  {
+    "station_a": "DBRG",
+    "station_b": "MRHT",
+    "distance_km": 103.0,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "MRHT",
+    "station_b": "SRTN",
+    "distance_km": 102.9,
+    "typical_duration_min": 55,
+    "traversals": 2
+  },
+  {
+    "station_a": "SLGR",
+    "station_b": "SRTN",
+    "distance_km": 103.0,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "MXN",
+    "station_b": "SLGR",
+    "distance_km": 102.9,
+    "typical_duration_min": 55,
+    "traversals": 2
+  },
+  {
+    "station_a": "DMV",
+    "station_b": "MXN",
+    "distance_km": 103.0,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "DMV",
+    "station_b": "DPU",
+    "distance_km": 103.0,
+    "typical_duration_min": 41,
+    "traversals": 4
+  },
+  {
+    "station_a": "DPU",
+    "station_b": "LMGF",
+    "distance_km": 102.9,
+    "typical_duration_min": 66,
+    "traversals": 4
+  },
+  {
+    "station_a": "GHY",
+    "station_b": "LMGF",
+    "distance_km": 103.0,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "GHY",
+    "station_b": "NBQ",
+    "distance_km": 102.9,
+    "typical_duration_min": 55,
+    "traversals": 2
+  },
+  {
+    "station_a": "KOJ",
+    "station_b": "NBQ",
+    "distance_km": 103.0,
+    "typical_duration_min": 89,
+    "traversals": 6
+  },
+  {
+    "station_a": "KOJ",
+    "station_b": "NCB",
+    "distance_km": 102.9,
+    "typical_duration_min": 96,
+    "traversals": 6
+  },
+  {
+    "station_a": "NCB",
+    "station_b": "NJPS",
+    "distance_km": 103.0,
+    "typical_duration_min": 112,
+    "traversals": 6
+  },
+  {
+    "station_a": "KNE",
+    "station_b": "NJPS",
+    "distance_km": 103.0,
+    "typical_duration_min": 96,
+    "traversals": 6
+  },
+  {
+    "station_a": "KIR",
+    "station_b": "KNE",
+    "distance_km": 102.9,
+    "typical_duration_min": 100,
+    "traversals": 6
+  },
+  {
+    "station_a": "KIR",
+    "station_b": "SPJ",
+    "distance_km": 103.0,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "MFP",
+    "station_b": "SPJ",
+    "distance_km": 102.9,
+    "typical_duration_min": 55,
+    "traversals": 2
+  },
+  {
+    "station_a": "HJP",
+    "station_b": "MFP",
+    "distance_km": 103.0,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "CPR",
+    "station_b": "HJP",
+    "distance_km": 102.9,
+    "typical_duration_min": 93,
+    "traversals": 4
+  },
+  {
+    "station_a": "BUI",
+    "station_b": "CPR",
+    "distance_km": 103.0,
+    "typical_duration_min": 94,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "BUI",
+    "distance_km": 103.0,
+    "typical_duration_min": 94,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "LKO",
+    "distance_km": 102.9,
+    "typical_duration_min": 93,
+    "traversals": 4
+  },
+  {
+    "station_a": "BRY",
+    "station_b": "LKO",
+    "distance_km": 103.0,
+    "typical_duration_min": 93,
+    "traversals": 4
+  },
+  {
+    "station_a": "MB",
+    "station_b": "NDLS",
+    "distance_km": 103.0,
+    "typical_duration_min": 94,
+    "traversals": 4
+  },
+  {
+    "station_a": "DBRG",
+    "station_b": "NTSK",
+    "distance_km": 110.0,
+    "typical_duration_min": 50,
+    "traversals": 2
+  },
+  {
+    "station_a": "MXN",
+    "station_b": "NTSK",
+    "distance_km": 110.0,
+    "typical_duration_min": 148,
+    "traversals": 2
+  },
+  {
+    "station_a": "FKG",
+    "station_b": "MXN",
+    "distance_km": 110.0,
+    "typical_duration_min": 28,
+    "traversals": 2
+  },
+  {
+    "station_a": "DMV",
+    "station_b": "FKG",
+    "distance_km": 110.0,
+    "typical_duration_min": 61,
+    "traversals": 2
+  },
+  {
+    "station_a": "CPK",
+    "station_b": "LMGF",
+    "distance_km": 110.0,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "CPK",
+    "station_b": "GHY",
+    "distance_km": 110.0,
+    "typical_duration_min": 85,
+    "traversals": 2
+  },
+  {
+    "station_a": "GHY",
+    "station_b": "RNY",
+    "distance_km": 110.0,
+    "typical_duration_min": 30,
+    "traversals": 2
+  },
+  {
+    "station_a": "NBQ",
+    "station_b": "RNY",
+    "distance_km": 109.4,
+    "typical_duration_min": 101,
+    "traversals": 4
+  },
+  {
+    "station_a": "KIR",
+    "station_b": "NNA",
+    "distance_km": 110.0,
+    "typical_duration_min": 42,
+    "traversals": 2
+  },
+  {
+    "station_a": "MNE",
+    "station_b": "NNA",
+    "distance_km": 110.0,
+    "typical_duration_min": 34,
+    "traversals": 2
+  },
+  {
+    "station_a": "BJU",
+    "station_b": "MNE",
+    "distance_km": 110.0,
+    "typical_duration_min": 49,
+    "traversals": 2
+  },
+  {
+    "station_a": "BJU",
+    "station_b": "PPTA",
+    "distance_km": 110.0,
+    "typical_duration_min": 81,
+    "traversals": 2
+  },
+  {
+    "station_a": "DNR",
+    "station_b": "PPTA",
+    "distance_km": 110.0,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "DNR",
+    "distance_km": 110.0,
+    "typical_duration_min": 418,
+    "traversals": 2
+  },
+  {
+    "station_a": "MTJ",
+    "station_b": "NDLS",
+    "distance_km": 68.2,
+    "typical_duration_min": 126,
+    "traversals": 3
+  },
+  {
+    "station_a": "DBRG",
+    "station_b": "RPAN",
+    "distance_km": 109.4,
+    "typical_duration_min": 92,
+    "traversals": 2
+  },
+  {
+    "station_a": "NMM",
+    "station_b": "RPAN",
+    "distance_km": 109.4,
+    "typical_duration_min": 92,
+    "traversals": 2
+  },
+  {
+    "station_a": "NMM",
+    "station_b": "ULG",
+    "distance_km": 109.3,
+    "typical_duration_min": 91,
+    "traversals": 2
+  },
+  {
+    "station_a": "TNL",
+    "station_b": "ULG",
+    "distance_km": 109.4,
+    "typical_duration_min": 92,
+    "traversals": 2
+  },
+  {
+    "station_a": "RNY",
+    "station_b": "TNL",
+    "distance_km": 109.4,
+    "typical_duration_min": 92,
+    "traversals": 2
+  },
+  {
+    "station_a": "BGS",
+    "station_b": "KIR",
+    "distance_km": 109.4,
+    "typical_duration_min": 92,
+    "traversals": 2
+  },
+  {
+    "station_a": "BGS",
+    "station_b": "BJU",
+    "distance_km": 109.4,
+    "typical_duration_min": 92,
+    "traversals": 2
+  },
+  {
+    "station_a": "BJU",
+    "station_b": "HJP",
+    "distance_km": 109.3,
+    "typical_duration_min": 91,
+    "traversals": 2
+  },
+  {
+    "station_a": "NGP",
+    "station_b": "NRKR",
+    "distance_km": 64.5,
+    "typical_duration_min": 75,
+    "traversals": 2
+  },
+  {
+    "station_a": "NRKR",
+    "station_b": "PAR",
+    "distance_km": 64.4,
+    "typical_duration_min": 51,
+    "traversals": 2
+  },
+  {
+    "station_a": "AMLA",
+    "station_b": "PAR",
+    "distance_km": 64.5,
+    "typical_duration_min": 75,
+    "traversals": 2
+  },
+  {
+    "station_a": "BAQ",
+    "station_b": "BINA",
+    "distance_km": 64.5,
+    "typical_duration_min": 55,
+    "traversals": 2
+  },
+  {
+    "station_a": "DHOA",
+    "station_b": "MRA",
+    "distance_km": 48.4,
+    "typical_duration_min": 71,
+    "traversals": 4
+  },
+  {
+    "station_a": "AGC",
+    "station_b": "DHOA",
+    "distance_km": 48.4,
+    "typical_duration_min": 71,
+    "traversals": 4
+  },
+  {
+    "station_a": "AGC",
+    "station_b": "BFP",
+    "distance_km": 50.5,
+    "typical_duration_min": 22,
+    "traversals": 4
+  },
+  {
+    "station_a": "BFP",
+    "station_b": "MTJ",
+    "distance_km": 50.5,
+    "typical_duration_min": 42,
+    "traversals": 4
+  },
+  {
+    "station_a": "FDB",
+    "station_b": "MTJ",
+    "distance_km": 50.5,
+    "typical_duration_min": 85,
+    "traversals": 2
+  },
+  {
+    "station_a": "AGC",
+    "station_b": "NDLS",
+    "distance_km": 123.6,
+    "typical_duration_min": 66,
+    "traversals": 3
+  },
+  {
+    "station_a": "GDR",
+    "station_b": "OGL",
+    "distance_km": 198.2,
+    "typical_duration_min": 116,
+    "traversals": 2
+  },
+  {
+    "station_a": "BAM",
+    "station_b": "PSA",
+    "distance_km": 117.3,
+    "typical_duration_min": 113,
+    "traversals": 2
+  },
+  {
+    "station_a": "PSA",
+    "station_b": "VZM",
+    "distance_km": 117.3,
+    "typical_duration_min": 113,
+    "traversals": 2
+  },
+  {
+    "station_a": "EE",
+    "station_b": "VSKP",
+    "distance_km": 117.3,
+    "typical_duration_min": 113,
+    "traversals": 2
+  },
+  {
+    "station_a": "BZA",
+    "station_b": "RU",
+    "distance_km": 117.3,
+    "typical_duration_min": 113,
+    "traversals": 2
+  },
+  {
+    "station_a": "KPD",
+    "station_b": "RU",
+    "distance_km": 117.3,
+    "typical_duration_min": 113,
+    "traversals": 2
+  },
+  {
+    "station_a": "BWT",
+    "station_b": "SBC",
+    "distance_km": 117.3,
+    "typical_duration_min": 113,
+    "traversals": 2
+  },
+  {
+    "station_a": "AKP",
+    "station_b": "SLO",
+    "distance_km": 123.6,
+    "typical_duration_min": 45,
+    "traversals": 2
+  },
+  {
+    "station_a": "BPQ",
+    "station_b": "PDPL",
+    "distance_km": 123.6,
+    "typical_duration_min": 45,
+    "traversals": 2
+  },
+  {
+    "station_a": "BIY",
+    "station_b": "UDN",
+    "distance_km": 36.7,
+    "typical_duration_min": 35,
+    "traversals": 2
+  },
+  {
+    "station_a": "BIY",
+    "station_b": "MID",
+    "distance_km": 36.6,
+    "typical_duration_min": 15,
+    "traversals": 2
+  },
+  {
+    "station_a": "MID",
+    "station_b": "VYA",
+    "distance_km": 36.6,
+    "typical_duration_min": 17,
+    "traversals": 2
+  },
+  {
+    "station_a": "NWU",
+    "station_b": "VYA",
+    "distance_km": 36.6,
+    "typical_duration_min": 44,
+    "traversals": 2
+  },
+  {
+    "station_a": "NDB",
+    "station_b": "NWU",
+    "distance_km": 36.7,
+    "typical_duration_min": 69,
+    "traversals": 2
+  },
+  {
+    "station_a": "BD",
+    "station_b": "CND",
+    "distance_km": 36.6,
+    "typical_duration_min": 32,
+    "traversals": 2
+  },
+  {
+    "station_a": "CND",
+    "station_b": "DMN",
+    "distance_km": 36.6,
+    "typical_duration_min": 14,
+    "traversals": 2
+  },
+  {
+    "station_a": "DMN",
+    "station_b": "WR",
+    "distance_km": 36.7,
+    "typical_duration_min": 42,
+    "traversals": 2
+  },
+  {
+    "station_a": "KP",
+    "station_b": "NGP",
+    "distance_km": 36.6,
+    "typical_duration_min": 30,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRD",
+    "station_b": "KP",
+    "distance_km": 36.6,
+    "typical_duration_min": 31,
+    "traversals": 2
+  },
+  {
+    "station_a": "TMR",
+    "station_b": "TRO",
+    "distance_km": 36.6,
+    "typical_duration_min": 16,
+    "traversals": 2
+  },
+  {
+    "station_a": "G",
+    "station_b": "TRO",
+    "distance_km": 36.6,
+    "typical_duration_min": 25,
+    "traversals": 2
+  },
+  {
+    "station_a": "AGN",
+    "station_b": "G",
+    "distance_km": 36.7,
+    "typical_duration_min": 21,
+    "traversals": 2
+  },
+  {
+    "station_a": "AGN",
+    "station_b": "DGG",
+    "distance_km": 36.6,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "AKT",
+    "station_b": "BSP",
+    "distance_km": 36.6,
+    "typical_duration_min": 39,
+    "traversals": 2
+  },
+  {
+    "station_a": "AKT",
+    "station_b": "CPH",
+    "distance_km": 36.6,
+    "typical_duration_min": 25,
+    "traversals": 2
+  },
+  {
+    "station_a": "BUA",
+    "station_b": "CPH",
+    "distance_km": 36.7,
+    "typical_duration_min": 13,
+    "traversals": 2
+  },
+  {
+    "station_a": "BUA",
+    "station_b": "KHS",
+    "distance_km": 36.6,
+    "typical_duration_min": 21,
+    "traversals": 2
+  },
+  {
+    "station_a": "BMB",
+    "station_b": "JSG",
+    "distance_km": 36.6,
+    "typical_duration_min": 35,
+    "traversals": 2
+  },
+  {
+    "station_a": "BMB",
+    "station_b": "GP",
+    "distance_km": 36.7,
+    "typical_duration_min": 27,
+    "traversals": 2
+  },
+  {
+    "station_a": "GP",
+    "station_b": "ROU",
+    "distance_km": 36.6,
+    "typical_duration_min": 45,
+    "traversals": 4
+  },
+  {
+    "station_a": "KGP",
+    "station_b": "MCA",
+    "distance_km": 36.6,
+    "typical_duration_min": 64,
+    "traversals": 1
+  },
+  {
+    "station_a": "MCA",
+    "station_b": "SRC",
+    "distance_km": 27.9,
+    "typical_duration_min": 44,
+    "traversals": 2
+  },
+  {
+    "station_a": "HWH",
+    "station_b": "MCA",
+    "distance_km": 28.9,
+    "typical_duration_min": 54,
+    "traversals": 2
+  },
+  {
+    "station_a": "MCA",
+    "station_b": "PKU",
+    "distance_km": 27.9,
+    "typical_duration_min": 20,
+    "traversals": 3
+  },
+  {
+    "station_a": "KGP",
+    "station_b": "PKU",
+    "distance_km": 27.9,
+    "typical_duration_min": 41,
+    "traversals": 3
+  },
+  {
+    "station_a": "CPH",
+    "station_b": "RIG",
+    "distance_km": 65.0,
+    "typical_duration_min": 75,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRJN",
+    "station_b": "RIG",
+    "distance_km": 65.0,
+    "typical_duration_min": 58,
+    "traversals": 2
+  },
+  {
+    "station_a": "GP",
+    "station_b": "JSG",
+    "distance_km": 65.0,
+    "typical_duration_min": 73,
+    "traversals": 2
+  },
+  {
+    "station_a": "SCM",
+    "station_b": "VSKP",
+    "distance_km": 27.9,
+    "typical_duration_min": 21,
+    "traversals": 4
+  },
+  {
+    "station_a": "SCM",
+    "station_b": "VZM",
+    "distance_km": 50.5,
+    "typical_duration_min": 41,
+    "traversals": 2
+  },
+  {
+    "station_a": "VBL",
+    "station_b": "VZM",
+    "distance_km": 50.5,
+    "typical_duration_min": 54,
+    "traversals": 2
+  },
+  {
+    "station_a": "PVP",
+    "station_b": "VBL",
+    "distance_km": 50.5,
+    "typical_duration_min": 20,
+    "traversals": 2
+  },
+  {
+    "station_a": "PVP",
+    "station_b": "PVPT",
+    "distance_km": 50.5,
+    "typical_duration_min": 5,
+    "traversals": 2
+  },
+  {
+    "station_a": "PVPT",
+    "station_b": "RGDA",
+    "distance_km": 50.5,
+    "typical_duration_min": 44,
+    "traversals": 2
+  },
+  {
+    "station_a": "RGDA",
+    "station_b": "THV",
+    "distance_km": 50.5,
+    "typical_duration_min": 43,
+    "traversals": 2
+  },
+  {
+    "station_a": "MNGD",
+    "station_b": "THV",
+    "distance_km": 50.5,
+    "typical_duration_min": 38,
+    "traversals": 2
+  },
+  {
+    "station_a": "AMB",
+    "station_b": "MNGD",
+    "distance_km": 50.5,
+    "typical_duration_min": 21,
+    "traversals": 2
+  },
+  {
+    "station_a": "AMB",
+    "station_b": "KSNG",
+    "distance_km": 50.5,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "KSNG",
+    "station_b": "TIG",
+    "distance_km": 50.5,
+    "typical_duration_min": 20,
+    "traversals": 2
+  },
+  {
+    "station_a": "KBJ",
+    "station_b": "TIG",
+    "distance_km": 50.5,
+    "typical_duration_min": 37,
+    "traversals": 2
+  },
+  {
+    "station_a": "HSK",
+    "station_b": "KBJ",
+    "distance_km": 50.5,
+    "typical_duration_min": 29,
+    "traversals": 2
+  },
+  {
+    "station_a": "HSK",
+    "station_b": "KRAR",
+    "distance_km": 50.5,
+    "typical_duration_min": 36,
+    "traversals": 2
+  },
+  {
+    "station_a": "BGBR",
+    "station_b": "KRAR",
+    "distance_km": 50.5,
+    "typical_duration_min": 20,
+    "traversals": 2
+  },
+  {
+    "station_a": "BGBR",
+    "station_b": "MSMD",
+    "distance_km": 50.5,
+    "typical_duration_min": 24,
+    "traversals": 2
+  },
+  {
+    "station_a": "MSMD",
+    "station_b": "R",
+    "distance_km": 50.5,
+    "typical_duration_min": 69,
+    "traversals": 2
+  },
+  {
+    "station_a": "MTY",
+    "station_b": "NGP",
+    "distance_km": 50.5,
+    "typical_duration_min": 109,
+    "traversals": 2
+  },
+  {
+    "station_a": "BZU",
+    "station_b": "MTY",
+    "distance_km": 50.5,
+    "typical_duration_min": 27,
+    "traversals": 2
+  },
+  {
+    "station_a": "JHS",
+    "station_b": "LAR",
+    "distance_km": 50.5,
+    "typical_duration_min": 69,
+    "traversals": 2
+  },
+  {
+    "station_a": "DAB",
+    "station_b": "MUE",
+    "distance_km": 68.1,
+    "typical_duration_min": 66,
+    "traversals": 1
+  },
+  {
+    "station_a": "DAB",
+    "station_b": "NZB",
+    "distance_km": 68.2,
+    "typical_duration_min": 66,
+    "traversals": 1
+  },
+  {
+    "station_a": "KMC",
+    "station_b": "MED",
+    "distance_km": 68.1,
+    "typical_duration_min": 66,
+    "traversals": 1
+  },
+  {
+    "station_a": "MED",
+    "station_b": "SC",
+    "distance_km": 68.1,
+    "typical_duration_min": 66,
+    "traversals": 1
+  },
+  {
+    "station_a": "ANND",
+    "station_b": "MAN",
+    "distance_km": 77.3,
+    "typical_duration_min": 91,
+    "traversals": 2
+  },
+  {
+    "station_a": "ADRA",
+    "station_b": "BLS",
+    "distance_km": 350.0,
+    "typical_duration_min": 200,
+    "traversals": 2
+  },
+  {
+    "station_a": "ADRA",
+    "station_b": "GAYA",
+    "distance_km": 350.0,
+    "typical_duration_min": 167,
+    "traversals": 1
+  },
+  {
+    "station_a": "DNR",
+    "station_b": "PNBE",
+    "distance_km": 69.1,
+    "typical_duration_min": 42,
+    "traversals": 6
+  },
+  {
+    "station_a": "ARA",
+    "station_b": "DNR",
+    "distance_km": 69.1,
+    "typical_duration_min": 44,
+    "traversals": 6
+  },
+  {
+    "station_a": "ARA",
+    "station_b": "BXR",
+    "distance_km": 69.2,
+    "typical_duration_min": 55,
+    "traversals": 6
+  },
+  {
+    "station_a": "BXR",
+    "station_b": "CNB",
+    "distance_km": 69.6,
+    "typical_duration_min": 311,
+    "traversals": 4
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "TDL",
+    "distance_km": 116.0,
+    "typical_duration_min": 82,
+    "traversals": 2
+  },
+  {
+    "station_a": "AF",
+    "station_b": "TDL",
+    "distance_km": 116.1,
+    "typical_duration_min": 82,
+    "traversals": 2
+  },
+  {
+    "station_a": "AF",
+    "station_b": "BXN",
+    "distance_km": 116.1,
+    "typical_duration_min": 82,
+    "traversals": 2
+  },
+  {
+    "station_a": "KOTA",
+    "station_b": "NAD",
+    "distance_km": 116.1,
+    "typical_duration_min": 121,
+    "traversals": 4
+  },
+  {
+    "station_a": "ND",
+    "station_b": "RTM",
+    "distance_km": 116.0,
+    "typical_duration_min": 82,
+    "traversals": 2
+  },
+  {
+    "station_a": "ADRA",
+    "station_b": "CNB",
+    "distance_km": 432.3,
+    "typical_duration_min": 596,
+    "traversals": 1
+  },
+  {
+    "station_a": "ADI",
+    "station_b": "BXN",
+    "distance_km": 863.5,
+    "typical_duration_min": 764,
+    "traversals": 2
+  },
+  {
+    "station_a": "BXN",
+    "station_b": "PNBE",
+    "distance_km": 863.5,
+    "typical_duration_min": 764,
+    "traversals": 2
+  },
+  {
+    "station_a": "MAS",
+    "station_b": "RU",
+    "distance_km": 143.9,
+    "typical_duration_min": 128,
+    "traversals": 1
+  },
+  {
+    "station_a": "GTL",
+    "station_b": "RU",
+    "distance_km": 132.8,
+    "typical_duration_min": 81,
+    "traversals": 2
+  },
+  {
+    "station_a": "RC",
+    "station_b": "SUR",
+    "distance_km": 132.8,
+    "typical_duration_min": 81,
+    "traversals": 2
+  },
+  {
+    "station_a": "BSR",
+    "station_b": "PLG",
+    "distance_km": 132.8,
+    "typical_duration_min": 81,
+    "traversals": 2
+  },
+  {
+    "station_a": "PLG",
+    "station_b": "ST",
+    "distance_km": 132.9,
+    "typical_duration_min": 81,
+    "traversals": 2
+  },
+  {
+    "station_a": "PER",
+    "station_b": "RU",
+    "distance_km": 132.9,
+    "typical_duration_min": 35,
+    "traversals": 1
+  },
+  {
+    "station_a": "PNVL",
+    "station_b": "PUNE",
+    "distance_km": 66.2,
+    "typical_duration_min": 108,
+    "traversals": 2
+  },
+  {
+    "station_a": "KJT",
+    "station_b": "PNVL",
+    "distance_km": 59.2,
+    "typical_duration_min": 89,
+    "traversals": 1
+  },
+  {
+    "station_a": "BVH",
+    "station_b": "KSV",
+    "distance_km": 42.9,
+    "typical_duration_min": 47,
+    "traversals": 1
+  },
+  {
+    "station_a": "KSV",
+    "station_b": "MTJ",
+    "distance_km": 42.8,
+    "typical_duration_min": 38,
+    "traversals": 1
+  },
+  {
+    "station_a": "NGP",
+    "station_b": "SNI",
+    "distance_km": 42.8,
+    "typical_duration_min": 34,
+    "traversals": 1
+  },
+  {
+    "station_a": "JMKT",
+    "station_b": "PDPL",
+    "distance_km": 42.8,
+    "typical_duration_min": 28,
+    "traversals": 1
+  },
+  {
+    "station_a": "BAM",
+    "station_b": "VSKP",
+    "distance_km": 127.9,
+    "typical_duration_min": 241,
+    "traversals": 2
+  },
+  {
+    "station_a": "TDD",
+    "station_b": "VSKP",
+    "distance_km": 127.8,
+    "typical_duration_min": 245,
+    "traversals": 2
+  },
+  {
+    "station_a": "MAS",
+    "station_b": "OGL",
+    "distance_km": 127.8,
+    "typical_duration_min": 249,
+    "traversals": 1
+  },
+  {
+    "station_a": "BXR",
+    "station_b": "KEI",
+    "distance_km": 69.1,
+    "typical_duration_min": 97,
+    "traversals": 2
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "KEI",
+    "distance_km": 52.0,
+    "typical_duration_min": 33,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "GYN",
+    "distance_km": 69.2,
+    "typical_duration_min": 97,
+    "traversals": 2
+  },
+  {
+    "station_a": "GYN",
+    "station_b": "MKP",
+    "distance_km": 69.1,
+    "typical_duration_min": 97,
+    "traversals": 2
+  },
+  {
+    "station_a": "KMZ",
+    "station_b": "STA",
+    "distance_km": 69.1,
+    "typical_duration_min": 97,
+    "traversals": 2
+  },
+  {
+    "station_a": "DMO",
+    "station_b": "KMZ",
+    "distance_km": 52.2,
+    "typical_duration_min": 115,
+    "traversals": 4
+  },
+  {
+    "station_a": "DMO",
+    "station_b": "SGO",
+    "distance_km": 69.1,
+    "typical_duration_min": 96,
+    "traversals": 2
+  },
+  {
+    "station_a": "BINA",
+    "station_b": "SGO",
+    "distance_km": 69.1,
+    "typical_duration_min": 97,
+    "traversals": 2
+  },
+  {
+    "station_a": "BHS",
+    "station_b": "BINA",
+    "distance_km": 52.1,
+    "typical_duration_min": 84,
+    "traversals": 4
+  },
+  {
+    "station_a": "BHS",
+    "station_b": "SEH",
+    "distance_km": 69.1,
+    "typical_duration_min": 96,
+    "traversals": 2
+  },
+  {
+    "station_a": "CYI",
+    "station_b": "DHD",
+    "distance_km": 69.1,
+    "typical_duration_min": 97,
+    "traversals": 2
+  },
+  {
+    "station_a": "BLDA",
+    "station_b": "KGP",
+    "distance_km": 27.9,
+    "typical_duration_min": 37,
+    "traversals": 2
+  },
+  {
+    "station_a": "BLDA",
+    "station_b": "JER",
+    "distance_km": 27.9,
+    "typical_duration_min": 26,
+    "traversals": 2
+  },
+  {
+    "station_a": "BTS",
+    "station_b": "JER",
+    "distance_km": 27.9,
+    "typical_duration_min": 18,
+    "traversals": 2
+  },
+  {
+    "station_a": "BTS",
+    "station_b": "ROP",
+    "distance_km": 27.9,
+    "typical_duration_min": 11,
+    "traversals": 2
+  },
+  {
+    "station_a": "BLS",
+    "station_b": "ROP",
+    "distance_km": 27.9,
+    "typical_duration_min": 18,
+    "traversals": 2
+  },
+  {
+    "station_a": "BLS",
+    "station_b": "SORO",
+    "distance_km": 27.8,
+    "typical_duration_min": 26,
+    "traversals": 2
+  },
+  {
+    "station_a": "MKO",
+    "station_b": "SORO",
+    "distance_km": 27.9,
+    "typical_duration_min": 15,
+    "traversals": 2
+  },
+  {
+    "station_a": "BTV",
+    "station_b": "MKO",
+    "distance_km": 27.9,
+    "typical_duration_min": 81,
+    "traversals": 2
+  },
+  {
+    "station_a": "BTV",
+    "station_b": "KRIH",
+    "distance_km": 27.9,
+    "typical_duration_min": 6,
+    "traversals": 2
+  },
+  {
+    "station_a": "DNM",
+    "station_b": "KRIH",
+    "distance_km": 27.9,
+    "typical_duration_min": 29,
+    "traversals": 2
+  },
+  {
+    "station_a": "CTC",
+    "station_b": "DNM",
+    "distance_km": 28.9,
+    "typical_duration_min": 38,
+    "traversals": 1
+  },
+  {
+    "station_a": "BRAG",
+    "station_b": "CTC",
+    "distance_km": 27.9,
+    "typical_duration_min": 18,
+    "traversals": 2
+  },
+  {
+    "station_a": "BBS",
+    "station_b": "BRAG",
+    "distance_km": 27.9,
+    "typical_duration_min": 21,
+    "traversals": 2
+  },
+  {
+    "station_a": "KUR",
+    "station_b": "NKP",
+    "distance_km": 27.9,
+    "typical_duration_min": 36,
+    "traversals": 2
+  },
+  {
+    "station_a": "KAPG",
+    "station_b": "NKP",
+    "distance_km": 27.9,
+    "typical_duration_min": 13,
+    "traversals": 2
+  },
+  {
+    "station_a": "BALU",
+    "station_b": "KAPG",
+    "distance_km": 27.9,
+    "typical_duration_min": 23,
+    "traversals": 2
+  },
+  {
+    "station_a": "BALU",
+    "station_b": "CLKA",
+    "distance_km": 27.9,
+    "typical_duration_min": 7,
+    "traversals": 2
+  },
+  {
+    "station_a": "CLKA",
+    "station_b": "KIT",
+    "distance_km": 27.9,
+    "typical_duration_min": 9,
+    "traversals": 2
+  },
+  {
+    "station_a": "CAP",
+    "station_b": "KIT",
+    "distance_km": 27.9,
+    "typical_duration_min": 30,
+    "traversals": 2
+  },
+  {
+    "station_a": "KTV",
+    "station_b": "VZM",
+    "distance_km": 27.9,
+    "typical_duration_min": 34,
+    "traversals": 2
+  },
+  {
+    "station_a": "KTV",
+    "station_b": "SCM",
+    "distance_km": 27.9,
+    "typical_duration_min": 15,
+    "traversals": 2
+  },
+  {
+    "station_a": "TUNI",
+    "station_b": "YLM",
+    "distance_km": 27.9,
+    "typical_duration_min": 29,
+    "traversals": 2
+  },
+  {
+    "station_a": "DWP",
+    "station_b": "SLO",
+    "distance_km": 27.9,
+    "typical_duration_min": 25,
+    "traversals": 2
+  },
+  {
+    "station_a": "DWP",
+    "station_b": "NDD",
+    "distance_km": 27.9,
+    "typical_duration_min": 50,
+    "traversals": 2
+  },
+  {
+    "station_a": "ALER",
+    "station_b": "ZN",
+    "distance_km": 27.9,
+    "typical_duration_min": 18,
+    "traversals": 2
+  },
+  {
+    "station_a": "ALER",
+    "station_b": "BG",
+    "distance_km": 27.9,
+    "typical_duration_min": 24,
+    "traversals": 2
+  },
+  {
+    "station_a": "CTC",
+    "station_b": "KNPR",
+    "distance_km": 27.9,
+    "typical_duration_min": 5,
+    "traversals": 1
+  },
+  {
+    "station_a": "DNM",
+    "station_b": "KNPR",
+    "distance_km": 27.9,
+    "typical_duration_min": 22,
+    "traversals": 1
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "FTP",
+    "distance_km": 129.4,
+    "typical_duration_min": 128,
+    "traversals": 3
+  },
+  {
+    "station_a": "FTP",
+    "station_b": "SRJ",
+    "distance_km": 129.4,
+    "typical_duration_min": 128,
+    "traversals": 3
+  },
+  {
+    "station_a": "JBP",
+    "station_b": "PPI",
+    "distance_km": 129.4,
+    "typical_duration_min": 128,
+    "traversals": 3
+  },
+  {
+    "station_a": "BWN",
+    "station_b": "DGR",
+    "distance_km": 48.4,
+    "typical_duration_min": 72,
+    "traversals": 10
+  },
+  {
+    "station_a": "JMU",
+    "station_b": "KIUL",
+    "distance_km": 69.6,
+    "typical_duration_min": 21,
+    "traversals": 2
+  },
+  {
+    "station_a": "KIUL",
+    "station_b": "MKA",
+    "distance_km": 69.6,
+    "typical_duration_min": 38,
+    "traversals": 2
+  },
+  {
+    "station_a": "BKP",
+    "station_b": "PNBE",
+    "distance_km": 69.6,
+    "typical_duration_min": 44,
+    "traversals": 2
+  },
+  {
+    "station_a": "ETW",
+    "station_b": "TDL",
+    "distance_km": 69.6,
+    "typical_duration_min": 70,
+    "traversals": 4
+  },
+  {
+    "station_a": "ALJN",
+    "station_b": "TDL",
+    "distance_km": 69.6,
+    "typical_duration_min": 60,
+    "traversals": 4
+  },
+  {
+    "station_a": "ALJN",
+    "station_b": "NDLS",
+    "distance_km": 69.6,
+    "typical_duration_min": 176,
+    "traversals": 4
+  },
+  {
+    "station_a": "HSR",
+    "station_b": "SDLP",
+    "distance_km": 151.1,
+    "typical_duration_min": 226,
+    "traversals": 2
+  },
+  {
+    "station_a": "LHU",
+    "station_b": "SDLP",
+    "distance_km": 151.1,
+    "typical_duration_min": 226,
+    "traversals": 2
+  },
+  {
+    "station_a": "JJN",
+    "station_b": "LHU",
+    "distance_km": 151.1,
+    "typical_duration_min": 226,
+    "traversals": 2
+  },
+  {
+    "station_a": "JJN",
+    "station_b": "SIKR",
+    "distance_km": 151.1,
+    "typical_duration_min": 226,
+    "traversals": 2
+  },
+  {
+    "station_a": "RGS",
+    "station_b": "SIKR",
+    "distance_km": 151.1,
+    "typical_duration_min": 226,
+    "traversals": 2
+  },
+  {
+    "station_a": "JP",
+    "station_b": "RGS",
+    "distance_km": 151.1,
+    "typical_duration_min": 141,
+    "traversals": 2
+  },
+  {
+    "station_a": "JP",
+    "station_b": "SWM",
+    "distance_km": 151.1,
+    "typical_duration_min": 137,
+    "traversals": 2
+  },
+  {
+    "station_a": "BSR",
+    "station_b": "VAPI",
+    "distance_km": 151.1,
+    "typical_duration_min": 200,
+    "traversals": 1
+  },
+  {
+    "station_a": "MMR",
+    "station_b": "NGN",
+    "distance_km": 52.0,
+    "typical_duration_min": 50,
+    "traversals": 2
+  },
+  {
+    "station_a": "CSN",
+    "station_b": "NGN",
+    "distance_km": 52.0,
+    "typical_duration_min": 10,
+    "traversals": 2
+  },
+  {
+    "station_a": "CSN",
+    "station_b": "PC",
+    "distance_km": 51.9,
+    "typical_duration_min": 12,
+    "traversals": 2
+  },
+  {
+    "station_a": "JL",
+    "station_b": "PC",
+    "distance_km": 52.0,
+    "typical_duration_min": 24,
+    "traversals": 2
+  },
+  {
+    "station_a": "BSL",
+    "station_b": "RV",
+    "distance_km": 51.9,
+    "typical_duration_min": 24,
+    "traversals": 2
+  },
+  {
+    "station_a": "BAU",
+    "station_b": "RV",
+    "distance_km": 52.0,
+    "typical_duration_min": 17,
+    "traversals": 2
+  },
+  {
+    "station_a": "BAU",
+    "station_b": "NPNR",
+    "distance_km": 52.0,
+    "typical_duration_min": 14,
+    "traversals": 2
+  },
+  {
+    "station_a": "KNW",
+    "station_b": "NPNR",
+    "distance_km": 51.9,
+    "typical_duration_min": 35,
+    "traversals": 2
+  },
+  {
+    "station_a": "MML",
+    "station_b": "SRID",
+    "distance_km": 51.9,
+    "typical_duration_min": 25,
+    "traversals": 1
+  },
+  {
+    "station_a": "JBP",
+    "station_b": "MML",
+    "distance_km": 52.0,
+    "typical_duration_min": 15,
+    "traversals": 1
+  },
+  {
+    "station_a": "BDL",
+    "station_b": "MKP",
+    "distance_km": 48.4,
+    "typical_duration_min": 110,
+    "traversals": 4
+  },
+  {
+    "station_a": "CAR",
+    "station_b": "KEI",
+    "distance_km": 51.9,
+    "typical_duration_min": 62,
+    "traversals": 2
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "PHN",
+    "distance_km": 128.1,
+    "typical_duration_min": 112,
+    "traversals": 2
+  },
+  {
+    "station_a": "ORAI",
+    "station_b": "PHN",
+    "distance_km": 128.1,
+    "typical_duration_min": 54,
+    "traversals": 2
+  },
+  {
+    "station_a": "JHS",
+    "station_b": "ORAI",
+    "distance_km": 128.1,
+    "typical_duration_min": 74,
+    "traversals": 3
+  },
+  {
+    "station_a": "KPG",
+    "station_b": "PUNE",
+    "distance_km": 128.1,
+    "typical_duration_min": 301,
+    "traversals": 2
+  },
+  {
+    "station_a": "DHN",
+    "station_b": "PUS",
+    "distance_km": 52.1,
+    "typical_duration_min": 91,
+    "traversals": 2
+  },
+  {
+    "station_a": "GMIA",
+    "station_b": "PUS",
+    "distance_km": 52.1,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRKA",
+    "station_b": "GMIA",
+    "distance_km": 52.2,
+    "typical_duration_min": 69,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRKA",
+    "station_b": "PTRU",
+    "distance_km": 52.1,
+    "typical_duration_min": 51,
+    "traversals": 2
+  },
+  {
+    "station_a": "PTRU",
+    "station_b": "TORI",
+    "distance_km": 52.1,
+    "typical_duration_min": 61,
+    "traversals": 2
+  },
+  {
+    "station_a": "LTHR",
+    "station_b": "TORI",
+    "distance_km": 52.1,
+    "typical_duration_min": 58,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRWD",
+    "station_b": "LTHR",
+    "distance_km": 52.1,
+    "typical_duration_min": 57,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRWD",
+    "station_b": "DTO",
+    "distance_km": 52.1,
+    "typical_duration_min": 53,
+    "traversals": 2
+  },
+  {
+    "station_a": "DTO",
+    "station_b": "GHD",
+    "distance_km": 52.1,
+    "typical_duration_min": 56,
+    "traversals": 2
+  },
+  {
+    "station_a": "GHD",
+    "station_b": "GHQ",
+    "distance_km": 52.1,
+    "typical_duration_min": 48,
+    "traversals": 2
+  },
+  {
+    "station_a": "GHQ",
+    "station_b": "RNQ",
+    "distance_km": 52.1,
+    "typical_duration_min": 89,
+    "traversals": 2
+  },
+  {
+    "station_a": "CPU",
+    "station_b": "RNQ",
+    "distance_km": 52.1,
+    "typical_duration_min": 52,
+    "traversals": 2
+  },
+  {
+    "station_a": "CPU",
+    "station_b": "OBR",
+    "distance_km": 52.1,
+    "typical_duration_min": 25,
+    "traversals": 2
+  },
+  {
+    "station_a": "OBR",
+    "station_b": "SGRL",
+    "distance_km": 52.1,
+    "typical_duration_min": 87,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRGW",
+    "station_b": "SGRL",
+    "distance_km": 52.1,
+    "typical_duration_min": 25,
+    "traversals": 2
+  },
+  {
+    "station_a": "BEHR",
+    "station_b": "BRGW",
+    "distance_km": 52.1,
+    "typical_duration_min": 171,
+    "traversals": 2
+  },
+  {
+    "station_a": "BEHR",
+    "station_b": "KMZ",
+    "distance_km": 52.1,
+    "typical_duration_min": 168,
+    "traversals": 2
+  },
+  {
+    "station_a": "DMO",
+    "station_b": "PHA",
+    "distance_km": 52.1,
+    "typical_duration_min": 26,
+    "traversals": 2
+  },
+  {
+    "station_a": "PHA",
+    "station_b": "SGO",
+    "distance_km": 52.1,
+    "typical_duration_min": 49,
+    "traversals": 2
+  },
+  {
+    "station_a": "KYE",
+    "station_b": "SGO",
+    "distance_km": 52.1,
+    "typical_duration_min": 49,
+    "traversals": 2
+  },
+  {
+    "station_a": "BINA",
+    "station_b": "KYE",
+    "distance_km": 52.1,
+    "typical_duration_min": 29,
+    "traversals": 2
+  },
+  {
+    "station_a": "BDC",
+    "station_b": "HWH",
+    "distance_km": 66.0,
+    "typical_duration_min": 84,
+    "traversals": 2
+  },
+  {
+    "station_a": "BDC",
+    "station_b": "BWN",
+    "distance_km": 66.0,
+    "typical_duration_min": 84,
+    "traversals": 2
+  },
+  {
+    "station_a": "KQR",
+    "station_b": "PNME",
+    "distance_km": 48.4,
+    "typical_duration_min": 72,
+    "traversals": 6
+  },
+  {
+    "station_a": "BBU",
+    "station_b": "BSB",
+    "distance_km": 66.0,
+    "typical_duration_min": 102,
+    "traversals": 4
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "JOP",
+    "distance_km": 66.0,
+    "typical_duration_min": 84,
+    "traversals": 2
+  },
+  {
+    "station_a": "JOP",
+    "station_b": "SLN",
+    "distance_km": 66.0,
+    "typical_duration_min": 84,
+    "traversals": 2
+  },
+  {
+    "station_a": "LKO",
+    "station_b": "SLN",
+    "distance_km": 66.0,
+    "typical_duration_min": 84,
+    "traversals": 2
+  },
+  {
+    "station_a": "GJL",
+    "station_b": "MB",
+    "distance_km": 66.0,
+    "typical_duration_min": 84,
+    "traversals": 2
+  },
+  {
+    "station_a": "GJL",
+    "station_b": "HPU",
+    "distance_km": 66.0,
+    "typical_duration_min": 84,
+    "traversals": 2
+  },
+  {
+    "station_a": "ANVT",
+    "station_b": "GZB",
+    "distance_km": 66.0,
+    "typical_duration_min": 84,
+    "traversals": 2
+  },
+  {
+    "station_a": "GAYA",
+    "station_b": "RFJ",
+    "distance_km": 80.4,
+    "typical_duration_min": 71,
+    "traversals": 2
+  },
+  {
+    "station_a": "DOS",
+    "station_b": "RFJ",
+    "distance_km": 80.3,
+    "typical_duration_min": 77,
+    "traversals": 2
+  },
+  {
+    "station_a": "BSB",
+    "station_b": "JNH",
+    "distance_km": 80.3,
+    "typical_duration_min": 124,
+    "traversals": 2
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "JNH",
+    "distance_km": 80.4,
+    "typical_duration_min": 194,
+    "traversals": 2
+  },
+  {
+    "station_a": "ANVT",
+    "station_b": "CNB",
+    "distance_km": 239.7,
+    "typical_duration_min": 410,
+    "traversals": 1
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "MGS",
+    "distance_km": 239.6,
+    "typical_duration_min": 410,
+    "traversals": 1
+  },
+  {
+    "station_a": "GAYA",
+    "station_b": "MGS",
+    "distance_km": 239.7,
+    "typical_duration_min": 410,
+    "traversals": 1
+  },
+  {
+    "station_a": "DHN",
+    "station_b": "GAYA",
+    "distance_km": 239.7,
+    "typical_duration_min": 410,
+    "traversals": 1
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "ORAI",
+    "distance_km": 142.3,
+    "typical_duration_min": 37,
+    "traversals": 1
+  },
+  {
+    "station_a": "CNB",
+    "station_b": "LKO",
+    "distance_km": 142.3,
+    "typical_duration_min": 37,
+    "traversals": 1
+  },
+  {
+    "station_a": "ATE",
+    "station_b": "MKP",
+    "distance_km": 48.4,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "ATE",
+    "station_b": "BNDA",
+    "distance_km": 48.4,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "BNDA",
+    "station_b": "MBA",
+    "distance_km": 48.3,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "KLAR",
+    "station_b": "MBA",
+    "distance_km": 48.4,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "HPP",
+    "station_b": "KLAR",
+    "distance_km": 48.4,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "HPP",
+    "station_b": "MRPR",
+    "distance_km": 48.4,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "MRPR",
+    "station_b": "NEW",
+    "distance_km": 48.4,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "BWR",
+    "station_b": "NEW",
+    "distance_km": 48.3,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "BWR",
+    "station_b": "JHS",
+    "distance_km": 48.4,
+    "typical_duration_min": 59,
+    "traversals": 2
+  },
+  {
+    "station_a": "BRC",
+    "station_b": "KOTA",
+    "distance_km": 461.6,
+    "typical_duration_min": 791,
+    "traversals": 1
+  },
+  {
+    "station_a": "KOTA",
+    "station_b": "NDLS",
+    "distance_km": 230.7,
+    "typical_duration_min": 405,
+    "traversals": 3
+  },
+  {
+    "station_a": "BVI",
+    "station_b": "ST",
+    "distance_km": 230.7,
+    "typical_duration_min": 178,
+    "traversals": 2
+  }
+]

@@ -1,0 +1,5562 @@
+[
+  {
+    "code": "BMF",
+    "name": "BASMAT",
+    "state": "Maharashtra",
+    "zone": "SCR",
+    "lat": 19.3334723149,
+    "lng": 77.15177759640001,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "BLS",
+    "name": "BALASORE",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.500521,
+    "lng": 86.91958199999999,
+    "is_junction": true,
+    "route_count": 123.0
+  },
+  {
+    "code": "DPU",
+    "name": "DIPHU",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 25.83725,
+    "lng": 93.438384,
+    "is_junction": true,
+    "route_count": 43.0
+  },
+  {
+    "code": "PVP",
+    "name": "PARVATIPURAM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.770670000000003,
+    "lng": 83.42696600000001,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "MRGA",
+    "name": "MIRYALAGUDA",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 16.860392,
+    "lng": 79.533503,
+    "is_junction": true,
+    "route_count": 30.0
+  },
+  {
+    "code": "JM",
+    "name": "JALAMB JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.813007,
+    "lng": 76.573236,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "BAM",
+    "name": "BRAHMAPUR",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.2961348,
+    "lng": 84.7966912,
+    "is_junction": true,
+    "route_count": 119.0
+  },
+  {
+    "code": "NASP",
+    "name": "NARASINGAPALLI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.606751,
+    "lng": 82.891038,
+    "is_junction": true,
+    "route_count": 4.0
+  },
+  {
+    "code": "MKA",
+    "name": "MOKAMEH JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.391885,
+    "lng": 85.91304899999999,
+    "is_junction": true,
+    "route_count": 106.0
+  },
+  {
+    "code": "SLGR",
+    "name": "SIMALUGURI JN",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 26.917281,
+    "lng": 94.756816,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "BNC",
+    "name": "BANGALORE CANT",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.9936735,
+    "lng": 77.59932690000001,
+    "is_junction": true,
+    "route_count": 70.0
+  },
+  {
+    "code": "KNPR",
+    "name": "KENDRAPARA ROAD",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.498481,
+    "lng": 85.917437,
+    "is_junction": false,
+    "route_count": 1.0
+  },
+  {
+    "code": "NJPS",
+    "name": "New Jalpaiguri",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 26.682355,
+    "lng": 88.442721,
+    "is_junction": false,
+    "route_count": 0.0
+  },
+  {
+    "code": "TDD",
+    "name": "TADEPALLIGUDEM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.809960999999998,
+    "lng": 81.526314,
+    "is_junction": true,
+    "route_count": 69.0
+  },
+  {
+    "code": "MRK",
+    "name": "MARKAPUR ROAD",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.714678,
+    "lng": 79.301115,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "NVS",
+    "name": "NAVSARI",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 20.946851,
+    "lng": 72.914294,
+    "is_junction": true,
+    "route_count": 65.0
+  },
+  {
+    "code": "SKLR",
+    "name": "Sakleshpur",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.945368,
+    "lng": 75.778745,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "HNL",
+    "name": "HINGOLI DECCAN",
+    "state": "Maharashtra",
+    "zone": "SCR",
+    "lat": 19.726357,
+    "lng": 77.146758,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "TRT",
+    "name": "TIRUTTANI",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 13.179217,
+    "lng": 79.611386,
+    "is_junction": true,
+    "route_count": 19.0
+  },
+  {
+    "code": "KGI",
+    "name": "KENGERI",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.918047,
+    "lng": 77.48431,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "HNA",
+    "name": "HONNAVAR",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 14.316931,
+    "lng": 74.433196,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "NLR",
+    "name": "NELLORE",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.460592,
+    "lng": 79.989383,
+    "is_junction": true,
+    "route_count": 151.0
+  },
+  {
+    "code": "GDA",
+    "name": "GODHRA JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 22.776974,
+    "lng": 73.603672,
+    "is_junction": true,
+    "route_count": 56.0
+  },
+  {
+    "code": "CPR",
+    "name": "CHHAPRA",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.78832,
+    "lng": 84.725004,
+    "is_junction": true,
+    "route_count": 119.0
+  },
+  {
+    "code": "MAJN",
+    "name": "MANGALORE JN",
+    "state": "Karnataka",
+    "zone": "SR",
+    "lat": 12.866193,
+    "lng": 74.88006,
+    "is_junction": true,
+    "route_count": 59.0
+  },
+  {
+    "code": "SGZ",
+    "name": "SHAMGARH",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 24.191141,
+    "lng": 75.642842,
+    "is_junction": true,
+    "route_count": 38.0
+  },
+  {
+    "code": "LPI",
+    "name": "LINGAMPALLI",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.482874000000002,
+    "lng": 78.31677400000001,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "MALM",
+    "name": "MANTHRALAYAM RD",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.949035,
+    "lng": 77.299196,
+    "is_junction": true,
+    "route_count": 47.0
+  },
+  {
+    "code": "AII",
+    "name": "AJMER JN",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 26.456612,
+    "lng": 74.63746400000001,
+    "is_junction": true,
+    "route_count": 125.0
+  },
+  {
+    "code": "BEHR",
+    "name": "BEOHARI",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 24.0002687,
+    "lng": 81.3797154,
+    "is_junction": true,
+    "route_count": 8.0
+  },
+  {
+    "code": "NRT",
+    "name": "NARASARAOPET",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.231527,
+    "lng": 80.041607,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "RFJ",
+    "name": "RAFIGANJ",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 24.819694,
+    "lng": 84.634804,
+    "is_junction": true,
+    "route_count": 17.0
+  },
+  {
+    "code": "AJJ",
+    "name": "ARAKKONAM",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 13.081512,
+    "lng": 79.667991,
+    "is_junction": true,
+    "route_count": 110.0
+  },
+  {
+    "code": "RNY",
+    "name": "RANGIYA JN",
+    "state": "Assam",
+    "zone": "",
+    "lat": 26.447901,
+    "lng": 91.605929,
+    "is_junction": true,
+    "route_count": 58.0
+  },
+  {
+    "code": "ANND",
+    "name": "ANAND JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 22.561307,
+    "lng": 72.965733,
+    "is_junction": true,
+    "route_count": 169.0
+  },
+  {
+    "code": "KYE",
+    "name": "KHURAI",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 24.051525,
+    "lng": 78.33112799999999,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "KOJ",
+    "name": "KOKRAJHAR",
+    "state": "Assam",
+    "zone": "",
+    "lat": 26.405057,
+    "lng": 90.274125,
+    "is_junction": true,
+    "route_count": 53.0
+  },
+  {
+    "code": "CTA",
+    "name": "Chitradurg",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 14.231154,
+    "lng": 76.386431,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "DKJ",
+    "name": "DORNAKAL JN",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 17.445987000000002,
+    "lng": 80.153157,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "BYT",
+    "name": "BHATAPARA",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.732464,
+    "lng": 81.946062,
+    "is_junction": true,
+    "route_count": 73.0
+  },
+  {
+    "code": "MULK",
+    "name": "MULKI",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 13.068517,
+    "lng": 74.804962,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "KEI",
+    "name": "KASHI",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.326564,
+    "lng": 83.031939,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "BIY",
+    "name": "BARDOLI",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.1342405,
+    "lng": 73.1058944,
+    "is_junction": true,
+    "route_count": 9.0
+  },
+  {
+    "code": "TEL",
+    "name": "TENALI JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.242409000000002,
+    "lng": 80.640413,
+    "is_junction": true,
+    "route_count": 89.0
+  },
+  {
+    "code": "PPTA",
+    "name": "PATLIPUTRA",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.621426,
+    "lng": 85.068505,
+    "is_junction": true,
+    "route_count": 4.0
+  },
+  {
+    "code": "BGBR",
+    "name": "BAGBAHRA",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.0462946,
+    "lng": 82.3841486,
+    "is_junction": true,
+    "route_count": 14.0
+  },
+  {
+    "code": "KSRA",
+    "name": "KASARA",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.647159,
+    "lng": 73.472003,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "KSV",
+    "name": "KOSI KALAN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.788551,
+    "lng": 77.445999,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "MKO",
+    "name": "MARKONA",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.195555,
+    "lng": 86.596117,
+    "is_junction": true,
+    "route_count": 4.0
+  },
+  {
+    "code": "UVD",
+    "name": "UDVADA",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 20.461236,
+    "lng": 72.918698,
+    "is_junction": true,
+    "route_count": 11.0
+  },
+  {
+    "code": "JOB",
+    "name": "ASALPUR JOBNER",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 26.900084,
+    "lng": 75.423467,
+    "is_junction": true,
+    "route_count": 21.0
+  },
+  {
+    "code": "MBNR",
+    "name": "MAHBUBNAGAR",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 16.757768,
+    "lng": 77.999429,
+    "is_junction": true,
+    "route_count": 48.0
+  },
+  {
+    "code": "CPH",
+    "name": "CHAMPA",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 22.034731,
+    "lng": 82.665149,
+    "is_junction": true,
+    "route_count": 48.0
+  },
+  {
+    "code": "GOK",
+    "name": "GOKARNA ROAD",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 14.582791,
+    "lng": 74.36719699999999,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "KPN",
+    "name": "KUPPAM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 12.746834,
+    "lng": 78.339549,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "LKR",
+    "name": "LUCKEESARAI JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.1716617005,
+    "lng": 86.093210587,
+    "is_junction": true,
+    "route_count": 50.0
+  },
+  {
+    "code": "NGN",
+    "name": "NANDGAON",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.307616,
+    "lng": 74.659526,
+    "is_junction": true,
+    "route_count": 21.0
+  },
+  {
+    "code": "HPP",
+    "name": "HARPALPUR",
+    "state": "Madhya Pradesh",
+    "zone": "NCR",
+    "lat": 25.290501,
+    "lng": 79.33546100000001,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "PUT",
+    "name": "PUTTUR",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 13.439642,
+    "lng": 79.552666,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "DTO",
+    "name": "DALTONGANJ",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 24.033075,
+    "lng": 84.07484299999999,
+    "is_junction": true,
+    "route_count": 30.0
+  },
+  {
+    "code": "CTC",
+    "name": "CUTTACK",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.466588,
+    "lng": 85.90156,
+    "is_junction": true,
+    "route_count": 140.0
+  },
+  {
+    "code": "HRR",
+    "name": "HARIHAR",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 14.515431,
+    "lng": 75.812314,
+    "is_junction": true,
+    "route_count": 37.0
+  },
+  {
+    "code": "DBA",
+    "name": "DABRA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 25.881197,
+    "lng": 78.331015,
+    "is_junction": true,
+    "route_count": 35.0
+  },
+  {
+    "code": "DMN",
+    "name": "DHAMANGAON",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.784674000000003,
+    "lng": 78.138054,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "NNA",
+    "name": "NAUGACHIA",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.385261,
+    "lng": 87.09387,
+    "is_junction": true,
+    "route_count": 50.0
+  },
+  {
+    "code": "AML",
+    "name": "AMALSAD",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 20.811373000000003,
+    "lng": 72.956092,
+    "is_junction": true,
+    "route_count": 13.0
+  },
+  {
+    "code": "BZU",
+    "name": "BETUL",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 21.896393,
+    "lng": 77.90589700000001,
+    "is_junction": true,
+    "route_count": 83.0
+  },
+  {
+    "code": "KRNT",
+    "name": "KURNOOL TOWN",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 15.833715,
+    "lng": 78.032655,
+    "is_junction": true,
+    "route_count": 50.0
+  },
+  {
+    "code": "SVA",
+    "name": "SUWASRA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 24.069844,
+    "lng": 75.64834400000001,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "SRTN",
+    "name": "SIBSAGAR TOWN",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 26.989968,
+    "lng": 94.643517,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "JP",
+    "name": "JAIPUR",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 26.920203,
+    "lng": 75.786923,
+    "is_junction": true,
+    "route_count": 171.0
+  },
+  {
+    "code": "TUNI",
+    "name": "TUNI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.361079999999998,
+    "lng": 82.542462,
+    "is_junction": true,
+    "route_count": 57.0
+  },
+  {
+    "code": "HYB",
+    "name": "HYDERABAD DECCAN",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 17.393362999999997,
+    "lng": 78.467377,
+    "is_junction": true,
+    "route_count": 41.0
+  },
+  {
+    "code": "MFP",
+    "name": "MUZAFFARPUR JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 26.122311,
+    "lng": 85.378006,
+    "is_junction": true,
+    "route_count": 100.0
+  },
+  {
+    "code": "AD",
+    "name": "ADONI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.617035,
+    "lng": 77.27485,
+    "is_junction": true,
+    "route_count": 54.0
+  },
+  {
+    "code": "OGL",
+    "name": "ONGOLE",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.498064,
+    "lng": 80.057404,
+    "is_junction": true,
+    "route_count": 152.0
+  },
+  {
+    "code": "PSB",
+    "name": "PARSABAD",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 24.307559,
+    "lng": 85.73873,
+    "is_junction": true,
+    "route_count": 9.0
+  },
+  {
+    "code": "GTL",
+    "name": "GUNTAKAL JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.17556,
+    "lng": 77.36661099999999,
+    "is_junction": true,
+    "route_count": 95.0
+  },
+  {
+    "code": "TRO",
+    "name": "TIRORA",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.415039,
+    "lng": 79.91803499999999,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "TATA",
+    "name": "TATANAGAR JN",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 22.768954,
+    "lng": 86.20056000000001,
+    "is_junction": true,
+    "route_count": 95.0
+  },
+  {
+    "code": "HAS",
+    "name": "Hassan Junction",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 13.003182,
+    "lng": 76.117359,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "MGN",
+    "name": "MEGHNAGAR",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 22.907459,
+    "lng": 74.539834,
+    "is_junction": true,
+    "route_count": 41.0
+  },
+  {
+    "code": "CAR",
+    "name": "CHUNAR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.103351,
+    "lng": 82.874703,
+    "is_junction": true,
+    "route_count": 37.0
+  },
+  {
+    "code": "YG",
+    "name": "YADGIR",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 16.744396,
+    "lng": 77.13036600000001,
+    "is_junction": true,
+    "route_count": 48.0
+  },
+  {
+    "code": "MZP",
+    "name": "MIRZAPUR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.13435,
+    "lng": 82.56986900000001,
+    "is_junction": true,
+    "route_count": 144.0
+  },
+  {
+    "code": "CLX",
+    "name": "CHIRALA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.830755,
+    "lng": 80.353602,
+    "is_junction": true,
+    "route_count": 65.0
+  },
+  {
+    "code": "SDLP",
+    "name": "Sadulpur Junction",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 28.631138,
+    "lng": 75.386989,
+    "is_junction": true,
+    "route_count": 17.0
+  },
+  {
+    "code": "DRU",
+    "name": "KADUR",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 13.552501,
+    "lng": 76.008846,
+    "is_junction": true,
+    "route_count": 30.0
+  },
+  {
+    "code": "NK",
+    "name": "NASIK ROAD",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.947627,
+    "lng": 73.841897,
+    "is_junction": true,
+    "route_count": 133.0
+  },
+  {
+    "code": "NBQ",
+    "name": "NEW BONGAIGAON",
+    "state": "Assam",
+    "zone": "",
+    "lat": 26.4758354405,
+    "lng": 90.5368434644,
+    "is_junction": true,
+    "route_count": 94.0
+  },
+  {
+    "code": "MGS",
+    "name": "MUGHAL SARAI JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.278149,
+    "lng": 83.11925000000001,
+    "is_junction": true,
+    "route_count": 233.0
+  },
+  {
+    "code": "KHS",
+    "name": "KHARSIA",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.99178,
+    "lng": 83.102414,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "SL",
+    "name": "SURATHKAL",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 12.989191,
+    "lng": 74.80617699999999,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "MABA",
+    "name": "MANDI BAMORA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 24.054032,
+    "lng": 78.08243700000001,
+    "is_junction": true,
+    "route_count": 19.0
+  },
+  {
+    "code": "BRC",
+    "name": "VADODARA JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 22.310756,
+    "lng": 73.181065,
+    "is_junction": true,
+    "route_count": 297.0
+  },
+  {
+    "code": "BPQ",
+    "name": "BALHARSHAH",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.8490173,
+    "lng": 79.3485858,
+    "is_junction": true,
+    "route_count": 115.0
+  },
+  {
+    "code": "MTY",
+    "name": "MULTAI",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 21.783543,
+    "lng": 78.26283000000001,
+    "is_junction": true,
+    "route_count": 23.0
+  },
+  {
+    "code": "ULG",
+    "name": "UDALGURI",
+    "state": "Assam",
+    "zone": "",
+    "lat": 26.744291,
+    "lng": 92.094329,
+    "is_junction": true,
+    "route_count": 4.0
+  },
+  {
+    "code": "URI",
+    "name": "URULI",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.494237,
+    "lng": 74.13682,
+    "is_junction": true,
+    "route_count": 37.0
+  },
+  {
+    "code": "BSB",
+    "name": "VARANASI JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.327281,
+    "lng": 82.986468,
+    "is_junction": true,
+    "route_count": 201.0
+  },
+  {
+    "code": "PTRU",
+    "name": "PATRATU",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 23.667024,
+    "lng": 85.30587700000001,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "BWN",
+    "name": "BARDDHAMAN JN",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 23.249718,
+    "lng": 87.87028099999999,
+    "is_junction": true,
+    "route_count": 152.0
+  },
+  {
+    "code": "ATP",
+    "name": "ANANTAPUR",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.686478,
+    "lng": 77.59531199999999,
+    "is_junction": true,
+    "route_count": 76.0
+  },
+  {
+    "code": "WRR",
+    "name": "WARORA",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.244263,
+    "lng": 79.00994399999999,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "BBU",
+    "name": "BHABUA ROAD",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.173007,
+    "lng": 83.618913,
+    "is_junction": true,
+    "route_count": 55.0
+  },
+  {
+    "code": "RGS",
+    "name": "Ringas Junction",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 27.373379,
+    "lng": 75.56360400000001,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "BRY",
+    "name": "BAREILLY",
+    "state": "Uttar Pradesh",
+    "zone": "NER",
+    "lat": 28.3372843,
+    "lng": 79.4109744,
+    "is_junction": true,
+    "route_count": 2.0
+  },
+  {
+    "code": "SEH",
+    "name": "SEHORE",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.215095,
+    "lng": 77.07788199999999,
+    "is_junction": true,
+    "route_count": 49.0
+  },
+  {
+    "code": "BG",
+    "name": "BHONGIR",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.524696,
+    "lng": 78.89847,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "MAN",
+    "name": "MANI NAGAR",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 23.000142,
+    "lng": 72.610413,
+    "is_junction": true,
+    "route_count": 40.0
+  },
+  {
+    "code": "BH",
+    "name": "BHARUCH JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.706907,
+    "lng": 72.997689,
+    "is_junction": true,
+    "route_count": 127.0
+  },
+  {
+    "code": "YPR",
+    "name": "YESVANTPUR JN",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 13.022839,
+    "lng": 77.55117399999999,
+    "is_junction": true,
+    "route_count": 143.0
+  },
+  {
+    "code": "RNQ",
+    "name": "RENUKUT",
+    "state": "Uttar Pradesh",
+    "zone": "ECR",
+    "lat": 24.203558,
+    "lng": 83.039896,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "ROU",
+    "name": "ROURKELA",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 22.22844,
+    "lng": 84.86313200000001,
+    "is_junction": true,
+    "route_count": 86.0
+  },
+  {
+    "code": "ADRA",
+    "name": "ADRA JN",
+    "state": "West Bengal",
+    "zone": "SER",
+    "lat": 23.495992,
+    "lng": 86.67466499999999,
+    "is_junction": true,
+    "route_count": 44.0
+  },
+  {
+    "code": "MABD",
+    "name": "MAHBUBABAD",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 17.597561,
+    "lng": 79.999792,
+    "is_junction": true,
+    "route_count": 45.0
+  },
+  {
+    "code": "NCB",
+    "name": "NEW COOCH BEHAR",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 26.353159,
+    "lng": 89.469766,
+    "is_junction": true,
+    "route_count": 74.0
+  },
+  {
+    "code": "DWR",
+    "name": "DHARWAR",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 15.440386,
+    "lng": 75.004552,
+    "is_junction": true,
+    "route_count": 53.0
+  },
+  {
+    "code": "PHA",
+    "name": "PATHARIA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.905726,
+    "lng": 79.192899,
+    "is_junction": true,
+    "route_count": 21.0
+  },
+  {
+    "code": "LKO",
+    "name": "LUCKNOW",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.830675,
+    "lng": 80.925291,
+    "is_junction": true,
+    "route_count": 237.0
+  },
+  {
+    "code": "NDO",
+    "name": "NIDUBROLU",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.067904,
+    "lng": 80.557243,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "STA",
+    "name": "SATNA",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 24.568619,
+    "lng": 80.827717,
+    "is_junction": true,
+    "route_count": 137.0
+  },
+  {
+    "code": "MZR",
+    "name": "MURTAJAPUR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.736468,
+    "lng": 77.35482499999999,
+    "is_junction": true,
+    "route_count": 31.0
+  },
+  {
+    "code": "FL",
+    "name": "PHULERA JN",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 26.872814,
+    "lng": 75.24545599999999,
+    "is_junction": true,
+    "route_count": 89.0
+  },
+  {
+    "code": "MDP",
+    "name": "MADHUPUR JN",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 24.270633,
+    "lng": 86.642183,
+    "is_junction": true,
+    "route_count": 107.0
+  },
+  {
+    "code": "RV",
+    "name": "RAVER",
+    "state": "Maharashtra",
+    "zone": "CR",
+    "lat": 21.222201,
+    "lng": 76.044594,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "AKP",
+    "name": "ANAKAPALLE",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.695503,
+    "lng": 83.00885099999999,
+    "is_junction": true,
+    "route_count": 67.0
+  },
+  {
+    "code": "RBL",
+    "name": "RAE BARELI JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.232684,
+    "lng": 81.23932,
+    "is_junction": true,
+    "route_count": 59.0
+  },
+  {
+    "code": "PAP",
+    "name": "PITHAPURAM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.11087,
+    "lng": 82.257512,
+    "is_junction": true,
+    "route_count": 21.0
+  },
+  {
+    "code": "GY",
+    "name": "GOOTY JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.149208,
+    "lng": 77.625823,
+    "is_junction": true,
+    "route_count": 88.0
+  },
+  {
+    "code": "KSG",
+    "name": "KISHANGARH",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 26.588968,
+    "lng": 74.855553,
+    "is_junction": true,
+    "route_count": 68.0
+  },
+  {
+    "code": "GZB",
+    "name": "GHAZIABAD",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 28.649702,
+    "lng": 77.431099,
+    "is_junction": true,
+    "route_count": 169.0
+  },
+  {
+    "code": "NU",
+    "name": "NARSINGHPUR",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 22.943112,
+    "lng": 79.214385,
+    "is_junction": true,
+    "route_count": 66.0
+  },
+  {
+    "code": "KIR",
+    "name": "KATIHAR JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.548947,
+    "lng": 87.566409,
+    "is_junction": true,
+    "route_count": 75.0
+  },
+  {
+    "code": "MNGD",
+    "name": "MUNIGUDA",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.62753,
+    "lng": 83.488343,
+    "is_junction": true,
+    "route_count": 40.0
+  },
+  {
+    "code": "BOR",
+    "name": "BOISAR",
+    "state": "Maharashtra",
+    "zone": "WR",
+    "lat": 19.7985273,
+    "lng": 72.76189900000001,
+    "is_junction": true,
+    "route_count": 38.0
+  },
+  {
+    "code": "NZM",
+    "name": "DELHI H NIZAMUDDIN",
+    "state": "NCT",
+    "zone": "",
+    "lat": 28.58733,
+    "lng": 77.254249,
+    "is_junction": true,
+    "route_count": 178.0
+  },
+  {
+    "code": "BKJ",
+    "name": "BARKUR",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 13.4774588,
+    "lng": 74.75968040000001,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "ET",
+    "name": "ITARSI JN",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 22.608258,
+    "lng": 77.767128,
+    "is_junction": true,
+    "route_count": 260.0
+  },
+  {
+    "code": "BHL",
+    "name": "BHILWARA",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 25.3435508,
+    "lng": 74.63077340000001,
+    "is_junction": true,
+    "route_count": 33.0
+  },
+  {
+    "code": "HAN",
+    "name": "HINDAUN CITY",
+    "state": "Rajasthan",
+    "zone": "WCR",
+    "lat": 26.756164,
+    "lng": 77.03168600000001,
+    "is_junction": true,
+    "route_count": 33.0
+  },
+  {
+    "code": "SCM",
+    "name": "SIMHACHALAM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.744667,
+    "lng": 83.220449,
+    "is_junction": true,
+    "route_count": 28.0
+  },
+  {
+    "code": "AKV",
+    "name": "ANKLESHWAR JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.623889,
+    "lng": 73.000633,
+    "is_junction": true,
+    "route_count": 73.0
+  },
+  {
+    "code": "GHY",
+    "name": "GUWAHATI",
+    "state": "Assam",
+    "zone": "",
+    "lat": 26.182635,
+    "lng": 91.751851,
+    "is_junction": true,
+    "route_count": 86.0
+  },
+  {
+    "code": "DGR",
+    "name": "DURGAPUR",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 23.495046,
+    "lng": 87.297902,
+    "is_junction": true,
+    "route_count": 130.0
+  },
+  {
+    "code": "SHU",
+    "name": "SHOLINGHUR",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 13.013974,
+    "lng": 79.484589,
+    "is_junction": true,
+    "route_count": 9.0
+  },
+  {
+    "code": "LNL",
+    "name": "LONAVALA",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.748883,
+    "lng": 73.407657,
+    "is_junction": true,
+    "route_count": 108.0
+  },
+  {
+    "code": "PDPL",
+    "name": "PEDDAPALLI",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 18.613795999999997,
+    "lng": 79.39208,
+    "is_junction": true,
+    "route_count": 17.0
+  },
+  {
+    "code": "BRD",
+    "name": "BHANDARA ROAD",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.238512,
+    "lng": 79.64752299999999,
+    "is_junction": true,
+    "route_count": 37.0
+  },
+  {
+    "code": "MDR",
+    "name": "MADHIRA",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 16.921826,
+    "lng": 80.366849,
+    "is_junction": true,
+    "route_count": 31.0
+  },
+  {
+    "code": "SBC",
+    "name": "BANGALORE CITY JN",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.977595,
+    "lng": 77.56808299999999,
+    "is_junction": true,
+    "route_count": 117.0
+  },
+  {
+    "code": "FTP",
+    "name": "FATEHPUR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.917489,
+    "lng": 80.801869,
+    "is_junction": true,
+    "route_count": 33.0
+  },
+  {
+    "code": "NWU",
+    "name": "NAVAPUR",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.166844,
+    "lng": 73.771183,
+    "is_junction": true,
+    "route_count": 13.0
+  },
+  {
+    "code": "PNME",
+    "name": "PARASNATH",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 23.987971,
+    "lng": 86.037862,
+    "is_junction": true,
+    "route_count": 49.0
+  },
+  {
+    "code": "PNC",
+    "name": "PATNA SAHEB",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.585856,
+    "lng": 85.230942,
+    "is_junction": true,
+    "route_count": 118.0
+  },
+  {
+    "code": "SGO",
+    "name": "SAUGOR",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.84735,
+    "lng": 78.74292,
+    "is_junction": true,
+    "route_count": 61.0
+  },
+  {
+    "code": "DUD",
+    "name": "DUDHANI",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 17.362420999999998,
+    "lng": 76.37871,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "JSME",
+    "name": "JASIDIH JN",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 24.514517,
+    "lng": 86.644255,
+    "is_junction": true,
+    "route_count": 116.0
+  },
+  {
+    "code": "VSKP",
+    "name": "VISHAKAPATNAM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.72159,
+    "lng": 83.289514,
+    "is_junction": true,
+    "route_count": 198.0
+  },
+  {
+    "code": "DHN",
+    "name": "DHANBAD JN",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 23.790966,
+    "lng": 86.428956,
+    "is_junction": true,
+    "route_count": 102.0
+  },
+  {
+    "code": "BAU",
+    "name": "BURHANPUR",
+    "state": "Madhya Pradesh",
+    "zone": "CR",
+    "lat": 21.3343976,
+    "lng": 76.1986787,
+    "is_junction": true,
+    "route_count": 54.0
+  },
+  {
+    "code": "DMM",
+    "name": "DHARMAVARAM JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.424369,
+    "lng": 77.717115,
+    "is_junction": true,
+    "route_count": 88.0
+  },
+  {
+    "code": "KY",
+    "name": "KARELI",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 22.932344,
+    "lng": 79.066765,
+    "is_junction": true,
+    "route_count": 23.0
+  },
+  {
+    "code": "SORO",
+    "name": "SORO",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.291084,
+    "lng": 86.69253900000001,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "MML",
+    "name": "MADAN MAHAL",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 23.159475,
+    "lng": 79.920425,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "KPG",
+    "name": "KOPARGAON",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.902943,
+    "lng": 74.503328,
+    "is_junction": true,
+    "route_count": 69.0
+  },
+  {
+    "code": "TRL",
+    "name": "TIRUVALLUR",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 13.115764,
+    "lng": 79.913105,
+    "is_junction": true,
+    "route_count": 35.0
+  },
+  {
+    "code": "TMR",
+    "name": "TUMSAR ROAD",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.342437,
+    "lng": 79.75141900000001,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "ARA",
+    "name": "ARA",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.548889,
+    "lng": 84.66259600000001,
+    "is_junction": true,
+    "route_count": 80.0
+  },
+  {
+    "code": "BDC",
+    "name": "BANDEL JN",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 22.9236565,
+    "lng": 88.3793623,
+    "is_junction": true,
+    "route_count": 90.0
+  },
+  {
+    "code": "SC",
+    "name": "SECUNDERABAD JN",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.433146999999998,
+    "lng": 78.50148100000001,
+    "is_junction": true,
+    "route_count": 169.0
+  },
+  {
+    "code": "KIT",
+    "name": "KHALLIKOT",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.611205,
+    "lng": 85.128091,
+    "is_junction": true,
+    "route_count": 14.0
+  },
+  {
+    "code": "ANV",
+    "name": "ANNAVARAM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.269633,
+    "lng": 82.41967700000001,
+    "is_junction": true,
+    "route_count": 49.0
+  },
+  {
+    "code": "SWM",
+    "name": "SAWAI MADHOPUR",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 26.018279,
+    "lng": 76.35622,
+    "is_junction": true,
+    "route_count": 126.0
+  },
+  {
+    "code": "KBL",
+    "name": "KOPPAL",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 15.353868,
+    "lng": 76.14395900000001,
+    "is_junction": true,
+    "route_count": 23.0
+  },
+  {
+    "code": "SEGM",
+    "name": "SEVAGRAM",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.739076,
+    "lng": 78.619225,
+    "is_junction": true,
+    "route_count": 65.0
+  },
+  {
+    "code": "KYN",
+    "name": "KALYAN JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.234716,
+    "lng": 73.12974,
+    "is_junction": true,
+    "route_count": 254.0
+  },
+  {
+    "code": "KT",
+    "name": "KUMTA",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 14.436871,
+    "lng": 74.420652,
+    "is_junction": true,
+    "route_count": 23.0
+  },
+  {
+    "code": "MKU",
+    "name": "MALKAPUR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.891974,
+    "lng": 76.202946,
+    "is_junction": true,
+    "route_count": 56.0
+  },
+  {
+    "code": "JMU",
+    "name": "JAMUI",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 24.971949,
+    "lng": 86.25477500000001,
+    "is_junction": true,
+    "route_count": 39.0
+  },
+  {
+    "code": "VZM",
+    "name": "VIZIANAGRAM JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.111374,
+    "lng": 83.39558600000001,
+    "is_junction": true,
+    "route_count": 148.0
+  },
+  {
+    "code": "VN",
+    "name": "VANIYAMBADI",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 12.678487,
+    "lng": 78.621651,
+    "is_junction": true,
+    "route_count": 22.0
+  },
+  {
+    "code": "SKT",
+    "name": "SAKTI",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 22.011785000000003,
+    "lng": 82.956526,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "BUA",
+    "name": "BARADWAR",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 22.011725,
+    "lng": 82.813724,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "BRKA",
+    "name": "BARKAKANA",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 23.624159,
+    "lng": 85.469553,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "TNL",
+    "name": "TANGLA",
+    "state": "Assam",
+    "zone": "",
+    "lat": 26.658355,
+    "lng": 91.912274,
+    "is_junction": true,
+    "route_count": 4.0
+  },
+  {
+    "code": "BSL",
+    "name": "BHUSAVAL JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.0472812,
+    "lng": 75.78867170000001,
+    "is_junction": true,
+    "route_count": 246.0
+  },
+  {
+    "code": "BMT",
+    "name": "BEGAMPET",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.4388739,
+    "lng": 78.4586266,
+    "is_junction": true,
+    "route_count": 36.0
+  },
+  {
+    "code": "MRJ",
+    "name": "MIRAJ JN",
+    "state": "Maharashtra",
+    "zone": "CR",
+    "lat": 16.819946,
+    "lng": 74.638839,
+    "is_junction": true,
+    "route_count": 62.0
+  },
+  {
+    "code": "ASN",
+    "name": "ASANSOL JN",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 23.691441,
+    "lng": 86.975152,
+    "is_junction": true,
+    "route_count": 190.0
+  },
+  {
+    "code": "AN",
+    "name": "AMALNER",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.049009,
+    "lng": 75.057314,
+    "is_junction": true,
+    "route_count": 40.0
+  },
+  {
+    "code": "ZN",
+    "name": "JANGAON",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.725115,
+    "lng": 79.15473399999999,
+    "is_junction": true,
+    "route_count": 31.0
+  },
+  {
+    "code": "CKP",
+    "name": "CHAKRADHARPUR",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 22.678979,
+    "lng": 85.62777100000001,
+    "is_junction": true,
+    "route_count": 59.0
+  },
+  {
+    "code": "FKG",
+    "name": "FURKATING JN",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 26.465652,
+    "lng": 94.002692,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "DWP",
+    "name": "DWARAPUDI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.927556,
+    "lng": 81.922661,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "HD",
+    "name": "HARDA",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 22.338414,
+    "lng": 77.10084,
+    "is_junction": true,
+    "route_count": 51.0
+  },
+  {
+    "code": "VMA",
+    "name": "VIKRAMGARH ALOT",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.765121,
+    "lng": 75.53837899999999,
+    "is_junction": true,
+    "route_count": 23.0
+  },
+  {
+    "code": "NEW",
+    "name": "NIVARI",
+    "state": "Uttar Pradesh",
+    "zone": "NCR",
+    "lat": 25.328061,
+    "lng": 78.82007,
+    "is_junction": true,
+    "route_count": 8.0
+  },
+  {
+    "code": "MKP",
+    "name": "MANIKPUR JN",
+    "state": "Uttar Pradesh",
+    "zone": "NCR",
+    "lat": 25.063492,
+    "lng": 81.09365700000001,
+    "is_junction": true,
+    "route_count": 81.0
+  },
+  {
+    "code": "MDU",
+    "name": "MADURAI JN",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 9.919907,
+    "lng": 78.11031399999999,
+    "is_junction": true,
+    "route_count": 77.0
+  },
+  {
+    "code": "MAO",
+    "name": "MADGAON",
+    "state": "Goa",
+    "zone": "KR",
+    "lat": 15.267911000000002,
+    "lng": 73.97072399999999,
+    "is_junction": true,
+    "route_count": 85.0
+  },
+  {
+    "code": "JJN",
+    "name": "Jhunjhunun",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 28.10688406385719,
+    "lng": 75.39017865434289,
+    "is_junction": false,
+    "route_count": 0.0
+  },
+  {
+    "code": "JMT",
+    "name": "JAMTARA",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 23.958904,
+    "lng": 86.805183,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "VBL",
+    "name": "BOBBILI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.576763999999997,
+    "lng": 83.34572200000001,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "PAU",
+    "name": "PURNA JN",
+    "state": "Maharashtra",
+    "zone": "SCR",
+    "lat": 19.180527,
+    "lng": 77.024985,
+    "is_junction": true,
+    "route_count": 71.0
+  },
+  {
+    "code": "ETW",
+    "name": "ETAWAH",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.78597,
+    "lng": 79.021502,
+    "is_junction": true,
+    "route_count": 61.0
+  },
+  {
+    "code": "DDE",
+    "name": "DONDAICHA",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.331414,
+    "lng": 74.563104,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "JLL",
+    "name": "JALALGANJ",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.612516,
+    "lng": 82.772465,
+    "is_junction": true,
+    "route_count": 14.0
+  },
+  {
+    "code": "PLJ",
+    "name": "PALEJ",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.921578,
+    "lng": 73.072387,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "NGNT",
+    "name": "NEW GUNTUR",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 16.3100404,
+    "lng": 80.4582228,
+    "is_junction": true,
+    "route_count": 13.0
+  },
+  {
+    "code": "GDYA",
+    "name": "GHORADONGRI",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 22.126423,
+    "lng": 78.001987,
+    "is_junction": true,
+    "route_count": 43.0
+  },
+  {
+    "code": "NBH",
+    "name": "NIMBAHERA",
+    "state": "Rajasthan",
+    "zone": "WR",
+    "lat": 24.623252,
+    "lng": 74.694312,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "GGC",
+    "name": "GANGAPUR CITY",
+    "state": "Rajasthan",
+    "zone": "WCR",
+    "lat": 26.468979,
+    "lng": 76.72770799999999,
+    "is_junction": true,
+    "route_count": 49.0
+  },
+  {
+    "code": "JRU",
+    "name": "CHIKJAJUR JN",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 14.126112,
+    "lng": 76.138705,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "MDS",
+    "name": "MANDASOR",
+    "state": "Madhya Pradesh",
+    "zone": "WR",
+    "lat": 24.075937000000003,
+    "lng": 75.07634300000001,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "MTJ",
+    "name": "MATHURA JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.480145,
+    "lng": 77.67311699999999,
+    "is_junction": true,
+    "route_count": 171.0
+  },
+  {
+    "code": "SOP",
+    "name": "SHIUPUR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.355419,
+    "lng": 82.946972,
+    "is_junction": false,
+    "route_count": 1.0
+  },
+  {
+    "code": "SPN",
+    "name": "SHAHJEHANPUR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.894224,
+    "lng": 79.904605,
+    "is_junction": true,
+    "route_count": 94.0
+  },
+  {
+    "code": "ANKL",
+    "name": "ANKOLA",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 14.645347,
+    "lng": 74.332936,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "GWL",
+    "name": "GWALIOR JN",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 26.216483,
+    "lng": 78.18229199999999,
+    "is_junction": true,
+    "route_count": 141.0
+  },
+  {
+    "code": "AGC",
+    "name": "AGRA CANTT",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.157992,
+    "lng": 77.990153,
+    "is_junction": true,
+    "route_count": 154.0
+  },
+  {
+    "code": "ANVT",
+    "name": "ANAND VIHAR TRM",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 28.6505035654,
+    "lng": 77.31521255,
+    "is_junction": true,
+    "route_count": 53.0
+  },
+  {
+    "code": "SDB",
+    "name": "SHAHABAD",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 17.121662999999998,
+    "lng": 76.943513,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "NTSK",
+    "name": "NEW TINSUKIA JN",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 27.479748,
+    "lng": 95.334128,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "GID",
+    "name": "GIDDALUR",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.379008,
+    "lng": 78.925583,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "RRB",
+    "name": "BIRUR JN",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 13.591101,
+    "lng": 75.974749,
+    "is_junction": true,
+    "route_count": 50.0
+  },
+  {
+    "code": "PHN",
+    "name": "POKHRAYAN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.222964,
+    "lng": 79.84088799999999,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "MJF",
+    "name": "MALKAJGIRI",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.448392000000002,
+    "lng": 78.529606,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "OBR",
+    "name": "OBRA DAM",
+    "state": "Uttar Pradesh",
+    "zone": "ECR",
+    "lat": 24.438661,
+    "lng": 82.975949,
+    "is_junction": true,
+    "route_count": 13.0
+  },
+  {
+    "code": "SLO",
+    "name": "SAMALKOT JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.044827,
+    "lng": 82.168724,
+    "is_junction": true,
+    "route_count": 130.0
+  },
+  {
+    "code": "BD",
+    "name": "BADNERA JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.8567925,
+    "lng": 77.73231969999999,
+    "is_junction": true,
+    "route_count": 91.0
+  },
+  {
+    "code": "BXR",
+    "name": "BUXAR",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.562067,
+    "lng": 83.982184,
+    "is_junction": true,
+    "route_count": 84.0
+  },
+  {
+    "code": "BJU",
+    "name": "BARAUNI JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.461768000000003,
+    "lng": 85.988748,
+    "is_junction": true,
+    "route_count": 130.0
+  },
+  {
+    "code": "HWH",
+    "name": "HOWRAH JN",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 22.584078,
+    "lng": 88.34099900000001,
+    "is_junction": true,
+    "route_count": 230.0
+  },
+  {
+    "code": "ADI",
+    "name": "AHMEDABAD JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 23.025515,
+    "lng": 72.601516,
+    "is_junction": true,
+    "route_count": 255.0
+  },
+  {
+    "code": "MRHT",
+    "name": "MORANHAT",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 27.1829782,
+    "lng": 94.9193076,
+    "is_junction": true,
+    "route_count": 8.0
+  },
+  {
+    "code": "RMA",
+    "name": "RAMGANJ MANDI",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 24.644606,
+    "lng": 75.939411,
+    "is_junction": true,
+    "route_count": 46.0
+  },
+  {
+    "code": "JAJ",
+    "name": "JHAJHA",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 24.779456,
+    "lng": 86.399854,
+    "is_junction": true,
+    "route_count": 105.0
+  },
+  {
+    "code": "SNI",
+    "name": "SINDI",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.816446,
+    "lng": 78.883342,
+    "is_junction": true,
+    "route_count": 9.0
+  },
+  {
+    "code": "ERS",
+    "name": "ERNAKULAM JN",
+    "state": "Kerala",
+    "zone": "",
+    "lat": 9.969542,
+    "lng": 76.290672,
+    "is_junction": true,
+    "route_count": 97.0
+  },
+  {
+    "code": "SNK",
+    "name": "SINDKHEDA",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.234022,
+    "lng": 74.73536700000001,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "VYA",
+    "name": "VYARA",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.118142,
+    "lng": 73.383847,
+    "is_junction": true,
+    "route_count": 19.0
+  },
+  {
+    "code": "HSR",
+    "name": "Hisar",
+    "state": "Haryana",
+    "zone": "NWR",
+    "lat": 29.152341,
+    "lng": 75.724305,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "BARH",
+    "name": "BARH",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.46165,
+    "lng": 85.70942600000001,
+    "is_junction": true,
+    "route_count": 60.0
+  },
+  {
+    "code": "DMO",
+    "name": "DAMOH",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.836693,
+    "lng": 79.432246,
+    "is_junction": true,
+    "route_count": 55.0
+  },
+  {
+    "code": "ALER",
+    "name": "ALER",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.6459553,
+    "lng": 79.04834140000001,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "BAQ",
+    "name": "GANJ BASODA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.845347,
+    "lng": 77.944826,
+    "is_junction": true,
+    "route_count": 47.0
+  },
+  {
+    "code": "IGP",
+    "name": "IGATPURI",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.694053,
+    "lng": 73.56237899999999,
+    "is_junction": true,
+    "route_count": 105.0
+  },
+  {
+    "code": "HLN",
+    "name": "Hole Narsipur",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.786495,
+    "lng": 76.24646,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "SWV",
+    "name": "SAWANTWADI ROAD",
+    "state": "Maharashtra",
+    "zone": "KR",
+    "lat": 15.866512,
+    "lng": 73.785308,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "KQR",
+    "name": "KODERMA",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 24.434741,
+    "lng": 85.52945799999999,
+    "is_junction": true,
+    "route_count": 63.0
+  },
+  {
+    "code": "NN",
+    "name": "NANDURA",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.838889,
+    "lng": 76.46015799999999,
+    "is_junction": true,
+    "route_count": 23.0
+  },
+  {
+    "code": "WJR",
+    "name": "WALAJAH ROAD JN",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 12.970676,
+    "lng": 79.360511,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "NMH",
+    "name": "NIMACH",
+    "state": "Madhya Pradesh",
+    "zone": "WR",
+    "lat": 24.459873,
+    "lng": 74.853025,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "ANG",
+    "name": "AHMADNAGAR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.0755194777,
+    "lng": 74.721882467,
+    "is_junction": true,
+    "route_count": 58.0
+  },
+  {
+    "code": "SUR",
+    "name": "SOLAPUR JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 17.664496,
+    "lng": 75.893401,
+    "is_junction": true,
+    "route_count": 100.0
+  },
+  {
+    "code": "TORI",
+    "name": "TORI",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 23.680808,
+    "lng": 84.739774,
+    "is_junction": true,
+    "route_count": 21.0
+  },
+  {
+    "code": "BTE",
+    "name": "BHARATPUR JN",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 27.237107,
+    "lng": 77.488613,
+    "is_junction": true,
+    "route_count": 79.0
+  },
+  {
+    "code": "KAPG",
+    "name": "KALUPARA GHAT",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.896585,
+    "lng": 85.40365100000001,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "COR",
+    "name": "CHITTAURGARH",
+    "state": "Rajasthan",
+    "zone": "WR",
+    "lat": 24.874341,
+    "lng": 74.623687,
+    "is_junction": true,
+    "route_count": 45.0
+  },
+  {
+    "code": "R",
+    "name": "RAIPUR JN",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.256462000000003,
+    "lng": 81.629328,
+    "is_junction": true,
+    "route_count": 141.0
+  },
+  {
+    "code": "KKW",
+    "name": "KANKAVALI",
+    "state": "Maharashtra",
+    "zone": "KR",
+    "lat": 16.2587773,
+    "lng": 73.71987089999999,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "GAR",
+    "name": "GADARWARA",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 22.899459,
+    "lng": 78.79173399999999,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "TIG",
+    "name": "TITLAGARH",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.284399,
+    "lng": 83.154382,
+    "is_junction": true,
+    "route_count": 58.0
+  },
+  {
+    "code": "KHED",
+    "name": "KHED",
+    "state": "Maharashtra",
+    "zone": "KR",
+    "lat": 17.712059,
+    "lng": 73.40881499999999,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "SCH",
+    "name": "SACHIN",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 21.077673,
+    "lng": 72.874083,
+    "is_junction": true,
+    "route_count": 9.0
+  },
+  {
+    "code": "RN",
+    "name": "RATNAGIRI",
+    "state": "Maharashtra",
+    "zone": "KR",
+    "lat": 17.002793,
+    "lng": 73.356938,
+    "is_junction": true,
+    "route_count": 62.0
+  },
+  {
+    "code": "NSD",
+    "name": "NASIRABAD",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 26.294459999999997,
+    "lng": 74.71699100000001,
+    "is_junction": true,
+    "route_count": 19.0
+  },
+  {
+    "code": "HUP",
+    "name": "HINDUPUR",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 13.819144,
+    "lng": 77.500362,
+    "is_junction": true,
+    "route_count": 56.0
+  },
+  {
+    "code": "SPJ",
+    "name": "SAMASTIPUR JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.858304,
+    "lng": 85.78736,
+    "is_junction": true,
+    "route_count": 101.0
+  },
+  {
+    "code": "MXN",
+    "name": "MARIANI JN",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 26.652434999999997,
+    "lng": 94.308203,
+    "is_junction": true,
+    "route_count": 39.0
+  },
+  {
+    "code": "PPI",
+    "name": "PIPARIYA",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 22.753941,
+    "lng": 78.354538,
+    "is_junction": true,
+    "route_count": 75.0
+  },
+  {
+    "code": "ND",
+    "name": "NADIAD JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 22.694106,
+    "lng": 72.855718,
+    "is_junction": true,
+    "route_count": 143.0
+  },
+  {
+    "code": "JER",
+    "name": "JALESWAR",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.79749,
+    "lng": 87.22049100000001,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "GYN",
+    "name": "GYANPUR ROAD",
+    "state": "Uttar Pradesh",
+    "zone": "NER",
+    "lat": 25.280144010999997,
+    "lng": 82.4272883557,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "AMLA",
+    "name": "AMLA JN",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 21.919717,
+    "lng": 78.123187,
+    "is_junction": true,
+    "route_count": 44.0
+  },
+  {
+    "code": "MID",
+    "name": "MADHI",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.145672,
+    "lng": 73.24268000000001,
+    "is_junction": true,
+    "route_count": 9.0
+  },
+  {
+    "code": "BRWD",
+    "name": "BARWADIH JN",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 23.843836,
+    "lng": 84.11877999999999,
+    "is_junction": true,
+    "route_count": 22.0
+  },
+  {
+    "code": "APT",
+    "name": "ANAPARTI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.935817,
+    "lng": 81.953181,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "JNH",
+    "name": "JANGHAI JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.549911,
+    "lng": 82.310962,
+    "is_junction": true,
+    "route_count": 38.0
+  },
+  {
+    "code": "KUDL",
+    "name": "KUDAL",
+    "state": "Maharashtra",
+    "zone": "KR",
+    "lat": 16.017651,
+    "lng": 73.67813000000001,
+    "is_junction": true,
+    "route_count": 22.0
+  },
+  {
+    "code": "RNG",
+    "name": "RANIGANJ",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 23.602851,
+    "lng": 87.11698,
+    "is_junction": true,
+    "route_count": 48.0
+  },
+  {
+    "code": "KSNG",
+    "name": "KESINGA",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.188103,
+    "lng": 83.224709,
+    "is_junction": true,
+    "route_count": 42.0
+  },
+  {
+    "code": "THV",
+    "name": "THERUBALI",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.335826,
+    "lng": 83.42130900000001,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "SRC",
+    "name": "SANTRAGACHI JN",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 22.58393,
+    "lng": 88.284011,
+    "is_junction": true,
+    "route_count": 85.0
+  },
+  {
+    "code": "KRD",
+    "name": "KARAD",
+    "state": "Maharashtra",
+    "zone": "CR",
+    "lat": 17.310011,
+    "lng": 74.215686,
+    "is_junction": true,
+    "route_count": 34.0
+  },
+  {
+    "code": "CSN",
+    "name": "CHALISGAON JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.464109,
+    "lng": 74.999049,
+    "is_junction": true,
+    "route_count": 44.0
+  },
+  {
+    "code": "PNVL",
+    "name": "PANVEL",
+    "state": "Maharashtra",
+    "zone": "CR",
+    "lat": 18.990919,
+    "lng": 73.121756,
+    "is_junction": true,
+    "route_count": 80.0
+  },
+  {
+    "code": "AMB",
+    "name": "AMBODALA",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.8363234649,
+    "lng": 83.45635247989999,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "KGP",
+    "name": "KHARAGPUR JN",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 22.341432,
+    "lng": 87.32845599999999,
+    "is_junction": true,
+    "route_count": 174.0
+  },
+  {
+    "code": "UBR",
+    "name": "UMBARGAM ROAD",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 20.153499,
+    "lng": 72.79082100000001,
+    "is_junction": true,
+    "route_count": 11.0
+  },
+  {
+    "code": "PNBE",
+    "name": "PATNA JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.60256,
+    "lng": 85.136824,
+    "is_junction": true,
+    "route_count": 191.0
+  },
+  {
+    "code": "DVG",
+    "name": "DAVANGERE",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 14.467834,
+    "lng": 75.92229,
+    "is_junction": true,
+    "route_count": 49.0
+  },
+  {
+    "code": "KNW",
+    "name": "KHANDWA",
+    "state": "Madhya Pradesh",
+    "zone": "CR",
+    "lat": 21.823596,
+    "lng": 76.353227,
+    "is_junction": true,
+    "route_count": 124.0
+  },
+  {
+    "code": "MRDW",
+    "name": "MURDESHWAR",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 14.100277,
+    "lng": 74.50524700000001,
+    "is_junction": true,
+    "route_count": 14.0
+  },
+  {
+    "code": "SKM",
+    "name": "SINGARAYAKONDA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.253118,
+    "lng": 80.027126,
+    "is_junction": true,
+    "route_count": 27.0
+  },
+  {
+    "code": "AGN",
+    "name": "AMGAON",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.3612928554,
+    "lng": 80.3746491022,
+    "is_junction": true,
+    "route_count": 14.0
+  },
+  {
+    "code": "RC",
+    "name": "RAICHUR",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 16.192441000000002,
+    "lng": 77.339165,
+    "is_junction": true,
+    "route_count": 62.0
+  },
+  {
+    "code": "KPD",
+    "name": "KATPADI JN",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 12.972734,
+    "lng": 79.13534100000001,
+    "is_junction": true,
+    "route_count": 177.0
+  },
+  {
+    "code": "CND",
+    "name": "CHANDUR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.8045192,
+    "lng": 77.9821558,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "HPU",
+    "name": "HAPUR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 28.739613,
+    "lng": 77.77957599999999,
+    "is_junction": true,
+    "route_count": 59.0
+  },
+  {
+    "code": "KMZ",
+    "name": "KATNI MURWARA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.8343563,
+    "lng": 80.4014844,
+    "is_junction": true,
+    "route_count": 35.0
+  },
+  {
+    "code": "NDL",
+    "name": "NANDYAL",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.468024,
+    "lng": 78.472545,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "MMR",
+    "name": "MANMAD JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.249887,
+    "lng": 74.438305,
+    "is_junction": true,
+    "route_count": 185.0
+  },
+  {
+    "code": "HX",
+    "name": "CUDDAPAH",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.45169,
+    "lng": 78.829184,
+    "is_junction": true,
+    "route_count": 44.0
+  },
+  {
+    "code": "ADH",
+    "name": "ANDHERI",
+    "state": "Maharashtra",
+    "zone": "WR",
+    "lat": 19.1174289,
+    "lng": 72.84685300000001,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "DG",
+    "name": "DINDIGUL JN",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 10.35381,
+    "lng": 77.985472,
+    "is_junction": true,
+    "route_count": 74.0
+  },
+  {
+    "code": "BPL",
+    "name": "BHOPAL JN",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.266884384300003,
+    "lng": 77.4131428577,
+    "is_junction": true,
+    "route_count": 231.0
+  },
+  {
+    "code": "CRJ",
+    "name": "CHITTARANJAN",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 23.857138000000003,
+    "lng": 86.878036,
+    "is_junction": true,
+    "route_count": 88.0
+  },
+  {
+    "code": "MYS",
+    "name": "MYSORE JN",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.318946,
+    "lng": 76.646013,
+    "is_junction": true,
+    "route_count": 52.0
+  },
+  {
+    "code": "BFP",
+    "name": "BILOCHPURA AGRA",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.202619,
+    "lng": 77.987169,
+    "is_junction": false,
+    "route_count": 0.0
+  },
+  {
+    "code": "BIM",
+    "name": "BILIMORA JN",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 20.763319,
+    "lng": 72.970474,
+    "is_junction": true,
+    "route_count": 22.0
+  },
+  {
+    "code": "HGT",
+    "name": "HINGANGHAT",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.542631,
+    "lng": 78.83392500000001,
+    "is_junction": true,
+    "route_count": 33.0
+  },
+  {
+    "code": "NKP",
+    "name": "NIRAKARPUR",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.991741,
+    "lng": 85.53046400000001,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "RIG",
+    "name": "RAIGARH",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.891288999999997,
+    "lng": 83.39067,
+    "is_junction": true,
+    "route_count": 45.0
+  },
+  {
+    "code": "SPE",
+    "name": "SULLURUPETA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 13.696463,
+    "lng": 80.018161,
+    "is_junction": true,
+    "route_count": 33.0
+  },
+  {
+    "code": "DNR",
+    "name": "DANAPUR",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.581921,
+    "lng": 85.044629,
+    "is_junction": true,
+    "route_count": 88.0
+  },
+  {
+    "code": "DAA",
+    "name": "DATIA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 25.641070000000003,
+    "lng": 78.456356,
+    "is_junction": true,
+    "route_count": 34.0
+  },
+  {
+    "code": "BTTR",
+    "name": "BITRAGUNTA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.7685848,
+    "lng": 79.98314599999999,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "HSK",
+    "name": "HARISHANKER RD",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.6267890734,
+    "lng": 82.7660362524,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "AF",
+    "name": "AGRA FORT",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.183308,
+    "lng": 78.0191,
+    "is_junction": true,
+    "route_count": 52.0
+  },
+  {
+    "code": "SPT",
+    "name": "SOMPETA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.981297,
+    "lng": 84.58149999999999,
+    "is_junction": true,
+    "route_count": 36.0
+  },
+  {
+    "code": "BALU",
+    "name": "BALUGAON",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.747366,
+    "lng": 85.200953,
+    "is_junction": true,
+    "route_count": 62.0
+  },
+  {
+    "code": "KNE",
+    "name": "KISHANGANJ",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 26.097746,
+    "lng": 87.949657,
+    "is_junction": true,
+    "route_count": 117.0
+  },
+  {
+    "code": "BSP",
+    "name": "BILASPUR JN",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 22.057473,
+    "lng": 82.167585,
+    "is_junction": true,
+    "route_count": 129.0
+  },
+  {
+    "code": "MCA",
+    "name": "MECHEDA",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 22.414105,
+    "lng": 87.85883,
+    "is_junction": true,
+    "route_count": 23.0
+  },
+  {
+    "code": "JCL",
+    "name": "JADCHERLA",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 16.752658,
+    "lng": 78.141972,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "KMT",
+    "name": "KHAMMAM",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 17.249347,
+    "lng": 80.138491,
+    "is_junction": true,
+    "route_count": 86.0
+  },
+  {
+    "code": "BXN",
+    "name": "BAYANA JN",
+    "state": "Rajasthan",
+    "zone": "WCR",
+    "lat": 26.916354,
+    "lng": 77.29713100000001,
+    "is_junction": true,
+    "route_count": 41.0
+  },
+  {
+    "code": "KIUL",
+    "name": "KIUL JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.171504,
+    "lng": 86.106198,
+    "is_junction": true,
+    "route_count": 134.0
+  },
+  {
+    "code": "SLN",
+    "name": "SULTANPUR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.263027,
+    "lng": 82.066106,
+    "is_junction": true,
+    "route_count": 50.0
+  },
+  {
+    "code": "VAPI",
+    "name": "VAPI",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 20.374338,
+    "lng": 72.90912700000001,
+    "is_junction": true,
+    "route_count": 132.0
+  },
+  {
+    "code": "KEM",
+    "name": "KEM",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.177508793500003,
+    "lng": 75.2746262701,
+    "is_junction": true,
+    "route_count": 8.0
+  },
+  {
+    "code": "VKB",
+    "name": "VIKARABAD JN",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.337132,
+    "lng": 77.90940900000001,
+    "is_junction": true,
+    "route_count": 44.0
+  },
+  {
+    "code": "JEUR",
+    "name": "JEUR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.260933,
+    "lng": 75.16247100000001,
+    "is_junction": true,
+    "route_count": 19.0
+  },
+  {
+    "code": "BWT",
+    "name": "BANGARAPET",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 12.984808,
+    "lng": 78.178188,
+    "is_junction": true,
+    "route_count": 70.0
+  },
+  {
+    "code": "RMU",
+    "name": "RAMPUR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 28.778863,
+    "lng": 79.023419,
+    "is_junction": true,
+    "route_count": 65.0
+  },
+  {
+    "code": "MCI",
+    "name": "MANCHIRYAL",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 18.878745,
+    "lng": 79.448848,
+    "is_junction": true,
+    "route_count": 49.0
+  },
+  {
+    "code": "RPR",
+    "name": "RAGHUNATHPUR",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.565439,
+    "lng": 84.305227,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "KRIH",
+    "name": "KORAI HALT",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.959417,
+    "lng": 86.17599399999999,
+    "is_junction": true,
+    "route_count": 2.0
+  },
+  {
+    "code": "KOTA",
+    "name": "KOTA JN",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 25.223553,
+    "lng": 75.8805,
+    "is_junction": true,
+    "route_count": 161.0
+  },
+  {
+    "code": "GHQ",
+    "name": "GARHWA",
+    "state": "Jharkhand",
+    "zone": "ECR",
+    "lat": 24.1751953,
+    "lng": 83.8132154,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "NZD",
+    "name": "NUZVID",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.649931,
+    "lng": 80.96152799999999,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "DR",
+    "name": "MUMBAI DADAR CENTRAL",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.017179,
+    "lng": 72.842972,
+    "is_junction": true,
+    "route_count": 110.0
+  },
+  {
+    "code": "RTM",
+    "name": "RATLAM JN",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.34038,
+    "lng": 75.050826,
+    "is_junction": true,
+    "route_count": 127.0
+  },
+  {
+    "code": "EE",
+    "name": "ELURU",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.717816,
+    "lng": 81.11976200000001,
+    "is_junction": true,
+    "route_count": 123.0
+  },
+  {
+    "code": "CPU",
+    "name": "CHOPAN",
+    "state": "Uttar Pradesh",
+    "zone": "ECR",
+    "lat": 24.51403,
+    "lng": 83.025843,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "BWR",
+    "name": "BARWA SAGAR",
+    "state": "Uttar Pradesh",
+    "zone": "NCR",
+    "lat": 25.351848,
+    "lng": 78.731628,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "PAR",
+    "name": "PANDHURNA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 21.589996,
+    "lng": 78.525394,
+    "is_junction": true,
+    "route_count": 63.0
+  },
+  {
+    "code": "JHS",
+    "name": "JHANSI JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.443585,
+    "lng": 78.55298499999999,
+    "is_junction": true,
+    "route_count": 215.0
+  },
+  {
+    "code": "BYNR",
+    "name": "MOOKAMBIKA ROAD",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 13.87259,
+    "lng": 74.63279,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "MYG",
+    "name": "MIYAGAM KARJAN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 22.050722,
+    "lng": 73.120353,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "CT",
+    "name": "CHITTAPUR",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 17.1197808,
+    "lng": 77.09045160000001,
+    "is_junction": true,
+    "route_count": 22.0
+  },
+  {
+    "code": "MRPR",
+    "name": "MAU RANIPUR",
+    "state": "Uttar Pradesh",
+    "zone": "NCR",
+    "lat": 25.261270999999997,
+    "lng": 79.136793,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "NRP",
+    "name": "NARSIPATNAM RD",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.452852,
+    "lng": 82.724605,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "AMG",
+    "name": "ALAMNAGAR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.84708,
+    "lng": 80.86031200000001,
+    "is_junction": true,
+    "route_count": 14.0
+  },
+  {
+    "code": "CLKA",
+    "name": "CHILKA",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.686694,
+    "lng": 85.17991400000001,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "BRJN",
+    "name": "BRAJRAJNAGAR",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.822718,
+    "lng": 83.923653,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "KJT",
+    "name": "KARJAT",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.911157999999997,
+    "lng": 73.320691,
+    "is_junction": true,
+    "route_count": 71.0
+  },
+  {
+    "code": "DXG",
+    "name": "DHARANGAON",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.006447,
+    "lng": 75.286092,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "TDL",
+    "name": "TUNDLA JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.207747,
+    "lng": 78.233285,
+    "is_junction": true,
+    "route_count": 99.0
+  },
+  {
+    "code": "MSMD",
+    "name": "MAHASAMUND",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.113138000000003,
+    "lng": 82.10389,
+    "is_junction": true,
+    "route_count": 28.0
+  },
+  {
+    "code": "BAP",
+    "name": "BELAPUR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.619569311800003,
+    "lng": 74.6617443079,
+    "is_junction": true,
+    "route_count": 42.0
+  },
+  {
+    "code": "GHD",
+    "name": "GARWA ROAD",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 24.214419,
+    "lng": 83.885116,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "JMKT",
+    "name": "JAMIKUNTA",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 18.290021,
+    "lng": 79.476918,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "ROP",
+    "name": "RUPSA JN",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.621995,
+    "lng": 87.018507,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "BNDA",
+    "name": "BANDA JN",
+    "state": "Uttar Pradesh",
+    "zone": "NCR",
+    "lat": 25.477677,
+    "lng": 80.336246,
+    "is_junction": true,
+    "route_count": 21.0
+  },
+  {
+    "code": "UDN",
+    "name": "UDHNA JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.171156,
+    "lng": 72.851461,
+    "is_junction": true,
+    "route_count": 38.0
+  },
+  {
+    "code": "SEM",
+    "name": "SERAM",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 17.180683000000002,
+    "lng": 77.28353,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "KK",
+    "name": "KHADKI",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.56301,
+    "lng": 73.840513,
+    "is_junction": true,
+    "route_count": 17.0
+  },
+  {
+    "code": "KUDA",
+    "name": "KUNDAPURA",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 13.612909,
+    "lng": 74.728366,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "SIKR",
+    "name": "Sikar Junction",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 27.616275,
+    "lng": 75.15337799999999,
+    "is_junction": false,
+    "route_count": 0.0
+  },
+  {
+    "code": "KSN",
+    "name": "KRISHNA",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 16.409324,
+    "lng": 77.328563,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "BTS",
+    "name": "BASTA",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.7029241,
+    "lng": 87.0637831,
+    "is_junction": true,
+    "route_count": 8.0
+  },
+  {
+    "code": "CHZ",
+    "name": "CHARLAPALLI",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.457672000000002,
+    "lng": 78.605619,
+    "is_junction": true,
+    "route_count": 9.0
+  },
+  {
+    "code": "ORAI",
+    "name": "ORAI",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.9825370076,
+    "lng": 79.459533963,
+    "is_junction": true,
+    "route_count": 53.0
+  },
+  {
+    "code": "MB",
+    "name": "MORADABAD",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 28.831621,
+    "lng": 78.765801,
+    "is_junction": true,
+    "route_count": 191.0
+  },
+  {
+    "code": "BPH",
+    "name": "BELPAHAR",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.827212300000003,
+    "lng": 83.84907630000001,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "NMM",
+    "name": "NEW MISAMARI",
+    "state": "Assam",
+    "zone": "",
+    "lat": 26.810166,
+    "lng": 92.575454,
+    "is_junction": true,
+    "route_count": 2.0
+  },
+  {
+    "code": "CPP",
+    "name": "CHIPURUPALLE",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.316259,
+    "lng": 83.569608,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "MRA",
+    "name": "MORENA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 26.500504,
+    "lng": 78.003442,
+    "is_junction": true,
+    "route_count": 55.0
+  },
+  {
+    "code": "CMU",
+    "name": "CHAU MAHLA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.948205,
+    "lng": 75.60086100000001,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "KP",
+    "name": "KAMPTEE",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.21172,
+    "lng": 79.197947,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "BMB",
+    "name": "BAMRA",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 22.051355,
+    "lng": 84.291044,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "BAB",
+    "name": "BABINA",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.237832,
+    "lng": 78.451748,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "PC",
+    "name": "PACHORA JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.668385,
+    "lng": 75.34831,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "NDB",
+    "name": "NANDURBAR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.374812,
+    "lng": 74.246482,
+    "is_junction": true,
+    "route_count": 62.0
+  },
+  {
+    "code": "BLDA",
+    "name": "BELDA",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 22.07144398,
+    "lng": 87.33691374,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "PKD",
+    "name": "PENUKONDA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.099641,
+    "lng": 77.592521,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "BPP",
+    "name": "BAPATLA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.9086144,
+    "lng": 80.46842480000001,
+    "is_junction": true,
+    "route_count": 46.0
+  },
+  {
+    "code": "KBPR",
+    "name": "Kabakaputtur",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.7683965,
+    "lng": 75.2045015,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "LTHR",
+    "name": "LATEHAR",
+    "state": "Jharkhand",
+    "zone": "",
+    "lat": 23.725092,
+    "lng": 84.46812,
+    "is_junction": true,
+    "route_count": 21.0
+  },
+  {
+    "code": "AB",
+    "name": "AMBUR",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 12.782934,
+    "lng": 78.721266,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "SLI",
+    "name": "SANGLI",
+    "state": "Maharashtra",
+    "zone": "CR",
+    "lat": 16.858669000000003,
+    "lng": 74.588939,
+    "is_junction": true,
+    "route_count": 36.0
+  },
+  {
+    "code": "PLG",
+    "name": "PALGHAR",
+    "state": "Maharashtra",
+    "zone": "WR",
+    "lat": 19.698038,
+    "lng": 72.77248,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "TK",
+    "name": "TUMKUR",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 13.333033,
+    "lng": 77.10243899999999,
+    "is_junction": true,
+    "route_count": 55.0
+  },
+  {
+    "code": "GAYA",
+    "name": "GAYA JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 24.803978,
+    "lng": 84.999294,
+    "is_junction": true,
+    "route_count": 100.0
+  },
+  {
+    "code": "GNT",
+    "name": "GUNTUR JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.300784,
+    "lng": 80.44197299999999,
+    "is_junction": true,
+    "route_count": 58.0
+  },
+  {
+    "code": "KPTN",
+    "name": "KESHORAI PATAN",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 25.324522,
+    "lng": 75.937733,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "YNK",
+    "name": "YELHANKA JN",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 13.102795,
+    "lng": 77.593069,
+    "is_junction": true,
+    "route_count": 43.0
+  },
+  {
+    "code": "GUR",
+    "name": "GANAGAPUR ROAD",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 17.340443,
+    "lng": 76.5903,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "PSA",
+    "name": "PALASA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.756782,
+    "lng": 84.42209100000001,
+    "is_junction": true,
+    "route_count": 81.0
+  },
+  {
+    "code": "RJP",
+    "name": "RAZAMPETA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.184525,
+    "lng": 79.15274099999999,
+    "is_junction": true,
+    "route_count": 35.0
+  },
+  {
+    "code": "RNR",
+    "name": "RANIBENNUR",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 14.625461,
+    "lng": 75.635054,
+    "is_junction": true,
+    "route_count": 35.0
+  },
+  {
+    "code": "BHS",
+    "name": "VIDISHA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.5222886,
+    "lng": 77.8148356,
+    "is_junction": true,
+    "route_count": 62.0
+  },
+  {
+    "code": "BCH",
+    "name": "BERCHHA",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.2824808,
+    "lng": 76.33419289999999,
+    "is_junction": true,
+    "route_count": 43.0
+  },
+  {
+    "code": "JTJ",
+    "name": "JOLARPETTAI",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 12.560852,
+    "lng": 78.57781999999999,
+    "is_junction": true,
+    "route_count": 160.0
+  },
+  {
+    "code": "BLD",
+    "name": "BHILAD",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 20.275323200000003,
+    "lng": 72.887446,
+    "is_junction": true,
+    "route_count": 11.0
+  },
+  {
+    "code": "HJP",
+    "name": "HAJIPUR JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.702909,
+    "lng": 85.2155,
+    "is_junction": true,
+    "route_count": 97.0
+  },
+  {
+    "code": "LAR",
+    "name": "LALITPUR",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 24.688222,
+    "lng": 78.395791,
+    "is_junction": true,
+    "route_count": 65.0
+  },
+  {
+    "code": "KSB",
+    "name": "KOSAMBA JN",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.464052,
+    "lng": 72.95459799999999,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "BGM",
+    "name": "BELGAUM",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 15.8492433,
+    "lng": 74.5095639,
+    "is_junction": true,
+    "route_count": 39.0
+  },
+  {
+    "code": "BWM",
+    "name": "BHAWANI MANDI",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 24.419472000000003,
+    "lng": 75.82981,
+    "is_junction": true,
+    "route_count": 39.0
+  },
+  {
+    "code": "WR",
+    "name": "WARDHA JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.732777,
+    "lng": 78.594157,
+    "is_junction": true,
+    "route_count": 71.0
+  },
+  {
+    "code": "DHD",
+    "name": "DAHOD",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 22.843607,
+    "lng": 74.25337400000001,
+    "is_junction": true,
+    "route_count": 68.0
+  },
+  {
+    "code": "DAB",
+    "name": "DHARMABAD",
+    "state": "Maharashtra",
+    "zone": "SCR",
+    "lat": 18.8882603101,
+    "lng": 77.8493415012,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "KUR",
+    "name": "KHURDA ROAD JN",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.153076,
+    "lng": 85.70823399999999,
+    "is_junction": true,
+    "route_count": 190.0
+  },
+  {
+    "code": "KMC",
+    "name": "KAMAREDDI",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 18.32586,
+    "lng": 78.335858,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "CNB",
+    "name": "KANPUR CENTRAL",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.45424,
+    "lng": 80.350966,
+    "is_junction": true,
+    "route_count": 283.0
+  },
+  {
+    "code": "KAWR",
+    "name": "KARWAR",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 14.821387,
+    "lng": 74.183139,
+    "is_junction": true,
+    "route_count": 50.0
+  },
+  {
+    "code": "KDM",
+    "name": "KESAMUDRAM",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 17.686252,
+    "lng": 79.89647099999999,
+    "is_junction": true,
+    "route_count": 20.0
+  },
+  {
+    "code": "NLDA",
+    "name": "NALGONDA",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.06118,
+    "lng": 79.283436,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "PAN",
+    "name": "PANAGARH",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 23.443034,
+    "lng": 87.439587,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "BBS",
+    "name": "BHUBANESWAR",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.265388,
+    "lng": 85.84259499999999,
+    "is_junction": true,
+    "route_count": 209.0
+  },
+  {
+    "code": "RGDA",
+    "name": "RAYAGADA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 19.175642,
+    "lng": 83.410505,
+    "is_junction": true,
+    "route_count": 48.0
+  },
+  {
+    "code": "BRAG",
+    "name": "BARANG",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.400699,
+    "lng": 85.832573,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "DURG",
+    "name": "DURG",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.200327,
+    "lng": 81.291837,
+    "is_junction": true,
+    "route_count": 127.0
+  },
+  {
+    "code": "BRGW",
+    "name": "BARGAWAN",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 24.197002,
+    "lng": 82.455989,
+    "is_junction": true,
+    "route_count": 2.0
+  },
+  {
+    "code": "MNE",
+    "name": "MANSI JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.509398,
+    "lng": 86.554446,
+    "is_junction": true,
+    "route_count": 31.0
+  },
+  {
+    "code": "BNTL",
+    "name": "Bantawala",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.878545,
+    "lng": 75.034456,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "PVPT",
+    "name": "PARVATIPURAM TN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.783875,
+    "lng": 83.433701,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "BINA",
+    "name": "BINA JN",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 24.1709735,
+    "lng": 78.1831998,
+    "is_junction": true,
+    "route_count": 135.0
+  },
+  {
+    "code": "NWP",
+    "name": "NAUPADA JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.5794097271,
+    "lng": 84.2829220099,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "KOU",
+    "name": "KODURU",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 13.948578,
+    "lng": 79.345687,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "BZA",
+    "name": "VIJAYAWADA JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.518262,
+    "lng": 80.61864800000001,
+    "is_junction": true,
+    "route_count": 312.0
+  },
+  {
+    "code": "NDLS",
+    "name": "NEW DELHI",
+    "state": "NCT",
+    "zone": "",
+    "lat": 28.642314,
+    "lng": 77.22000399999999,
+    "is_junction": true,
+    "route_count": 239.0
+  },
+  {
+    "code": "PGRL",
+    "name": "PIDUGURALLA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.477787000000003,
+    "lng": 79.876294,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "BL",
+    "name": "VALSAD",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 20.6085595,
+    "lng": 72.9335291,
+    "is_junction": true,
+    "route_count": 114.0
+  },
+  {
+    "code": "CNA",
+    "name": "CHANDERIYA",
+    "state": "Rajasthan",
+    "zone": "WR",
+    "lat": 24.939558,
+    "lng": 74.629979,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "SGRL",
+    "name": "SINGRAULI",
+    "state": "Madhya Pradesh",
+    "zone": "ECR",
+    "lat": 24.204257,
+    "lng": 82.642735,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "KTE",
+    "name": "KATNI",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 23.833385,
+    "lng": 80.400543,
+    "is_junction": true,
+    "route_count": 139.0
+  },
+  {
+    "code": "KATL",
+    "name": "KATOL",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.263201,
+    "lng": 78.590664,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "BUI",
+    "name": "BALLIA",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.76057,
+    "lng": 84.15311999999999,
+    "is_junction": true,
+    "route_count": 56.0
+  },
+  {
+    "code": "WHM",
+    "name": "WASHIM",
+    "state": "Maharashtra",
+    "zone": "SCR",
+    "lat": 20.103101,
+    "lng": 77.147986,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "IPM",
+    "name": "ICHCHPURAM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 19.110752,
+    "lng": 84.680427,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "ALJN",
+    "name": "ALIGARH JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.889584,
+    "lng": 78.074559,
+    "is_junction": true,
+    "route_count": 73.0
+  },
+  {
+    "code": "BUX",
+    "name": "BHANDAK",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.084262,
+    "lng": 79.112528,
+    "is_junction": true,
+    "route_count": 5.0
+  },
+  {
+    "code": "SJP",
+    "name": "SHUJALPUR",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.381236,
+    "lng": 76.72347500000001,
+    "is_junction": true,
+    "route_count": 67.0
+  },
+  {
+    "code": "RJN",
+    "name": "RAJ NANDGAON",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.101186,
+    "lng": 81.039019,
+    "is_junction": true,
+    "route_count": 56.0
+  },
+  {
+    "code": "JOP",
+    "name": "JAUNPUR CITY",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.734125,
+    "lng": 82.666999,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "RPAN",
+    "name": "RANGAPARA NORTH",
+    "state": "Assam",
+    "zone": "",
+    "lat": 26.8215934,
+    "lng": 92.682658,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "WL",
+    "name": "WARANGAL",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 17.972477,
+    "lng": 79.604929,
+    "is_junction": true,
+    "route_count": 135.0
+  },
+  {
+    "code": "BIRD",
+    "name": "BHIWANDI ROAD",
+    "state": "Maharashtra",
+    "zone": "CR",
+    "lat": 19.268544,
+    "lng": 73.045654,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "SVJR",
+    "name": "SHIVAJINAGAR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.531738,
+    "lng": 73.851147,
+    "is_junction": true,
+    "route_count": 22.0
+  },
+  {
+    "code": "GMIA",
+    "name": "GUMIA",
+    "state": "Jharkhand",
+    "zone": "ECR",
+    "lat": 23.802650999999997,
+    "lng": 85.82892199999999,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "TU",
+    "name": "TADIPATRI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.907558000000002,
+    "lng": 77.978985,
+    "is_junction": true,
+    "route_count": 36.0
+  },
+  {
+    "code": "NZB",
+    "name": "NIZAMABAD",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 18.679165,
+    "lng": 78.103238,
+    "is_junction": true,
+    "route_count": 40.0
+  },
+  {
+    "code": "DHOA",
+    "name": "Dhaulpur",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 26.697202,
+    "lng": 77.905659,
+    "is_junction": false,
+    "route_count": 0.0
+  },
+  {
+    "code": "SRJ",
+    "name": "SHANKARGARH",
+    "state": "Madhya Pradesh",
+    "zone": "NCR",
+    "lat": 25.1813005966,
+    "lng": 81.6190324237,
+    "is_junction": true,
+    "route_count": 21.0
+  },
+  {
+    "code": "CPK",
+    "name": "CHAPARMUKH JN",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 26.202272,
+    "lng": 92.511718,
+    "is_junction": true,
+    "route_count": 31.0
+  },
+  {
+    "code": "DBRG",
+    "name": "DIBRUGARH",
+    "state": "Assam",
+    "zone": "NFR",
+    "lat": 27.463606565899997,
+    "lng": 94.9352579102,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "HTZ",
+    "name": "HATHIDAH JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.367027,
+    "lng": 85.987826,
+    "is_junction": true,
+    "route_count": 49.0
+  },
+  {
+    "code": "RU",
+    "name": "RENIGUNTA JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 13.636261,
+    "lng": 79.50628999999999,
+    "is_junction": true,
+    "route_count": 136.0
+  },
+  {
+    "code": "CD",
+    "name": "CHANDRAPUR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.960126,
+    "lng": 79.300505,
+    "is_junction": true,
+    "route_count": 69.0
+  },
+  {
+    "code": "PUS",
+    "name": "PHUSRO",
+    "state": "Jharkhand",
+    "zone": "ECR",
+    "lat": 23.767489,
+    "lng": 86.01025,
+    "is_junction": true,
+    "route_count": 8.0
+  },
+  {
+    "code": "MED",
+    "name": "MEDCHAL",
+    "state": "Andhra Pradesh",
+    "zone": "SCR",
+    "lat": 17.639335,
+    "lng": 78.474557,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "NAD",
+    "name": "NAGDA JN",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.45592,
+    "lng": 75.41249099999999,
+    "is_junction": true,
+    "route_count": 107.0
+  },
+  {
+    "code": "DGG",
+    "name": "DONGARGARH",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 21.185492,
+    "lng": 80.759857,
+    "is_junction": true,
+    "route_count": 42.0
+  },
+  {
+    "code": "JSG",
+    "name": "JHARSUGUDA JN",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 21.862274,
+    "lng": 84.017427,
+    "is_junction": true,
+    "route_count": 94.0
+  },
+  {
+    "code": "WADI",
+    "name": "WADI",
+    "state": "Karnataka",
+    "zone": "",
+    "lat": 17.054312,
+    "lng": 76.99154999999999,
+    "is_junction": true,
+    "route_count": 68.0
+  },
+  {
+    "code": "KVZ",
+    "name": "KAVALI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.915993,
+    "lng": 79.988271,
+    "is_junction": true,
+    "route_count": 38.0
+  },
+  {
+    "code": "PER",
+    "name": "PERAMBUR",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 13.10702,
+    "lng": 80.24453299999999,
+    "is_junction": true,
+    "route_count": 42.0
+  },
+  {
+    "code": "NGP",
+    "name": "NAGPUR",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.153567,
+    "lng": 79.089004,
+    "is_junction": true,
+    "route_count": 242.0
+  },
+  {
+    "code": "GWD",
+    "name": "GADWAL",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 16.22509,
+    "lng": 77.80967199999999,
+    "is_junction": true,
+    "route_count": 40.0
+  },
+  {
+    "code": "TNA",
+    "name": "THANE",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.185757,
+    "lng": 72.97541700000001,
+    "is_junction": true,
+    "route_count": 146.0
+  },
+  {
+    "code": "ST",
+    "name": "SURAT",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.206568,
+    "lng": 72.840793,
+    "is_junction": true,
+    "route_count": 265.0
+  },
+  {
+    "code": "SA",
+    "name": "SALEM JN",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 11.671726,
+    "lng": 78.113415,
+    "is_junction": true,
+    "route_count": 153.0
+  },
+  {
+    "code": "ATE",
+    "name": "ATARRA",
+    "state": "Uttar Pradesh",
+    "zone": "NCR",
+    "lat": 25.291367,
+    "lng": 80.576491,
+    "is_junction": true,
+    "route_count": 19.0
+  },
+  {
+    "code": "SEG",
+    "name": "SHEGAON",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.801724,
+    "lng": 76.690331,
+    "is_junction": true,
+    "route_count": 33.0
+  },
+  {
+    "code": "BVI",
+    "name": "BORIVALI",
+    "state": "Maharashtra",
+    "zone": "WR",
+    "lat": 19.228739,
+    "lng": 72.85641199999999,
+    "is_junction": true,
+    "route_count": 120.0
+  },
+  {
+    "code": "CYI",
+    "name": "CHHAYAPURI",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 22.388284,
+    "lng": 73.179698,
+    "is_junction": false,
+    "route_count": 0.0
+  },
+  {
+    "code": "DPA",
+    "name": "DURGAPURA",
+    "state": "Rajasthan",
+    "zone": "",
+    "lat": 26.855947,
+    "lng": 75.786436,
+    "is_junction": true,
+    "route_count": 44.0
+  },
+  {
+    "code": "CHE",
+    "name": "SRIKAKULAM ROAD",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 18.408679,
+    "lng": 83.903771,
+    "is_junction": true,
+    "route_count": 78.0
+  },
+  {
+    "code": "STR",
+    "name": "SATARA",
+    "state": "Maharashtra",
+    "zone": "CR",
+    "lat": 17.688361,
+    "lng": 74.063727,
+    "is_junction": true,
+    "route_count": 40.0
+  },
+  {
+    "code": "YLM",
+    "name": "ELLAMANCHILI",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.553652000000003,
+    "lng": 82.85262,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "PUNE",
+    "name": "PUNE JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.529378,
+    "lng": 73.873086,
+    "is_junction": true,
+    "route_count": 208.0
+  },
+  {
+    "code": "DHNE",
+    "name": "DHONE",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 15.396729,
+    "lng": 77.865727,
+    "is_junction": true,
+    "route_count": 58.0
+  },
+  {
+    "code": "KLAR",
+    "name": "KULPAHAR",
+    "state": "Uttar Pradesh",
+    "zone": "NCR",
+    "lat": 25.29552,
+    "lng": 79.63751,
+    "is_junction": true,
+    "route_count": 11.0
+  },
+  {
+    "code": "GDR",
+    "name": "GUDUR JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.148227,
+    "lng": 79.845121,
+    "is_junction": true,
+    "route_count": 159.0
+  },
+  {
+    "code": "PDRD",
+    "name": "PINDRA ROAD",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.497052,
+    "lng": 82.851162,
+    "is_junction": true,
+    "route_count": 2.0
+  },
+  {
+    "code": "GDG",
+    "name": "GADAG JN",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 15.437048,
+    "lng": 75.642481,
+    "is_junction": true,
+    "route_count": 37.0
+  },
+  {
+    "code": "FDB",
+    "name": "FARIDABAD",
+    "state": "Haryana",
+    "zone": "",
+    "lat": 28.411473,
+    "lng": 77.30734799999999,
+    "is_junction": true,
+    "route_count": 73.0
+  },
+  {
+    "code": "LBA",
+    "name": "LAMBHUA",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.133687,
+    "lng": 82.223283,
+    "is_junction": true,
+    "route_count": 12.0
+  },
+  {
+    "code": "LMGF",
+    "name": "LUMDING JN",
+    "state": "Assam",
+    "zone": "",
+    "lat": 25.750176,
+    "lng": 93.17674,
+    "is_junction": false,
+    "route_count": 0.0
+  },
+  {
+    "code": "MFKA",
+    "name": "MUSAFIR KHANA",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.379585,
+    "lng": 81.79981699999999,
+    "is_junction": true,
+    "route_count": 22.0
+  },
+  {
+    "code": "HRI",
+    "name": "HARDOI",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 27.399414,
+    "lng": 80.147877,
+    "is_junction": true,
+    "route_count": 72.0
+  },
+  {
+    "code": "DRD",
+    "name": "DAHANU ROAD",
+    "state": "Maharashtra",
+    "zone": "WR",
+    "lat": 19.991217,
+    "lng": 72.74336799999999,
+    "is_junction": true,
+    "route_count": 37.0
+  },
+  {
+    "code": "DOS",
+    "name": "DEHRI ON SONE",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 24.914895,
+    "lng": 84.185434,
+    "is_junction": true,
+    "route_count": 65.0
+  },
+  {
+    "code": "MYR",
+    "name": "MAIHAR",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 24.255485,
+    "lng": 80.763148,
+    "is_junction": true,
+    "route_count": 79.0
+  },
+  {
+    "code": "G",
+    "name": "GONDIA JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.462435,
+    "lng": 80.190842,
+    "is_junction": true,
+    "route_count": 103.0
+  },
+  {
+    "code": "JBP",
+    "name": "JABALPUR",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 23.164636,
+    "lng": 79.950919,
+    "is_junction": true,
+    "route_count": 163.0
+  },
+  {
+    "code": "UD",
+    "name": "UDUPI",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 13.336341,
+    "lng": 74.771733,
+    "is_junction": true,
+    "route_count": 60.0
+  },
+  {
+    "code": "NRKR",
+    "name": "NARKHER",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.468725,
+    "lng": 78.52481399999999,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "THVM",
+    "name": "THIVIM",
+    "state": "Goa",
+    "zone": "KR",
+    "lat": 15.62955,
+    "lng": 73.87610400000001,
+    "is_junction": true,
+    "route_count": 24.0
+  },
+  {
+    "code": "AME",
+    "name": "AMETHI",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 26.153024,
+    "lng": 81.806276,
+    "is_junction": true,
+    "route_count": 47.0
+  },
+  {
+    "code": "DVD",
+    "name": "DUVVADA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.703843,
+    "lng": 83.152059,
+    "is_junction": true,
+    "route_count": 95.0
+  },
+  {
+    "code": "KRR",
+    "name": "KARUR",
+    "state": "Tamil Nadu",
+    "zone": "SR",
+    "lat": 10.965642,
+    "lng": 78.085087,
+    "is_junction": true,
+    "route_count": 50.0
+  },
+  {
+    "code": "MUE",
+    "name": "MUDKHED",
+    "state": "Maharashtra",
+    "zone": "SCR",
+    "lat": 19.148087,
+    "lng": 77.509661,
+    "is_junction": true,
+    "route_count": 42.0
+  },
+  {
+    "code": "BTKL",
+    "name": "Bhatkal",
+    "state": "Karnataka",
+    "zone": "KR",
+    "lat": 13.987012001486876,
+    "lng": 74.56730199046433,
+    "is_junction": false,
+    "route_count": 0.0
+  },
+  {
+    "code": "SBHR",
+    "name": "Subrahmanya Road",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.7312724613,
+    "lng": 75.5576150342,
+    "is_junction": true,
+    "route_count": 6.0
+  },
+  {
+    "code": "AK",
+    "name": "AKOLA JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.723084,
+    "lng": 77.005497,
+    "is_junction": true,
+    "route_count": 113.0
+  },
+  {
+    "code": "BJNR",
+    "name": "BIJAINAGAR",
+    "state": "Rajasthan",
+    "zone": "NWR",
+    "lat": 25.931003,
+    "lng": 74.65305889999999,
+    "is_junction": true,
+    "route_count": 23.0
+  },
+  {
+    "code": "BJD",
+    "name": "BAREJADI",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 22.8954267,
+    "lng": 72.6778863,
+    "is_junction": true,
+    "route_count": 9.0
+  },
+  {
+    "code": "CHI",
+    "name": "CHIPLUN",
+    "state": "Maharashtra",
+    "zone": "KR",
+    "lat": 17.542507399999998,
+    "lng": 73.522429,
+    "is_junction": true,
+    "route_count": 38.0
+  },
+  {
+    "code": "BRR",
+    "name": "BARAKAR",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 23.7416829,
+    "lng": 86.818859,
+    "is_junction": true,
+    "route_count": 18.0
+  },
+  {
+    "code": "MRL",
+    "name": "MAROLI",
+    "state": "Gujarat",
+    "zone": "WR",
+    "lat": 21.019949,
+    "lng": 72.88999799999999,
+    "is_junction": true,
+    "route_count": 13.0
+  },
+  {
+    "code": "GP",
+    "name": "RAJ GANGPUR",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 22.186062000000003,
+    "lng": 84.58205099999999,
+    "is_junction": true,
+    "route_count": 29.0
+  },
+  {
+    "code": "KZJ",
+    "name": "KAZIPET JN",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.974211,
+    "lng": 79.511025,
+    "is_junction": true,
+    "route_count": 103.0
+  },
+  {
+    "code": "BUDI",
+    "name": "Bundi",
+    "state": "Rajasthan",
+    "zone": "WCR",
+    "lat": 25.407922,
+    "lng": 75.65069899999999,
+    "is_junction": true,
+    "route_count": 14.0
+  },
+  {
+    "code": "KTV",
+    "name": "KOTTAVALASA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 17.892374999999998,
+    "lng": 83.18509999999999,
+    "is_junction": true,
+    "route_count": 17.0
+  },
+  {
+    "code": "KRAR",
+    "name": "KHARIAR ROAD",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 20.901385555799997,
+    "lng": 82.510513277,
+    "is_junction": true,
+    "route_count": 28.0
+  },
+  {
+    "code": "SSPN",
+    "name": "SATYA SAI P NILAYAM",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.160468,
+    "lng": 77.757559,
+    "is_junction": true,
+    "route_count": 28.0
+  },
+  {
+    "code": "AJNI",
+    "name": "AJNI",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.1268588122,
+    "lng": 79.0825197485,
+    "is_junction": true,
+    "route_count": 17.0
+  },
+  {
+    "code": "NDD",
+    "name": "NIDADAVOLU JN",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 16.898297,
+    "lng": 81.67550399999999,
+    "is_junction": true,
+    "route_count": 57.0
+  },
+  {
+    "code": "ASK",
+    "name": "ARSIKERE JN",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 13.314425,
+    "lng": 76.2520848,
+    "is_junction": true,
+    "route_count": 62.0
+  },
+  {
+    "code": "BDL",
+    "name": "VINDHYACHAL",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 25.1607717,
+    "lng": 82.5020212,
+    "is_junction": true,
+    "route_count": 49.0
+  },
+  {
+    "code": "KCG",
+    "name": "KACHEGUDA",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.389561,
+    "lng": 78.499756,
+    "is_junction": true,
+    "route_count": 55.0
+  },
+  {
+    "code": "GJL",
+    "name": "GAJRAULA JN",
+    "state": "Uttar Pradesh",
+    "zone": "",
+    "lat": 28.834938,
+    "lng": 78.250784,
+    "is_junction": true,
+    "route_count": 22.0
+  },
+  {
+    "code": "UJN",
+    "name": "UJJAIN JN",
+    "state": "Madhya Pradesh",
+    "zone": "",
+    "lat": 23.178154,
+    "lng": 75.781403,
+    "is_junction": true,
+    "route_count": 106.0
+  },
+  {
+    "code": "DNM",
+    "name": "DHANMANDAL",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.687806,
+    "lng": 86.11228,
+    "is_junction": true,
+    "route_count": 4.0
+  },
+  {
+    "code": "MAS",
+    "name": "CHENNAI CENTRAL",
+    "state": "Tamil Nadu",
+    "zone": "",
+    "lat": 13.0847613,
+    "lng": 80.27485630000001,
+    "is_junction": true,
+    "route_count": 176.0
+  },
+  {
+    "code": "SRID",
+    "name": "SHRIDHAM",
+    "state": "Madhya Pradesh",
+    "zone": "WCR",
+    "lat": 23.033843,
+    "lng": 79.484397,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "AKT",
+    "name": "AKALTARA",
+    "state": "Chhattisgarh",
+    "zone": "",
+    "lat": 22.029121,
+    "lng": 82.422049,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "JL",
+    "name": "JALGAON JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 21.018115,
+    "lng": 75.56287499999999,
+    "is_junction": true,
+    "route_count": 141.0
+  },
+  {
+    "code": "DVL",
+    "name": "DEVLALI",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 19.897509,
+    "lng": 73.83729,
+    "is_junction": true,
+    "route_count": 42.0
+  },
+  {
+    "code": "BTV",
+    "name": "BAITARANI ROAD",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.986996,
+    "lng": 86.23539299999999,
+    "is_junction": true,
+    "route_count": 4.0
+  },
+  {
+    "code": "TDU",
+    "name": "TANDUR",
+    "state": "Telangana",
+    "zone": "",
+    "lat": 17.25044,
+    "lng": 77.585037,
+    "is_junction": true,
+    "route_count": 34.0
+  },
+  {
+    "code": "DD",
+    "name": "DAUND JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.463547,
+    "lng": 74.578622,
+    "is_junction": true,
+    "route_count": 116.0
+  },
+  {
+    "code": "LHU",
+    "name": "Loharu",
+    "state": "Haryana",
+    "zone": "NWR",
+    "lat": 28.427051,
+    "lng": 75.801613,
+    "is_junction": true,
+    "route_count": 10.0
+  },
+  {
+    "code": "MYA",
+    "name": "MANDYA",
+    "state": "Karnataka",
+    "zone": "SWR",
+    "lat": 12.529176,
+    "lng": 76.897256,
+    "is_junction": true,
+    "route_count": 38.0
+  },
+  {
+    "code": "MBA",
+    "name": "MAHOBA",
+    "state": "Uttar Pradesh",
+    "zone": "NCR",
+    "lat": 25.306914,
+    "lng": 79.849079,
+    "is_junction": true,
+    "route_count": 17.0
+  },
+  {
+    "code": "KBJ",
+    "name": "KANTABANJI",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 20.474059,
+    "lng": 82.906517,
+    "is_junction": true,
+    "route_count": 32.0
+  },
+  {
+    "code": "PLO",
+    "name": "PULGAON JN",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 20.726734,
+    "lng": 78.318111,
+    "is_junction": true,
+    "route_count": 26.0
+  },
+  {
+    "code": "NPNR",
+    "name": "NEPANAGAR",
+    "state": "Madhya Pradesh",
+    "zone": "CR",
+    "lat": 21.463933,
+    "lng": 76.397032,
+    "is_junction": true,
+    "route_count": 17.0
+  },
+  {
+    "code": "KWV",
+    "name": "KURDUVADI",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.091348,
+    "lng": 75.41711799999999,
+    "is_junction": true,
+    "route_count": 63.0
+  },
+  {
+    "code": "KIM",
+    "name": "KIM",
+    "state": "Gujarat",
+    "zone": "",
+    "lat": 21.399697,
+    "lng": 72.926702,
+    "is_junction": true,
+    "route_count": 16.0
+  },
+  {
+    "code": "DMV",
+    "name": "DIMAPUR",
+    "state": "Nagaland",
+    "zone": "NFR",
+    "lat": 25.905702,
+    "lng": 93.727816,
+    "is_junction": true,
+    "route_count": 43.0
+  },
+  {
+    "code": "YA",
+    "name": "YERRAGUNTLA",
+    "state": "Andhra Pradesh",
+    "zone": "",
+    "lat": 14.642328,
+    "lng": 78.534003,
+    "is_junction": true,
+    "route_count": 42.0
+  },
+  {
+    "code": "BKP",
+    "name": "BAKHTIYARPUR JN",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 25.45611,
+    "lng": 85.52956400000001,
+    "is_junction": true,
+    "route_count": 99.0
+  },
+  {
+    "code": "BGS",
+    "name": "BEGU SARAI",
+    "state": "Bihar",
+    "zone": "ECR",
+    "lat": 25.425296,
+    "lng": 86.134476,
+    "is_junction": true,
+    "route_count": 50.0
+  },
+  {
+    "code": "BVH",
+    "name": "BALLABGARH",
+    "state": "Haryana",
+    "zone": "",
+    "lat": 28.3408609239,
+    "lng": 77.312775968,
+    "is_junction": true,
+    "route_count": 27.0
+  },
+  {
+    "code": "SSM",
+    "name": "SASARAM",
+    "state": "Bihar",
+    "zone": "",
+    "lat": 24.955926,
+    "lng": 84.019423,
+    "is_junction": true,
+    "route_count": 57.0
+  },
+  {
+    "code": "KDG",
+    "name": "KEDGAON",
+    "state": "Maharashtra",
+    "zone": "",
+    "lat": 18.4820853984,
+    "lng": 74.3763730994,
+    "is_junction": true,
+    "route_count": 15.0
+  },
+  {
+    "code": "PKU",
+    "name": "PANSKURA",
+    "state": "West Bengal",
+    "zone": "",
+    "lat": 22.393102763,
+    "lng": 87.7430237079,
+    "is_junction": true,
+    "route_count": 25.0
+  },
+  {
+    "code": "CAP",
+    "name": "CHATRAPUR",
+    "state": "Odisha",
+    "zone": "",
+    "lat": 19.3589572,
+    "lng": 84.97327299999999,
+    "is_junction": true,
+    "route_count": 38.0
+  },
+  {
+    "code": "BSR",
+    "name": "VASAI ROAD",
+    "state": "Maharashtra",
+    "zone": "WR",
+    "lat": 19.3824486,
+    "lng": 72.8322217,
+    "is_junction": true,
+    "route_count": 94.0
+  }
+]
