@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { GlobalLoadingIndicator } from "@/components/layout/global-loading-indicator";
 
 interface AppShellProps {
   children: ReactNode;
@@ -11,6 +12,7 @@ interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
   return (
     <div className="flex h-dvh overflow-hidden">
+      <GlobalLoadingIndicator />
       {/* Accessible skip to main content */}
       <a
         href="#main-content"

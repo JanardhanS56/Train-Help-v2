@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppProvider } from "@/context/app-context";
 import { AuthProvider } from "@/context/auth-context";
 import { AuthGate } from "@/components/auth/auth-gate";
+import { CookieConsentBanner } from "@/components/layout/cookie-consent-banner";
 import "./globals.css";
 
 const inter = Inter({
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <AppProvider>
               <TooltipProvider delay={400}>
                 {children}
+                <CookieConsentBanner />
               </TooltipProvider>
             </AppProvider>
           </AuthGate>

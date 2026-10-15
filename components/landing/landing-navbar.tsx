@@ -29,8 +29,14 @@ export function LandingNavbar() {
           <a href="#how-it-works" className="hover:text-foreground transition-colors">
             How it works
           </a>
+          <Link href="/simulation" className="hover:text-foreground transition-colors">
+            Simulation
+          </Link>
           <Link href="/help" className="hover:text-foreground transition-colors">
             Help & FAQs
+          </Link>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">
+            Privacy
           </Link>
         </nav>
 

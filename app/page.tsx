@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Check, Shield } from "lucide-react";
+import { ArrowRight, ShieldCheck, Check, Shield, Activity, Sparkles } from "lucide-react";
 import { LandingNavbar } from "@/components/landing/landing-navbar";
 import { FeaturedTicketCard } from "@/components/trips/featured-ticket-card";
 import { APP_NAME, APP_TAGLINE } from "@/lib/constants";
@@ -25,9 +25,10 @@ export default function LandingPage() {
         {/* 2. Left-aligned Hero with generous whitespace */}
         <section className="max-w-[1120px] mx-auto px-4 md:px-6 pt-16 pb-20 space-y-12">
           <div className="max-w-2xl space-y-5">
-            <span className="micro-label text-primary font-semibold tracking-wider">
-              INDIAN RAILWAYS DISRUPTION RECOVERY
-            </span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+              <span>LIVE INDIAN RAILWAYS DISRUPTION ENGINE</span>
+            </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-[56px] font-display font-medium text-foreground tracking-tight leading-[1.12]">
               Something went wrong.
@@ -42,10 +43,17 @@ export default function LandingPage() {
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <Link
                 href="/dashboard"
-                className="h-10 px-6 rounded-[8px] bg-primary text-primary-foreground text-sm font-medium hover:bg-primary-hover transition-colors flex items-center justify-center gap-2"
+                className="h-10 px-6 rounded-[8px] bg-primary text-primary-foreground text-sm font-medium hover:bg-primary-hover transition-colors flex items-center justify-center gap-2 shadow-xs"
               >
                 <span>Open Dashboard</span>
                 <ArrowRight className="w-4 h-4 stroke-[1.5]" />
+              </Link>
+              <Link
+                href="/simulation"
+                className="h-10 px-5 rounded-[8px] border border-primary/30 bg-primary/5 text-primary text-sm font-medium hover:bg-primary/10 transition-colors flex items-center justify-center gap-2"
+              >
+                <Activity className="w-4 h-4 stroke-[1.5]" />
+                <span>Live Simulation Sandbox</span>
               </Link>
               <Link
                 href="/help"
@@ -192,6 +200,9 @@ export default function LandingPage() {
             </Link>
             <Link href="/help" className="hover:text-foreground transition-colors">
               Help & FAQs
+            </Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">
+              Privacy & Cookies
             </Link>
           </div>
         </div>
