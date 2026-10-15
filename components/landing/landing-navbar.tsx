@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Shield, ArrowRight, LogOut, User } from "lucide-react";
+import { Shield, ArrowRight, LogOut } from "lucide-react";
 import { APP_NAME } from "@/lib/constants";
 import { useAuth } from "@/context/auth-context";
 

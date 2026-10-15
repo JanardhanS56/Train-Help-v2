@@ -16,6 +16,7 @@ import {
   Sun,
   Moon,
   LogOut,
+  Activity,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useApp, useAppDispatch } from "@/context/app-context";
@@ -252,6 +253,25 @@ export function BottomNav() {
 
             {/* Sheet Links & Actions */}
             <div className="grid grid-cols-1 gap-1 text-sm">
+              {/* 0. Live Rail Simulation */}
+              <Link
+                href="/simulation"
+                onClick={closeMore}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors min-h-[44px] touch-target",
+                  pathname.startsWith("/simulation")
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-foreground hover:bg-muted"
+                )}
+                aria-current={pathname.startsWith("/simulation") ? "page" : undefined}
+              >
+                <Activity className="w-5 h-5 text-primary stroke-[1.5]" aria-hidden="true" />
+                <span className="flex-1 font-medium">Live Simulation</span>
+                <span className="text-[11px] font-semibold text-primary px-1.5 py-0.5 rounded bg-primary/10">
+                  New
+                </span>
+              </Link>
+
               {/* 1. AI Assistant */}
               <button
                 type="button"

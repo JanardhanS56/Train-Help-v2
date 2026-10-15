@@ -73,6 +73,8 @@ export interface TrainSearchResult {
   stops_count: number;
 }
 
+export type TrainSummary = TrainSearchResult;
+
 export interface TrainsBetweenResult {
   train_number: string;
   train_name: string;
