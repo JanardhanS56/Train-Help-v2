@@ -544,8 +544,7 @@ function findBestRelaxation(
 export function evaluateAlternatives(
   alternatives: Alternative[],
   preferences: UserPreferences,
-  trip: Trip | null,
-  _now?: Date
+  trip: Trip | null
 ): MatchingResult {
   const excludedByReason: Record<string, Alternative[]> = {};
   const eligibleRaw: Alternative[] = [];

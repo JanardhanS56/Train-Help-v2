@@ -16,7 +16,7 @@ import {
   Sun,
   Moon,
   LogOut,
-  User,
+  Activity,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -474,6 +474,38 @@ export function Sidebar() {
                     })}
                   </ul>
                 )}
+              </div>
+            );
+          })()}
+
+          {/* 3.5 Simulation */}
+          {(() => {
+            const isActive = pathname.startsWith("/simulation");
+            return (
+              <div className="relative group">
+                <Link
+                  href="/simulation"
+                  className={cn(
+                    "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
+                    isActive
+                      ? "border-primary bg-sidebar-accent text-primary font-medium"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                  )}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  <Activity className="w-5 h-5 stroke-[1.5] shrink-0 text-primary" aria-hidden="true" />
+                  <span className="hidden lg:inline flex-1">Simulation</span>
+                  <span className="hidden lg:inline-flex items-center text-[10px] uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+                    Live
+                  </span>
+                </Link>
+                {/* Tablet Tooltip */}
+                <div
+                  role="tooltip"
+                  className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
+                >
+                  Simulation
+                </div>
               </div>
             );
           })()}

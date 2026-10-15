@@ -1,0 +1,1523 @@
+{
+  "retrieved_date": "2026-10-15",
+  "sources": [
+    {
+      "name": "Indian Railways / DataMeet NTES Schedules",
+      "url": "https://raw.githubusercontent.com/datameet/railways/master/schedules.json",
+      "license": "ODbL / Open Data",
+      "description": "Stop-by-stop station arrival, departure, day offset, and sequence"
+    },
+    {
+      "name": "Indian Railways National Train Database (Workspace)",
+      "url": "train_data/trains.csv",
+      "description": "Base train catalogue, category, distance, days running"
+    },
+    {
+      "name": "India Railway Stations Database (Workspace)",
+      "url": "srailway_station_data/india_railway_stations.csv",
+      "description": "Station codes, names, coordinates, zones, states"
+    }
+  ],
+  "train_provenance": {
+    "12028": {
+      "train_name": "Shatabdi Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 75,
+      "cleaned_stops": 5
+    },
+    "12123": {
+      "train_name": "Deccan Queen",
+      "timing_provenance": "official_ntes",
+      "official_stops": 55,
+      "cleaned_stops": 4
+    },
+    "12429": {
+      "train_name": "Lko Ndls Ac Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 275,
+      "cleaned_stops": 6
+    },
+    "12621": {
+      "train_name": "Tamilnadu Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 274,
+      "cleaned_stops": 13
+    },
+    "12627": {
+      "train_name": "Karnataka Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 276,
+      "cleaned_stops": 34
+    },
+    "12629": {
+      "train_name": "Sampark Kranti",
+      "timing_provenance": "official_ntes",
+      "official_stops": 312,
+      "cleaned_stops": 14
+    },
+    "12649": {
+      "train_name": "Sampark Kranti",
+      "timing_provenance": "official_ntes",
+      "official_stops": 261,
+      "cleaned_stops": 16
+    },
+    "12657": {
+      "train_name": "Mas Sbc Sf Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 75,
+      "cleaned_stops": 7
+    },
+    "12702": {
+      "train_name": "Hussainsagar Sf",
+      "timing_provenance": "official_ntes",
+      "official_stops": 138,
+      "cleaned_stops": 15
+    },
+    "12859": {
+      "train_name": "Gitanjali Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 301,
+      "cleaned_stops": 26
+    },
+    "16595": {
+      "train_name": "Panchaganga Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 20
+    },
+    "20601": {
+      "train_name": "Mas Bdnk Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 6
+    },
+    "20608": {
+      "train_name": "Mas Vandebharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 4
+    },
+    "22691": {
+      "train_name": "Rajdhani Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 16
+    },
+    "22693": {
+      "train_name": "Rajdhani Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 11
+    },
+    "22692": {
+      "train_name": "Sbc Rajdhani",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 16
+    },
+    "12269": {
+      "train_name": "Mas Nzm Duronto",
+      "timing_provenance": "official_ntes",
+      "official_stops": 270,
+      "cleaned_stops": 7
+    },
+    "12433": {
+      "train_name": "Mas Nzm Rajdhani",
+      "timing_provenance": "official_ntes",
+      "official_stops": 270,
+      "cleaned_stops": 10
+    },
+    "12270": {
+      "train_name": "Mas Duronto Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 270,
+      "cleaned_stops": 7
+    },
+    "12434": {
+      "train_name": "Nzm Mas Rajdhani",
+      "timing_provenance": "official_ntes",
+      "official_stops": 270,
+      "cleaned_stops": 10
+    },
+    "22413": {
+      "train_name": "Mao Nzm Rajdhani",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 11
+    },
+    "12221": {
+      "train_name": "Howrah Duronto",
+      "timing_provenance": "official_ntes",
+      "official_stops": 295,
+      "cleaned_stops": 8
+    },
+    "12222": {
+      "train_name": "Pune Duronto Ex",
+      "timing_provenance": "official_ntes",
+      "official_stops": 296,
+      "cleaned_stops": 8
+    },
+    "12261": {
+      "train_name": "Howrah Duronto",
+      "timing_provenance": "official_ntes",
+      "official_stops": 314,
+      "cleaned_stops": 8
+    },
+    "12262": {
+      "train_name": "Csmt Duronto Ex",
+      "timing_provenance": "official_ntes",
+      "official_stops": 310,
+      "cleaned_stops": 8
+    },
+    "12285": {
+      "train_name": "Nzm Duronto",
+      "timing_provenance": "official_ntes",
+      "official_stops": 187,
+      "cleaned_stops": 5
+    },
+    "12437": {
+      "train_name": "Sc Nzm Rajdhani",
+      "timing_provenance": "official_ntes",
+      "official_stops": 187,
+      "cleaned_stops": 7
+    },
+    "12286": {
+      "train_name": "Sc Duronto Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 187,
+      "cleaned_stops": 5
+    },
+    "12438": {
+      "train_name": "Sc Rajdhani",
+      "timing_provenance": "official_ntes",
+      "official_stops": 187,
+      "cleaned_stops": 7
+    },
+    "22221": {
+      "train_name": "Nzm Rajdhani",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 9
+    },
+    "22222": {
+      "train_name": "Csmt Rajdhani",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 9
+    },
+    "12273": {
+      "train_name": "Ndls Duronto Ex",
+      "timing_provenance": "official_ntes",
+      "official_stops": 218,
+      "cleaned_stops": 6
+    },
+    "12274": {
+      "train_name": "Hwh Duronto Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 218,
+      "cleaned_stops": 6
+    },
+    "12305": {
+      "train_name": "Rajdhani Expres",
+      "timing_provenance": "official_ntes",
+      "official_stops": 236,
+      "cleaned_stops": 7
+    },
+    "12263": {
+      "train_name": "Nzm Duronto",
+      "timing_provenance": "official_ntes",
+      "official_stops": 212,
+      "cleaned_stops": 7
+    },
+    "12301": {
+      "train_name": "Rajdhani Expres",
+      "timing_provenance": "official_ntes",
+      "official_stops": 218,
+      "cleaned_stops": 7
+    },
+    "12302": {
+      "train_name": "Hwh Rajdhani",
+      "timing_provenance": "official_ntes",
+      "official_stops": 218,
+      "cleaned_stops": 7
+    },
+    "22209": {
+      "train_name": "Nzm Duronto",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 4
+    },
+    "22210": {
+      "train_name": "Mmct Duronto",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 4
+    },
+    "12289": {
+      "train_name": "Ngp Duronto Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 116,
+      "cleaned_stops": 3
+    },
+    "12290": {
+      "train_name": "Csmt Duronto Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 116,
+      "cleaned_stops": 3
+    },
+    "22435": {
+      "train_name": "Vande Bharat Ex",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 3
+    },
+    "22436": {
+      "train_name": "Vande Bharat Ex",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 3
+    },
+    "12051": {
+      "train_name": "Mao Janshatabdi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 68,
+      "cleaned_stops": 10
+    },
+    "22229": {
+      "train_name": "Mao Vande Bharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 8
+    },
+    "22230": {
+      "train_name": "Csmt Vandebharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 8
+    },
+    "22415": {
+      "train_name": "Vande Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 3
+    },
+    "22416": {
+      "train_name": "Vande Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 3
+    },
+    "20707": {
+      "train_name": "Vskp Vandebharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "20708": {
+      "train_name": "Vande Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "20833": {
+      "train_name": "Vande Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 6
+    },
+    "20834": {
+      "train_name": "Vande Bharat Ex",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 6
+    },
+    "22203": {
+      "train_name": "Duronto Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 4
+    },
+    "22204": {
+      "train_name": "Vskp Duronto",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 4
+    },
+    "12298": {
+      "train_name": "Adi Duronto",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 5
+    },
+    "12297": {
+      "train_name": "Pune Duronto",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 5
+    },
+    "12025": {
+      "train_name": "Shatabdi Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 83,
+      "cleaned_stops": 8
+    },
+    "12026": {
+      "train_name": "Pune Shatabdi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 83,
+      "cleaned_stops": 8
+    },
+    "20101": {
+      "train_name": "Sc Vande Bharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "20102": {
+      "train_name": "Ngp Vande Bharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "12023": {
+      "train_name": "Janshatabdi Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 96,
+      "cleaned_stops": 16
+    },
+    "12024": {
+      "train_name": "Janshatabdi Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 96,
+      "cleaned_stops": 16
+    },
+    "22347": {
+      "train_name": "Vande Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 10
+    },
+    "22348": {
+      "train_name": "Vande Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 10
+    },
+    "12007": {
+      "train_name": "Mys Shatabdi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 101,
+      "cleaned_stops": 4
+    },
+    "12008": {
+      "train_name": "Shatabdi Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 101,
+      "cleaned_stops": 4
+    },
+    "20607": {
+      "train_name": "Mys Vandebharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 4
+    },
+    "20663": {
+      "train_name": "Mas Vande Bharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 5
+    },
+    "20664": {
+      "train_name": "Mys Vandebharat",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 5
+    },
+    "22009": {
+      "train_name": "Mumbai Central - Ahmedabad (Anubhuti Coach) Shatabdi Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 8
+    },
+    "12009": {
+      "train_name": "Adi Shatabdi Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 99,
+      "cleaned_stops": 8
+    },
+    "12010": {
+      "train_name": "Mmct Shatabdi Ex",
+      "timing_provenance": "official_ntes",
+      "official_stops": 99,
+      "cleaned_stops": 8
+    },
+    "22010": {
+      "train_name": "Ahmedabad - Mumbai Central (Anubhuti Coach) Shatabdi Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 8
+    },
+    "22961": {
+      "train_name": "Vande Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 5
+    },
+    "22962": {
+      "train_name": "Vande Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 5
+    },
+    "12059": {
+      "train_name": "Nzm Jan Shatabdi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 56,
+      "cleaned_stops": 10
+    },
+    "12060": {
+      "train_name": "Janshatabdi Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 56,
+      "cleaned_stops": 10
+    },
+    "12077": {
+      "train_name": "Bza Janshatabdi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 72,
+      "cleaned_stops": 10
+    },
+    "12078": {
+      "train_name": "Jan Shatabdi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 72,
+      "cleaned_stops": 10
+    },
+    "12033": {
+      "train_name": "Shatabdi Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 61,
+      "cleaned_stops": 5
+    },
+    "12027": {
+      "train_name": "Mas Sbc Shatabdi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 75,
+      "cleaned_stops": 5
+    },
+    "12650": {
+      "train_name": "Ypr Sampark Krt",
+      "timing_provenance": "official_ntes",
+      "official_stops": 261,
+      "cleaned_stops": 16
+    },
+    "12781": {
+      "train_name": "Swarna Jayanthi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 294,
+      "cleaned_stops": 29
+    },
+    "12782": {
+      "train_name": "Nzm Mys Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 294,
+      "cleaned_stops": 29
+    },
+    "20668": {
+      "train_name": "Jp Ypr Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 24
+    },
+    "82654": {
+      "train_name": "Jp Ypr Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 23
+    },
+    "22684": {
+      "train_name": "Lko Ypr Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 27
+    },
+    "12967": {
+      "train_name": "Mas Jp Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 269,
+      "cleaned_stops": 29
+    },
+    "12968": {
+      "train_name": "Jp Chennai Sf",
+      "timing_provenance": "official_ntes",
+      "official_stops": 269,
+      "cleaned_stops": 30
+    },
+    "12321": {
+      "train_name": "Mumbai Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 352,
+      "cleaned_stops": 40
+    },
+    "12322": {
+      "train_name": "Kolkata Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 352,
+      "cleaned_stops": 41
+    },
+    "12803": {
+      "train_name": "Swarna Jayanthi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 258,
+      "cleaned_stops": 18
+    },
+    "22414": {
+      "train_name": "Nzm Mao Rajdani",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 11
+    },
+    "12804": {
+      "train_name": "Vskp S Jyanti",
+      "timing_provenance": "official_ntes",
+      "official_stops": 258,
+      "cleaned_stops": 18
+    },
+    "12809": {
+      "train_name": "Howrah Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 305,
+      "cleaned_stops": 44
+    },
+    "12870": {
+      "train_name": "Hwh Csmt Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 301,
+      "cleaned_stops": 17
+    },
+    "22831": {
+      "train_name": "Hwh Ypr Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 22
+    },
+    "22832": {
+      "train_name": "Ypr Hwh Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 23
+    },
+    "12656": {
+      "train_name": "Navjeevan Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 261,
+      "cleaned_stops": 44
+    },
+    "12720": {
+      "train_name": "Hyb Jp Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 250,
+      "cleaned_stops": 27
+    },
+    "12719": {
+      "train_name": "Jp Hyb Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 248,
+      "cleaned_stops": 27
+    },
+    "22689": {
+      "train_name": "Adi Ypr Sup Fast",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 23
+    },
+    "20953": {
+      "train_name": "Mas Adi Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 26
+    },
+    "20954": {
+      "train_name": "Adi Mas Sfast",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 27
+    },
+    "22359": {
+      "train_name": "Pnbe Csmt Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "22360": {
+      "train_name": "Csmt Pnbe Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "82355": {
+      "train_name": "Pnbe Csmt Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "82356": {
+      "train_name": "Csmt Pnbe Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "12723": {
+      "train_name": "Telangana Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 198,
+      "cleaned_stops": 15
+    },
+    "12721": {
+      "train_name": "Dakshin Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 194,
+      "cleaned_stops": 39
+    },
+    "12839": {
+      "train_name": "Chennai Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 281,
+      "cleaned_stops": 32
+    },
+    "12840": {
+      "train_name": "Mas Hwh Sf Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 281,
+      "cleaned_stops": 33
+    },
+    "12704": {
+      "train_name": "Falaknuma Sf Ex",
+      "timing_provenance": "official_ntes",
+      "official_stops": 245,
+      "cleaned_stops": 24
+    },
+    "12306": {
+      "train_name": "Kolkata Rajdhni",
+      "timing_provenance": "official_ntes",
+      "official_stops": 236,
+      "cleaned_stops": 7
+    },
+    "22176": {
+      "train_name": "Jp Ngp Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 23
+    },
+    "22160": {
+      "train_name": "Mas Csmt Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 27
+    },
+    "12955": {
+      "train_name": "Mmct Jaipur Sf",
+      "timing_provenance": "official_ntes",
+      "official_stops": 168,
+      "cleaned_stops": 19
+    },
+    "12956": {
+      "train_name": "Jp Mmct Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 168,
+      "cleaned_stops": 19
+    },
+    "12917": {
+      "train_name": "Gujrat S Kranti",
+      "timing_provenance": "official_ntes",
+      "official_stops": 138,
+      "cleaned_stops": 10
+    },
+    "12918": {
+      "train_name": "Gujrat S Kranti",
+      "timing_provenance": "official_ntes",
+      "official_stops": 138,
+      "cleaned_stops": 10
+    },
+    "12136": {
+      "train_name": "Ngp Pune Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 101,
+      "cleaned_stops": 18
+    },
+    "22731": {
+      "train_name": "Mumbai Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 20
+    },
+    "22801": {
+      "train_name": "Vskp Mas S F",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 14
+    },
+    "22802": {
+      "train_name": "Mas Vskp Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 14
+    },
+    "22869": {
+      "train_name": "Vskp Mas S F",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 12
+    },
+    "22870": {
+      "train_name": "Mas Vskp Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 12
+    },
+    "12052": {
+      "train_name": "Csmt Janshtabdi",
+      "timing_provenance": "official_ntes",
+      "official_stops": 68,
+      "cleaned_stops": 10
+    },
+    "12728": {
+      "train_name": "Godavari Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 109,
+      "cleaned_stops": 20
+    },
+    "12784": {
+      "train_name": "Vskp Ac Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 11
+    },
+    "22185": {
+      "train_name": "Adi Pune Sf",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 17
+    },
+    "22186": {
+      "train_name": "Pune Adi Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 16
+    },
+    "22681": {
+      "train_name": "Mys Mas Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 99,
+      "cleaned_stops": 11
+    },
+    "22682": {
+      "train_name": "Mas Mys Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 99,
+      "cleaned_stops": 10
+    },
+    "12229": {
+      "train_name": "Lucknow Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 79,
+      "cleaned_stops": 9
+    },
+    "12230": {
+      "train_name": "Lucknow Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 79,
+      "cleaned_stops": 10
+    },
+    "12931": {
+      "train_name": "Adi Double Deckr",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 10
+    },
+    "12932": {
+      "train_name": "Mmct Doubledecke",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 10
+    },
+    "22953": {
+      "train_name": "Gujrat Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 24
+    },
+    "22954": {
+      "train_name": "Gujarat Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 24
+    },
+    "12034": {
+      "train_name": "Ndls Cnb Sht",
+      "timing_provenance": "official_ntes",
+      "official_stops": 61,
+      "cleaned_stops": 5
+    },
+    "12711": {
+      "train_name": "Pinakini Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 72,
+      "cleaned_stops": 13
+    },
+    "12712": {
+      "train_name": "Pinakini Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 72,
+      "cleaned_stops": 13
+    },
+    "12291": {
+      "train_name": "Ypr Mas Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 77,
+      "cleaned_stops": 7
+    },
+    "12292": {
+      "train_name": "Mas Ypr Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 77,
+      "cleaned_stops": 6
+    },
+    "12607": {
+      "train_name": "Lalbagh Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 75,
+      "cleaned_stops": 12
+    },
+    "12608": {
+      "train_name": "Lalbagh Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 75,
+      "cleaned_stops": 12
+    },
+    "12639": {
+      "train_name": "Brindavan Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 75,
+      "cleaned_stops": 12
+    },
+    "12640": {
+      "train_name": "Brindavan Sf Ex",
+      "timing_provenance": "official_ntes",
+      "official_stops": 75,
+      "cleaned_stops": 13
+    },
+    "12658": {
+      "train_name": "Sbc Mas Sf Mail",
+      "timing_provenance": "official_ntes",
+      "official_stops": 75,
+      "cleaned_stops": 8
+    },
+    "22626": {
+      "train_name": "Mas Double Deck",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 12
+    },
+    "12713": {
+      "train_name": "Satavahana Sf",
+      "timing_provenance": "official_ntes",
+      "official_stops": 43,
+      "cleaned_stops": 11
+    },
+    "12714": {
+      "train_name": "Satavahana Sf",
+      "timing_provenance": "official_ntes",
+      "official_stops": 43,
+      "cleaned_stops": 11
+    },
+    "12717": {
+      "train_name": "Ratnanchal Sf Ex",
+      "timing_provenance": "official_ntes",
+      "official_stops": 60,
+      "cleaned_stops": 12
+    },
+    "12718": {
+      "train_name": "Ratnachal Sf Ex",
+      "timing_provenance": "official_ntes",
+      "official_stops": 60,
+      "cleaned_stops": 12
+    },
+    "20401": {
+      "train_name": "Bsb Lko Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 9
+    },
+    "20402": {
+      "train_name": "Lko Bsb Sf Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 9
+    },
+    "12921": {
+      "train_name": "St Flying Rani",
+      "timing_provenance": "official_ntes",
+      "official_stops": 56,
+      "cleaned_stops": 13
+    },
+    "12124": {
+      "train_name": "Deccan Queen",
+      "timing_provenance": "official_ntes",
+      "official_stops": 55,
+      "cleaned_stops": 3
+    },
+    "12613": {
+      "train_name": "Wodeyar Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 23,
+      "cleaned_stops": 4
+    },
+    "12614": {
+      "train_name": "Wodeyar Sf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 23,
+      "cleaned_stops": 4
+    },
+    "12284": {
+      "train_name": "Nzm Ers Duronto",
+      "timing_provenance": "official_ntes",
+      "official_stops": 371,
+      "cleaned_stops": 11
+    },
+    "12283": {
+      "train_name": "Ers Nzm Duronto",
+      "timing_provenance": "official_ntes",
+      "official_stops": 371,
+      "cleaned_stops": 11
+    },
+    "16230": {
+      "train_name": "Bsb Mys Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 31
+    },
+    "16229": {
+      "train_name": "Mys Bsb Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 31
+    },
+    "22687": {
+      "train_name": "Mys Bsb Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 31
+    },
+    "22688": {
+      "train_name": "Bsb Mys Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 314,
+      "cleaned_stops": 31
+    },
+    "12630": {
+      "train_name": "Ypr S Krnti Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 312,
+      "cleaned_stops": 14
+    },
+    "12539": {
+      "train_name": "Ypr Lko Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 347,
+      "cleaned_stops": 17
+    },
+    "12540": {
+      "train_name": "Lko Ypr Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 353,
+      "cleaned_stops": 16
+    },
+    "12975": {
+      "train_name": "Mys Jp Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 290,
+      "cleaned_stops": 38
+    },
+    "12976": {
+      "train_name": "Jp Mysore Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 290,
+      "cleaned_stops": 38
+    },
+    "20503": {
+      "train_name": "Rajdhani Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 25
+    },
+    "20504": {
+      "train_name": "Dbrg Rajdhani",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 25
+    },
+    "20667": {
+      "train_name": "Ypr Jp Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 23
+    },
+    "82653": {
+      "train_name": "Ypr Jp Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 23
+    },
+    "12423": {
+      "train_name": "Rajdhani Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 408,
+      "cleaned_stops": 23
+    },
+    "12424": {
+      "train_name": "Dbrt Rajdhani",
+      "timing_provenance": "official_ntes",
+      "official_stops": 408,
+      "cleaned_stops": 23
+    },
+    "12628": {
+      "train_name": "Karnataka Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 276,
+      "cleaned_stops": 33
+    },
+    "22683": {
+      "train_name": "Ypr Lko Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 27
+    },
+    "20505": {
+      "train_name": "Rajdhani Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 22
+    },
+    "20506": {
+      "train_name": "Dbrg Rajdhani",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 22
+    },
+    "12615": {
+      "train_name": "Grand Trunk Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 274,
+      "cleaned_stops": 35
+    },
+    "12616": {
+      "train_name": "Grand Trunk Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 274,
+      "cleaned_stops": 33
+    },
+    "12622": {
+      "train_name": "Tamilnadu Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 274,
+      "cleaned_stops": 12
+    },
+    "12611": {
+      "train_name": "Nzm Garibrath",
+      "timing_provenance": "official_ntes",
+      "official_stops": 270,
+      "cleaned_stops": 12
+    },
+    "12612": {
+      "train_name": "Mas Garib Rath",
+      "timing_provenance": "official_ntes",
+      "official_stops": 270,
+      "cleaned_stops": 11
+    },
+    "22817": {
+      "train_name": "Hwh Mys Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 18
+    },
+    "22818": {
+      "train_name": "Mys Howrah Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 19
+    },
+    "20805": {
+      "train_name": "Ap Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 18
+    },
+    "20806": {
+      "train_name": "Ap Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 18
+    },
+    "12833": {
+      "train_name": "Adi Hwh Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 332,
+      "cleaned_stops": 58
+    },
+    "12834": {
+      "train_name": "Hwh Adi Suf Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 322,
+      "cleaned_stops": 58
+    },
+    "12129": {
+      "train_name": "Azad Hind Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 295,
+      "cleaned_stops": 32
+    },
+    "12130": {
+      "train_name": "Azad Hind Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 296,
+      "cleaned_stops": 32
+    },
+    "12860": {
+      "train_name": "Gitanjali Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 303,
+      "cleaned_stops": 25
+    },
+    "12869": {
+      "train_name": "Csmt Howrah Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 301,
+      "cleaned_stops": 18
+    },
+    "12807": {
+      "train_name": "Samta Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 218,
+      "cleaned_stops": 39
+    },
+    "12808": {
+      "train_name": "Samta Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 218,
+      "cleaned_stops": 38
+    },
+    "12655": {
+      "train_name": "Navjeevan Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 261,
+      "cleaned_stops": 43
+    },
+    "82971": {
+      "train_name": "Jp Hyb Suvidha",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 28
+    },
+    "16501": {
+      "train_name": "Adi Ypr Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 225,
+      "cleaned_stops": 23
+    },
+    "16502": {
+      "train_name": "Ahmedabad Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 225,
+      "cleaned_stops": 24
+    },
+    "22690": {
+      "train_name": "Ahmedabad Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 24
+    },
+    "12281": {
+      "train_name": "Duronto Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 245,
+      "cleaned_stops": 6
+    },
+    "82948": {
+      "train_name": "Pnbe Adi Suvidha",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 16
+    },
+    "82947": {
+      "train_name": "Adi Pnbe Suvidha",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 16
+    },
+    "12282": {
+      "train_name": "Bbs Duronto Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 245,
+      "cleaned_stops": 5
+    },
+    "21905": {
+      "train_name": "Ahmedabad - Patna Amrit Bharat Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 3
+    },
+    "21906": {
+      "train_name": "Patna - Ahmedabad Amrit Bharat Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 3
+    },
+    "22919": {
+      "train_name": "Adi Humsafar",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 13
+    },
+    "22920": {
+      "train_name": "Adi Mas Humsafar",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 14
+    },
+    "19420": {
+      "train_name": "Adi Chennai Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 27
+    },
+    "19419": {
+      "train_name": "Mas Adi Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 26
+    },
+    "82652": {
+      "train_name": "Mas Suvidha Spl",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 30
+    },
+    "82611": {
+      "train_name": "Mas Adi Suvidha",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 28
+    },
+    "12724": {
+      "train_name": "Telangana Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 198,
+      "cleaned_stops": 13
+    },
+    "12722": {
+      "train_name": "Dakshin Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 194,
+      "cleaned_stops": 40
+    },
+    "12841": {
+      "train_name": "Coromandal Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 281,
+      "cleaned_stops": 13
+    },
+    "12842": {
+      "train_name": "Coromandel Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 281,
+      "cleaned_stops": 14
+    },
+    "19422": {
+      "train_name": "Pnbe Adi Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 25
+    },
+    "19421": {
+      "train_name": "Adi Pnbe Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 25
+    },
+    "18645": {
+      "train_name": "East Coast Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 259,
+      "cleaned_stops": 56
+    },
+    "18646": {
+      "train_name": "East Coast Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 259,
+      "cleaned_stops": 58
+    },
+    "82415": {
+      "train_name": "Kanpur Central - Mumbai Csmt Suvidha Special (weekly)",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 13
+    },
+    "82451": {
+      "train_name": "Csmt Suvidha",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 13
+    },
+    "82452": {
+      "train_name": "Cnb Suvidha Spl",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 13
+    },
+    "12703": {
+      "train_name": "Falaknuma Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 245,
+      "cleaned_stops": 23
+    },
+    "12303": {
+      "train_name": "Poorva Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 236,
+      "cleaned_stops": 23
+    },
+    "12304": {
+      "train_name": "Poorva Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 236,
+      "cleaned_stops": 23
+    },
+    "12264": {
+      "train_name": "Pune Durnto Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 212,
+      "cleaned_stops": 7
+    },
+    "12240": {
+      "train_name": "Mmct Duronto Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 168,
+      "cleaned_stops": 11
+    },
+    "12239": {
+      "train_name": "Hisar Duronto",
+      "timing_provenance": "official_ntes",
+      "official_stops": 168,
+      "cleaned_stops": 11
+    },
+    "84417": {
+      "train_name": "Pune - Hazrat Nizamuddin Ac Suvidha Special",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 11
+    },
+    "11093": {
+      "train_name": "Mahanagari Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 211,
+      "cleaned_stops": 30
+    },
+    "11094": {
+      "train_name": "Mahanagari Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 202,
+      "cleaned_stops": 29
+    },
+    "12104": {
+      "train_name": "Ljn Pune Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 173,
+      "cleaned_stops": 12
+    },
+    "13025": {
+      "train_name": "Hwh Bpl Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 189,
+      "cleaned_stops": 29
+    },
+    "13026": {
+      "train_name": "Bpl Hwh Exp",
+      "timing_provenance": "official_ntes",
+      "official_stops": 180,
+      "cleaned_stops": 29
+    },
+    "13065": {
+      "train_name": "Amrit Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 23
+    },
+    "13066": {
+      "train_name": "Amrit Bharat Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 23
+    },
+    "12381": {
+      "train_name": "Poorva Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 222,
+      "cleaned_stops": 19
+    },
+    "12382": {
+      "train_name": "Poorva Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 222,
+      "cleaned_stops": 19
+    },
+    "82408": {
+      "train_name": "Anand Vihar ( T) - Howrah Suvidha Puja Special",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 7
+    },
+    "82107": {
+      "train_name": "Lko Suvidha Spl",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 11
+    },
+    "12103": {
+      "train_name": "Pune Ljn Express",
+      "timing_provenance": "official_ntes",
+      "official_stops": 173,
+      "cleaned_stops": 12
+    },
+    "20975": {
+      "train_name": "Hwh Agc Express",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 30
+    },
+    "20976": {
+      "train_name": "Chambal Exp",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 30
+    },
+    "82905": {
+      "train_name": "Mmct Ndls Spl",
+      "timing_provenance": "derived_schedule",
+      "official_stops": 0,
+      "cleaned_stops": 4
+    },
+    "12951": {
+      "train_name": "Ndls Tejas Raj",
+      "timing_provenance": "official_ntes",
+      "official_stops": 202,
+      "cleaned_stops": 7
+    },
+    "12952": {
+      "train_name": "Mmct Tejas Raj",
+      "timing_provenance": "official_ntes",
+      "official_stops": 202,
+      "cleaned_stops": 7
+    }
+  }
+}

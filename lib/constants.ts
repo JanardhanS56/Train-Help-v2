@@ -6,6 +6,7 @@ import type { TripStatus, TravelClass, NearbyStation, AppTheme, UserPreferences,
 export const ROUTES = {
   landing: "/",
   dashboard: "/dashboard",
+  simulation: "/simulation",
   trip: (id: string) => `/trips/${id}`,
   recovery: (id: string) => `/recovery/${id}`,
   preferences: "/preferences",
@@ -18,7 +19,7 @@ export const ROUTES = {
 export interface NavItem {
   label: string;
   href: string;
-  iconName: "layout-dashboard" | "train" | "settings" | "bell" | "help-circle";
+  iconName: "layout-dashboard" | "train" | "settings" | "bell" | "help-circle" | "activity" | "play";
   matchPattern: string;
 }
 
@@ -28,6 +29,12 @@ export const NAV_ITEMS: NavItem[] = [
     href: ROUTES.dashboard,
     iconName: "layout-dashboard",
     matchPattern: "/dashboard",
+  },
+  {
+    label: "Simulation",
+    href: ROUTES.simulation,
+    iconName: "activity",
+    matchPattern: "/simulation",
   },
   {
     label: "Preferences",
