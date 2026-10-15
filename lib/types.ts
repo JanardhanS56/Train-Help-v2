@@ -17,8 +17,6 @@ export type NotificationType =
 export type SortKey = "best-match" | "price" | "duration" | "arrival";
 export type SortDirection = "asc" | "desc";
 
-export type DemoState = "normal" | "loading" | "empty" | "error";
-
 export type TravelClass = "SL" | "3A" | "2A" | "1A" | "CC" | "EC";
 
 export type AvailabilityStatus = "available" | "rac" | "waitlist";
@@ -249,7 +247,6 @@ export interface AppState {
   notifications: Notification[];
   chatMessages: ChatMessage[];
   chatInputDraft: string;
-  demoState: DemoState;
   theme: AppTheme;
   vibeRatings?: Record<string, VibeFeedback[]>;
 }
@@ -271,9 +268,7 @@ export type AppAction =
   | { type: "ADD_TRIP"; trip: Trip }
   | { type: "SUBMIT_VIBE_FEEDBACK"; feedback: VibeFeedback }
   | { type: "SET_CHAT_INPUT"; value: string }
-  | { type: "SET_DEMO_STATE"; demoState: DemoState }
   | { type: "SET_THEME"; theme: AppTheme }
-  | { type: "RESET_DEMO" }
   | { type: "HYDRATE_STATE"; state: Partial<AppState> };
 
 // ─── Context ───────────────────────────────────────────────────────

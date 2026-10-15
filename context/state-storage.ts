@@ -1,5 +1,4 @@
 import type { AppState, AppTheme, UserPreferences, TravelClass, BerthPreference, FlexibilityTolerance, Trip, TrainSegment } from "@/lib/types";
-import { mockAlternatives } from "@/mock/data";
 import { DEFAULT_PREFERENCES, DEFAULT_THEME, detectActivePreset } from "@/lib/constants";
 
 export const STORAGE_KEY = "travelrescue-train-state-v5";
@@ -141,37 +140,15 @@ export function loadPersistedState(initialState: AppState): Partial<AppState> {
     let updatedTrips = [...customStoredBookings, ...initialState.trips];
     if (Array.isArray(parsed.recoveredTripUpdates)) {
       parsed.recoveredTripUpdates.forEach((up) => {
-        const alt = mockAlternatives.find((a) => a.id === up.altId);
-        if (alt) {
-          updatedTrips = updatedTrips.map((t) =>
-            t.id === up.tripId
-              ? {
-                  ...t,
-                  status: "recovered" as const,
-                  recoveredAlternativeId: up.altId,
-                  travelClass: alt.travelClass,
-                  fare: alt.fare,
-                  coach: "B4",
-                  berth: "23 · Lower",
-                  segments: [
-                    {
-                      trainName: alt.trainName,
-                      trainNumber: alt.trainNumber,
-                      departureStation: alt.fromStation,
-                      arrivalStation: alt.toStation,
-                      departureTime: alt.departureTime,
-                      arrivalTime: alt.arrivalTime,
-                      dayOffset: alt.dayOffset,
-                      status: "recovered" as const,
-                      coach: "B4",
-                      berth: "23 · Lower",
-                      platform: "Platform 1",
-                    },
-                  ],
-                }
-              : t
-          );
-        }
+        updatedTrips = updatedTrips.map((t) =>
+          t.id === up.tripId
+            ? {
+                ...t,
+                status: "recovered" as const,
+                recoveredAlternativeId: up.altId,
+              }
+            : t
+        );
       });
     }
 

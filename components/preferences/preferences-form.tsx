@@ -6,7 +6,6 @@ import { useApp, useAppDispatch } from "@/context/app-context";
 import { DEFAULT_PREFERENCES } from "@/lib/constants";
 import type { UserPreferences } from "@/lib/types";
 import { evaluateAlternatives, getActiveTrip } from "@/lib/matching";
-import { mockAlternatives } from "@/mock/data";
 
 import { PresetsSection } from "@/components/preferences/presets-section";
 import { BudgetSection } from "@/components/preferences/budget-section";
@@ -20,7 +19,7 @@ import { QuotaEligibilityAssistant } from "@/components/quota/quota-eligibility-
 import { ResultsPanel } from "@/components/preferences/results-panel";
 
 export function PreferencesForm() {
-  const { state } = useApp();
+  const { state, alternatives } = useApp();
   const dispatch = useAppDispatch();
   const preferences = state.preferences;
 
@@ -30,10 +29,7 @@ export function PreferencesForm() {
   }, [state.trips, state.selectedTripId, state.recoveryByTripId]);
 
   // Alternatives pool for active trip
-  const allAlternatives = useMemo(() => {
-    const tripId = activeTrip?.id || state.selectedTripId || "trip-4";
-    return mockAlternatives.filter((a) => a.tripId === tripId);
-  }, [activeTrip?.id, state.selectedTripId]);
+  const allAlternatives = alternatives;
 
   // Deterministic evaluation using THE ONE SHARED FUNCTION
   const evaluation = useMemo(() => {

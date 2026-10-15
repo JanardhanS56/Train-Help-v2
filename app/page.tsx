@@ -5,7 +5,7 @@ import { LandingNavbar } from "@/components/landing/landing-navbar";
 import { RailwayHeroVisual } from "@/components/landing/railway-hero-visual";
 import { FeaturedTicketCard } from "@/components/trips/featured-ticket-card";
 import { APP_NAME, APP_TAGLINE } from "@/lib/constants";
-import { mockTrips } from "@/mock/data";
+import { getAllTrips, dbTripToAppTrip } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "TravelRescue — Indian Railways disruption recovery",
@@ -13,9 +13,9 @@ export const metadata: Metadata = {
     "When your train gets delayed or cancelled, TravelRescue ranks the best alternative railway schedules and gets you back on track in minutes.",
 };
 
-export default function LandingPage() {
-  // Real product preview: the cancelled trip (trip-4)
-  const sampleTrip = mockTrips[3];
+export default async function LandingPage() {
+  const dbTrips = await getAllTrips();
+  const sampleTrip = dbTrips[0] ? dbTripToAppTrip(dbTrips[0]) : null;
 
   return (
     <div className="min-h-dvh flex flex-col bg-background text-foreground">
@@ -72,12 +72,19 @@ export default function LandingPage() {
           </div>
 
           {/* Real Product Preview: The Featured Ticket Card */}
-          <div className="space-y-2 pt-4">
-            <span className="micro-label block">LIVE PRODUCT PREVIEW</span>
-            <div className="max-w-4xl">
-              <FeaturedTicketCard trip={sampleTrip} />
+          {sampleTrip ? (
+            <div className="space-y-2 pt-4">
+              <span className="micro-label block">LIVE PRODUCT PREVIEW</span>
+              <div className="max-w-4xl">
+                <FeaturedTicketCard trip={sampleTrip} />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="p-6 rounded-xl border border-dashed border-border bg-surface text-center space-y-2 max-w-xl mx-auto">
+              <p className="text-sm text-foreground font-medium">All monitored passenger services running nominal.</p>
+              <p className="text-xs text-muted-foreground">Book a journey or run the train simulator to trigger disruption responses.</p>
+            </div>
+          )}
         </section>
 
         {/* 3. Reassurance Strip with hairlines */}
