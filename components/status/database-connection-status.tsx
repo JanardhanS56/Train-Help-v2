@@ -55,10 +55,17 @@ export function DatabaseConnectionStatus() {
   }, []);
 
   useEffect(() => {
-    fetchHealth();
+    const initialFetch = window.setTimeout(() => {
+      void fetchHealth();
+    }, 0);
     // Periodic check every 90 seconds
-    const interval = setInterval(fetchHealth, 90_000);
-    return () => clearInterval(interval);
+    const interval = window.setInterval(() => {
+      void fetchHealth();
+    }, 90_000);
+    return () => {
+      window.clearTimeout(initialFetch);
+      window.clearInterval(interval);
+    };
   }, [fetchHealth]);
 
   const handleManualRefresh = () => {
@@ -69,28 +76,30 @@ export function DatabaseConnectionStatus() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <button
-          type="button"
-          className="group flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-border/60 bg-surface/80 hover:bg-muted/40 transition-all text-[11px] text-muted-foreground hover:text-foreground cursor-pointer shadow-2xs"
-          title="Click to view database connection status and latency diagnostics"
-        >
-          <div className="relative flex items-center justify-center">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                isSupabase ? "bg-emerald-500 animate-pulse" : "bg-amber-500"
-              }`}
-            />
-          </div>
-          <span className="font-mono font-medium">
-            {health
-              ? isSupabase
-                ? `Supabase DB · ${health.latencyMs}ms`
-                : "Offline Snapshot"
-              : "Checking DB..."}
-          </span>
-        </button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <button
+            type="button"
+            className="group flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-border/60 bg-surface/80 hover:bg-muted/40 transition-all text-[11px] text-muted-foreground hover:text-foreground cursor-pointer shadow-2xs"
+            title="Click to view database connection status and latency diagnostics"
+          >
+            <div className="relative flex items-center justify-center">
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  isSupabase ? "bg-emerald-500 animate-pulse" : "bg-amber-500"
+                }`}
+              />
+            </div>
+            <span className="font-mono font-medium">
+              {health
+                ? isSupabase
+                  ? `Supabase DB · ${health.latencyMs}ms`
+                  : "Offline Snapshot"
+                : "Checking DB..."}
+            </span>
+          </button>
+        }
+      />
 
       <DialogContent className="max-w-md p-6 bg-surface border-border text-foreground">
         <DialogHeader className="space-y-1">
