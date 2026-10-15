@@ -1,6 +1,7 @@
 import type {
   Alternative,
   RankedAlternative,
+  ScoreBreakdown,
   Trip,
   UserPreferences,
   PriorityProfile,
@@ -213,6 +214,52 @@ function testHardConstraints(
 }
 
 /**
+ * Berth degradation hierarchy:
+ * LOWER (0) -> MIDDLE (1) -> UPPER (2) -> SIDE LOWER (3) -> SIDE UPPER (4)
+ */
+export const BERTH_HIERARCHY: Record<string, number> = {
+  lower: 0,
+  middle: 1,
+  upper: 2,
+  "side lower": 3,
+  "side upper": 4,
+};
+
+export function getBerthTier(berthStr?: string): number {
+  if (!berthStr) return 2;
+  const lower = berthStr.toLowerCase();
+  if (lower.includes("side lower") || lower.includes("side-lower") || lower.includes("sl")) return 3;
+  if (lower.includes("side upper") || lower.includes("side-upper") || lower.includes("su")) return 4;
+  if (lower.includes("lower") || lower.includes("lb")) return 0;
+  if (lower.includes("middle") || lower.includes("mb")) return 1;
+  if (lower.includes("upper") || lower.includes("ub")) return 2;
+  return 2;
+}
+
+export function calculateBerthMatchScore(
+  altBerth: string | undefined,
+  preferredBerth: UserPreferences["berthPreference"]
+): number {
+  if (!preferredBerth || preferredBerth === "no-preference") {
+    return 100;
+  }
+  const prefTarget = preferredBerth.toLowerCase().replace("-", " ");
+  const prefTier = getBerthTier(prefTarget);
+  const altTier = getBerthTier(altBerth);
+
+  if (altTier === prefTier) {
+    return 100;
+  }
+  if (altTier < prefTier) {
+    // Upgraded in comfort (e.g., requested Upper, received Lower)
+    return 95;
+  }
+  // Degraded: 25 points penalty per step degradation
+  const stepDiff = altTier - prefTier;
+  return Math.max(10, 100 - stepDiff * 25);
+}
+
+/**
  * Deterministic scoring function for an eligible alternative
  */
 function scoreAlternative(
@@ -281,6 +328,16 @@ function scoreAlternative(
     preferenceFitScore += 20;
   }
 
+  // Berth degradation penalty / match
+  const berthMatchScore = calculateBerthMatchScore(alt.coachBerth, preferences.berthPreference);
+  if (preferences.berthPreference !== "no-preference") {
+    if (berthMatchScore === 100) {
+      preferenceFitScore += 10;
+    } else if (berthMatchScore < 60) {
+      preferenceFitScore -= 15;
+    }
+  }
+
   // Departure window bonus / penalty
   const inWindow = isInDepartureWindow(alt.departureTime, preferences.departureWindow);
   const inFlex = isWithinDepartureFlexibility(alt.departureTime, preferences.departureWindow, preferences.flexibilityHours);
@@ -303,6 +360,15 @@ function scoreAlternative(
       preferenceFitScore * weights.preference) /
       100
   );
+
+  // Score breakdown object for explainable scoring
+  const score_breakdown: ScoreBreakdown = {
+    time_diff_score: Math.round(arrivalFitScore),
+    berth_match_score: Math.round(berthMatchScore),
+    train_type_score: Math.round(changesScore),
+    price_diff_score: Math.round(budgetFitScore),
+    overall: overallScore,
+  };
 
   // Tags
   const tags: string[] = [];
@@ -334,6 +400,7 @@ function scoreAlternative(
     durationScore,
     preferenceFitScore,
     overallScore,
+    score_breakdown,
     tags,
   };
 }
@@ -341,7 +408,7 @@ function scoreAlternative(
 /**
  * Checks berth tie-breaker (only used if overall scores are identical)
  */
-function compareBerth(
+export function compareBerth(
   a: RankedAlternative,
   b: RankedAlternative,
   berthPref: UserPreferences["berthPreference"]
@@ -571,14 +638,20 @@ export function evaluateAlternatives(
     scoreAlternative(alt, eligibleRaw, preferences, trip)
   );
 
-  // Deterministic sorting: overallScore DESC, then berth tie-breaker, then fare ASC
+  // Deterministic sorting: overallScore DESC, then tie-breaking: arrival_time ASC, price ASC, id ASC
   ranked.sort((a, b) => {
     if (b.overallScore !== a.overallScore) {
       return b.overallScore - a.overallScore;
     }
-    const berthTie = compareBerth(a, b, preferences.berthPreference);
-    if (berthTie !== 0) return berthTie;
-    return a.fare - b.fare;
+    const aArr = a.arrivalTime ? new Date(a.arrivalTime).getTime() : 0;
+    const bArr = b.arrivalTime ? new Date(b.arrivalTime).getTime() : 0;
+    if (aArr !== bArr) {
+      return aArr - bArr;
+    }
+    if (a.fare !== b.fare) {
+      return a.fare - b.fare;
+    }
+    return a.id.localeCompare(b.id);
   });
 
   // Assign ranks & best match reason

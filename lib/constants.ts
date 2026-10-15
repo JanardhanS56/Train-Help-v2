@@ -90,6 +90,12 @@ export const STATUS_CONFIG: Record<TripStatus, StatusConfig> = {
     colorClass: "text-success",
     bgClass: "bg-success-tint border border-success/30",
   },
+  rebooked: {
+    label: "Rebooked",
+    iconName: "check-circle",
+    colorClass: "text-primary",
+    bgClass: "bg-primary/10 border border-primary/30",
+  },
 } as const;
 
 // ─── Stations ──────────────────────────────────────────────────────

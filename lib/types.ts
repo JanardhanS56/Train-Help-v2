@@ -1,6 +1,6 @@
 // ─── Status & Enums ────────────────────────────────────────────────
 
-export type TripStatus = "on-time" | "delayed" | "cancelled" | "recovered";
+export type TripStatus = "on-time" | "delayed" | "cancelled" | "recovered" | "rebooked";
 
 export type RecoveryStage =
   | "progress"
@@ -125,6 +125,14 @@ export interface Alternative {
   nearbyStationSuggestion?: NearbyStation;
 }
 
+export interface ScoreBreakdown {
+  time_diff_score: number;
+  berth_match_score: number;
+  train_type_score: number;
+  price_diff_score: number;
+  overall: number;
+}
+
 export interface RankedAlternative extends Alternative {
   rank: number;
   budgetFitScore: number;    // 0-100 (weight 30)
@@ -135,6 +143,7 @@ export interface RankedAlternative extends Alternative {
   overallScore: number;      // 0-100
   tags: string[];
   matchReason?: string;      // One plain-language reason sentence for Best Match
+  score_breakdown?: ScoreBreakdown;
 }
 
 export interface Notification {
@@ -259,7 +268,14 @@ export type AppAction =
   | { type: "SET_FILTERS"; filters: Partial<AlternativeFilters> }
   | { type: "RESET_FILTERS" }
   | { type: "SELECT_ALTERNATIVE"; alternativeId: string }
-  | { type: "CONFIRM_RECOVERY"; tripId: string; alternativeId: string }
+  | {
+      type: "CONFIRM_RECOVERY";
+      tripId: string;
+      alternativeId: string;
+      newTrip?: Trip;
+      refundAmount?: number;
+      newPnr?: string;
+    }
   | { type: "UPDATE_PREFERENCES"; preferences: Partial<UserPreferences> }
   | { type: "MARK_NOTIFICATION_READ"; notificationId: string }
   | { type: "MARK_ALL_NOTIFICATIONS_READ" }
