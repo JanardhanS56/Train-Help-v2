@@ -3,7 +3,6 @@ import { Inter, Newsreader, JetBrains_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppProvider } from "@/context/app-context";
 import { AuthProvider } from "@/context/auth-context";
-import { AuthGate } from "@/components/auth/auth-gate";
 import { CookieConsentBanner } from "@/components/layout/cookie-consent-banner";
 import "./globals.css";
 
@@ -45,17 +44,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-full font-sans bg-background text-foreground">
         <AuthProvider>
-          <AuthGate>
-            <AppProvider>
-              <TooltipProvider delay={400}>
-                {children}
-                <CookieConsentBanner />
-              </TooltipProvider>
-            </AppProvider>
-          </AuthGate>
+          <AppProvider>
+            <TooltipProvider delay={400}>
+              {children}
+              <CookieConsentBanner />
+            </TooltipProvider>
+          </AppProvider>
         </AuthProvider>
       </body>
     </html>
   );
 }
-
