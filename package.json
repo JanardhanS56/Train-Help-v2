@@ -8,6 +8,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "db:seed": "tsx scripts/db/seed.ts",
+    "seed:dev": "tsx scripts/db/seed-dev.ts",
     "db:check": "tsx scripts/db/check.ts"
   },
   "dependencies": {

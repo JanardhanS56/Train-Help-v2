@@ -94,12 +94,14 @@ async function checkDatabase(): Promise<void> {
       .select("*", { count: "exact", head: true });
     if (lkErr) throw lkErr;
 
-    // 5. Sample query: Train 22691 lookup with stops
+    // 5. Sample query: Train lookup with stops
     const qStart = Date.now();
+    const { data: firstTrain } = await supabase.from("trains").select("train_number").limit(1);
+    const targetTrainNumber = firstTrain?.[0]?.train_number ?? "12028";
     const { data, error: qErr } = await supabase
       .from("trains")
       .select("train_number, train_name, train_stops(seq, station_code, station_name, arrival_formatted, departure_formatted)")
-      .eq("train_number", "22691")
+      .eq("train_number", targetTrainNumber)
       .single();
     if (qErr) throw qErr;
 
@@ -109,7 +111,7 @@ async function checkDatabase(): Promise<void> {
 
     console.log(`✓ Connected to Supabase: ${SUPABASE_URL}`);
     console.log(`  Ping Latency:    ${totalLatency}ms`);
-    console.log(`  Query Latency:   ${qLatency}ms (Train 22691 with nested stops)`);
+    console.log(`  Query Latency:   ${qLatency}ms (Train ${targetTrainNumber} with nested stops)`);
     console.log(`  Stations Count:  ${stationCount ?? 0}`);
     console.log(`  Trains Count:    ${trainCount ?? 0}`);
     console.log(`  Stops Count:     ${stopCount ?? 0}`);
