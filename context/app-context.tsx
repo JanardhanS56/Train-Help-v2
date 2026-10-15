@@ -83,14 +83,24 @@ function appReducer(state: AppState, action: AppAction): AppState {
         trip.id === action.tripId
           ? {
               ...trip,
-              status: "recovered" as const,
+              status: "rebooked" as const,
               recoveredAlternativeId: action.alternativeId,
+              refund: action.refundAmount !== undefined ? {
+                originalFare: trip.fare,
+                refundAmount: action.refundAmount,
+                status: "Processing" as const,
+                expectedDays: "3-5",
+                refundMethod: "Original payment method",
+              } : trip.refund,
             }
           : trip
       );
+
+      const allTrips = action.newTrip ? [action.newTrip, ...updatedTrips] : updatedTrips;
+
       return {
         ...state,
-        trips: updatedTrips,
+        trips: allTrips,
         selectedAlternativeId: action.alternativeId,
         recoveryStage: "success",
         recoveryByTripId: {

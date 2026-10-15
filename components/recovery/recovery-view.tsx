@@ -122,11 +122,14 @@ export function RecoveryView({ tripId }: RecoveryViewProps) {
         <ItineraryComparison
           trip={trip}
           alternative={selectedAlt}
-          onConfirm={() =>
+          onConfirm={(result) =>
             dispatch({
               type: "CONFIRM_RECOVERY",
               tripId: trip.id,
               alternativeId: selectedAlt.id,
+              newTrip: result?.newTrip,
+              refundAmount: result?.refundAmount,
+              newPnr: result?.pnr,
             })
           }
           onBack={() => dispatch({ type: "SET_RECOVERY_STAGE", stage: "alternatives" })}

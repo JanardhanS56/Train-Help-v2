@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Calendar, Share2 } from "lucide-react";
 import type { Trip, Alternative } from "@/lib/types";
 import { formatTime, formatDate, formatTimeWithDay } from "@/lib/format";
 
@@ -11,6 +12,67 @@ interface RecoverySuccessProps {
 }
 
 export function RecoverySuccess({ trip, alternative }: RecoverySuccessProps) {
+  const [copiedShare, setCopiedShare] = useState(false);
+
+  // Deterministic refund reference
+  const refundRef = `REF-IRCTC-${trip.pnr.slice(0, 6)}`;
+  const hasRefund = (trip.refund?.refundAmount ?? 0) > 0 || (trip.fare > alternative.fare);
+  const refundAmount = trip.refund?.refundAmount ?? (trip.fare > alternative.fare ? trip.fare - alternative.fare : 0);
+
+  function handleAddToCalendar() {
+    const title = `Train: ${alternative.trainName} (#${alternative.trainNumber})`;
+    const description = `Recovery Train from ${alternative.fromStation.name} (${alternative.fromStation.code}) to ${alternative.toStation.name} (${alternative.toStation.code}). PNR: ${trip.pnr}. Class: ${alternative.travelClass}.`;
+    const location = `${alternative.fromStation.name} Railway Station`;
+
+    const start = new Date(alternative.departureTime)
+      .toISOString()
+      .replace(/-|:|\.\d+/g, "");
+    const end = new Date(alternative.arrivalTime)
+      .toISOString()
+      .replace(/-|:|\.\d+/g, "");
+
+    const icsContent = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//TravelRescue//Train Recovery//EN",
+      "BEGIN:VEVENT",
+      `SUMMARY:${title}`,
+      `DESCRIPTION:${description}`,
+      `LOCATION:${location}`,
+      `DTSTART:${start}`,
+      `DTEND:${end}`,
+      "STATUS:CONFIRMED",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `train-${alternative.trainNumber}-recovery.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  function handleShare() {
+    const shareText = `My train journey has been recovered! New Train: ${alternative.trainName} (#${alternative.trainNumber}) from ${alternative.fromStation.code} to ${alternative.toStation.code}. PNR: ${trip.pnr}.`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: "Train Recovery Details",
+        text: shareText,
+        url: window.location.href,
+      }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareText);
+      setCopiedShare(true);
+      setTimeout(() => setCopiedShare(false), 2500);
+    }
+  }
+
   return (
     <div className="max-w-2xl mx-auto space-y-8 py-6 text-center animate-in fade-in-50 duration-200">
       {/* Success Headline & One success-coloured check icon (no confetti) */}
@@ -39,9 +101,16 @@ export function RecoverySuccess({ trip, alternative }: RecoverySuccessProps) {
               CONFIRMED RAILWAY MANIFEST
             </span>
           </div>
-          <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-background border border-border text-foreground">
-            PNR {trip.pnr}
-          </span>
+          <div className="flex items-center gap-2">
+            {hasRefund && (
+              <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-medium">
+                Refund Ref: {refundRef}
+              </span>
+            )}
+            <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-background border border-border text-foreground">
+              PNR {trip.pnr}
+            </span>
+          </div>
         </div>
 
         {/* Train & Route in Display Font */}
@@ -115,9 +184,45 @@ export function RecoverySuccess({ trip, alternative }: RecoverySuccessProps) {
         {/* Counterfoil Metadata */}
         <div className="flex flex-wrap items-center justify-between text-xs text-muted-foreground font-mono pt-1">
           <span>Fare: ₹{alternative.fare} (Confirmed)</span>
-          <span>Original ticket refund: 100% full refund active</span>
+          {hasRefund ? (
+            <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+              Refund ₹{refundAmount} processing to original payment method
+            </span>
+          ) : (
+            <span>Original ticket refund: 100% full refund active</span>
+          )}
         </div>
       </article>
+
+      {/* Secondary Quick Share / Calendar Actions */}
+      <div className="flex items-center justify-center gap-3 no-print">
+        <button
+          type="button"
+          onClick={handleAddToCalendar}
+          className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-[8px] border border-border bg-surface text-xs font-medium text-foreground hover:bg-background transition-colors shadow-sm"
+        >
+          <Calendar className="w-3.5 h-3.5 stroke-[1.5] text-primary" />
+          <span>Add to Calendar</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={handleShare}
+          className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-[8px] border border-border bg-surface text-xs font-medium text-foreground hover:bg-background transition-colors shadow-sm"
+        >
+          {copiedShare ? (
+            <>
+              <Check className="w-3.5 h-3.5 stroke-[2] text-success" />
+              <span>Copied!</span>
+            </>
+          ) : (
+            <>
+              <Share2 className="w-3.5 h-3.5 stroke-[1.5] text-primary" />
+              <span>Share Itinerary</span>
+            </>
+          )}
+        </button>
+      </div>
 
       {/* Action Buttons: Exactly ONE primary, ONE secondary */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
