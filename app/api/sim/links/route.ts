@@ -5,14 +5,13 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { trainRepository } from "@/lib/data/train-repository";
-import { checkRateLimit, getClientIdentifier, createRateLimitResponse, GENERAL_API_RATE_LIMIT } from "@/lib/rate-limit";
+import { GENERAL_API_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
+
+export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
-  const clientId = getClientIdentifier(request.headers);
-  const limitCheck = checkRateLimit(clientId, GENERAL_API_RATE_LIMIT);
-  if (!limitCheck.success) {
-    return createRateLimitResponse(limitCheck);
-  }
+  const rateLimit = await enforceRateLimit(request, GENERAL_API_RATE_LIMIT);
+  if (!rateLimit.success) return rateLimit.response;
 
   try {
     const links = await trainRepository.getRailLinks();

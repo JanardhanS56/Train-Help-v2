@@ -1,30 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { executeAIChat, getProviderConfig } from "@/lib/ai/providers";
 import { AIChatMessage } from "@/lib/ai/types";
-import { checkRateLimit, getClientIdentifier, CHAT_RATE_LIMIT } from "@/lib/rate-limit";
+import { CHAT_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
+
+export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
-  // ── Rate limiting ──────────────────────────────────────────────
-  const clientId = getClientIdentifier(req.headers);
-  const limit = checkRateLimit(clientId, CHAT_RATE_LIMIT);
-
-  if (!limit.success) {
-    return NextResponse.json(
-      {
-        error: `Rate limit exceeded. Please wait ${Math.ceil((limit.retryAfterMs ?? 30_000) / 1000)} seconds before sending another message.`,
-        isError: true,
-        retryAfterMs: limit.retryAfterMs,
-      },
-      {
-        status: 429,
-        headers: {
-          "Retry-After": String(Math.ceil((limit.retryAfterMs ?? 30_000) / 1000)),
-          "X-RateLimit-Remaining": "0",
-          "X-RateLimit-Reset": String(Math.ceil(limit.resetMs / 1000)),
-        },
-      }
-    );
-  }
+  const rateLimit = await enforceRateLimit(req, CHAT_RATE_LIMIT);
+  if (!rateLimit.success) return rateLimit.response;
 
   try {
     const body = await req.json();
@@ -52,8 +35,8 @@ export async function POST(req: NextRequest) {
       },
       {
         headers: {
-          "X-RateLimit-Remaining": String(limit.remaining),
-          "X-RateLimit-Reset": String(Math.ceil(limit.resetMs / 1000)),
+          "X-RateLimit-Remaining": String(rateLimit.limit.remaining),
+          "X-RateLimit-Reset": String(Math.ceil(rateLimit.limit.resetMs / 1000)),
         },
       }
     );

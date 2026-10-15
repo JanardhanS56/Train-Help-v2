@@ -6,15 +6,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/data/supabase-client";
 import fallbackSnapshot from "@/data/clean/sim-snapshot.json";
-import { checkRateLimit, getClientIdentifier, createRateLimitResponse, DB_RATE_LIMIT } from "@/lib/rate-limit";
+import { DB_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
+
+export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
-  // Rate limiting to protect Supabase connectivity against flooding
-  const clientId = getClientIdentifier(request.headers);
-  const limit = checkRateLimit(clientId, DB_RATE_LIMIT);
-  if (!limit.success) {
-    return createRateLimitResponse(limit, "Too many database status checks. Please wait a moment.");
-  }
+  const rateLimit = await enforceRateLimit(
+    request,
+    DB_RATE_LIMIT,
+    "Too many database status checks. Please wait a moment."
+  );
+  if (!rateLimit.success) return rateLimit.response;
 
   const start = Date.now();
   const supabase = getSupabaseClient();

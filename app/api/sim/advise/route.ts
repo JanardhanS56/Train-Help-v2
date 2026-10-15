@@ -7,7 +7,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProviderConfig } from "@/lib/ai/providers";
 import type { CandidatePlan } from "@/lib/sim/types";
-import { checkRateLimit, getClientIdentifier, ADVISE_RATE_LIMIT } from "@/lib/rate-limit";
+import { ADVISE_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
+
+export const runtime = "nodejs";
 
 interface AdviseRequestPayload {
   train: {
@@ -70,24 +72,12 @@ function buildDeterministicAdvice(
 }
 
 export async function POST(request: NextRequest) {
-  // ── Rate limiting ──────────────────────────────────────────────
-  const clientId = getClientIdentifier(request.headers);
-  const limit = checkRateLimit(clientId, ADVISE_RATE_LIMIT);
-
-  if (!limit.success) {
-    return NextResponse.json(
-      {
-        error: `Rate limit exceeded. Retry in ${Math.ceil((limit.retryAfterMs ?? 20_000) / 1000)}s.`,
-        retryAfterMs: limit.retryAfterMs,
-      },
-      {
-        status: 429,
-        headers: {
-          "Retry-After": String(Math.ceil((limit.retryAfterMs ?? 20_000) / 1000)),
-        },
-      }
-    );
-  }
+  const rateLimit = await enforceRateLimit(
+    request,
+    ADVISE_RATE_LIMIT,
+    "Rate limit exceeded. Please wait before requesting more advice."
+  );
+  if (!rateLimit.success) return rateLimit.response;
 
   let payload: AdviseRequestPayload;
   try {
