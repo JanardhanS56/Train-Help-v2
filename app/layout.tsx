@@ -30,7 +30,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TravelRescue — Something went wrong. We've got this.",
+  title: "TravelRescue — Your journey, back on track",
   description:
     "When your train gets delayed or cancelled, TravelRescue ranks the best alternative railway schedules and gets you back on track in minutes.",
 };
