@@ -6,13 +6,15 @@
 import { getSupabaseClient } from "./supabase-client";
 import type { DbStation } from "./types";
 
+const STATION_COLUMNS = "code, name, state, zone, latitude, longitude, is_junction, route_count";
+
 export async function getAllStations(limit = 1000): Promise<DbStation[]> {
   const supabase = getSupabaseClient();
   if (!supabase) return [];
 
   const { data, error } = await supabase
     .from("stations")
-    .select("code, name, state, zone, latitude, longitude, is_junction, route_count, facilities, platforms, accessibility")
+    .select(STATION_COLUMNS)
     .order("route_count", { ascending: false })
     .limit(limit);
 
@@ -30,7 +32,7 @@ export async function getStationByCode(code: string): Promise<DbStation | null> 
 
   const { data, error } = await supabase
     .from("stations")
-    .select("code, name, state, zone, latitude, longitude, is_junction, route_count, facilities, platforms, accessibility")
+    .select(STATION_COLUMNS)
     .eq("code", code.toUpperCase())
     .maybeSingle();
 
@@ -47,12 +49,16 @@ export async function searchStations(query: string, limit = 20): Promise<DbStati
   if (!supabase) return [];
 
   const q = query.trim().toUpperCase();
-  if (!q) return [];
 
-  const { data, error } = await supabase
+  let queryBuilder = supabase
     .from("stations")
-    .select("code, name, state, zone, latitude, longitude, is_junction, route_count, facilities, platforms, accessibility")
-    .or(`code.ilike.%${q}%,name.ilike.%${q}%`)
+    .select(STATION_COLUMNS);
+
+  if (q) {
+    queryBuilder = queryBuilder.or(`code.ilike.%${q}%,name.ilike.%${q}%,state.ilike.%${q}%`);
+  }
+
+  const { data, error } = await queryBuilder
     .order("route_count", { ascending: false })
     .limit(limit);
 

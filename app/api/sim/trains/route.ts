@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
 
   const searchParams = request.nextUrl.searchParams;
   const q = searchParams.get("q") || "";
-  const limit = Math.min(50, Math.max(1, parseInt(searchParams.get("limit") || "20", 10)));
+  const limit = Math.min(250, Math.max(1, parseInt(searchParams.get("limit") || "100", 10)));
 
   try {
     const trains = await trainRepository.searchTrains(q, limit);

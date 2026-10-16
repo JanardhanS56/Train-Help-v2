@@ -183,6 +183,7 @@ export interface TrainRepository {
   getTrainWithStops(trainNumber: string): Promise<TrainWithStops | null>;
   getStation(code: string): Promise<DbStation | null>;
   getAllStations(): Promise<DbStation[]>;
+  searchStations(query: string, limit?: number): Promise<DbStation[]>;
   getRailLinks(): Promise<DbRailLink[]>;
   getTrainsBetween(fromCode: string, toCode: string): Promise<TrainsBetweenResult[]>;
   isOffline(): boolean;

@@ -13,8 +13,15 @@ export async function GET(request: NextRequest) {
   const rateLimit = await enforceRateLimit(request, GENERAL_API_RATE_LIMIT);
   if (!rateLimit.success) return rateLimit.response;
 
+  const searchParams = request.nextUrl.searchParams;
+  const q = searchParams.get("q") || "";
+  const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") || "50", 10)));
+
   try {
-    const stations = await trainRepository.getAllStations();
+    const stations = q
+      ? await trainRepository.searchStations(q, limit)
+      : await trainRepository.getAllStations();
+
     return NextResponse.json({
       stations,
       isOffline: trainRepository.isOffline(),
@@ -22,6 +29,6 @@ export async function GET(request: NextRequest) {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("ERR in /api/sim/stations:", message);
-    return NextResponse.json({ error: "Failed to fetch stations", stations: [] }, { status: 500 });
+    return NextResponse.json({ error: "Failed to fetch stations", stations: [], isOffline: true }, { status: 500 });
   }
 }

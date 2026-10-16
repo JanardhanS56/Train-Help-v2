@@ -8,6 +8,7 @@ import { getSupabaseClient } from "./supabase-client";
 import {
   getAllStations as fetchAllStations,
   getStationByCode as fetchStationByCode,
+  searchStations as fetchSearchStations,
 } from "./stations";
 import {
   getTrainByNumber as fetchTrainByNumber,
@@ -43,6 +44,10 @@ class SupabaseTrainRepository implements TrainRepository {
 
   async getAllStations(): Promise<DbStation[]> {
     return fetchAllStations(1000);
+  }
+
+  async searchStations(query: string, limit = 20): Promise<DbStation[]> {
+    return fetchSearchStations(query, limit);
   }
 
   async getRailLinks(): Promise<DbRailLink[]> {

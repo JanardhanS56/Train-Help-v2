@@ -98,17 +98,21 @@ export async function getTrainByNumber(trainNumber: string): Promise<TrainWithSt
   };
 }
 
-export async function searchTrains(query: string, limit = 20): Promise<TrainSearchResult[]> {
+export async function searchTrains(query: string, limit = 50): Promise<TrainSearchResult[]> {
   const supabase = getSupabaseClient();
   if (!supabase) return [];
 
   const q = query.trim().toUpperCase();
-  if (!q) return [];
 
-  const { data, error } = await supabase
+  let queryBuilder = supabase
     .from("trains")
-    .select("train_number, train_name, train_type, origin_station_code, destination_station_code, origin_name, destination_name, days_running, total_distance_km, total_duration_min, stops_count")
-    .or(`train_number.ilike.%${q}%,train_name.ilike.%${q}%,origin_station_code.ilike.%${q}%,destination_station_code.ilike.%${q}%`)
+    .select("train_number, train_name, train_type, origin_station_code, destination_station_code, origin_name, destination_name, days_running, total_distance_km, total_duration_min, stops_count");
+
+  if (q) {
+    queryBuilder = queryBuilder.or(`train_number.ilike.%${q}%,train_name.ilike.%${q}%,origin_station_code.ilike.%${q}%,destination_station_code.ilike.%${q}%`);
+  }
+
+  const { data, error } = await queryBuilder
     .order("train_name", { ascending: true })
     .limit(limit);
 
