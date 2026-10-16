@@ -5,8 +5,6 @@
  * for zero-network reliability, test suites, and sub-millisecond local queries.
  */
 
-import * as fs from "fs";
-import * as path from "path";
 import { getSupabaseClient } from "@/lib/data/supabase-client";
 import type { DbTrain, DbTrainStop, TrainWithStops } from "@/lib/data/types";
 
@@ -19,7 +17,16 @@ function loadLocalCleanData(): { trains: DbTrain[]; stops: DbTrainStop[] } {
     return { trains: memoryTrains, stops: memoryStops };
   }
 
+  if (typeof window !== "undefined") {
+    return { trains: [], stops: [] };
+  }
+
   try {
+    // Dynamic node require to avoid leaking into client browser bundles
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const fs = require("fs");
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const path = require("path");
     const cleanDir = path.resolve(process.cwd(), "data", "clean");
     const trainsPath = path.join(cleanDir, "trains.json");
     const stopsPath = path.join(cleanDir, "train_stops.json");

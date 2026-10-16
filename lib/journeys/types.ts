@@ -4,8 +4,9 @@
  */
 
 import type { DbTrainStop } from "@/lib/data/types";
+import type { TravelClass } from "@/lib/types";
 
-export type TravelClass = "1A" | "2A" | "3A" | "3E" | "EC" | "CC" | "SL" | "2S";
+export type { TravelClass };
 
 export interface SeatAvailability {
   status: "AVAILABLE" | "RAC" | "WL";

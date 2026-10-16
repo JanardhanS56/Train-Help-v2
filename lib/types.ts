@@ -17,7 +17,7 @@ export type NotificationType =
 export type SortKey = "best-match" | "price" | "duration" | "arrival";
 export type SortDirection = "asc" | "desc";
 
-export type TravelClass = "SL" | "3A" | "2A" | "1A" | "CC" | "EC";
+export type TravelClass = "SL" | "3A" | "2A" | "1A" | "CC" | "EC" | "3E" | "2S";
 
 export type AvailabilityStatus = "available" | "rac" | "waitlist";
 

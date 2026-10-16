@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useId } from "react";
+import { useState, useId, useEffect, useCallback, useMemo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,18 +12,16 @@ import {
   CheckCircle2,
   Plus,
   Trash2,
-  CreditCard,
-  Printer,
   Copy,
   Check,
-  ShieldCheck,
   AlertCircle,
   Train,
   ArrowRight,
-  MapPin,
   ArrowLeftRight,
+  Calendar,
+  ArrowLeft,
 } from "lucide-react";
-import { SuggestionCombobox } from "@/components/ui/suggestion-combobox";
+import { SuggestionCombobox, type SuggestionItem } from "@/components/ui/suggestion-combobox";
 import {
   TravelClass,
   BookingQuota,
@@ -38,8 +36,38 @@ import {
   assignBerths,
   saveBookingToStorage,
 } from "@/lib/booking/booking-engine";
-import { formatCurrency, formatTimeWithDay, formatDate } from "@/lib/format";
-import { useAppDispatch } from "@/context/app-context";
+import { formatTimeWithDay } from "@/lib/format";
+import { useApp, useAppDispatch } from "@/context/app-context";
+import {
+  getTodayIST,
+  formatISTDate,
+  parseISTDate,
+  type JourneyItinerary,
+  type JourneyClassOption,
+} from "@/lib/journeys";
+import { trainRepository } from "@/lib/data/train-repository";
+import type { TrainWithStops } from "@/lib/data/types";
+
+export const ADVANCE_RESERVATION_DAYS = 60; // Current Indian Railways booking window
+
+async function fetchJourneysApi(params: {
+  fromCode: string;
+  toCode: string;
+  date: string;
+  includeNearby?: boolean;
+}): Promise<{ direct: JourneyItinerary[]; connecting: JourneyItinerary[] }> {
+  const q = new URLSearchParams({
+    from: params.fromCode,
+    to: params.toCode,
+    date: params.date,
+    includeNearby: params.includeNearby ? "true" : "false",
+  });
+  const res = await fetch(`/api/journeys?${q.toString()}`);
+  if (!res.ok) {
+    throw new Error(`Journey search failed: ${res.statusText}`);
+  }
+  return res.json();
+}
 
 interface TrainBookingDialogProps {
   open: boolean;
@@ -56,48 +84,80 @@ interface TrainBookingDialogProps {
   onBookingSuccess?: (newTrip: Trip) => void;
 }
 
-const DEFAULT_TRAIN = {
-  trainNumber: "22691",
-  trainName: "Bengaluru Rajdhani Express",
-  fromStation: { code: "SBC", name: "KSR Bengaluru", city: "Bengaluru" },
-  toStation: { code: "NDLS", name: "New Delhi", city: "Delhi" },
-  departureTime: new Date(2026, 9, 15, 20, 0, 0),
-  arrivalTime: new Date(2026, 9, 17, 5, 30, 0),
-  defaultClass: "3A" as TravelClass,
-};
-
 export function TrainBookingDialog({
   open,
   onOpenChange,
   trainInfo,
   onBookingSuccess,
 }: TrainBookingDialogProps) {
+  const { state } = useApp();
   const dispatch = useAppDispatch();
   const formId = useId();
 
-  // Train state (defaults to pre-selected train or standard Rajdhani fallback)
-  const [train, setTrain] = useState(() => trainInfo || DEFAULT_TRAIN);
-  const [prevTrainInfo, setPrevTrainInfo] = useState(trainInfo);
+  // Route & Date selection state
+  const todayIST = useMemo(() => getTodayIST(), []);
+  const maxDateIST = useMemo(() => {
+    const today = parseISTDate(todayIST);
+    const maxDate = new Date(today.getTime() + ADVANCE_RESERVATION_DAYS * 86_400_000);
+    return formatISTDate(maxDate);
+  }, [todayIST]);
 
-  // Form State
-  const [step, setStep] = useState<"details" | "summary" | "confirmed">("details");
-  const [selectedClass, setSelectedClass] = useState<TravelClass>(
-    () => trainInfo?.defaultClass || DEFAULT_TRAIN.defaultClass || "3A"
+  const [fromStation, setFromStation] = useState<Station | null>(() =>
+    trainInfo ? trainInfo.fromStation : { code: "SBC", name: "KSR Bengaluru", city: "Bengaluru" }
   );
+  const [toStation, setToStation] = useState<Station | null>(() =>
+    trainInfo ? trainInfo.toStation : { code: "NDLS", name: "New Delhi", city: "Delhi" }
+  );
+  const [journeyDate, setJourneyDate] = useState<string>(() => {
+    if (trainInfo) return formatISTDate(trainInfo.departureTime);
+    // Sensible default: today
+    return todayIST;
+  });
+  const [includeNearby, setIncludeNearby] = useState<boolean>(() =>
+    Boolean(state.preferences.includeNearbyStations)
+  );
+
+  // Train search results state
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<{
+    direct: JourneyItinerary[];
+    connecting: JourneyItinerary[];
+    searched: boolean;
+  }>({ direct: [], connecting: [], searched: false });
+
+  const initialBerthPreference = useMemo<BookingBerthPreference>(() => {
+    const pref = state.preferences.berthPreference;
+    if (pref === "lower") return "LB";
+    if (pref === "middle") return "MB";
+    if (pref === "upper") return "UB";
+    if (pref === "side-lower") return "SL";
+    if (pref === "side-upper") return "SU";
+    return "LB";
+  }, [state.preferences.berthPreference]);
+
+  // Selected journey for booking
+  const [selectedJourney, setSelectedJourney] = useState<JourneyItinerary | null>(null);
+  const [selectedClass, setSelectedClass] = useState<TravelClass>(() => {
+    return (state.preferences.classes?.[0] as TravelClass) || "3A";
+  });
   const [selectedQuota, setSelectedQuota] = useState<BookingQuota>("GN");
 
-  // Adjust state during render if trainInfo prop changes (React recommended pattern)
-  if (trainInfo !== prevTrainInfo) {
-    setPrevTrainInfo(trainInfo);
-    if (trainInfo) {
-      setTrain(trainInfo);
-      if (trainInfo.defaultClass) {
-        setSelectedClass(trainInfo.defaultClass);
-      }
-    }
-  }
+  // Train shortcut mismatch resolver state
+  const [trainMismatchAlert, setTrainMismatchAlert] = useState<{
+    train: TrainWithStops;
+    message: string;
+  } | null>(null);
+
+  // Multi-step booking state
+  const [step, setStep] = useState<"search" | "passengers" | "summary" | "confirmed">("search");
   const [passengers, setPassengers] = useState<BookingPassenger[]>([
-    { id: "p-1", name: "", age: 30, gender: "M", berthPreference: "LB" },
+    {
+      id: "p-1",
+      name: "",
+      age: 30,
+      gender: "M",
+      berthPreference: initialBerthPreference,
+    },
   ]);
   const [contactMobile, setContactMobile] = useState("9876543210");
   const [contactEmail, setContactEmail] = useState("vikram.patel@example.com");
@@ -105,30 +165,139 @@ export function TrainBookingDialog({
   const [copied, setCopied] = useState(false);
   const [confirmedTrip, setConfirmedTrip] = useState<Trip | null>(null);
 
-  const fareDetails = calculateFareBreakdown(selectedClass, selectedQuota, passengers);
+  // Execute journey search
+  const executeSearch = useCallback((fCode: string, tCode: string, date: string, nearby: boolean) => {
+    if (!fCode || !tCode || fCode === tCode) return;
+    setIsSearching(true);
+    fetchJourneysApi({
+      fromCode: fCode,
+      toCode: tCode,
+      date,
+      includeNearby: nearby,
+    })
+      .then((res) => {
+        setSearchResults({
+          direct: res.direct,
+          connecting: res.connecting,
+          searched: true,
+        });
+        setIsSearching(false);
+      })
+      .catch((err) => {
+        console.error("Failed to search journeys:", err);
+        setSearchResults({ direct: [], connecting: [], searched: true });
+        setIsSearching(false);
+      });
+  }, []);
 
-  function resetForm() {
-    setStep("details");
-    setTrain(trainInfo || DEFAULT_TRAIN);
-    setSelectedClass(trainInfo?.defaultClass || "3A");
-    setPassengers([{ id: "p-1", name: "", age: 30, gender: "M", berthPreference: "LB" }]);
-    setErrors({});
-    setConfirmedTrip(null);
+  // Trigger search on mount or when from/to/date changes (deferred asynchronously)
+  useEffect(() => {
+    let isCancelled = false;
+    if (open && fromStation?.code && toStation?.code && fromStation.code !== toStation.code) {
+      const timer = setTimeout(() => {
+        setIsSearching(true);
+        fetchJourneysApi({
+          fromCode: fromStation.code,
+          toCode: toStation.code,
+          date: journeyDate,
+          includeNearby,
+        })
+          .then((res) => {
+            if (!isCancelled) {
+              setSearchResults({
+                direct: res.direct,
+                connecting: res.connecting,
+                searched: true,
+              });
+              setIsSearching(false);
+            }
+          })
+          .catch((err) => {
+            if (!isCancelled) {
+              console.error("Failed to search journeys:", err);
+              setSearchResults({ direct: [], connecting: [], searched: true });
+              setIsSearching(false);
+            }
+          });
+      }, 0);
+
+      return () => {
+        isCancelled = true;
+        clearTimeout(timer);
+      };
+    }
+  }, [open, fromStation?.code, toStation?.code, journeyDate, includeNearby]);
+
+  // Handle train shortcut selection
+  async function handleTrainShortcutSelect(item: SuggestionItem) {
+    const trainNumber = item.id;
+    try {
+      const train = await trainRepository.getTrainWithStops(trainNumber);
+      if (!train || !train.stops || train.stops.length < 2) return;
+
+      const fCode = fromStation?.code.toUpperCase();
+      const tCode = toStation?.code.toUpperCase();
+
+      const fromIdx = train.stops.findIndex((s) => s.station_code === fCode);
+      const toIdx = train.stops.findIndex((s) => s.station_code === tCode);
+
+      if (fromIdx !== -1 && toIdx !== -1 && fromIdx < toIdx) {
+        // Train serves this exact route in correct order!
+        setTrainMismatchAlert(null);
+        executeSearch(fCode!, tCode!, journeyDate, includeNearby);
+      } else {
+        // Does not serve route. Offer user to choose from this train's stops
+        setTrainMismatchAlert({
+          train,
+          message: `Train ${train.train_name} (#${train.train_number}) does not run between ${fromStation?.city || fCode} and ${toStation?.city || tCode}.`,
+        });
+      }
+    } catch (err) {
+      console.error("Train shortcut error:", err);
+    }
   }
 
   function handleSwapStations() {
-    setTrain((prev) => ({
-      ...prev,
-      fromStation: prev.toStation,
-      toStation: prev.fromStation,
-    }));
+    const prevFrom = fromStation;
+    const prevTo = toStation;
+    setFromStation(prevTo);
+    setToStation(prevFrom);
   }
+
+  function handleSelectJourney(journey: JourneyItinerary, classOpt: JourneyClassOption) {
+    setSelectedJourney(journey);
+    setSelectedClass(classOpt.travelClass);
+    setStep("passengers");
+  }
+
+  function handleShiftDate(days: number) {
+    const current = parseISTDate(journeyDate);
+    const shifted = new Date(current.getTime() + days * 86_400_000);
+    const shiftedStr = formatISTDate(shifted);
+    if (shiftedStr >= todayIST && shiftedStr <= maxDateIST) {
+      setJourneyDate(shiftedStr);
+    }
+  }
+
+  // Fare calculations based on real distance
+  const currentDistanceKm = selectedJourney?.totalDistanceKm || 500;
+  const currentTrainType = selectedJourney?.legs[0]?.trainType || "Superfast";
+  const fareDetails = useMemo(() => {
+    return calculateFareBreakdown(
+      selectedClass,
+      selectedQuota,
+      passengers,
+      currentDistanceKm,
+      currentTrainType
+    );
+  }, [selectedClass, selectedQuota, passengers, currentDistanceKm, currentTrainType]);
 
   function handleAddPassenger() {
     if (passengers.length >= 6) {
       setErrors((prev) => ({ ...prev, general: "Maximum 6 passengers permitted per booking manifest." }));
       return;
     }
+    const defaultBerth = (state.preferences.berthPreference as BookingBerthPreference) || "LB";
     setPassengers((prev) => [
       ...prev,
       {
@@ -136,7 +305,7 @@ export function TrainBookingDialog({
         name: "",
         age: 28,
         gender: "M",
-        berthPreference: "NONE",
+        berthPreference: defaultBerth,
       },
     ]);
   }
@@ -157,12 +326,10 @@ export function TrainBookingDialog({
   }
 
   function updatePassenger(index: number, updates: Partial<BookingPassenger>) {
-    setPassengers((prev) =>
-      prev.map((p, i) => (i === index ? { ...p, ...updates } : p))
-    );
+    setPassengers((prev) => prev.map((p, i) => (i === index ? { ...p, ...updates } : p)));
   }
 
-  function validateForm(): boolean {
+  function validatePassengers(): boolean {
     const errs: Record<string, string> = {};
 
     if (passengers.length === 0) {
@@ -196,13 +363,8 @@ export function TrainBookingDialog({
     return Object.keys(errs).length === 0;
   }
 
-  function handleProceedToSummary() {
-    if (validateForm()) {
-      setStep("summary");
-    }
-  }
-
   function handleConfirmBooking() {
+    if (!selectedJourney) return;
     const pnr = generatePNR();
     const berthInfo = assignBerths(selectedClass, passengers);
     const primaryPassenger = passengers[0]?.name || "Traveler";
@@ -211,32 +373,35 @@ export function TrainBookingDialog({
       id: `trip-bk-${pnr}`,
       pnr,
       passengerName:
-        passengers.length > 1
-          ? `${primaryPassenger} +${passengers.length - 1} more`
-          : primaryPassenger,
+        passengers.length > 1 ? `${primaryPassenger} +${passengers.length - 1} more` : primaryPassenger,
       travelClass: selectedClass,
       fare: fareDetails.totalFare,
       coach: berthInfo.coach,
       berth: berthInfo.berths.join(", "),
       status: "on-time",
-      segments: [
-        {
-          trainName: train.trainName,
-          trainNumber: train.trainNumber,
-          departureStation: train.fromStation,
-          arrivalStation: train.toStation,
-          departureTime: train.departureTime,
-          arrivalTime: train.arrivalTime,
-          status: "on-time",
-          travelClass: selectedClass,
-          coach: berthInfo.coach,
-          berth: berthInfo.berths.join(", "),
-          platform: "Platform 1",
+      segments: selectedJourney.legs.map((leg) => ({
+        trainName: leg.trainName,
+        trainNumber: leg.trainNumber,
+        departureStation: {
+          code: leg.fromStationCode,
+          name: leg.fromStationName,
+          city: leg.fromStationName,
         },
-      ],
+        arrivalStation: {
+          code: leg.toStationCode,
+          name: leg.toStationName,
+          city: leg.toStationName,
+        },
+        departureTime: leg.departureTime,
+        arrivalTime: leg.arrivalTime,
+        status: "on-time",
+        travelClass: selectedClass,
+        coach: berthInfo.coach,
+        berth: berthInfo.berths.join(", "),
+        platform: "Platform TBA",
+      })),
     };
 
-    // Save to context & storage
     dispatch({ type: "ADD_TRIP", trip: newTrip });
     saveBookingToStorage(newTrip);
 
@@ -248,192 +413,459 @@ export function TrainBookingDialog({
     }
   }
 
-  function handleCopyReceipt() {
-    if (!confirmedTrip) return;
-    const seg = confirmedTrip.segments[0];
-    const text = [
-      `=== INDIAN RAILWAYS PASSENGER RESERVATION E-TICKET ===`,
-      `PNR: ${confirmedTrip.pnr} | Status: CONFIRMED`,
-      `Train: ${seg.trainName} (#${seg.trainNumber})`,
-      `Route: ${seg.departureStation.name} (${seg.departureStation.code}) → ${seg.arrivalStation.name} (${seg.arrivalStation.code})`,
-      `Departure: ${formatDate(seg.departureTime)} at ${formatTimeWithDay(seg.departureTime)}`,
-      `Class: ${confirmedTrip.travelClass} | Quota: ${selectedQuota}`,
-      `Coach: ${confirmedTrip.coach} | Berths: ${confirmedTrip.berth}`,
-      `Passengers: ${passengers.map((p) => `${p.name} (${p.age}, ${p.gender})`).join("; ")}`,
-      `Total Fare Paid: ₹${confirmedTrip.fare}`,
-      `Verified on TravelRescue Platform`,
-    ].join("\n");
-
-    if (navigator?.clipboard) {
-      navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    }
+  function resetDialog() {
+    setStep("search");
+    setSelectedJourney(null);
+    setPassengers([
+      {
+        id: "p-1",
+        name: "",
+        age: 30,
+        gender: "M",
+        berthPreference: (state.preferences.berthPreference as BookingBerthPreference) || "LB",
+      },
+    ]);
+    setErrors({});
+    setConfirmedTrip(null);
+    setTrainMismatchAlert(null);
   }
 
   return (
     <Dialog
       open={open}
-      onOpenChange={(v) => {
-        if (!v) resetForm();
-        onOpenChange(v);
+      onOpenChange={(isOpen) => {
+        if (!isOpen) resetDialog();
+        onOpenChange(isOpen);
       }}
     >
-      <DialogContent className="max-w-2xl bg-surface p-6 rounded-2xl border border-border shadow-2xl max-h-[92vh] overflow-y-auto">
-        <DialogHeader className="pb-3 border-b border-hairline">
+      <DialogContent className="max-w-2xl bg-surface p-4 sm:p-6 rounded-2xl border border-border max-h-[92vh] overflow-y-auto shadow-2xl">
+        <DialogHeader className="gap-1 pb-3 border-b border-hairline">
           <div className="flex items-center justify-between">
-            <span className="micro-label text-primary font-semibold tracking-wider">
-              RESERVATION SYSTEM
+            <span className="micro-label">NEW RESERVATION MANIFEST</span>
+            <span className="text-[11px] font-mono text-muted-foreground">
+              {step === "search" && "Step 1 of 3: Train Selection"}
+              {step === "passengers" && "Step 2 of 3: Passengers & Class"}
+              {step === "summary" && "Step 3 of 3: Review & Pay"}
+              {step === "confirmed" && "Reservation Confirmed"}
             </span>
-            <div className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
-              <Train className="w-3.5 h-3.5" />
-              <span>#{train.trainNumber}</span>
-            </div>
           </div>
-          <DialogTitle className="text-xl font-display font-medium text-foreground">
-            {step === "confirmed" ? "Reservation Confirmed!" : `Book ${train.trainName}`}
+          <DialogTitle className="text-xl font-display font-medium text-foreground flex items-center gap-2">
+            <Train className="w-5 h-5 text-primary stroke-[1.5]" />
+            Route-Aware Railway Booking
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            {train.fromStation.city} ({train.fromStation.code}) → {train.toStation.city} ({train.toStation.code}) · Express Manifest
+            Search authentic trains serving your verified origin, destination, and journey calendar date.
           </DialogDescription>
         </DialogHeader>
 
-        {/* Global Error Banner */}
-        {errors.general && (
-          <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>{errors.general}</span>
-          </div>
-        )}
-
-        {/* STEP 1: Details & Preferences Form */}
-        {step === "details" && (
-          <div className="space-y-5 py-2 text-xs">
-            {/* Origin & Destination Station Selector & Train Suggestions */}
-            <div className="p-3.5 rounded-xl border border-border bg-muted/20 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5 font-medium text-foreground">
-                  <MapPin className="w-3.5 h-3.5 text-primary" />
-                  <span>Journey Route & Train</span>
-                </div>
-                <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-muted border border-border/80 text-foreground">
-                  {train.trainName} (#{train.trainNumber})
-                </span>
+        {/* ── STEP 1: ROUTE & TRAIN SEARCH ── */}
+        {step === "search" && (
+          <div className="space-y-4 py-2">
+            {/* Origin & Destination with Swap */}
+            <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-3 items-end">
+              <div>
+                <SuggestionCombobox
+                  type="station"
+                  label="From (Origin Station or City)"
+                  placeholder="e.g. Bangalore, SBC, Delhi..."
+                  value={fromStation ? `${fromStation.name} (${fromStation.code})` : ""}
+                  onSelect={(item) => {
+                    const st = item.meta as Record<string, unknown> | undefined;
+                    setFromStation({
+                      code: item.id,
+                      name: item.title,
+                      city: (st?.city as string) || (st?.state as string) || item.title,
+                    });
+                  }}
+                />
               </div>
 
-              {/* Origin -> Swap -> Destination Inputs */}
-              <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-2.5 items-end">
-                <div>
-                  <SuggestionCombobox
-                    type="station"
-                    label="Starting Station / Place"
-                    placeholder="e.g. SBC, Bengaluru, NDLS, Mumbai..."
-                    value={`${train.fromStation.name} (${train.fromStation.code})`}
-                    onSelect={(item) => {
-                      const stn = item.meta as Record<string, unknown> | undefined;
-                      setTrain((prev) => ({
-                        ...prev,
-                        fromStation: {
-                          code: item.id,
-                          name: item.title,
-                          city: (stn?.state as string) || (stn?.name as string) || item.title,
-                        },
-                      }));
-                    }}
-                  />
-                </div>
-
+              <div className="flex justify-center pb-1">
                 <button
                   type="button"
                   onClick={handleSwapStations}
-                  className="h-9 w-9 self-end mb-0.5 rounded-lg border border-border bg-background hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors shrink-0"
-                  title="Swap Origin and Destination"
-                  aria-label="Swap Origin and Destination stations"
+                  className="p-2 rounded-full border border-border bg-background hover:bg-muted text-muted-foreground hover:text-foreground transition-colors touch-target"
+                  aria-label="Swap origin and destination stations"
                 >
-                  <ArrowLeftRight className="w-3.5 h-3.5" />
+                  <ArrowLeftRight className="w-4 h-4 stroke-[1.5]" />
                 </button>
-
-                <div>
-                  <SuggestionCombobox
-                    type="station"
-                    label="Destination Station / Place"
-                    placeholder="e.g. NDLS, New Delhi, CSMT, Howrah..."
-                    value={`${train.toStation.name} (${train.toStation.code})`}
-                    onSelect={(item) => {
-                      const stn = item.meta as Record<string, unknown> | undefined;
-                      setTrain((prev) => ({
-                        ...prev,
-                        toStation: {
-                          code: item.id,
-                          name: item.title,
-                          city: (stn?.state as string) || (stn?.name as string) || item.title,
-                        },
-                      }));
-                    }}
-                  />
-                </div>
               </div>
 
-              {/* Train Name & Auto-suggestion */}
               <div>
                 <SuggestionCombobox
-                  type="train"
-                  label="Select Train (Search by name or number, e.g. 'raj-', 'shatabdi', '22691')"
-                  placeholder="Type train name (e.g. raj- for Rajdhani, tejas, 12028)..."
-                  value={`${train.trainName} (#${train.trainNumber})`}
+                  type="station"
+                  label="To (Destination Station or City)"
+                  placeholder="e.g. Chennai, MAS, Mumbai..."
+                  value={toStation ? `${toStation.name} (${toStation.code})` : ""}
                   onSelect={(item) => {
-                    const t = item.meta as Record<string, unknown> | undefined;
-                    const originCode = (t?.origin_station_code as string) || train.fromStation.code;
-                    const originName = (t?.origin_name as string) || train.fromStation.name;
-                    const destCode = (t?.destination_station_code as string) || train.toStation.code;
-                    const destName = (t?.destination_name as string) || train.toStation.name;
-
-                    setTrain((prev) => ({
-                      ...prev,
-                      trainNumber: item.id,
-                      trainName: item.title,
-                      fromStation: {
-                        code: originCode,
-                        name: originName,
-                        city: originName,
-                      },
-                      toStation: {
-                        code: destCode,
-                        name: destName,
-                        city: destName,
-                      },
-                    }));
+                    const st = item.meta as Record<string, unknown> | undefined;
+                    setToStation({
+                      code: item.id,
+                      name: item.title,
+                      city: (st?.city as string) || (st?.state as string) || item.title,
+                    });
                   }}
                 />
               </div>
             </div>
-            {/* Class & Quota Selectors */}
+
+            {/* Date Picker & Nearby Stations Filter */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center bg-background/50 p-3 rounded-xl border border-hairline">
+              <div>
+                <label
+                  htmlFor={`${formId}-date`}
+                  className="font-medium text-foreground text-xs block mb-1 flex items-center gap-1.5"
+                >
+                  <Calendar className="w-3.5 h-3.5 text-primary" />
+                  Journey Date (Real IST)
+                </label>
+                <input
+                  id={`${formId}-date`}
+                  type="date"
+                  min={todayIST}
+                  max={maxDateIST}
+                  value={journeyDate}
+                  onChange={(e) => setJourneyDate(e.target.value)}
+                  className="w-full h-9 rounded-lg border border-border bg-background px-3 text-xs text-foreground focus:ring-1 focus:ring-primary outline-none"
+                />
+                <span className="text-[10px] text-muted-foreground mt-0.5 block">
+                  Advance Reservation Window: 60 Days (Max {maxDateIST})
+                </span>
+              </div>
+
+              <div className="flex flex-col justify-center">
+                <span className="text-xs font-medium text-foreground mb-1">Route Flexibility</span>
+                <label className="flex items-center gap-2 cursor-pointer text-xs text-muted-foreground hover:text-foreground">
+                  <input
+                    type="checkbox"
+                    checked={includeNearby}
+                    onChange={(e) => setIncludeNearby(e.target.checked)}
+                    className="w-4 h-4 rounded text-primary focus:ring-primary border-border"
+                  />
+                  <span>Include nearby city terminals (e.g. SBC/YPR/SMVB, NDLS/NZM)</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Train Shortcut Search (Optional) */}
+            <div className="border-t border-hairline pt-3">
+              <SuggestionCombobox
+                type="train"
+                label="Direct Train Shortcut (Optional)"
+                placeholder="Jump directly to a specific train (e.g. 22691, 12028, Shatabdi)..."
+                onSelect={handleTrainShortcutSelect}
+              />
+            </div>
+
+            {/* Mismatch Modal / Alert if user picked incompatible train */}
+            {trainMismatchAlert && (
+              <div className="p-3.5 rounded-xl bg-destructive/10 border border-destructive/20 text-xs space-y-2 animate-in fade-in">
+                <div className="flex items-start gap-2 text-destructive font-medium">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div>
+                    <p>{trainMismatchAlert.message}</p>
+                    <p className="text-[11px] font-normal text-muted-foreground mt-0.5">
+                      Select boarding and destination stations directly from this train&apos;s itinerary:
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                  <div>
+                    <label className="text-[10px] uppercase font-semibold text-muted-foreground block mb-1">
+                      Boarding Station
+                    </label>
+                    <select
+                      className="w-full h-8 rounded border border-border bg-background text-xs px-2 text-foreground"
+                      onChange={(e) => {
+                        const stop = trainMismatchAlert.train.stops.find((s) => s.station_code === e.target.value);
+                        if (stop) {
+                          setFromStation({ code: stop.station_code, name: stop.station_name, city: stop.station_name });
+                        }
+                      }}
+                    >
+                      <option value="">Choose Boarding...</option>
+                      {trainMismatchAlert.train.stops.slice(0, -1).map((s) => (
+                        <option key={s.station_code} value={s.station_code}>
+                          {s.seq}. {s.station_name} ({s.station_code}) - {s.departure_formatted || "Dep"}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] uppercase font-semibold text-muted-foreground block mb-1">
+                      Destination Station
+                    </label>
+                    <select
+                      className="w-full h-8 rounded border border-border bg-background text-xs px-2 text-foreground"
+                      onChange={(e) => {
+                        const stop = trainMismatchAlert.train.stops.find((s) => s.station_code === e.target.value);
+                        if (stop) {
+                          setToStation({ code: stop.station_code, name: stop.station_name, city: stop.station_name });
+                          setTrainMismatchAlert(null);
+                        }
+                      }}
+                    >
+                      <option value="">Choose Destination...</option>
+                      {trainMismatchAlert.train.stops.slice(1).map((s) => (
+                        <option key={s.station_code} value={s.station_code}>
+                          {s.seq}. {s.station_name} ({s.station_code}) - {s.arrival_formatted || "Arr"}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Results Section */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <span>Available Trains</span>
+                  {searchResults.searched && (
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-mono">
+                      {searchResults.direct.length} direct
+                    </span>
+                  )}
+                </h3>
+
+                {/* Day Stepper */}
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => handleShiftDate(-1)}
+                    disabled={journeyDate <= todayIST}
+                    className="px-2 py-1 text-xs rounded border border-border hover:bg-muted disabled:opacity-40"
+                  >
+                    -1 Day
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleShiftDate(1)}
+                    disabled={journeyDate >= maxDateIST}
+                    className="px-2 py-1 text-xs rounded border border-border hover:bg-muted disabled:opacity-40"
+                  >
+                    +1 Day
+                  </button>
+                </div>
+              </div>
+
+              {isSearching ? (
+                <div className="py-8 text-center space-y-2 text-muted-foreground">
+                  <Train className="w-8 h-8 animate-pulse text-primary mx-auto" />
+                  <p className="text-xs">Searching verified railway schedules for {journeyDate}...</p>
+                </div>
+              ) : searchResults.direct.length > 0 ? (
+                <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
+                  {searchResults.direct.map((j) => {
+                    const leg = j.legs[0];
+                    return (
+                      <div
+                        key={j.id}
+                        className="p-3.5 rounded-xl border border-border bg-background hover:border-primary/50 transition-all space-y-2.5"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-foreground text-sm">
+                                {leg.trainName}
+                              </span>
+                              <span className="font-mono text-xs text-primary font-medium">
+                                #{leg.trainNumber}
+                              </span>
+                              <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground font-mono">
+                                {leg.trainType}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-muted-foreground mt-0.5">
+                              {leg.fromStationName} ({leg.fromStationCode}) → {leg.toStationName} ({leg.toStationCode})
+                            </p>
+                          </div>
+
+                          <div className="text-right">
+                            <div className="text-xs font-mono font-semibold text-foreground flex items-center gap-1.5">
+                              <span>{leg.departureFormatted}</span>
+                              <ArrowRight className="w-3 h-3 text-muted-foreground" />
+                              <span>{leg.arrivalFormatted}</span>
+                              {leg.arrivalDayLabel && (
+                                <span className="text-[10px] text-amber-500 font-bold">
+                                  {leg.arrivalDayLabel}
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-[11px] text-muted-foreground">
+                              {Math.floor(leg.durationMin / 60)}h {leg.durationMin % 60}m · {leg.distanceKm} km
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Class options pills */}
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1">
+                          {j.classes.map((c) => (
+                            <button
+                              key={c.travelClass}
+                              type="button"
+                              onClick={() => handleSelectJourney(j, c)}
+                              className="p-2 rounded-lg border border-border bg-surface hover:border-primary hover:bg-primary/5 text-left transition-all group"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="font-mono font-bold text-xs text-foreground group-hover:text-primary">
+                                  {c.travelClass}
+                                </span>
+                                <span className="text-xs font-semibold text-foreground">
+                                  ₹{c.fare}
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-between mt-1">
+                                <span
+                                  className={`text-[10px] font-mono px-1 py-0.2 rounded ${
+                                    c.availability.status === "AVAILABLE"
+                                      ? "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
+                                      : c.availability.status === "RAC"
+                                      ? "text-amber-600 dark:text-amber-400 bg-amber-500/10"
+                                      : "text-rose-600 dark:text-rose-400 bg-rose-500/10"
+                                  }`}
+                                >
+                                  {c.availability.badge}
+                                </span>
+                                <span className="text-[9px] text-muted-foreground">Estimated</span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : searchResults.searched ? (
+                /* Empty state with connecting journey options */
+                <div className="p-4 rounded-xl border border-dashed border-border bg-background/50 text-center space-y-3">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mx-auto text-muted-foreground">
+                    <Train className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground text-sm">
+                      No direct trains found for {fromStation?.code} → {toStation?.code} on {journeyDate}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      The selected stations do not share a direct operational route on this calendar weekday.
+                    </p>
+                  </div>
+
+                  {searchResults.connecting.length > 0 && (
+                    <div className="pt-2 text-left border-t border-hairline">
+                      <p className="text-xs font-semibold text-primary mb-2">
+                        1-Change Connecting Journeys Available:
+                      </p>
+                      <div className="space-y-2">
+                        {searchResults.connecting.slice(0, 3).map((conn) => (
+                          <div
+                            key={conn.id}
+                            className="p-3 rounded-lg border border-border bg-surface flex items-center justify-between"
+                          >
+                            <div>
+                              <p className="text-xs font-medium text-foreground">
+                                Via {conn.interchangeStationName} ({conn.interchangeStation}) · Layover {conn.layoverMin}m
+                              </p>
+                              <p className="text-[11px] text-muted-foreground">
+                                Train #{conn.legs[0].trainNumber} → Train #{conn.legs[1].trainNumber} ({conn.totalDistanceKm} km)
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleSelectJourney(conn, conn.classes[0])}
+                              className="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover"
+                            >
+                              Select Route
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => handleShiftDate(1)}
+                      className="px-3 py-1.5 rounded-lg border border-border text-xs text-foreground hover:bg-muted"
+                    >
+                      Check Next Day (+1d)
+                    </button>
+                    {!includeNearby && (
+                      <button
+                        type="button"
+                        onClick={() => setIncludeNearby(true)}
+                        className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20"
+                      >
+                        Expand to Nearby Stations
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        )}
+
+        {/* ── STEP 2: PASSENGERS & CLASS SELECTION ── */}
+        {step === "passengers" && selectedJourney && (
+          <div className="space-y-4 py-2">
+            {/* Selected Journey Header Banner */}
+            <div className="p-3.5 rounded-xl bg-primary/5 border border-primary/20 flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-foreground text-sm">
+                    {selectedJourney.legs[0].trainName}
+                  </span>
+                  <span className="font-mono text-xs text-primary font-medium">
+                    #{selectedJourney.legs[0].trainNumber}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {selectedJourney.fromStationCode} → {selectedJourney.toStationCode} · {journeyDate} · {selectedJourney.departureFormatted} - {selectedJourney.arrivalFormatted}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setStep("search")}
+                className="text-xs text-primary hover:underline flex items-center gap-1"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                Change Train
+              </button>
+            </div>
+
+            {/* Travel Class & Quota Pill Selectors */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="font-medium text-foreground block mb-1.5" htmlFor={`${formId}-class`}>
-                  Travel Class
+                <label className="text-xs font-medium text-foreground block mb-1.5">
+                  Selected Travel Class
                 </label>
-                <div className="grid grid-cols-5 gap-1.5">
-                  {(["1A", "2A", "3A", "SL", "CC"] as TravelClass[]).map((cls) => (
+                <div className="grid grid-cols-4 gap-1.5">
+                  {selectedJourney.classes.map((cls) => (
                     <button
-                      key={cls}
+                      key={cls.travelClass}
                       type="button"
-                      onClick={() => setSelectedClass(cls)}
+                      onClick={() => setSelectedClass(cls.travelClass)}
                       className={`h-9 rounded-lg font-mono text-xs font-medium border transition-colors flex flex-col items-center justify-center ${
-                        selectedClass === cls
+                        selectedClass === cls.travelClass
                           ? "bg-primary text-primary-foreground border-primary"
                           : "bg-background border-border text-foreground hover:bg-muted/50"
                       }`}
                     >
-                      <span>{cls}</span>
+                      <span>{cls.travelClass}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               <div>
-                <label className="font-medium text-foreground block mb-1.5" htmlFor={`${formId}-quota`}>
-                  Quota
+                <label htmlFor={`${formId}-quota`} className="text-xs font-medium text-foreground block mb-1.5">
+                  Booking Quota
                 </label>
                 <select
                   id={`${formId}-quota`}
@@ -450,40 +882,43 @@ export function TrainBookingDialog({
               </div>
             </div>
 
-            {/* Passenger Forms Header */}
-            <div className="pt-2 border-t border-hairline">
-              <div className="flex items-center justify-between mb-3">
+            {/* Passengers Form */}
+            <div className="space-y-3 pt-2 border-t border-hairline">
+              <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-medium text-foreground text-sm">Passenger Details</h3>
+                  <h4 className="text-sm font-semibold text-foreground">Passenger Details</h4>
                   <p className="text-[11px] text-muted-foreground">Up to 6 travelers per reservation ticket</p>
                 </div>
                 <button
                   type="button"
                   onClick={handleAddPassenger}
-                  className="h-7 px-2.5 rounded-md border border-border bg-surface hover:bg-muted text-xs font-medium text-foreground flex items-center gap-1 transition-colors"
+                  disabled={passengers.length >= 6}
+                  className="text-xs text-primary font-medium flex items-center gap-1 hover:underline disabled:opacity-40"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>Add Traveler</span>
+                  Add Traveler
                 </button>
               </div>
 
-              {/* Dynamic Passenger Rows */}
-              <div className="space-y-3">
-                {passengers.map((passenger, idx) => (
+              {errors.general && (
+                <div className="p-2.5 rounded-lg bg-destructive/10 text-destructive text-xs">
+                  {errors.general}
+                </div>
+              )}
+
+              <div className="space-y-2.5">
+                {passengers.map((p, idx) => (
                   <div
-                    key={passenger.id || idx}
-                    className="p-3.5 rounded-xl border border-border bg-neutral-tint/40 space-y-3"
+                    key={p.id}
+                    className="p-3 rounded-xl border border-border bg-background space-y-2.5"
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[11px] font-semibold text-primary">
-                        PASSENGER {idx + 1}
-                      </span>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-foreground">Passenger {idx + 1}</span>
                       {passengers.length > 1 && (
                         <button
                           type="button"
                           onClick={() => handleRemovePassenger(idx)}
-                          className="p-1 rounded text-muted-foreground hover:text-destructive transition-colors"
-                          title="Remove passenger"
+                          className="text-muted-foreground hover:text-destructive transition-colors"
                           aria-label={`Remove passenger ${idx + 1}`}
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -491,19 +926,19 @@ export function TrainBookingDialog({
                       )}
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
                       <div className="sm:col-span-2">
                         <input
                           type="text"
                           placeholder="Full Name (as per Govt ID)"
-                          value={passenger.name}
+                          value={p.name}
                           onChange={(e) => updatePassenger(idx, { name: e.target.value })}
-                          className={`w-full h-8 px-2.5 rounded-md border bg-background text-xs outline-none focus:ring-1 focus:ring-primary ${
+                          className={`w-full h-8 px-2.5 rounded border text-xs bg-surface text-foreground ${
                             errors[`p-name-${idx}`] ? "border-destructive" : "border-border"
                           }`}
                         />
                         {errors[`p-name-${idx}`] && (
-                          <span className="text-[10px] text-destructive block mt-0.5">
+                          <span className="text-[10px] text-destructive mt-0.5 block">
                             {errors[`p-name-${idx}`]}
                           </span>
                         )}
@@ -513,30 +948,21 @@ export function TrainBookingDialog({
                         <input
                           type="number"
                           placeholder="Age"
-                          min="1"
-                          max="120"
-                          value={passenger.age || ""}
-                          onChange={(e) =>
-                            updatePassenger(idx, { age: parseInt(e.target.value) || 0 })
-                          }
-                          className={`w-full h-8 px-2.5 rounded-md border bg-background text-xs outline-none focus:ring-1 focus:ring-primary ${
+                          value={p.age || ""}
+                          min={1}
+                          max={120}
+                          onChange={(e) => updatePassenger(idx, { age: parseInt(e.target.value, 10) || 0 })}
+                          className={`w-full h-8 px-2.5 rounded border text-xs bg-surface text-foreground ${
                             errors[`p-age-${idx}`] ? "border-destructive" : "border-border"
                           }`}
                         />
-                        {errors[`p-age-${idx}`] && (
-                          <span className="text-[10px] text-destructive block mt-0.5">
-                            {errors[`p-age-${idx}`]}
-                          </span>
-                        )}
                       </div>
 
                       <div>
                         <select
-                          value={passenger.gender}
-                          onChange={(e) =>
-                            updatePassenger(idx, { gender: e.target.value as "M" | "F" | "O" })
-                          }
-                          className="w-full h-8 px-2 rounded-md border border-border bg-background text-xs outline-none"
+                          value={p.gender}
+                          onChange={(e) => updatePassenger(idx, { gender: e.target.value as "M" | "F" | "O" })}
+                          className="w-full h-8 px-2 rounded border border-border bg-surface text-xs text-foreground"
                         >
                           <option value="M">Male</option>
                           <option value="F">Female</option>
@@ -545,294 +971,258 @@ export function TrainBookingDialog({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      <div>
-                        <label className="text-[11px] text-muted-foreground block mb-1">
-                          Berth Preference
-                        </label>
-                        <select
-                          value={passenger.berthPreference}
-                          onChange={(e) =>
-                            updatePassenger(idx, {
-                              berthPreference: e.target.value as BookingBerthPreference,
-                            })
-                          }
-                          className="w-full h-8 px-2 rounded-md border border-border bg-background text-xs outline-none"
-                        >
-                          <option value="NONE">No Preference</option>
-                          <option value="LB">Lower Berth (LB)</option>
-                          <option value="MB">Middle Berth (MB)</option>
-                          <option value="UB">Upper Berth (UB)</option>
-                          <option value="SL">Side Lower (SL)</option>
-                          <option value="SU">Side Upper (SU)</option>
-                          <option value="WS">Window Seat (WS)</option>
-                        </select>
-                      </div>
-
-                      {passenger.age >= 60 && (
-                        <div className="flex items-center gap-1.5 p-2 rounded bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[11px]">
-                          <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                          <span>Eligible for Senior Citizen lower berth priority.</span>
-                        </div>
-                      )}
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] text-muted-foreground">Berth Preference:</span>
+                      <select
+                        value={p.berthPreference}
+                        onChange={(e) =>
+                          updatePassenger(idx, { berthPreference: e.target.value as BookingBerthPreference })
+                        }
+                        className="h-7 px-2 rounded border border-border bg-surface text-[11px] text-foreground"
+                      >
+                        <option value="LB">Lower Berth (LB)</option>
+                        <option value="MB">Middle Berth (MB)</option>
+                        <option value="UB">Upper Berth (UB)</option>
+                        <option value="SL">Side Lower (SL)</option>
+                        <option value="SU">Side Upper (SU)</option>
+                        <option value="NONE">No Preference</option>
+                      </select>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Contact Details */}
-            <div className="pt-3 border-t border-hairline">
-              <h4 className="font-medium text-foreground text-xs mb-2">Booking Contact Details</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <input
-                    type="tel"
-                    placeholder="10-digit Mobile Number"
-                    value={contactMobile}
-                    onChange={(e) => setContactMobile(e.target.value)}
-                    className={`w-full h-8 px-2.5 rounded-md border bg-background text-xs outline-none ${
-                      errors.mobile ? "border-destructive" : "border-border"
-                    }`}
-                  />
-                  {errors.mobile && (
-                    <span className="text-[10px] text-destructive block mt-0.5">{errors.mobile}</span>
-                  )}
-                </div>
-
-                <div>
-                  <input
-                    type="email"
-                    placeholder="Email Address for Ticket PDF"
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
-                    className={`w-full h-8 px-2.5 rounded-md border bg-background text-xs outline-none ${
-                      errors.email ? "border-destructive" : "border-border"
-                    }`}
-                  />
-                  {errors.email && (
-                    <span className="text-[10px] text-destructive block mt-0.5">{errors.email}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Footer Summary preview & submit */}
-            <div className="pt-4 border-t border-hairline flex items-center justify-between">
+            {/* Contact details */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-hairline">
               <div>
-                <span className="text-[11px] text-muted-foreground block">ESTIMATED FARE</span>
-                <span className="font-mono text-base font-semibold text-foreground">
-                  {formatCurrency(fareDetails.totalFare)}
-                </span>
-                <span className="text-[10px] text-muted-foreground ml-1">
-                  ({fareDetails.passengerCount} traveler{fareDetails.passengerCount > 1 ? "s" : ""})
-                </span>
+                <label className="text-xs font-medium text-foreground block mb-1">
+                  Mobile Number (SMS Updates)
+                </label>
+                <input
+                  type="tel"
+                  value={contactMobile}
+                  onChange={(e) => setContactMobile(e.target.value)}
+                  className="w-full h-8 px-2.5 rounded border border-border bg-background text-xs text-foreground"
+                />
               </div>
-
-              <button
-                type="button"
-                onClick={handleProceedToSummary}
-                className="h-9 px-5 rounded-lg bg-primary text-primary-foreground font-medium text-xs hover:bg-primary-hover transition-colors flex items-center gap-1.5"
-              >
-                <span>Review Fare Breakdown</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 2: Fare Breakdown & Confirmation Summary */}
-        {step === "summary" && (
-          <div className="space-y-5 py-2 text-xs">
-            <div className="p-4 rounded-xl border border-border bg-neutral-tint/30 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-hairline">
-                <div>
-                  <h4 className="font-semibold text-sm text-foreground">{train.trainName}</h4>
-                  <p className="text-muted-foreground font-mono text-[11px]">
-                    Train #{train.trainNumber} · Class {selectedClass} · Quota: {selectedQuota}
-                  </p>
-                </div>
-                <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-medium text-[11px] border border-emerald-500/20">
-                  AVAILABLE
-                </span>
-              </div>
-
-              {/* Passenger list review */}
               <div>
-                <span className="micro-label block mb-1">TRAVELERS</span>
-                <div className="space-y-1">
-                  {passengers.map((p, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs py-0.5">
-                      <span className="font-medium text-foreground">
-                        {p.name} ({p.gender}, {p.age} yrs)
-                      </span>
-                      <span className="font-mono text-muted-foreground text-[11px]">
-                        Pref: {p.berthPreference}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                <label className="text-xs font-medium text-foreground block mb-1">
+                  Email ID (E-Ticket PDF)
+                </label>
+                <input
+                  type="email"
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                  className="w-full h-8 px-2.5 rounded border border-border bg-background text-xs text-foreground"
+                />
               </div>
             </div>
 
-            {/* Itemized Fare Breakdown */}
-            <div className="p-4 rounded-xl border border-border bg-surface space-y-2.5">
-              <h4 className="font-semibold text-foreground text-xs pb-1 border-b border-hairline">
-                Itemized Price Breakdown
-              </h4>
-
-              <div className="flex justify-between text-muted-foreground">
-                <span>Base Fare ({fareDetails.passengerCount} × {formatCurrency(fareDetails.baseFarePerPassenger)})</span>
-                <span className="font-mono text-foreground">{formatCurrency(fareDetails.totalBaseFare)}</span>
-              </div>
-
-              <div className="flex justify-between text-muted-foreground">
-                <span>Reservation Charges</span>
-                <span className="font-mono text-foreground">{formatCurrency(fareDetails.reservationCharge)}</span>
-              </div>
-
-              <div className="flex justify-between text-muted-foreground">
-                <span>Superfast Surcharge</span>
-                <span className="font-mono text-foreground">{formatCurrency(fareDetails.superfastCharge)}</span>
-              </div>
-
-              {fareDetails.tatkalCharge > 0 && (
-                <div className="flex justify-between text-amber-700 dark:text-amber-400">
-                  <span>Tatkal Premium Charge</span>
-                  <span className="font-mono">{formatCurrency(fareDetails.tatkalCharge)}</span>
-                </div>
-              )}
-
-              <div className="flex justify-between text-muted-foreground">
-                <span>Goods & Service Tax (GST 5%)</span>
-                <span className="font-mono text-foreground">{formatCurrency(fareDetails.gstAmount)}</span>
-              </div>
-
-              <div className="pt-2 border-t border-hairline flex justify-between font-semibold text-sm text-foreground">
-                <span>Total Amount Payable</span>
-                <span className="font-mono text-base text-primary">
-                  {formatCurrency(fareDetails.totalFare)}
-                </span>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="pt-2 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => setStep("details")}
-                className="h-9 px-4 rounded-lg border border-border bg-surface text-foreground font-medium text-xs hover:bg-muted transition-colors"
-              >
-                Back to Details
-              </button>
-
-              <button
-                type="button"
-                onClick={handleConfirmBooking}
-                className="h-9 px-6 rounded-lg bg-primary text-primary-foreground font-semibold text-xs hover:bg-primary-hover transition-colors flex items-center gap-1.5 shadow-sm"
-              >
-                <CreditCard className="w-3.5 h-3.5" />
-                <span>Confirm & Generate PNR</span>
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 3: Confirmed PNR & Receipt */}
-        {step === "confirmed" && confirmedTrip && (
-          <div className="space-y-5 py-2 text-xs">
-            <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-center space-y-2">
-              <CheckCircle2 className="w-10 h-10 text-emerald-600 dark:text-emerald-400 mx-auto" />
-              <h3 className="text-base font-semibold text-foreground">
-                Ticket Reserved Successfully
-              </h3>
-              <p className="text-muted-foreground text-xs">
-                Your reservation manifest has been registered with Indian Railways Passenger Reservation System.
-              </p>
-              <div className="pt-2 flex justify-center">
-                <span className="px-4 py-1.5 rounded-lg bg-background border border-border font-mono text-base font-bold text-primary tracking-wider shadow-xs">
-                  PNR: {confirmedTrip.pnr}
-                </span>
-              </div>
-            </div>
-
-            {/* Receipt Summary Card */}
-            <div className="p-4 rounded-xl border border-border bg-neutral-tint/30 space-y-3 font-mono">
-              <div className="grid grid-cols-2 gap-4 pb-2 border-b border-hairline">
-                <div>
-                  <span className="micro-label block font-sans">COACH & BERTHS</span>
-                  <p className="text-sm font-semibold text-foreground mt-0.5">
-                    Coach {confirmedTrip.coach}
-                  </p>
-                  <p className="text-[11px] text-muted-foreground">{confirmedTrip.berth}</p>
-                </div>
-
-                <div>
-                  <span className="micro-label block font-sans">STATUS</span>
-                  <span className="inline-block px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-semibold text-xs mt-0.5">
-                    CNF / CONFIRMED
+            {/* Footer with Fare Total & Proceed */}
+            <div className="flex items-center justify-between pt-3 border-t border-hairline">
+              <div>
+                <span className="text-xs text-muted-foreground block">Total Ticket Fare</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-lg font-bold text-foreground">
+                    ₹{fareDetails.totalFare}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground font-mono">
+                    (₹{fareDetails.baseFarePerPassenger} × {passengers.length} + GST)
                   </span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 pt-1 text-xs">
-                <div>
-                  <span className="micro-label block font-sans">DEPARTURE</span>
-                  <p className="text-foreground font-semibold">
-                    {train.fromStation.name} ({train.fromStation.code})
-                  </p>
-                  <p className="text-muted-foreground text-[11px]">
-                    {formatDate(train.departureTime)} · {formatTimeWithDay(train.departureTime)}
-                  </p>
-                </div>
-
-                <div>
-                  <span className="micro-label block font-sans">ARRIVAL</span>
-                  <p className="text-foreground font-semibold">
-                    {train.toStation.name} ({train.toStation.code})
-                  </p>
-                  <p className="text-muted-foreground text-[11px]">
-                    {formatDate(train.arrivalTime)} · {formatTimeWithDay(train.arrivalTime)}
-                  </p>
-                </div>
-              </div>
-
-              <div className="pt-2 border-t border-hairline flex justify-between font-sans text-xs">
-                <span className="text-muted-foreground">Amount Paid:</span>
-                <span className="font-mono font-bold text-foreground">
-                  {formatCurrency(confirmedTrip.fare)}
-                </span>
-              </div>
-            </div>
-
-            {/* Receipt Action Buttons */}
-            <div className="pt-2 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={handleCopyReceipt}
-                  className="h-8 px-3 rounded-md border border-border bg-surface hover:bg-muted text-foreground text-xs flex items-center gap-1.5 transition-colors"
+                  onClick={() => setStep("search")}
+                  className="px-3 py-2 rounded-lg border border-border text-xs text-foreground hover:bg-muted"
                 >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copied ? "Copied" : "Copy Receipt"}</span>
+                  Back
                 </button>
-
                 <button
                   type="button"
-                  onClick={() => window.print()}
-                  className="h-8 px-3 rounded-md border border-border bg-surface hover:bg-muted text-foreground text-xs flex items-center gap-1.5 transition-colors"
+                  onClick={() => {
+                    if (validatePassengers()) {
+                      setStep("summary");
+                    }
+                  }}
+                  className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover shadow-sm"
                 >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>Print Ticket</span>
+                  Proceed to Summary
                 </button>
               </div>
+            </div>
+          </div>
+        )}
 
+        {/* ── STEP 3: SUMMARY & CONFIRM ── */}
+        {step === "summary" && selectedJourney && (
+          <div className="space-y-4 py-2">
+            <div className="p-4 rounded-xl border border-border bg-background space-y-3">
+              <div className="flex items-center justify-between border-b border-hairline pb-2.5">
+                <div>
+                  <h4 className="font-semibold text-foreground text-sm">
+                    {selectedJourney.legs[0].trainName} (#{selectedJourney.legs[0].trainNumber})
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    Class {selectedClass} · Quota {selectedQuota} · {journeyDate}
+                  </p>
+                </div>
+                <span className="px-2 py-0.5 rounded bg-primary/10 text-primary text-xs font-mono font-medium">
+                  Verified Route
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 text-xs">
+                <div>
+                  <span className="text-muted-foreground block text-[11px]">DEPARTURE</span>
+                  <p className="font-medium text-foreground">{selectedJourney.fromStationName}</p>
+                  <p className="font-mono text-muted-foreground">{selectedJourney.departureFormatted} IST</p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground block text-[11px]">ARRIVAL</span>
+                  <p className="font-medium text-foreground">{selectedJourney.toStationName}</p>
+                  <p className="font-mono text-muted-foreground">
+                    {selectedJourney.arrivalFormatted} IST{" "}
+                    {selectedJourney.arrivalDayLabel && (
+                      <span className="text-amber-500 font-bold">({selectedJourney.arrivalDayLabel})</span>
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-hairline">
+                <span className="text-muted-foreground text-[11px] block mb-1">TRAVELERS</span>
+                <div className="space-y-1">
+                  {passengers.map((p, i) => (
+                    <div key={p.id} className="text-xs flex items-center justify-between text-foreground">
+                      <span>
+                        {i + 1}. {p.name} ({p.age}y, {p.gender})
+                      </span>
+                      <span className="text-muted-foreground font-mono">Pref: {p.berthPreference}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-hairline flex items-center justify-between text-xs">
+                <span className="font-medium text-foreground">Calculated Fare Breakdown:</span>
+                <span className="text-muted-foreground">Distance: {selectedJourney.totalDistanceKm} km</span>
+              </div>
+              <div className="space-y-1 text-xs text-muted-foreground">
+                <div className="flex justify-between">
+                  <span>Base Passenger Fare ({passengers.length} travelers):</span>
+                  <span>₹{fareDetails.totalBaseFare}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Superfast & Reservation Charges:</span>
+                  <span>₹{fareDetails.superfastCharge + fareDetails.reservationCharge}</span>
+                </div>
+                {fareDetails.gstAmount > 0 && (
+                  <div className="flex justify-between">
+                    <span>GST (5% for AC Classes):</span>
+                    <span>₹{fareDetails.gstAmount}</span>
+                  </div>
+                )}
+                <div className="flex justify-between font-bold text-foreground text-sm pt-1 border-t border-hairline">
+                  <span>Total Amount Payable:</span>
+                  <span>₹{fareDetails.totalFare}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
               <button
                 type="button"
-                onClick={() => onOpenChange(false)}
-                className="h-8 px-4 rounded-md bg-primary text-primary-foreground font-medium text-xs hover:bg-primary-hover transition-colors"
+                onClick={() => setStep("passengers")}
+                className="px-3 py-2 rounded-lg border border-border text-xs text-foreground hover:bg-muted"
               >
-                Close & View in Trips
+                Back
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmBooking}
+                className="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-md transition-colors flex items-center gap-2"
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                Confirm & Book Ticket
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── STEP 4: CONFIRMED MANIFEST ── */}
+        {step === "confirmed" && confirmedTrip && (
+          <div className="space-y-4 py-2 text-center">
+            <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center mx-auto">
+              <Check className="w-6 h-6 stroke-[2]" />
+            </div>
+
+            <div>
+              <h3 className="text-lg font-display font-medium text-foreground">
+                Reservation Confirmed!
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Ticket confirmed and synced to your TravelRescue My Trips manifest.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-left space-y-3">
+              <div className="flex items-center justify-between border-b border-emerald-500/20 pb-2">
+                <div>
+                  <span className="text-[10px] font-mono text-muted-foreground">PNR NUMBER</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-base font-bold text-foreground">
+                      {confirmedTrip.pnr}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard?.writeText(confirmedTrip.pnr);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      }}
+                      className="p-1 rounded hover:bg-emerald-500/10 text-muted-foreground hover:text-foreground"
+                      title="Copy PNR"
+                    >
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <span className="text-[10px] font-mono text-muted-foreground">COACH & BERTH</span>
+                  <p className="font-mono font-bold text-foreground text-sm">
+                    {confirmedTrip.coach} / {confirmedTrip.berth}
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-xs space-y-1 text-muted-foreground">
+                <p>
+                  <strong className="text-foreground">Train:</strong> {confirmedTrip.segments[0].trainName} (#{confirmedTrip.segments[0].trainNumber})
+                </p>
+                <p>
+                  <strong className="text-foreground">Departure:</strong> {confirmedTrip.segments[0].departureStation.name} · {formatTimeWithDay(confirmedTrip.segments[0].departureTime)}
+                </p>
+                <p>
+                  <strong className="text-foreground">Platform:</strong> Platform TBA (Official platform will be announced at station)
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenChange(false);
+                  resetDialog();
+                }}
+                className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover"
+              >
+                Done
               </button>
             </div>
           </div>

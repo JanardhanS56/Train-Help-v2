@@ -1,4 +1,5 @@
 import { TravelClass, BookingQuota, BookingPassenger, Trip } from "@/lib/types";
+import { estimateFare } from "@/lib/journeys/fares";
 
 export interface FareCalculation {
   baseFarePerPassenger: number;
@@ -9,42 +10,54 @@ export interface FareCalculation {
   tatkalCharge: number;
   gstAmount: number;
   totalFare: number;
+  source: "Estimated";
 }
 
 export const CLASS_BASE_FARES: Record<TravelClass, number> = {
   "1A": 3250,
   "2A": 2150,
   "3A": 1520,
+  "3E": 1380,
   "CC": 950,
   "SL": 520,
   "EC": 1850,
+  "2S": 220,
 };
 
 export const CLASS_RESERVATION_CHARGES: Record<TravelClass, number> = {
   "1A": 60,
   "2A": 50,
   "3A": 40,
+  "3E": 40,
   "CC": 40,
   "SL": 20,
   "EC": 60,
+  "2S": 15,
 };
 
 export const TATKAL_SURCHARGES: Record<TravelClass, number> = {
   "1A": 500,
   "2A": 400,
   "3A": 300,
+  "3E": 300,
   "CC": 225,
   "SL": 100,
   "EC": 400,
+  "2S": 50,
 };
 
 export function calculateFareBreakdown(
   travelClass: TravelClass,
   quota: BookingQuota,
-  passengers: BookingPassenger[]
+  passengers: BookingPassenger[],
+  distanceKm?: number,
+  trainType = "Superfast"
 ): FareCalculation {
   const count = Math.max(1, passengers.length);
-  const basePer = CLASS_BASE_FARES[travelClass] || 1500;
+  const basePer = distanceKm && distanceKm > 0
+    ? estimateFare(distanceKm, travelClass, trainType)
+    : (CLASS_BASE_FARES[travelClass] || 1500);
+
   const resPer = CLASS_RESERVATION_CHARGES[travelClass] || 40;
   const tatkalPer = quota === "TQ" ? (TATKAL_SURCHARGES[travelClass] || 300) : 0;
   const sfPer = travelClass === "SL" ? 30 : 45;
@@ -54,8 +67,8 @@ export function calculateFareBreakdown(
   const superfastCharge = sfPer * count;
   const tatkalCharge = tatkalPer * count;
 
-  // 5% GST on AC classes, 0% on Sleeper
-  const isAc = travelClass !== "SL";
+  // 5% GST on AC classes, 0% on Sleeper / 2S
+  const isAc = !["SL", "2S"].includes(travelClass);
   const taxableSum = totalBaseFare + reservationCharge + superfastCharge + tatkalCharge;
   const gstAmount = isAc ? Math.round(taxableSum * 0.05) : 0;
 
@@ -70,6 +83,7 @@ export function calculateFareBreakdown(
     tatkalCharge,
     gstAmount,
     totalFare,
+    source: "Estimated",
   };
 }
 
