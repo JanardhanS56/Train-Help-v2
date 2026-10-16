@@ -74,7 +74,7 @@ vi.mock("../supabase-client", () => {
       select: vi.fn().mockReturnThis(),
       or: vi.fn().mockReturnThis(),
       order: vi.fn().mockReturnThis(),
-      limit: vi.fn((_limitNum: number) => {
+      limit: vi.fn(() => {
         if (table === "trains") {
           return Promise.resolve({ data: mockTrainsData, error: null });
         }

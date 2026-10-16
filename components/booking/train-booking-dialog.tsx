@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useId, useEffect } from "react";
+import { useState, useId } from "react";
 import {
   Dialog,
   DialogContent,
@@ -77,21 +77,25 @@ export function TrainBookingDialog({
 
   // Train state (defaults to pre-selected train or standard Rajdhani fallback)
   const [train, setTrain] = useState(() => trainInfo || DEFAULT_TRAIN);
+  const [prevTrainInfo, setPrevTrainInfo] = useState(trainInfo);
 
-  // Synchronize when trainInfo changes
-  useEffect(() => {
+  // Form State
+  const [step, setStep] = useState<"details" | "summary" | "confirmed">("details");
+  const [selectedClass, setSelectedClass] = useState<TravelClass>(
+    () => trainInfo?.defaultClass || DEFAULT_TRAIN.defaultClass || "3A"
+  );
+  const [selectedQuota, setSelectedQuota] = useState<BookingQuota>("GN");
+
+  // Adjust state during render if trainInfo prop changes (React recommended pattern)
+  if (trainInfo !== prevTrainInfo) {
+    setPrevTrainInfo(trainInfo);
     if (trainInfo) {
       setTrain(trainInfo);
       if (trainInfo.defaultClass) {
         setSelectedClass(trainInfo.defaultClass);
       }
     }
-  }, [trainInfo]);
-
-  // Form State
-  const [step, setStep] = useState<"details" | "summary" | "confirmed">("details");
-  const [selectedClass, setSelectedClass] = useState<TravelClass>(train.defaultClass || "3A");
-  const [selectedQuota, setSelectedQuota] = useState<BookingQuota>("GN");
+  }
   const [passengers, setPassengers] = useState<BookingPassenger[]>([
     { id: "p-1", name: "", age: 30, gender: "M", berthPreference: "LB" },
   ]);

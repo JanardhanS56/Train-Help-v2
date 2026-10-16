@@ -46,7 +46,10 @@ import {
   Train,
   Info,
   RefreshCw,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
+import { simSoundscape } from "@/lib/sim/soundscape";
 
 function formatSimTime(mins: number): string {
   const d = Math.floor(mins / 1440);
@@ -90,7 +93,31 @@ export default function SimulationPage() {
   const [isLoadDialogOpen, setIsLoadDialogOpen] = useState<boolean>(false);
   const activeDisruptionIdRef = useRef<string | null>(null);
 
-  // 6. Animation loop references
+  // 6. Soundscape audio state (defaults to MUTED per autoplay policy & accessibility)
+  const [isMuted, setIsMuted] = useState<boolean>(() => simSoundscape.getMuted());
+
+  const toggleAudioMute = useCallback(() => {
+    const next = !isMuted;
+    setIsMuted(next);
+    simSoundscape.setMuted(next);
+    if (!next && isPlaying) {
+      simSoundscape.startWheelRoll(speedMultiplier);
+    }
+  }, [isMuted, isPlaying, speedMultiplier]);
+
+  // Sync wheel roll loop with simulation playback state
+  useEffect(() => {
+    if (isPlaying && !isMuted) {
+      simSoundscape.startWheelRoll(speedMultiplier);
+    } else {
+      simSoundscape.stopWheelRoll();
+    }
+    return () => {
+      simSoundscape.stopWheelRoll();
+    };
+  }, [isPlaying, speedMultiplier, isMuted]);
+
+  // 7. Animation loop references
   const lastFrameTimeRef = useRef<number | null>(null);
   const lastLoggedStopIndexRef = useRef<number>(-1);
   const simMinuteRef = useRef<number>(simMinute);
@@ -249,6 +276,7 @@ export default function SimulationPage() {
       const stop = stops[position.currentStopIndex];
       if (stop) {
         if (position.currentStopIndex === 0) {
+          simSoundscape.playDepartureChime();
           addEvent(
             "departure",
             `Departed Origin: ${stop.stationName} (${stop.stationCode})`,
@@ -303,6 +331,7 @@ export default function SimulationPage() {
             setCandidatePlans(data.plans);
             const rec = data.plans.find((p: CandidatePlan) => p.recommended) || data.plans[0];
             setSelectedPlanId(rec?.id || null);
+            simSoundscape.playAdvisorDing();
             return;
           }
         }
@@ -317,6 +346,7 @@ export default function SimulationPage() {
       setCandidatePlans(localPlans);
       const rec = localPlans.find((p) => p.recommended) || localPlans[0];
       setSelectedPlanId(rec?.id || null);
+      simSoundscape.playAdvisorDing();
       setIsAiLoading(false);
     },
     [currentTrain, position, railLinks]
@@ -325,6 +355,7 @@ export default function SimulationPage() {
   // Apply obstacle (and sync to Supabase disruptions table)
   const handleApplyObstacle = async (obs: Obstacle) => {
     setActiveObstacle(obs);
+    simSoundscape.playObstacleSiren();
     addEvent(
       "obstacle",
       `Disruption Injected: ${obs.title}`,
@@ -618,6 +649,22 @@ export default function SimulationPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* T6.3 Accessible Mute / Unmute Soundscape Toggle */}
+          <button
+            type="button"
+            onClick={toggleAudioMute}
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium border flex items-center gap-1.5 shadow-2xs transition-colors ${
+              isMuted
+                ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50"
+                : "bg-blue-50 dark:bg-blue-950/60 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-semibold"
+            }`}
+            aria-label={isMuted ? "Unmute simulation soundscape" : "Mute simulation soundscape"}
+            title={isMuted ? "Audio Muted (Click to enable)" : "Audio Active (Click to mute)"}
+          >
+            {isMuted ? <VolumeX className="h-3.5 w-3.5 text-slate-400" /> : <Volume2 className="h-3.5 w-3.5 text-blue-500 animate-pulse" />}
+            <span>{isMuted ? "Muted" : "Sound ON"}</span>
+          </button>
+
           <button
             type="button"
             onClick={() => currentTrain && loadTrain(currentTrain.train_number)}

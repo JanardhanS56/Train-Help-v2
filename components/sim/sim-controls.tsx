@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { SpeedMultiplier } from "@/lib/sim/clock";
 import type { TrainSummary } from "@/lib/data/types";
 import { cn } from "@/lib/utils";
@@ -75,29 +75,31 @@ export function SimControls({
 
   // Debounced live train search suggestion query
   useEffect(() => {
-    if (!searchQuery.trim()) {
-      setRemoteTrains([]);
-      return;
-    }
+    const trimmed = searchQuery.trim();
+    if (!trimmed) return;
 
+    let active = true;
     const timer = setTimeout(async () => {
       try {
         setIsSearchingRemote(true);
-        const res = await fetch(`/api/sim/trains?q=${encodeURIComponent(searchQuery)}&limit=50`);
+        const res = await fetch(`/api/sim/trains?q=${encodeURIComponent(trimmed)}&limit=50`);
         if (res.ok) {
           const data = await res.json();
-          if (data.trains) {
+          if (active && data.trains) {
             setRemoteTrains(data.trains);
           }
         }
       } catch (err) {
         console.warn("Live train search error:", err);
       } finally {
-        setIsSearchingRemote(false);
+        if (active) setIsSearchingRemote(false);
       }
     }, 160);
 
-    return () => clearTimeout(timer);
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
   }, [searchQuery]);
 
   const localFilteredTrains = trains.filter(

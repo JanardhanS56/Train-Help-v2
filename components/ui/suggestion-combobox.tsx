@@ -40,7 +40,6 @@ export function SuggestionCombobox({
   const generatedId = useId();
   const inputId = externalId || generatedId;
 
-  const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useState<SuggestionItem[]>(initialItems);
   const [isLoading, setIsLoading] = useState(false);
@@ -120,21 +119,68 @@ export function SuggestionCombobox({
     [defaultFetchUrl, type, initialItems]
   );
 
-  // Sync initial query with incoming value
-  useEffect(() => {
-    if (value !== undefined) {
-      setQuery(value);
-    }
-  }, [value]);
+  const [query, setQuery] = useState(value || "");
+  const [prevValue, setPrevValue] = useState(value);
 
-  // Initial load of top popular suggestions
+  // Sync state during render when value prop changes
+  if (value !== undefined && value !== prevValue) {
+    setPrevValue(value);
+    setQuery(value);
+  }
+
+  // Initial load of top popular suggestions asynchronously
   useEffect(() => {
-    if (initialItems.length > 0) {
-      setItems(initialItems);
-    } else if (defaultFetchUrl) {
-      fetchSuggestions("");
+    if (initialItems.length > 0 || !defaultFetchUrl) return;
+    let active = true;
+
+    async function loadInitial() {
+      try {
+        setIsLoading(true);
+        const url = `${defaultFetchUrl}${
+          defaultFetchUrl.includes("?") ? "&" : "?"
+        }limit=30`;
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!active) return;
+
+        let mapped: SuggestionItem[] = [];
+        if (type === "train") {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          mapped = (data.trains || []).map((t: any) => ({
+            id: t.train_number,
+            title: t.train_name,
+            subtitle: `${t.origin_station_code || t.origin_name || ""} → ${
+              t.destination_station_code || t.destination_name || ""
+            }${t.train_type ? ` · ${t.train_type}` : ""}`,
+            badge: t.train_number,
+            meta: t,
+          }));
+        } else if (type === "station") {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          mapped = (data.stations || []).map((s: any) => ({
+            id: s.code,
+            title: s.name,
+            subtitle: `${s.state || ""} · ${s.zone || "IR"}${s.is_junction ? " (Junction)" : ""}`,
+            badge: s.code,
+            meta: s,
+          }));
+        } else {
+          mapped = data.items || [];
+        }
+        setItems(mapped);
+      } catch {
+        // fallback
+      } finally {
+        if (active) setIsLoading(false);
+      }
     }
-  }, [initialItems, defaultFetchUrl, fetchSuggestions]);
+
+    loadInitial();
+    return () => {
+      active = false;
+    };
+  }, [defaultFetchUrl, initialItems.length, type]);
 
   // Debounced input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
