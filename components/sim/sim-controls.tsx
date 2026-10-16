@@ -70,8 +70,37 @@ export function SimControls({
 }: SimControlsProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [remoteTrains, setRemoteTrains] = useState<TrainSummary[]>([]);
+  const [isSearchingRemote, setIsSearchingRemote] = useState(false);
 
-  const filteredTrains = trains.filter(
+  // Debounced live train search suggestion query
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setRemoteTrains([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        setIsSearchingRemote(true);
+        const res = await fetch(`/api/sim/trains?q=${encodeURIComponent(searchQuery)}&limit=50`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.trains) {
+            setRemoteTrains(data.trains);
+          }
+        }
+      } catch (err) {
+        console.warn("Live train search error:", err);
+      } finally {
+        setIsSearchingRemote(false);
+      }
+    }, 160);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const localFilteredTrains = trains.filter(
     (t) =>
       t.train_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
       t.train_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -79,7 +108,11 @@ export function SimControls({
       t.destination_station_code?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const selectedTrain = trains.find((t) => t.train_number === selectedTrainNumber);
+  const displayTrains = searchQuery.trim() && remoteTrains.length > 0 ? remoteTrains : localFilteredTrains;
+
+  const selectedTrain =
+    trains.find((t) => t.train_number === selectedTrainNumber) ||
+    remoteTrains.find((t) => t.train_number === selectedTrainNumber);
 
   // Time formatting
   const formatTime = (mins: number) => {
@@ -151,7 +184,12 @@ export function SimControls({
                   />
                 </div>
                 <div className="overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
-                  {filteredTrains.slice(0, 50).map((t) => (
+                  {isSearchingRemote && (
+                    <div className="p-3 text-center text-xs text-blue-600 dark:text-blue-400 font-medium">
+                      Searching trains...
+                    </div>
+                  )}
+                  {displayTrains.slice(0, 50).map((t) => (
                     <div
                       key={t.train_number}
                       className={cn(
@@ -176,9 +214,9 @@ export function SimControls({
                       </span>
                     </div>
                   ))}
-                  {filteredTrains.length === 0 && (
+                  {!isSearchingRemote && displayTrains.length === 0 && (
                     <div className="p-4 text-center text-xs text-slate-400">
-                      No trains found matching query.
+                      No trains found matching &quot;{searchQuery}&quot;. Try searching &quot;raj-&quot; or &quot;exp&quot;.
                     </div>
                   )}
                 </div>

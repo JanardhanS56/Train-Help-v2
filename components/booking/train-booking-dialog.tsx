@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useId } from "react";
+import { useState, useId, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +20,10 @@ import {
   AlertCircle,
   Train,
   ArrowRight,
+  MapPin,
+  ArrowLeftRight,
 } from "lucide-react";
+import { SuggestionCombobox } from "@/components/ui/suggestion-combobox";
 import {
   TravelClass,
   BookingQuota,
@@ -72,8 +75,18 @@ export function TrainBookingDialog({
   const dispatch = useAppDispatch();
   const formId = useId();
 
-  // Train fallback defaults
-  const train = trainInfo || DEFAULT_TRAIN;
+  // Train state (defaults to pre-selected train or standard Rajdhani fallback)
+  const [train, setTrain] = useState(() => trainInfo || DEFAULT_TRAIN);
+
+  // Synchronize when trainInfo changes
+  useEffect(() => {
+    if (trainInfo) {
+      setTrain(trainInfo);
+      if (trainInfo.defaultClass) {
+        setSelectedClass(trainInfo.defaultClass);
+      }
+    }
+  }, [trainInfo]);
 
   // Form State
   const [step, setStep] = useState<"details" | "summary" | "confirmed">("details");
@@ -92,9 +105,19 @@ export function TrainBookingDialog({
 
   function resetForm() {
     setStep("details");
+    setTrain(trainInfo || DEFAULT_TRAIN);
+    setSelectedClass(trainInfo?.defaultClass || "3A");
     setPassengers([{ id: "p-1", name: "", age: 30, gender: "M", berthPreference: "LB" }]);
     setErrors({});
     setConfirmedTrip(null);
+  }
+
+  function handleSwapStations() {
+    setTrain((prev) => ({
+      ...prev,
+      fromStation: prev.toStation,
+      toStation: prev.fromStation,
+    }));
   }
 
   function handleAddPassenger() {
@@ -282,6 +305,104 @@ export function TrainBookingDialog({
         {/* STEP 1: Details & Preferences Form */}
         {step === "details" && (
           <div className="space-y-5 py-2 text-xs">
+            {/* Origin & Destination Station Selector & Train Suggestions */}
+            <div className="p-3.5 rounded-xl border border-border bg-muted/20 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 font-medium text-foreground">
+                  <MapPin className="w-3.5 h-3.5 text-primary" />
+                  <span>Journey Route & Train</span>
+                </div>
+                <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-muted border border-border/80 text-foreground">
+                  {train.trainName} (#{train.trainNumber})
+                </span>
+              </div>
+
+              {/* Origin -> Swap -> Destination Inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-2.5 items-end">
+                <div>
+                  <SuggestionCombobox
+                    type="station"
+                    label="Starting Station / Place"
+                    placeholder="e.g. SBC, Bengaluru, NDLS, Mumbai..."
+                    value={`${train.fromStation.name} (${train.fromStation.code})`}
+                    onSelect={(item) => {
+                      const stn = item.meta as Record<string, unknown> | undefined;
+                      setTrain((prev) => ({
+                        ...prev,
+                        fromStation: {
+                          code: item.id,
+                          name: item.title,
+                          city: (stn?.state as string) || (stn?.name as string) || item.title,
+                        },
+                      }));
+                    }}
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleSwapStations}
+                  className="h-9 w-9 self-end mb-0.5 rounded-lg border border-border bg-background hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                  title="Swap Origin and Destination"
+                  aria-label="Swap Origin and Destination stations"
+                >
+                  <ArrowLeftRight className="w-3.5 h-3.5" />
+                </button>
+
+                <div>
+                  <SuggestionCombobox
+                    type="station"
+                    label="Destination Station / Place"
+                    placeholder="e.g. NDLS, New Delhi, CSMT, Howrah..."
+                    value={`${train.toStation.name} (${train.toStation.code})`}
+                    onSelect={(item) => {
+                      const stn = item.meta as Record<string, unknown> | undefined;
+                      setTrain((prev) => ({
+                        ...prev,
+                        toStation: {
+                          code: item.id,
+                          name: item.title,
+                          city: (stn?.state as string) || (stn?.name as string) || item.title,
+                        },
+                      }));
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Train Name & Auto-suggestion */}
+              <div>
+                <SuggestionCombobox
+                  type="train"
+                  label="Select Train (Search by name or number, e.g. 'raj-', 'shatabdi', '22691')"
+                  placeholder="Type train name (e.g. raj- for Rajdhani, tejas, 12028)..."
+                  value={`${train.trainName} (#${train.trainNumber})`}
+                  onSelect={(item) => {
+                    const t = item.meta as Record<string, unknown> | undefined;
+                    const originCode = (t?.origin_station_code as string) || train.fromStation.code;
+                    const originName = (t?.origin_name as string) || train.fromStation.name;
+                    const destCode = (t?.destination_station_code as string) || train.toStation.code;
+                    const destName = (t?.destination_name as string) || train.toStation.name;
+
+                    setTrain((prev) => ({
+                      ...prev,
+                      trainNumber: item.id,
+                      trainName: item.title,
+                      fromStation: {
+                        code: originCode,
+                        name: originName,
+                        city: originName,
+                      },
+                      toStation: {
+                        code: destCode,
+                        name: destName,
+                        city: destName,
+                      },
+                    }));
+                  }}
+                />
+              </div>
+            </div>
             {/* Class & Quota Selectors */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
