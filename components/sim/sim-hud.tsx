@@ -95,6 +95,7 @@ export function SimHud({
         className
       )}
       aria-label="Simulation Heads Up Display"
+      aria-live="polite"
     >
       {/* Top Bar: Train Identity + Status Badges */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E3A5F]/10 dark:border-slate-800 pb-3.5">

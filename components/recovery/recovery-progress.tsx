@@ -76,7 +76,7 @@ export function RecoveryProgress({ onComplete }: RecoveryProgressProps) {
   return (
     <div
       className="bg-surface rounded-xl border border-border p-8 text-center max-w-sm mx-auto my-10 space-y-6"
-      role="region"
+      role="status"
       aria-label="Recovery progress"
       aria-live="polite"
     >
