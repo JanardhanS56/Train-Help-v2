@@ -16,6 +16,7 @@ export function RecoveryHeader({ trip, onViewBooking }: RecoveryHeaderProps) {
     <section
       className="w-full bg-disruption-tint border border-disruption/30 rounded-xl p-6 text-foreground relative overflow-hidden transition-colors duration-150"
       aria-labelledby="recovery-disruption-title"
+      aria-live="assertive"
     >
       {/* Top Meta Line */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-disruption/20 text-xs">

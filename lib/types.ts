@@ -1,6 +1,6 @@
 // ─── Status & Enums ────────────────────────────────────────────────
 
-export type TripStatus = "on-time" | "delayed" | "cancelled" | "recovered";
+export type TripStatus = "on-time" | "delayed" | "cancelled" | "recovered" | "rebooked";
 
 export type RecoveryStage =
   | "progress"
@@ -16,8 +16,6 @@ export type NotificationType =
 
 export type SortKey = "best-match" | "price" | "duration" | "arrival";
 export type SortDirection = "asc" | "desc";
-
-export type DemoState = "normal" | "loading" | "empty" | "error";
 
 export type TravelClass = "SL" | "3A" | "2A" | "1A" | "CC" | "EC";
 
@@ -127,6 +125,14 @@ export interface Alternative {
   nearbyStationSuggestion?: NearbyStation;
 }
 
+export interface ScoreBreakdown {
+  time_diff_score: number;
+  berth_match_score: number;
+  train_type_score: number;
+  price_diff_score: number;
+  overall: number;
+}
+
 export interface RankedAlternative extends Alternative {
   rank: number;
   budgetFitScore: number;    // 0-100 (weight 30)
@@ -137,6 +143,7 @@ export interface RankedAlternative extends Alternative {
   overallScore: number;      // 0-100
   tags: string[];
   matchReason?: string;      // One plain-language reason sentence for Best Match
+  score_breakdown?: ScoreBreakdown;
 }
 
 export interface Notification {
@@ -155,6 +162,12 @@ export interface ChatMessage {
   content: string;
   timestamp: Date;
   options?: ChatOption[];
+  actions?: Array<{
+    type: string;
+    raw: string;
+    payload: Record<string, string>;
+    label: string;
+  }>;
 }
 
 export interface ChatOption {
@@ -249,7 +262,6 @@ export interface AppState {
   notifications: Notification[];
   chatMessages: ChatMessage[];
   chatInputDraft: string;
-  demoState: DemoState;
   theme: AppTheme;
   vibeRatings?: Record<string, VibeFeedback[]>;
 }
@@ -262,7 +274,14 @@ export type AppAction =
   | { type: "SET_FILTERS"; filters: Partial<AlternativeFilters> }
   | { type: "RESET_FILTERS" }
   | { type: "SELECT_ALTERNATIVE"; alternativeId: string }
-  | { type: "CONFIRM_RECOVERY"; tripId: string; alternativeId: string }
+  | {
+      type: "CONFIRM_RECOVERY";
+      tripId: string;
+      alternativeId: string;
+      newTrip?: Trip;
+      refundAmount?: number;
+      newPnr?: string;
+    }
   | { type: "UPDATE_PREFERENCES"; preferences: Partial<UserPreferences> }
   | { type: "MARK_NOTIFICATION_READ"; notificationId: string }
   | { type: "MARK_ALL_NOTIFICATIONS_READ" }
@@ -271,9 +290,7 @@ export type AppAction =
   | { type: "ADD_TRIP"; trip: Trip }
   | { type: "SUBMIT_VIBE_FEEDBACK"; feedback: VibeFeedback }
   | { type: "SET_CHAT_INPUT"; value: string }
-  | { type: "SET_DEMO_STATE"; demoState: DemoState }
   | { type: "SET_THEME"; theme: AppTheme }
-  | { type: "RESET_DEMO" }
   | { type: "HYDRATE_STATE"; state: Partial<AppState> };
 
 // ─── Context ───────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { SpeedMultiplier } from "@/lib/sim/clock";
 import type { TrainSummary } from "@/lib/data/types";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,9 @@ import {
   Search,
   Train,
   SlidersHorizontal,
+  Save,
+  History,
+  LogOut,
 } from "lucide-react";
 
 interface SimControlsProps {
@@ -33,6 +36,11 @@ interface SimControlsProps {
   onSelectPresetScenario: (scenarioId: string) => void;
   onOpenObstacleDialog: () => void;
   hasActiveObstacle: boolean;
+  onSaveRun?: () => void;
+  onLoadReplay?: () => void;
+  isReplayMode?: boolean;
+  onExitReplay?: () => void;
+  replayScenarioName?: string;
   className?: string;
 }
 
@@ -53,12 +61,48 @@ export function SimControls({
   onSelectPresetScenario,
   onOpenObstacleDialog,
   hasActiveObstacle,
+  onSaveRun,
+  onLoadReplay,
+  isReplayMode,
+  onExitReplay,
+  replayScenarioName,
   className,
 }: SimControlsProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [remoteTrains, setRemoteTrains] = useState<TrainSummary[]>([]);
+  const [isSearchingRemote, setIsSearchingRemote] = useState(false);
 
-  const filteredTrains = trains.filter(
+  // Debounced live train search suggestion query
+  useEffect(() => {
+    const trimmed = searchQuery.trim();
+    if (!trimmed) return;
+
+    let active = true;
+    const timer = setTimeout(async () => {
+      try {
+        setIsSearchingRemote(true);
+        const res = await fetch(`/api/sim/trains?q=${encodeURIComponent(trimmed)}&limit=50`);
+        if (res.ok) {
+          const data = await res.json();
+          if (active && data.trains) {
+            setRemoteTrains(data.trains);
+          }
+        }
+      } catch (err) {
+        console.warn("Live train search error:", err);
+      } finally {
+        if (active) setIsSearchingRemote(false);
+      }
+    }, 160);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
+
+  const localFilteredTrains = trains.filter(
     (t) =>
       t.train_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
       t.train_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -66,7 +110,11 @@ export function SimControls({
       t.destination_station_code?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const selectedTrain = trains.find((t) => t.train_number === selectedTrainNumber);
+  const displayTrains = searchQuery.trim() && remoteTrains.length > 0 ? remoteTrains : localFilteredTrains;
+
+  const selectedTrain =
+    trains.find((t) => t.train_number === selectedTrainNumber) ||
+    remoteTrains.find((t) => t.train_number === selectedTrainNumber);
 
   // Time formatting
   const formatTime = (mins: number) => {
@@ -138,7 +186,12 @@ export function SimControls({
                   />
                 </div>
                 <div className="overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
-                  {filteredTrains.slice(0, 50).map((t) => (
+                  {isSearchingRemote && (
+                    <div className="p-3 text-center text-xs text-blue-600 dark:text-blue-400 font-medium">
+                      Searching trains...
+                    </div>
+                  )}
+                  {displayTrains.slice(0, 50).map((t) => (
                     <div
                       key={t.train_number}
                       className={cn(
@@ -163,9 +216,9 @@ export function SimControls({
                       </span>
                     </div>
                   ))}
-                  {filteredTrains.length === 0 && (
+                  {!isSearchingRemote && displayTrains.length === 0 && (
                     <div className="p-4 text-center text-xs text-slate-400">
-                      No trains found matching query.
+                      No trains found matching &quot;{searchQuery}&quot;. Try searching &quot;raj-&quot; or &quot;exp&quot;.
                     </div>
                   )}
                 </div>
@@ -174,37 +227,80 @@ export function SimControls({
           )}
         </div>
 
-        {/* 1-Click Preset Scenario Buttons */}
-        <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1 mr-1">
-            <Sparkles className="h-3 w-3 text-amber-500" />
-            Scenarios:
-          </span>
-          <button
-            type="button"
-            onClick={() => onSelectPresetScenario("konkan")}
-            className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-200 border border-amber-200/60 dark:border-amber-800 transition-colors"
-            title="Panchaganga Express 16595 with Chiplun-Ratnagiri Landslide"
-          >
-            Konkan Landslide (16595)
-          </button>
-          <button
-            type="button"
-            onClick={() => onSelectPresetScenario("fog")}
-            className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors"
-            title="Karnataka Express 12627 with Kanpur-Prayagraj Fog Restriction"
-          >
-            Delhi Trunk Fog (12627)
-          </button>
-          <button
-            type="button"
-            onClick={() => onSelectPresetScenario("ohe")}
-            className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/40 dark:hover:bg-blue-900/60 text-blue-800 dark:text-blue-200 border border-blue-200/60 dark:border-blue-800 transition-colors"
-            title="Bengaluru Rajdhani 22691 with Bhopal OHE Cable Snap"
-          >
-            Bhopal OHE Snap (22691)
-          </button>
-        </div>
+        {/* Replay Mode Header or 1-Click Preset Scenario Buttons */}
+        {isReplayMode ? (
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-xs">
+            <span className="h-2 w-2 rounded-full bg-purple-600 animate-pulse" />
+            <span className="font-semibold text-purple-900 dark:text-purple-200">
+              Replay Mode: {replayScenarioName || "Archived Scenario Run"}
+            </span>
+            {onExitReplay && (
+              <button
+                type="button"
+                onClick={onExitReplay}
+                className="ml-2 px-2.5 py-0.5 rounded-lg text-[11px] font-medium bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-700 text-purple-800 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 flex items-center gap-1 transition-colors"
+              >
+                <LogOut className="h-3 w-3" />
+                Exit Replay
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1 mr-1">
+              <Sparkles className="h-3 w-3 text-amber-500" />
+              Presets:
+            </span>
+            <button
+              type="button"
+              onClick={() => onSelectPresetScenario("konkan")}
+              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-200 border border-amber-200/60 dark:border-amber-800 transition-colors"
+              title="Panchaganga Express 16595 with Chiplun-Ratnagiri Landslide"
+            >
+              Konkan (16595)
+            </button>
+            <button
+              type="button"
+              onClick={() => onSelectPresetScenario("fog")}
+              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors"
+              title="Karnataka Express 12627 with Kanpur-Prayagraj Fog Restriction"
+            >
+              Fog (12627)
+            </button>
+            <button
+              type="button"
+              onClick={() => onSelectPresetScenario("ohe")}
+              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/40 dark:hover:bg-blue-900/60 text-blue-800 dark:text-blue-200 border border-blue-200/60 dark:border-blue-800 transition-colors"
+              title="Bengaluru Rajdhani 22691 with Bhopal OHE Cable Snap"
+            >
+              OHE Snap (22691)
+            </button>
+
+            {onLoadReplay && (
+              <button
+                type="button"
+                onClick={onLoadReplay}
+                className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/40 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-200 border border-purple-200/60 dark:border-purple-800 flex items-center gap-1 transition-colors"
+                title="Browse and load past simulation runs from Supabase"
+              >
+                <History className="h-3 w-3" />
+                Replays
+              </button>
+            )}
+
+            {onSaveRun && (
+              <button
+                type="button"
+                onClick={onSaveRun}
+                className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 border border-emerald-200/60 dark:border-emerald-800 flex items-center gap-1 transition-colors"
+                title="Save current run telemetry & events to Supabase"
+              >
+                <Save className="h-3 w-3" />
+                Save Run
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Middle Section: Scrub Bar Slider */}
@@ -284,7 +380,7 @@ export function SimControls({
         {/* Speed Multiplier Toggles */}
         <div className="flex items-center gap-1.5 bg-white/70 dark:bg-slate-800/70 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-mono">
           <span className="text-[10px] text-slate-400 font-sans px-1 hidden sm:inline">Speed:</span>
-          {([1, 10, 60, 300] as SpeedMultiplier[]).map((spd) => (
+          {([1, 2, 5, 10, 60] as SpeedMultiplier[]).map((spd) => (
             <button
               key={spd}
               type="button"

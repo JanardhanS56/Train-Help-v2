@@ -6,10 +6,8 @@ import {
   Search,
   ArrowUpDown,
   Filter,
-  AlertCircle,
   RotateCcw,
 } from "lucide-react";
-import { useApp, useAppDispatch } from "@/context/app-context";
 import { useTripGroups, type TripCategory } from "@/lib/tripGroups";
 import { TripRow } from "@/components/trips/trip-row";
 import { BookingModal } from "@/components/trips/booking-modal";
@@ -43,8 +41,6 @@ export function TripsView() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const { state } = useApp();
-  const dispatch = useAppDispatch();
   const tripGroups = useTripGroups();
 
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -297,42 +293,7 @@ export function TripsView() {
         className="space-y-3"
       >
         {/* Error State */}
-        {state.demoState === "error" ? (
-          <div className="p-8 rounded-xl border border-destructive/30 bg-destructive/5 text-center space-y-3 max-w-md mx-auto">
-            <AlertCircle className="w-8 h-8 text-destructive mx-auto" aria-hidden="true" />
-            <h2 className="text-sm font-semibold text-foreground">
-              Something went wrong while loading your trips.
-            </h2>
-            <p className="text-xs text-muted-foreground">
-              A temporary disruption prevented retrieval of real-time railway bookings.
-            </p>
-            <button
-              type="button"
-              onClick={() => dispatch({ type: "SET_DEMO_STATE", demoState: "normal" })}
-              className="inline-flex items-center gap-1.5 h-9 px-4 rounded-md bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors"
-            >
-              <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>Try again</span>
-            </button>
-          </div>
-        ) : state.demoState === "loading" ? (
-          /* Skeleton Loading Rows */
-          <div className="space-y-3" aria-busy="true" aria-label="Loading trips">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="h-24 rounded-lg border border-border bg-surface p-4 animate-pulse flex items-center justify-between"
-              >
-                <div className="space-y-2 w-1/3">
-                  <div className="h-4 bg-muted rounded w-3/4" />
-                  <div className="h-3 bg-muted rounded w-1/2" />
-                </div>
-                <div className="h-4 bg-muted rounded w-1/4" />
-                <div className="h-8 bg-muted rounded w-24" />
-              </div>
-            ))}
-          </div>
-        ) : sortedTrips.length === 0 ? (
+        {sortedTrips.length === 0 ? (
           /* Empty State */
           <div className="p-10 rounded-xl border border-border bg-surface text-center space-y-3 max-w-md mx-auto">
             <Filter className="w-8 h-8 text-muted-foreground mx-auto stroke-[1.5]" aria-hidden="true" />

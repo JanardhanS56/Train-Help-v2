@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppProvider } from "@/context/app-context";
 import { AuthProvider } from "@/context/auth-context";
 import { CookieConsentBanner } from "@/components/layout/cookie-consent-banner";
+import { OfflineBanner } from "@/components/ui/offline-banner";
 import "./globals.css";
 
 const inter = Inter({
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${newsreader.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full font-sans bg-background text-foreground">
+        <OfflineBanner />
         <AuthProvider>
           <AppProvider>
             <TooltipProvider delay={400}>

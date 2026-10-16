@@ -3,22 +3,35 @@
 import { useState, useRef, useEffect, useMemo, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Trash2, Bot, Loader2, Sparkles, AlertCircle } from "lucide-react";
+import {
+  X,
+  Send,
+  Trash2,
+  Bot,
+  Loader2,
+  Sparkles,
+  AlertCircle,
+  ArrowRight,
+  Sliders,
+  PlayCircle,
+} from "lucide-react";
 import { useApp, useAppDispatch } from "@/context/app-context";
 import { ChatQuickActions } from "@/components/chat/chat-quick-actions";
 import { useChatAssistantState } from "@/components/chat/chat-controller";
 import { ChatMarkdown } from "@/components/chat/chat-markdown";
 import { useAntiSpam } from "@/lib/hooks/use-anti-spam";
+import type { ChatMessage } from "@/lib/types";
 
 export function ChatAssistant() {
   const router = useRouter();
-  const { state, alternatives, rankedAlternatives } = useApp();
+  const { state, alternatives, rankedAlternatives, selectedTrip } = useApp();
   const dispatch = useAppDispatch();
   const { isOpen: open, closeChat, toggleChat } = useChatAssistantState();
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [streamingText, setStreamingText] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [activeProviderBadge, setActiveProviderBadge] = useState<string>("TravelRescue AI");
+  const [activeProviderBadge, setActiveProviderBadge] = useState<string>("DEEPSEEK · deepseek-chat");
   const [, startTransition] = useTransition();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { isLocked: isSpamLocked, executeProtectedAction } = useAntiSpam({ cooldownMs: 750 });
@@ -40,7 +53,7 @@ export function ChatAssistant() {
     if (open) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [open, state.chatMessages, isLoading]);
+  }, [open, state.chatMessages, isLoading, streamingText]);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -56,6 +69,7 @@ export function ChatAssistant() {
     if (!userText.trim() || isLoading) return;
 
     setErrorMessage(null);
+    setStreamingText("");
     const timestamp = new Date();
     const userMessageId = `user-${Date.now()}`;
 
@@ -74,48 +88,99 @@ export function ChatAssistant() {
     }));
     historyPayload.push({ role: "user", content: userText });
 
+    const conversationId = `conv-${state.selectedTripId || "default"}`;
+    const groundingContext = {
+      activeTrip: selectedTrip,
+      topAlternatives: rankedAlternatives.slice(0, 3),
+      preferences: state.preferences,
+      currentTime: new Date().toISOString(),
+    };
+
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: historyPayload }),
+        body: JSON.stringify({
+          messages: historyPayload,
+          conversationId,
+          context: groundingContext,
+          stream: true,
+        }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok || data.isError) {
-        const errorText = data.error || `Server responded with status ${response.status}`;
-        setErrorMessage(errorText);
-
-        // Fallback message so user is not blocked
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errText = errorData.error || `Server returned ${response.status}`;
+        setErrorMessage(errText);
         dispatch({
           type: "ADD_CHAT_MESSAGE",
           message: {
             id: `err-${Date.now()}`,
             role: "assistant",
-            content: `⚠️ **Notice**: ${errorText}\n\n*Falling back to local railway guide mode. You can continue asking questions about trains, tatkal, or recovery.*`,
+            content: `⚠️ **AI Service Notice**: ${errText}`,
             timestamp: new Date(),
           },
         });
-      } else {
-        if (data.provider) {
-          setActiveProviderBadge(
-            data.isMock
-              ? "Offline Demo Guide"
-              : `${data.provider.toUpperCase()} · ${data.model.split("/").pop()}`
-          );
-        }
-
-        dispatch({
-          type: "ADD_CHAT_MESSAGE",
-          message: {
-            id: `asst-${Date.now()}`,
-            role: "assistant",
-            content: data.reply || "No response received.",
-            timestamp: new Date(),
-          },
-        });
+        setIsLoading(false);
+        return;
       }
+
+      // Read SSE stream
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error("No readable stream response received.");
+      }
+
+      const decoder = new TextDecoder();
+      let accumulated = "";
+      let finalActions: ChatMessage["actions"] = [];
+      let finalModel = "deepseek-chat";
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed || !trimmed.startsWith("data:")) continue;
+
+          const jsonStr = trimmed.slice(5).trim();
+          try {
+            const data = JSON.parse(jsonStr);
+            if (data.token) {
+              accumulated += data.token;
+              setStreamingText(accumulated);
+            }
+            if (data.done) {
+              if (data.actions) finalActions = data.actions;
+              if (data.model) finalModel = data.model;
+              if (data.cleanContent) accumulated = data.cleanContent;
+            }
+          } catch {
+            // ignore non-json
+          }
+        }
+      }
+
+      setActiveProviderBadge(`DEEPSEEK · ${finalModel}`);
+      setStreamingText("");
+
+      // Add complete assistant message with actions to state
+      dispatch({
+        type: "ADD_CHAT_MESSAGE",
+        message: {
+          id: `asst-${Date.now()}`,
+          role: "assistant",
+          content: accumulated || "No response received.",
+          timestamp: new Date(),
+          actions: finalActions,
+        },
+      });
     } catch (err: unknown) {
       const errorStr = (err as Error)?.message || "Network error communicating with AI service.";
       setErrorMessage(errorStr);
@@ -124,118 +189,88 @@ export function ChatAssistant() {
         message: {
           id: `err-${Date.now()}`,
           role: "assistant",
-          content: `⚠️ **Connection Error**: ${errorStr}. Check your local connection or .env settings.`,
+          content: `⚠️ **Connection Error**: ${errorStr}. Ensure local connectivity and verify your environment configuration.`,
           timestamp: new Date(),
         },
       });
     } finally {
       setIsLoading(false);
+      setStreamingText("");
     }
   }
 
-  function handleQuickAction(actionId: string, promptText?: string) {
+  function handleExecuteStructuredAction(action: {
+    type: string;
+    payload: Record<string, string>;
+    label: string;
+  }) {
+    if (action.type === "SELECT_ALTERNATIVE") {
+      const altId = action.payload.alternativeId;
+      if (altId) {
+        dispatch({ type: "SELECT_ALTERNATIVE", alternativeId: altId });
+        dispatch({ type: "SET_RECOVERY_STAGE", stage: "itinerary" });
+        const tripId = state.selectedTripId || "trip-4";
+        startTransition(() => {
+          router.push(`/recovery/${tripId}`);
+        });
+      }
+    } else if (action.type === "ADJUST_PREFERENCE") {
+      const key = action.payload.preferenceKey;
+      const val = action.payload.preferenceValue;
+      if (key && val) {
+        const parsedVal: unknown = key === "maxBudget" ? parseInt(val, 10) || 3500 : val;
+        dispatch({
+          type: "UPDATE_PREFERENCES",
+          preferences: { [key]: parsedVal },
+        });
+      }
+    } else if (action.type === "TRIGGER_SIMULATION") {
+      startTransition(() => {
+        router.push("/simulation");
+      });
+    }
+  }
+
+  function handleQuickAction(actionId: string) {
     if (actionId === "show-alternatives") {
-      dispatch({
-        type: "ADD_CHAT_MESSAGE",
-        message: { id: `msg-${Date.now()}`, role: "user", content: "Show alternatives", timestamp: new Date() },
-      });
-      dispatch({ type: "SET_RECOVERY_STAGE", stage: "alternatives" });
-      startTransition(() => {
-        router.push("/recovery/trip-4");
-      });
-      setTimeout(() => {
-        dispatch({
-          type: "ADD_CHAT_MESSAGE",
-          message: {
-            id: `msg-resp-${Date.now()}`,
-            role: "assistant",
-            content: "Navigated to recovery options. All verified Indian Railways train alternatives are listed with live class availability.",
-            timestamp: new Date(),
-          },
-        });
-      }, 250);
+      sendMessageToAssistant("Show all available verified alternative trains for my cancelled journey.");
       return;
     }
-
     if (actionId === "show-fastest") {
-      dispatch({
-        type: "ADD_CHAT_MESSAGE",
-        message: { id: `msg-${Date.now()}`, role: "user", content: "Show fastest option", timestamp: new Date() },
-      });
-      dispatch({ type: "SET_FILTERS", filters: { sortBy: "duration", sortDirection: "asc" } });
-      dispatch({ type: "SET_RECOVERY_STAGE", stage: "alternatives" });
-      startTransition(() => {
-        router.push("/recovery/trip-4");
-      });
-      setTimeout(() => {
-        dispatch({
-          type: "ADD_CHAT_MESSAGE",
-          message: {
-            id: `msg-resp-${Date.now()}`,
-            role: "assistant",
-            content: "Sorted alternatives by travel duration. Rajdhani and Superfast express trains are listed first.",
-            timestamp: new Date(),
-          },
-        });
-      }, 250);
+      sendMessageToAssistant("What is the fastest alternative train available?");
       return;
     }
-
     if (actionId === "change-budget") {
-      dispatch({
-        type: "ADD_CHAT_MESSAGE",
-        message: { id: `msg-${Date.now()}`, role: "user", content: "Change budget", timestamp: new Date() },
-      });
-      startTransition(() => {
-        router.push("/preferences");
-      });
-      setTimeout(() => {
-        dispatch({
-          type: "ADD_CHAT_MESSAGE",
-          message: {
-            id: `msg-resp-${Date.now()}`,
-            role: "assistant",
-            content: "Opened preferences. Adjust your maximum fare budget to recalculate alternative rankings live.",
-            timestamp: new Date(),
-          },
-        });
-      }, 250);
+      sendMessageToAssistant("How can I adjust my budget or class preferences for more options?");
       return;
-    }
-
-    if (actionId === "help-decide") {
-      sendMessageToAssistant("Help me decide between the available alternative trains from Bengaluru to Delhi");
-      return;
-    }
-
-    if (promptText) {
-      sendMessageToAssistant(promptText);
     }
   }
 
   function handleClearChat() {
     dispatch({ type: "CLEAR_CHAT_MESSAGES" });
     setErrorMessage(null);
+    setStreamingText("");
   }
 
   return (
     <>
-      {/* Floating Action Button (FAB) */}
-      <button
-        type="button"
-        onClick={(e) => toggleChat(e.currentTarget)}
-        className="fixed bottom-20 md:bottom-6 right-6 z-40 h-11 px-4 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl hover:bg-primary-hover transition-all flex items-center justify-center gap-2 select-none border border-primary/20"
-        aria-label="Open AI Train Assistant"
-        aria-expanded={open}
-      >
-        <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-        <span className="text-xs font-semibold tracking-wide">AI Assistant</span>
-      </button>
+      {/* Floating launcher button */}
+      {!open && (
+        <button
+          type="button"
+          onClick={() => toggleChat()}
+          className="fixed bottom-6 right-6 z-40 h-12 px-4 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary-hover flex items-center gap-2 transition-all hover:scale-105 focus-visible:ring-2 focus-visible:ring-primary"
+          aria-label="Open AI Assistant"
+        >
+          <Bot className="w-5 h-5" />
+          <span className="text-xs font-semibold">Rail Assistant</span>
+        </button>
+      )}
 
-      {/* Slide-over dockable drawer with smooth spring animations */}
+      {/* Slide-over chat drawer */}
       <AnimatePresence>
         {open && (
-          <motion.aside
+          <motion.div
             role="dialog"
             aria-label="TravelRescue AI Train Assistant"
             initial={{ opacity: 0, x: 28, y: 10, scale: 0.98 }}
@@ -257,7 +292,7 @@ export function ChatAssistant() {
                       {activeProviderBadge}
                     </span>
                   </div>
-                  <p className="text-[11px] text-muted-foreground">Train schedules, booking & policies</p>
+                  <p className="text-[11px] text-muted-foreground">DeepSeek V3 Grounded Rail Engine</p>
                 </div>
               </div>
 
@@ -299,7 +334,7 @@ export function ChatAssistant() {
               <div className="p-3 rounded-xl bg-neutral-tint text-foreground text-xs leading-relaxed border border-border/50">
                 <div className="flex items-center gap-1.5 font-medium text-primary mb-1">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Live Rail Intelligence</span>
+                  <span>Live Rail Intelligence (DeepSeek V3)</span>
                 </div>
                 <p>{dynamicWelcome}</p>
               </div>
@@ -317,7 +352,34 @@ export function ChatAssistant() {
                     }`}
                   >
                     {msg.role === "assistant" ? (
-                      <ChatMarkdown content={msg.content} />
+                      <div className="space-y-2">
+                        <ChatMarkdown content={msg.content} />
+
+                        {/* Interactive Structured Actions */}
+                        {msg.actions && msg.actions.length > 0 && (
+                          <div className="pt-2 border-t border-border/50 flex flex-col gap-1.5">
+                            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                              Suggested Actions
+                            </span>
+                            {msg.actions.map((act, i) => (
+                              <button
+                                key={i}
+                                type="button"
+                                onClick={() => handleExecuteStructuredAction(act)}
+                                className="w-full text-left px-2.5 py-1.5 rounded-md bg-background border border-primary/30 hover:border-primary text-primary text-xs font-medium flex items-center justify-between transition-colors shadow-2xs"
+                              >
+                                <span className="flex items-center gap-1.5">
+                                  {act.type === "SELECT_ALTERNATIVE" && <ArrowRight className="w-3 h-3" />}
+                                  {act.type === "ADJUST_PREFERENCE" && <Sliders className="w-3 h-3" />}
+                                  {act.type === "TRIGGER_SIMULATION" && <PlayCircle className="w-3 h-3" />}
+                                  {act.label}
+                                </span>
+                                <ArrowRight className="w-3 h-3 opacity-60" />
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     ) : (
                       <p className="whitespace-pre-wrap">{msg.content}</p>
                     )}
@@ -328,11 +390,20 @@ export function ChatAssistant() {
                 </div>
               ))}
 
-              {/* Thinking / Streaming indicator */}
-              {isLoading && (
+              {/* Real-time Streaming message bubble */}
+              {isLoading && streamingText && (
+                <div className="flex flex-col items-start">
+                  <div className="p-3 rounded-xl max-w-[88%] leading-relaxed bg-neutral-tint text-foreground rounded-bl-xs border border-border/60 shadow-xs">
+                    <ChatMarkdown content={streamingText} />
+                  </div>
+                </div>
+              )}
+
+              {/* Thinking indicator before first token */}
+              {isLoading && !streamingText && (
                 <div className="flex items-center gap-2 text-muted-foreground text-xs p-2">
                   <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
-                  <span>Assistant is checking train schedules...</span>
+                  <span>DeepSeek V3 is reviewing live railway telemetry...</span>
                 </div>
               )}
 
@@ -351,30 +422,26 @@ export function ChatAssistant() {
                   });
                 }
               }}
-              className="p-3 border-t border-hairline bg-surface flex items-center gap-2"
+              className="p-3 border-t border-hairline bg-surface/80 backdrop-blur-sm flex items-center gap-2"
             >
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about trains, Tatkal rules, refunds..."
+                placeholder="Ask about alternatives, tatkal, refunds..."
                 disabled={isLoading}
-                className="flex-1 text-xs rounded-lg border border-border bg-background px-3.5 py-2.5 text-foreground focus:ring-1 focus:ring-primary outline-none transition-colors"
+                className="flex-1 h-9 px-3 text-xs rounded-lg bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading || isSpamLocked}
-                className="h-9 px-3.5 rounded-lg bg-primary text-primary-foreground disabled:opacity-40 hover:bg-primary-hover transition-colors flex items-center justify-center shrink-0 shadow-xs active:scale-95"
+                className="w-9 h-9 rounded-lg bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary-hover disabled:opacity-50 transition-colors"
                 aria-label="Send message"
               >
-                {isLoading ? (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                ) : (
-                  <Send className="w-3.5 h-3.5" />
-                )}
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </button>
             </form>
-          </motion.aside>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

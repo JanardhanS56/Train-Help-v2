@@ -13,18 +13,43 @@ import { calculatePosition } from "@/lib/sim/movement";
 import { SpeedMultiplier } from "@/lib/sim/clock";
 import { generateCandidatePlans } from "@/lib/sim/planner";
 import { OBSTACLE_PRESETS } from "@/lib/sim/obstacles";
-import { SimMap } from "@/components/sim/sim-map";
+import {
+  type SimScenarioRun,
+  type TelemetrySnapshot,
+  type SimEventRecord,
+  createTelemetrySnapshot,
+} from "@/lib/sim/persistence";
+import { interpolateReplayPosition } from "@/lib/sim/replay";
+import { publishSimDisruption, clearSimDisruption } from "@/lib/sim/disruption-bridge";
+import dynamic from "next/dynamic";
+
+const SimMap = dynamic(
+  () => import("@/components/sim/sim-map").then((mod) => mod.SimMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full min-h-[420px] rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-xs text-muted-foreground font-mono">
+        Loading simulation canvas...
+      </div>
+    ),
+  }
+);
 import { SimHud } from "@/components/sim/sim-hud";
 import { SimTimeline } from "@/components/sim/sim-timeline";
 import { SimControls } from "@/components/sim/sim-controls";
 import { ObstacleDialog } from "@/components/sim/obstacle-dialog";
+import { SaveScenarioDialog } from "@/components/sim/save-scenario-dialog";
+import { LoadScenarioDialog } from "@/components/sim/load-scenario-dialog";
 import { AiAdvisorCard } from "@/components/sim/ai-advisor-card";
 import { SimEventLog, SimEventItem } from "@/components/sim/sim-event-log";
 import {
   Train,
   Info,
   RefreshCw,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
+import { simSoundscape } from "@/lib/sim/soundscape";
 
 function formatSimTime(mins: number): string {
   const d = Math.floor(mins / 1440);
@@ -56,10 +81,43 @@ export default function SimulationPage() {
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
 
-  // 4. Telemetry occurrence log
+  // 4. Telemetry occurrence log & Persistence history
   const [events, setEvents] = useState<SimEventItem[]>([]);
+  const simEventsHistoryRef = useRef<SimEventRecord[]>([]);
+  const telemetrySnapshotsRef = useRef<TelemetrySnapshot[]>([]);
 
-  // 5. Animation loop references
+  // 5. Replay & Persistence dialog state
+  const [isReplayMode, setIsReplayMode] = useState<boolean>(false);
+  const [replayScenarioRun, setReplayScenarioRun] = useState<SimScenarioRun | null>(null);
+  const [isSaveDialogOpen, setIsSaveDialogOpen] = useState<boolean>(false);
+  const [isLoadDialogOpen, setIsLoadDialogOpen] = useState<boolean>(false);
+  const activeDisruptionIdRef = useRef<string | null>(null);
+
+  // 6. Soundscape audio state (defaults to MUTED per autoplay policy & accessibility)
+  const [isMuted, setIsMuted] = useState<boolean>(() => simSoundscape.getMuted());
+
+  const toggleAudioMute = useCallback(() => {
+    const next = !isMuted;
+    setIsMuted(next);
+    simSoundscape.setMuted(next);
+    if (!next && isPlaying) {
+      simSoundscape.startWheelRoll(speedMultiplier);
+    }
+  }, [isMuted, isPlaying, speedMultiplier]);
+
+  // Sync wheel roll loop with simulation playback state
+  useEffect(() => {
+    if (isPlaying && !isMuted) {
+      simSoundscape.startWheelRoll(speedMultiplier);
+    } else {
+      simSoundscape.stopWheelRoll();
+    }
+    return () => {
+      simSoundscape.stopWheelRoll();
+    };
+  }, [isPlaying, speedMultiplier, isMuted]);
+
+  // 7. Animation loop references
   const lastFrameTimeRef = useRef<number | null>(null);
   const lastLoggedStopIndexRef = useRef<number>(-1);
   const simMinuteRef = useRef<number>(simMinute);
@@ -82,6 +140,12 @@ export default function SimulationPage() {
         },
         ...prev.slice(0, 49),
       ]);
+
+      simEventsHistoryRef.current.push({
+        tOffsetMs: Date.now(),
+        kind: type === "obstacle" ? "disruption" : type === "reroute" ? "reroute" : type === "departure" ? "departure" : type === "arrival" ? "arrival" : type === "halt" ? "halt" : "info",
+        payload: { title, detail, minute: min },
+      });
     },
     []
   );
@@ -152,8 +216,16 @@ export default function SimulationPage() {
     initData();
   }, [loadTrain]);
 
-  // Compute instantaneous position using deterministic kinematics
+  // Compute instantaneous position using deterministic kinematics (or replay interpolation)
   const position: SimPosition = useMemo(() => {
+    if (isReplayMode && replayScenarioRun && replayScenarioRun.telemetrySnapshots.length > 0) {
+      return interpolateReplayPosition(
+        replayScenarioRun.telemetrySnapshots,
+        simMinute,
+        activeObstacle
+      );
+    }
+
     if (stops.length === 0) {
       return {
         currentMinute: simMinute,
@@ -178,7 +250,21 @@ export default function SimulationPage() {
       activeObstacle ? [activeObstacle] : [],
       currentTrain?.train_type || "Superfast Express"
     );
-  }, [stops, simMinute, activeObstacle, currentTrain?.train_type]);
+  }, [isReplayMode, replayScenarioRun, stops, simMinute, activeObstacle, currentTrain?.train_type]);
+
+  // Periodic telemetry snapshot accumulation during live simulation
+  useEffect(() => {
+    if (isReplayMode || stops.length === 0) return;
+    const snaps = telemetrySnapshotsRef.current;
+    const lastSnap = snaps[snaps.length - 1];
+    if (!lastSnap || Math.abs(position.currentMinute - lastSnap.minute) >= 2) {
+      const snap = createTelemetrySnapshot(position, Date.now());
+      snaps.push(snap);
+      if (snaps.length > 800) {
+        snaps.shift();
+      }
+    }
+  }, [position, isReplayMode, stops.length]);
 
   // Telemetry stop logger
   useEffect(() => {
@@ -190,6 +276,7 @@ export default function SimulationPage() {
       const stop = stops[position.currentStopIndex];
       if (stop) {
         if (position.currentStopIndex === 0) {
+          simSoundscape.playDepartureChime();
           addEvent(
             "departure",
             `Departed Origin: ${stop.stationName} (${stop.stationCode})`,
@@ -208,6 +295,16 @@ export default function SimulationPage() {
       lastLoggedStopIndexRef.current = position.currentStopIndex;
     }
   }, [position.currentStopIndex, position.state, stops, simMinute, addEvent]);
+
+  // Speed change handler with event logging
+  const handleSpeedChange = (spd: SpeedMultiplier) => {
+    setSpeedMultiplier(spd);
+    simEventsHistoryRef.current.push({
+      tOffsetMs: Date.now(),
+      kind: "speed_change",
+      payload: { speedMultiplier: spd, minute: simMinuteRef.current },
+    });
+  };
 
   // Evaluate AI dispatch plans when obstacle changes
   const evaluateObstaclePlans = useCallback(
@@ -234,6 +331,7 @@ export default function SimulationPage() {
             setCandidatePlans(data.plans);
             const rec = data.plans.find((p: CandidatePlan) => p.recommended) || data.plans[0];
             setSelectedPlanId(rec?.id || null);
+            simSoundscape.playAdvisorDing();
             return;
           }
         }
@@ -248,25 +346,36 @@ export default function SimulationPage() {
       setCandidatePlans(localPlans);
       const rec = localPlans.find((p) => p.recommended) || localPlans[0];
       setSelectedPlanId(rec?.id || null);
+      simSoundscape.playAdvisorDing();
       setIsAiLoading(false);
     },
     [currentTrain, position, railLinks]
   );
 
-  // Apply obstacle
-  const handleApplyObstacle = (obs: Obstacle) => {
+  // Apply obstacle (and sync to Supabase disruptions table)
+  const handleApplyObstacle = async (obs: Obstacle) => {
     setActiveObstacle(obs);
+    simSoundscape.playObstacleSiren();
     addEvent(
       "obstacle",
       `Disruption Injected: ${obs.title}`,
       `Location: ${obs.fromStationCode || obs.stationCode} • Duration: ~${obs.durationMinutes}m (${obs.effect.replace("_", " ")}).`,
       simMinute
     );
+
+    // Sync to Supabase disruptions table so TravelRescue reflects in real-time
+    try {
+      const disruptionId = await publishSimDisruption(obs, currentTrain?.train_number);
+      activeDisruptionIdRef.current = disruptionId;
+    } catch (err) {
+      console.warn("Disruption bridge note:", err);
+    }
+
     evaluateObstaclePlans(obs);
   };
 
-  // Clear obstacle
-  const handleClearObstacle = () => {
+  // Clear obstacle (and resolve in Supabase disruptions table)
+  const handleClearObstacle = async () => {
     setActiveObstacle(null);
     setCandidatePlans([]);
     setPreviewPlan(null);
@@ -277,6 +386,15 @@ export default function SimulationPage() {
       "Section tracks cleared by engineering control. Normal movement rules resumed.",
       simMinute
     );
+
+    if (activeDisruptionIdRef.current) {
+      try {
+        await clearSimDisruption(activeDisruptionIdRef.current);
+      } catch (err) {
+        console.warn("Disruption clear bridge note:", err);
+      }
+      activeDisruptionIdRef.current = null;
+    }
   };
 
   // Accept candidate plan
@@ -407,6 +525,95 @@ export default function SimulationPage() {
     );
   };
 
+  // Save scenario run to Supabase
+  const handleSaveScenarioRun = async (name: string, description: string) => {
+    if (!currentTrain) return;
+
+    const runPayload: SimScenarioRun = {
+      name,
+      createdBy: "dispatcher",
+      trainNumber: currentTrain.train_number,
+      trainName: currentTrain.train_name,
+      startMinute,
+      endMinute,
+      seed: 42,
+      metadata: {
+        description,
+        trainType: currentTrain.train_type,
+        stopsCount: stops.length,
+        savedAt: new Date().toISOString(),
+      },
+      obstacles: activeObstacle ? [activeObstacle] : [],
+      events: simEventsHistoryRef.current,
+      telemetrySnapshots: telemetrySnapshotsRef.current,
+    };
+
+    const res = await fetch("/api/sim/scenarios", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(runPayload),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to save scenario run");
+    }
+
+    addEvent(
+      "info",
+      "Scenario Saved to Supabase",
+      `Archived "${name}" with ${telemetrySnapshotsRef.current.length} telemetry points and ${simEventsHistoryRef.current.length} events.`,
+      simMinute
+    );
+  };
+
+  // Load past scenario run from Supabase for deterministic replay
+  const handleLoadScenarioRun = async (scenarioId: string) => {
+    const res = await fetch(`/api/sim/scenarios/${scenarioId}`);
+    if (!res.ok) throw new Error("Failed to load scenario run");
+    const data = await res.json();
+    const run: SimScenarioRun = data.scenario;
+
+    await loadTrain(run.trainNumber);
+
+    setReplayScenarioRun(run);
+    setIsReplayMode(true);
+    setIsPlaying(false);
+    setSimMinute(run.startMinute);
+
+    if (run.obstacles && run.obstacles.length > 0) {
+      setActiveObstacle(run.obstacles[0]);
+    } else {
+      setActiveObstacle(null);
+    }
+
+    setEvents(
+      run.events.map((e, idx) => ({
+        id: `replay-ev-${idx}`,
+        minute: typeof e.payload.minute === "number" ? (e.payload.minute as number) : run.startMinute,
+        type: e.kind === "disruption" ? "obstacle" : e.kind === "reroute" ? "reroute" : "info",
+        title: (e.payload.title as string) || `Event (${e.kind})`,
+        detail: (e.payload.detail as string) || "",
+      }))
+    );
+
+    addEvent(
+      "info",
+      `Replay Session Loaded: ${run.name}`,
+      `Loaded ${run.telemetrySnapshots.length} telemetry snapshots for deterministic replay.`,
+      run.startMinute
+    );
+  };
+
+  // Exit replay mode back to live simulation
+  const handleExitReplay = () => {
+    setIsReplayMode(false);
+    setReplayScenarioRun(null);
+    setIsPlaying(false);
+    if (currentTrain) {
+      loadTrain(currentTrain.train_number);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF7F2] dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-4 sm:p-6 lg:p-8 space-y-6">
       {/* Prominent Data Honesty Disclaimer */}
@@ -442,6 +649,22 @@ export default function SimulationPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* T6.3 Accessible Mute / Unmute Soundscape Toggle */}
+          <button
+            type="button"
+            onClick={toggleAudioMute}
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium border flex items-center gap-1.5 shadow-2xs transition-colors ${
+              isMuted
+                ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50"
+                : "bg-blue-50 dark:bg-blue-950/60 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-semibold"
+            }`}
+            aria-label={isMuted ? "Unmute simulation soundscape" : "Mute simulation soundscape"}
+            title={isMuted ? "Audio Muted (Click to enable)" : "Audio Active (Click to mute)"}
+          >
+            {isMuted ? <VolumeX className="h-3.5 w-3.5 text-slate-400" /> : <Volume2 className="h-3.5 w-3.5 text-blue-500 animate-pulse" />}
+            <span>{isMuted ? "Muted" : "Sound ON"}</span>
+          </button>
+
           <button
             type="button"
             onClick={() => currentTrain && loadTrain(currentTrain.train_number)}
@@ -479,11 +702,16 @@ export default function SimulationPage() {
           onTogglePlay={() => setIsPlaying(!isPlaying)}
           onStepForward={handleStepForward}
           onReset={handleReset}
-          onChangeSpeed={(spd) => setSpeedMultiplier(spd)}
+          onChangeSpeed={handleSpeedChange}
           onScrub={(targetMin) => setSimMinute(targetMin)}
           onSelectPresetScenario={handleSelectPresetScenario}
           onOpenObstacleDialog={() => setIsObstacleDialogOpen(true)}
           hasActiveObstacle={activeObstacle !== null}
+          onSaveRun={() => setIsSaveDialogOpen(true)}
+          onLoadReplay={() => setIsLoadDialogOpen(true)}
+          isReplayMode={isReplayMode}
+          onExitReplay={handleExitReplay}
+          replayScenarioName={replayScenarioRun?.name}
         />
 
         {/* Row 3: Interactive SVG Map Canvas */}
@@ -553,6 +781,24 @@ export default function SimulationPage() {
         activeObstacle={activeObstacle}
         onApplyObstacle={handleApplyObstacle}
         onClearObstacle={handleClearObstacle}
+      />
+
+      {/* Save Scenario Run Modal */}
+      <SaveScenarioDialog
+        isOpen={isSaveDialogOpen}
+        onClose={() => setIsSaveDialogOpen(false)}
+        trainNumber={currentTrain?.train_number || "22691"}
+        trainName={currentTrain?.train_name || "Express"}
+        eventCount={events.length}
+        obstacleCount={activeObstacle ? 1 : 0}
+        onSave={handleSaveScenarioRun}
+      />
+
+      {/* Load Scenario Replay Modal */}
+      <LoadScenarioDialog
+        isOpen={isLoadDialogOpen}
+        onClose={() => setIsLoadDialogOpen(false)}
+        onSelectScenario={handleLoadScenarioRun}
       />
     </div>
   );
