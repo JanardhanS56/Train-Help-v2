@@ -298,6 +298,7 @@ export type AppAction =
 export interface AppContextValue {
   state: AppState;
   dispatch: React.Dispatch<AppAction>;
+  candidateAlternatives: Alternative[];
   alternatives: Alternative[];
   rankedAlternatives: RankedAlternative[];
   unreadCount: number;

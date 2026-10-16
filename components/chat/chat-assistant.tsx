@@ -41,7 +41,7 @@ export function ChatAssistant() {
     return rankedAlternatives.filter(
       (a) =>
         a.fare <= state.preferences.maxBudget &&
-        (state.preferences.maxChangesPreference === "any" || a.changes <= 1)
+        a.changes <= (state.preferences.maxChanges ?? 2)
     ).length;
   }, [rankedAlternatives, state.preferences]);
 

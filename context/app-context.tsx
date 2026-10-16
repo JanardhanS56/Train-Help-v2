@@ -18,6 +18,7 @@ import type {
   RankedAlternative,
   Trip,
   UserPreferences,
+  TravelClass,
 } from "@/lib/types";
 import { DEFAULT_FILTERS, DEFAULT_PREFERENCES, DEFAULT_THEME } from "@/lib/constants";
 import { evaluateAlternatives, getActiveTrip } from "@/lib/matching";
@@ -29,6 +30,7 @@ import {
   dbTripToAppTrip,
   dbDisruptionToNotification,
 } from "@/lib/data";
+import { getTodayIST, formatISTDate, type JourneyItinerary } from "@/lib/journeys";
 
 const initialState: AppState = {
   trips: [],
@@ -241,57 +243,135 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [state.trips, state.selectedTripId, state.recoveryByTripId]
   );
 
-  // Dynamic alternatives resolution from Supabase trains_between
+  // Dynamic alternatives resolution from journeys API with multi-class expansion
   useEffect(() => {
     let active = true;
     const tripToResolve = activeTrip || selectedTrip;
     const segment = tripToResolve?.segments[0];
-    const fromCode = segment?.departureStation?.code;
-    const toCode = segment?.arrivalStation?.code;
+    const fromCode = segment?.departureStation?.code || "SBC";
+    const toCode = segment?.arrivalStation?.code || "NDLS";
+    const travelDate = segment?.departureTime
+      ? formatISTDate(new Date(segment.departureTime))
+      : getTodayIST();
 
     async function resolveAlternatives() {
-      if (!fromCode || !toCode || tripToResolve?.status === "on-time") {
-        if (active) {
-          setDynamicAlternatives((prev) => (prev.length === 0 ? prev : []));
-        }
-        return;
-      }
-
       try {
-        const trains = await getTrainsBetween(fromCode, toCode);
+        const q = new URLSearchParams({
+          from: fromCode,
+          to: toCode,
+          date: travelDate,
+          includeNearby: "true",
+        });
+        const res = await fetch(`/api/journeys?${q.toString()}`);
         if (!active) return;
 
+        if (res.ok) {
+          const data: { direct: JourneyItinerary[]; connecting: JourneyItinerary[] } = await res.json();
+          const allJourneys = [...data.direct, ...data.connecting];
+
+          if (allJourneys.length > 0) {
+            const alts: Alternative[] = [];
+            for (const j of allJourneys) {
+              const leg = j.legs[0];
+              for (const opt of j.classes) {
+                alts.push({
+                  id: `alt-${leg.trainNumber}-${opt.travelClass}`,
+                  tripId: tripToResolve?.id || "preview-trip",
+                  trainName: leg.trainName,
+                  trainNumber: leg.trainNumber,
+                  fromStation: {
+                    code: leg.fromStationCode,
+                    name: leg.fromStationName,
+                    city: leg.fromStationName,
+                  },
+                  toStation: {
+                    code: leg.toStationCode,
+                    name: leg.toStationName,
+                    city: leg.toStationName,
+                  },
+                  departureTime: new Date(j.departureTime),
+                  arrivalTime: new Date(j.arrivalTime),
+                  dayOffset: j.arrivalDayLabel,
+                  duration: j.totalDurationMin,
+                  changes: j.changes,
+                  changeStations: j.legs.slice(0, -1).map((l) => l.toStationName),
+                  travelClass: opt.travelClass,
+                  coachBerth:
+                    opt.travelClass === "1A"
+                      ? "Cabin A"
+                      : opt.travelClass === "2A"
+                      ? "A1-18"
+                      : opt.travelClass === "3A"
+                      ? "B2-23"
+                      : opt.travelClass === "SL"
+                      ? "S4-45"
+                      : "C1-12",
+                  fare: opt.fare,
+                  originalFare: tripToResolve?.fare || opt.fare,
+                  fareDifference: opt.fare - (tripToResolve?.fare || opt.fare),
+                  availability: {
+                    type:
+                      opt.availability.status === "AVAILABLE"
+                        ? "available"
+                        : opt.availability.status === "RAC"
+                        ? "rac"
+                        : "waitlist",
+                    label: opt.availability.badge,
+                    count: opt.availability.count,
+                    racNumber: opt.availability.status === "RAC" ? opt.availability.count : undefined,
+                    wlNumber: opt.availability.status === "WL" ? opt.availability.count : undefined,
+                  },
+                });
+              }
+            }
+            if (active && alts.length > 0) {
+              setDynamicAlternatives(alts);
+              return;
+            }
+          }
+        }
+
+        // Fallback to getTrainsBetween if journeys API returned no results
+        const trains = await getTrainsBetween(fromCode, toCode);
+        if (!active) return;
         if (trains.length > 0) {
-          const alts: Alternative[] = trains.map((t, idx) => ({
-            id: `alt-${t.train_number}-${idx}`,
-            tripId: tripToResolve.id,
-            trainName: t.train_name,
-            trainNumber: t.train_number,
-            fromStation: segment.departureStation,
-            toStation: segment.arrivalStation,
-            departureTime: new Date(Date.now() + t.departure_min * 60000),
-            arrivalTime: new Date(Date.now() + t.arrival_min * 60000),
-            duration: t.duration_min,
-            changes: 0,
-            changeStations: [],
-            travelClass: "3A",
-            fare: 1450 + idx * 220,
-            originalFare: tripToResolve.fare || 1450,
-            fareDifference: 1450 + idx * 220 - (tripToResolve.fare || 1450),
-            availability: {
-              type: idx === 0 ? "available" : idx === 1 ? "rac" : "waitlist",
-              label: idx === 0 ? "AVAILABLE 18" : idx === 1 ? "RAC 6" : "WL 12",
-              count: idx === 0 ? 18 : undefined,
-              racNumber: idx === 1 ? 6 : undefined,
-              wlNumber: idx === 2 ? 12 : undefined,
-            },
-          }));
-          setDynamicAlternatives(alts);
+          const fallbackAlts: Alternative[] = [];
+          for (const [idx, t] of trains.entries()) {
+            const classes: TravelClass[] = ["3A", "2A", "SL"];
+            for (const cls of classes) {
+              const baseFare = cls === "2A" ? 2100 : cls === "3A" ? 1450 : 540;
+              fallbackAlts.push({
+                id: `alt-${t.train_number}-${cls}-${idx}`,
+                tripId: tripToResolve?.id || "preview-trip",
+                trainName: t.train_name,
+                trainNumber: t.train_number,
+                fromStation: segment?.departureStation || { code: fromCode, name: fromCode, city: fromCode },
+                toStation: segment?.arrivalStation || { code: toCode, name: toCode, city: toCode },
+                departureTime: new Date(Date.now() + t.departure_min * 60000),
+                arrivalTime: new Date(Date.now() + t.arrival_min * 60000),
+                duration: t.duration_min,
+                changes: 0,
+                changeStations: [],
+                travelClass: cls,
+                fare: baseFare + idx * 100,
+                originalFare: tripToResolve?.fare || baseFare,
+                fareDifference: baseFare + idx * 100 - (tripToResolve?.fare || baseFare),
+                availability: {
+                  type: idx === 0 ? "available" : idx === 1 ? "rac" : "waitlist",
+                  label: idx === 0 ? "AVAILABLE 18" : idx === 1 ? "RAC 6" : "WL 12",
+                  count: idx === 0 ? 18 : undefined,
+                  racNumber: idx === 1 ? 6 : undefined,
+                  wlNumber: idx === 2 ? 12 : undefined,
+                },
+              });
+            }
+          }
+          setDynamicAlternatives(fallbackAlts);
         } else {
           setDynamicAlternatives([]);
         }
       } catch (err) {
-        console.error("Error resolving alternatives from Supabase:", err);
+        console.error("Error resolving alternatives:", err);
         if (active) setDynamicAlternatives([]);
       }
     }
@@ -355,13 +435,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     () => ({
       state,
       dispatch,
+      candidateAlternatives: dynamicAlternatives,
       alternatives,
       rankedAlternatives,
       unreadCount,
       selectedTrip,
       activeTrip,
     }),
-    [state, alternatives, rankedAlternatives, unreadCount, selectedTrip, activeTrip]
+    [state, dynamicAlternatives, alternatives, rankedAlternatives, unreadCount, selectedTrip, activeTrip]
   );
 
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;

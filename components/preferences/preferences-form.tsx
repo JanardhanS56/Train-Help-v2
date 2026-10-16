@@ -19,17 +19,17 @@ import { QuotaEligibilityAssistant } from "@/components/quota/quota-eligibility-
 import { ResultsPanel } from "@/components/preferences/results-panel";
 
 export function PreferencesForm() {
-  const { state, alternatives } = useApp();
+  const { state, candidateAlternatives, activeTrip: ctxActiveTrip } = useApp();
   const dispatch = useAppDispatch();
   const preferences = state.preferences;
 
-  // Active disrupted unrecovered trip resolution
+  // Active disrupted unrecovered trip resolution (or selected trip)
   const activeTrip = useMemo(() => {
-    return getActiveTrip(state.trips, state.selectedTripId, state.recoveryByTripId);
-  }, [state.trips, state.selectedTripId, state.recoveryByTripId]);
+    return ctxActiveTrip || getActiveTrip(state.trips, state.selectedTripId, state.recoveryByTripId);
+  }, [ctxActiveTrip, state.trips, state.selectedTripId, state.recoveryByTripId]);
 
-  // Alternatives pool for active trip
-  const allAlternatives = alternatives;
+  // Alternatives pool for active trip: full candidate pool before preference exclusion
+  const allAlternatives = candidateAlternatives;
 
   // Deterministic evaluation using THE ONE SHARED FUNCTION
   const evaluation = useMemo(() => {
