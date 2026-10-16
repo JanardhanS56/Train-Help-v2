@@ -1,11 +1,6 @@
 import { AuthGate } from "@/components/auth/auth-gate";
 import { AppShell } from "@/components/layout/app-shell";
-import dynamic from "next/dynamic";
-
-const ChatAssistant = dynamic(
-  () => import("@/components/chat/chat-assistant").then((m) => m.ChatAssistant),
-  { ssr: false }
-);
+import { ChatAssistant } from "@/components/chat/chat-assistant-client";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
