@@ -308,7 +308,7 @@ export function ChatAssistant() {
                 </button>
                 <button
                   type="button"
-                  onClick={closeChat}
+                  onClick={() => closeChat()}
                   className="p-1.5 rounded text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
                   aria-label="Close assistant"
                 >

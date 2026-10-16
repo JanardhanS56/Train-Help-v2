@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore, useCallback } from "react";
 
 /**
- * Singleton controller for the AI Assistant panel.
- * Ensures only one panel exists, tracks open state, and handles returning
- * focus to the trigger element when the panel is closed.
+ * External store controller for the AI Assistant panel.
+ * Uses useSyncExternalStore to eliminate state tearing and race conditions.
+ * Tracks open state and manages accessibility focus on open/close/route change.
  */
-type ChatListener = (isOpen: boolean) => void;
+type ChatListener = () => void;
 const listeners = new Set<ChatListener>();
 let chatIsOpen = false;
 let lastTriggerElement: HTMLElement | null = null;
@@ -19,48 +19,98 @@ export function openChatAssistant(trigger?: HTMLElement | null) {
     lastTriggerElement = document.activeElement;
   }
   chatIsOpen = true;
-  listeners.forEach((l) => l(true));
+  listeners.forEach((l) => l());
 }
 
-export function closeChatAssistant() {
+export interface CloseChatOptions {
+  restoreFocus?: boolean;
+}
+
+export function closeChatAssistant(options?: CloseChatOptions) {
+  const shouldRestore = !options || options.restoreFocus !== false;
   chatIsOpen = false;
-  listeners.forEach((l) => l(false));
-  if (lastTriggerElement && typeof lastTriggerElement.focus === "function") {
-    const el = lastTriggerElement;
+  listeners.forEach((l) => l());
+
+  if (shouldRestore) {
+    if (lastTriggerElement && typeof lastTriggerElement.focus === "function") {
+      const el = lastTriggerElement;
+      lastTriggerElement = null;
+      setTimeout(() => {
+        try {
+          el.focus();
+        } catch {
+          // Ignore focus error if unmounted
+        }
+      }, 50);
+    }
+  } else {
+    // Route change close: clear detached trigger and move focus safely to main content
     lastTriggerElement = null;
-    setTimeout(() => {
-      try {
-        el.focus();
-      } catch {
-        // Ignore focus error if unmounted
+    if (typeof document !== "undefined") {
+      const mainContent = document.getElementById("main-content");
+      if (mainContent && typeof mainContent.focus === "function") {
+        try {
+          mainContent.focus();
+        } catch {
+          // Ignore focus error
+        }
       }
-    }, 50);
+    }
   }
 }
 
 export function toggleChatAssistant(trigger?: HTMLElement | null) {
   if (chatIsOpen) {
-    closeChatAssistant();
+    closeChatAssistant({ restoreFocus: true });
   } else {
     openChatAssistant(trigger);
   }
 }
 
-export function useChatAssistantState() {
-  const [isOpen, setIsOpen] = useState(chatIsOpen);
+export function subscribeChat(listener: ChatListener) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
 
-  useEffect(() => {
-    const listener: ChatListener = (open) => setIsOpen(open);
-    listeners.add(listener);
-    return () => {
-      listeners.delete(listener);
-    };
-  }, []);
+export function getChatSnapshot(): boolean {
+  return chatIsOpen;
+}
+
+export function getChatServerSnapshot(): boolean {
+  return false;
+}
+
+export function resetChatAssistantState() {
+  chatIsOpen = false;
+  lastTriggerElement = null;
+  listeners.clear();
+}
+
+export function getLastTriggerElement(): HTMLElement | null {
+  return lastTriggerElement;
+}
+
+export function setLastTriggerElement(el: HTMLElement | null) {
+  lastTriggerElement = el;
+}
+
+export function useChatAssistantState() {
+  const isOpen = useSyncExternalStore(
+    subscribeChat,
+    getChatSnapshot,
+    getChatServerSnapshot
+  );
+
+  const openChat = useCallback((trigger?: HTMLElement | null) => openChatAssistant(trigger), []);
+  const closeChat = useCallback((options?: CloseChatOptions) => closeChatAssistant(options), []);
+  const toggleChat = useCallback((trigger?: HTMLElement | null) => toggleChatAssistant(trigger), []);
 
   return {
     isOpen,
-    openChat: openChatAssistant,
-    closeChat: closeChatAssistant,
-    toggleChat: toggleChatAssistant,
+    openChat,
+    closeChat,
+    toggleChat,
   };
 }
