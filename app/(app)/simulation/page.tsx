@@ -21,7 +21,19 @@ import {
 } from "@/lib/sim/persistence";
 import { interpolateReplayPosition } from "@/lib/sim/replay";
 import { publishSimDisruption, clearSimDisruption } from "@/lib/sim/disruption-bridge";
-import { SimMap } from "@/components/sim/sim-map";
+import dynamic from "next/dynamic";
+
+const SimMap = dynamic(
+  () => import("@/components/sim/sim-map").then((mod) => mod.SimMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full min-h-[420px] rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-xs text-muted-foreground font-mono">
+        Loading simulation canvas...
+      </div>
+    ),
+  }
+);
 import { SimHud } from "@/components/sim/sim-hud";
 import { SimTimeline } from "@/components/sim/sim-timeline";
 import { SimControls } from "@/components/sim/sim-controls";
