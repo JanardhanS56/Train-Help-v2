@@ -1,8 +1,18 @@
+/**
+ * components/sim/obstacle-dialog.tsx
+ * Dialog for injecting realistic, position-aware Indian Railways disruptions.
+ */
+
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Obstacle, ObstacleType, ObstacleEffect, SimScheduleStop } from "@/lib/sim/types";
-import { OBSTACLE_PRESETS, createObstacle } from "@/lib/sim/obstacles";
+import { createObstacle } from "@/lib/sim/obstacles";
+import {
+  getPlausibleHazardsForRoute,
+  suggestRealisticObstacle,
+  PlausibleHazardDefinition,
+} from "@/lib/sim/hazards";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -15,6 +25,8 @@ import {
   AlertTriangle,
   Trash2,
   ShieldAlert,
+  Sparkles,
+  Compass,
 } from "lucide-react";
 
 interface ObstacleDialogProps {
@@ -38,25 +50,66 @@ export function ObstacleDialog({
 }: ObstacleDialogProps) {
   const [activeTab, setActiveTab] = useState<"presets" | "custom">("presets");
 
-  // Custom obstacle form state
+  // Determine current position / next upcoming segment along stops
+  const currentStopIndex = useMemo(() => {
+    if (stops.length === 0) return 0;
+    const idx = stops.findIndex((s) => s.departureMin > currentMinute);
+    return idx > 0 ? idx - 1 : 0;
+  }, [stops, currentMinute]);
+
+  const upcomingSegment = useMemo(() => {
+    const s1 = stops[currentStopIndex] || stops[0];
+    const s2 = stops[currentStopIndex + 1] || stops[1] || s1;
+    return { s1, s2 };
+  }, [stops, currentStopIndex]);
+
+  // Geographically and seasonally plausible hazards for this specific train route
+  const plausibleHazards = useMemo(() => {
+    return getPlausibleHazardsForRoute(stops);
+  }, [stops]);
+
+  // Custom obstacle form state with fallback to upcoming segment
   const [customType, setCustomType] = useState<ObstacleType>("track_blockage");
   const [customTitle, setCustomTitle] = useState("Landslide & Debris Obstruction");
   const [customDesc, setCustomDesc] = useState("Unscheduled track blockage reported by divisional engineering staff.");
-  const [customFromStn, setCustomFromStn] = useState(stops[0]?.stationCode || "");
-  const [customToStn, setCustomToStn] = useState(stops[1]?.stationCode || "");
+  const [userFromStn, setUserFromStn] = useState<string | null>(null);
+  const [userToStn, setUserToStn] = useState<string | null>(null);
+  const customFromStn = userFromStn ?? upcomingSegment.s1?.stationCode ?? "";
+  const customToStn = userToStn ?? upcomingSegment.s2?.stationCode ?? "";
   const [customDuration, setCustomDuration] = useState(60);
   const [customUncertainty, setCustomUncertainty] = useState(15);
   const [customEffect, setCustomEffect] = useState<ObstacleEffect>("full_block");
   const [customSpeedCap, setCustomSpeedCap] = useState(30);
 
-  const handleApplyPreset = (presetObstacle: Obstacle) => {
-    // Adapt preset timing relative to current train run
-    const obstacleWithRunTiming: Obstacle = {
-      ...presetObstacle,
-      startMinute: Math.max(currentMinute, presetObstacle.startMinute),
-    };
-    onApplyObstacle(obstacleWithRunTiming);
+  const handleApplyPlausibleHazard = (hazard: PlausibleHazardDefinition) => {
+    const fStn = upcomingSegment.s1?.stationCode || "STN1";
+    const tStn = upcomingSegment.s2?.stationCode || "STN2";
+
+    const newObstacle = createObstacle({
+      type: hazard.type,
+      title: hazard.title,
+      description: hazard.descriptionTemplate(fStn, tStn),
+      locationType: hazard.effect === "station_dwell" ? "station" : "segment",
+      fromStationCode: fStn,
+      toStationCode: tStn,
+      stationCode: hazard.effect === "station_dwell" ? tStn : undefined,
+      startMinute: Math.max(currentMinute + 2, upcomingSegment.s1?.departureMin || currentMinute),
+      durationMinutes: hazard.defaultDurationMinutes,
+      uncertaintyMinutes: hazard.uncertaintyMinutes,
+      effect: hazard.effect,
+      speedCapKmph: hazard.speedCapKmph,
+    });
+
+    onApplyObstacle(newObstacle);
     onClose();
+  };
+
+  const handleAutoSuggestRealistic = () => {
+    const suggested = suggestRealisticObstacle(stops, currentMinute, currentStopIndex);
+    if (suggested) {
+      onApplyObstacle(suggested);
+      onClose();
+    }
   };
 
   const handleApplyCustom = (e: React.FormEvent) => {
@@ -65,10 +118,11 @@ export function ObstacleDialog({
       type: customType,
       title: customTitle,
       description: customDesc,
-      locationType: "segment",
+      locationType: customEffect === "station_dwell" ? "station" : "segment",
       fromStationCode: customFromStn,
       toStationCode: customToStn,
-      startMinute: currentMinute + 5,
+      stationCode: customEffect === "station_dwell" ? customToStn : undefined,
+      startMinute: currentMinute + 2,
       durationMinutes: customDuration,
       uncertaintyMinutes: customUncertainty,
       effect: customEffect,
@@ -89,8 +143,8 @@ export function ObstacleDialog({
             </DialogTitle>
           </div>
           <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
-            Introduce real-world Indian Railways disruptions to test dynamic kinematics braking,
-            accumulated delay propagation, and AI reroute recommendation.
+            Simulate realistic, geographically and seasonally plausible Indian Railways operational hazards.
+            Kinematics braking and cascading delays apply strictly when the train arrives at the obstruction.
           </DialogDescription>
         </DialogHeader>
 
@@ -122,19 +176,44 @@ export function ObstacleDialog({
           </div>
         )}
 
+        {/* 1-Click Realistic Disruption Generator */}
+        <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 flex items-center justify-between gap-3">
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-900 dark:text-amber-200">
+              <Sparkles className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+              Route & Season Hazard Engine
+            </div>
+            <p className="text-[11px] text-amber-800/80 dark:text-amber-300">
+              Injects an authentic disruption on the train&apos;s upcoming segment (
+              <span className="font-mono font-medium">
+                {upcomingSegment.s1?.stationCode} → {upcomingSegment.s2?.stationCode}
+              </span>
+              ).
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleAutoSuggestRealistic}
+            className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shrink-0 shadow-xs transition-colors"
+          >
+            Suggest Realistic Hazard
+          </button>
+        </div>
+
         {/* Tab Switcher */}
         <div className="flex rounded-xl bg-slate-200/70 dark:bg-slate-800 p-1 text-xs font-semibold">
           <button
             type="button"
             className={cn(
-              "flex-1 py-1.5 rounded-lg transition-all",
+              "flex-1 py-1.5 rounded-lg transition-all flex items-center justify-center gap-1.5",
               activeTab === "presets"
                 ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-2xs"
                 : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
             )}
             onClick={() => setActiveTab("presets")}
           >
-            Curated Real-World Presets
+            <Compass className="h-3.5 w-3.5" />
+            Corridor-Plausible Hazards ({plausibleHazards.length})
           </button>
           <button
             type="button"
@@ -153,39 +232,40 @@ export function ObstacleDialog({
         {/* Presets List */}
         {activeTab === "presets" && (
           <div className="space-y-2.5 pt-1">
-            {OBSTACLE_PRESETS.map((preset) => {
-              const obs = preset.obstacle;
+            {plausibleHazards.map((hazard) => {
               return (
                 <div
-                  key={preset.id}
+                  key={hazard.id}
                   className="p-3.5 rounded-xl bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600 transition-all flex flex-col justify-between gap-2.5 shadow-2xs"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-xs text-slate-900 dark:text-slate-100">
-                          {preset.name}
+                          {hazard.title}
                         </span>
                         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
-                          {obs.effect.replace("_", " ")}
+                          {hazard.effect.replace("_", " ")}
                         </span>
                       </div>
                       <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">
-                        {obs.description}
+                        {hazard.descriptionTemplate(
+                          upcomingSegment.s1?.stationCode || "Origin",
+                          upcomingSegment.s2?.stationCode || "Next"
+                        )}
                       </p>
                     </div>
                     <button
                       type="button"
-                      onClick={() => handleApplyPreset(obs)}
+                      onClick={() => handleApplyPlausibleHazard(hazard)}
                       className="px-3 py-1.5 rounded-lg bg-[#1E3A5F] hover:bg-[#152a45] text-[#FAF7F2] dark:bg-blue-600 dark:hover:bg-blue-700 text-xs font-semibold shrink-0 shadow-2xs transition-colors"
                     >
-                      Inject Scenario
+                      Inject Ahead
                     </button>
                   </div>
-                  <div className="flex items-center gap-3 text-[10px] font-mono text-slate-400 border-t border-slate-100 dark:border-slate-700/60 pt-2">
-                    <span>Corridor: {preset.corridor}</span>
-                    <span>•</span>
-                    <span>Duration: ~{obs.durationMinutes} min (±{obs.uncertaintyMinutes}m)</span>
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 border-t border-slate-100 dark:border-slate-700/60 pt-2">
+                    <span className="italic">{hazard.plausibilityNote}</span>
+                    <span>Duration: ~{hazard.defaultDurationMinutes} min</span>
                   </div>
                 </div>
               );
@@ -207,7 +287,7 @@ export function ObstacleDialog({
                   setCustomType(val);
                   if (val === "fog_restriction") {
                     setCustomEffect("speed_restriction");
-                    setCustomTitle("Dense Fog Visual Speed Limit");
+                    setCustomTitle("Dense Fog Visibility Speed Limit");
                   } else if (val === "signal_failure") {
                     setCustomEffect("station_dwell");
                     setCustomTitle("RRI Signal Failure & Manual Clamping");
@@ -234,7 +314,7 @@ export function ObstacleDialog({
                 </label>
                 <select
                   value={customFromStn}
-                  onChange={(e) => setCustomFromStn(e.target.value)}
+                  onChange={(e) => setUserFromStn(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-mono"
                 >
                   {stops.map((s) => (
@@ -251,7 +331,7 @@ export function ObstacleDialog({
                 </label>
                 <select
                   value={customToStn}
-                  onChange={(e) => setCustomToStn(e.target.value)}
+                  onChange={(e) => setUserToStn(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-mono"
                 >
                   {stops.map((s) => (
