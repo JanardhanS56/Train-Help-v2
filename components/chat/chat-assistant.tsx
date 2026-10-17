@@ -167,7 +167,12 @@ export function ChatAssistant() {
         }
       }
 
-      setActiveProviderBadge(`DEEPSEEK · ${finalModel}`);
+      const isFallback = response.headers.get("X-Fallback-Mode") === "true";
+      if (isFallback) {
+        setActiveProviderBadge("OFFLINE · Deterministic Fallback");
+      } else {
+        setActiveProviderBadge(`DEEPSEEK · ${finalModel}`);
+      }
       setStreamingText("");
 
       // Add complete assistant message with actions to state

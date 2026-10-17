@@ -226,21 +226,40 @@ describe("Phase 4: Chat API Route", () => {
     vi.restoreAllMocks();
   });
 
-  it("fails gracefully with 503 error when DEEPSEEK_API_KEY is missing (never fakes AI response)", async () => {
+  it("automatically falls back to deterministic advice with X-Fallback-Mode header when API key is missing", async () => {
     const req = new NextRequest("http://localhost:3000/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         messages: [{ role: "user", content: "Show me alternative trains" }],
+        stream: false,
       }),
     });
 
     const res = await POST(req);
-    expect(res.status).toBe(503);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("X-Fallback-Mode")).toBe("true");
 
     const data = await res.json();
-    expect(data.error).toContain("DEEPSEEK_API_KEY is not configured");
-    expect(data.code).toBe("MISSING_API_KEY");
+    expect(data.provider).toBe("deterministic-fallback");
+    expect(data.model).toBe("offline-rule-engine");
+    expect(data.reply).toContain("Alternative Train Recommendations");
+  });
+
+  it("streams fallback advice with X-Fallback-Mode header when API key is missing", async () => {
+    const req = new NextRequest("http://localhost:3000/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [{ role: "user", content: "What is the emergency helpline?" }],
+        stream: true,
+      }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("X-Fallback-Mode")).toBe("true");
+    expect(res.headers.get("Content-Type")).toContain("text/event-stream");
   });
 
   it("validates request payload and rejects empty messages with 400", async () => {
@@ -298,5 +317,31 @@ describe("Phase 4: Chat API Route", () => {
     expect(data.actions).toHaveLength(1);
     expect(data.actions[0].type).toBe("SELECT_ALTERNATIVE");
     expect(data.actions[0].payload.alternativeId).toBe("alt-12627");
+  });
+
+  it("falls back to deterministic advice when upstream provider returns 429 or 503", async () => {
+    process.env.DEEPSEEK_API_KEY = "test-sk-key";
+
+    // Mock upstream rate-limit (429)
+    globalThis.fetch = vi.fn().mockImplementation(async () => {
+      return new Response("Too Many Requests", { status: 429 });
+    });
+
+    const req = new NextRequest("http://localhost:3000/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [{ role: "user", content: "What are the Tatkal cancellation rules?" }],
+        stream: false,
+      }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("X-Fallback-Mode")).toBe("true");
+
+    const data = await res.json();
+    expect(data.provider).toBe("deterministic-fallback");
+    expect(data.reply).toContain("Tatkal Ticket Cancellation Rules");
   });
 });
