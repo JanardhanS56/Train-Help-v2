@@ -227,7 +227,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -490,7 +490,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -522,7 +522,7 @@ export function Sidebar() {
                 "w-full flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2 text-left",
                 isAssistantOpen
                   ? "border-primary bg-sidebar-accent text-primary font-medium"
-                  : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                  : "border-transparent text-foreground hover:bg-sidebar-accent/50"
               )}
             >
               <Bot className="w-5 h-5 stroke-[1.5] shrink-0" aria-hidden="true" />
@@ -548,7 +548,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -583,7 +583,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -612,7 +612,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
