@@ -47,5 +47,8 @@ __pycache__/
 
 # ide & agent scratchpads
 .agents
+/AGENTS.md
+/CLAUDE.md
+
 
 
