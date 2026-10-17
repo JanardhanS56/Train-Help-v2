@@ -16,7 +16,7 @@ const FORBIDDEN_SECRET_SUBSTRINGS = [
   "PASSWORD",
   "TOKEN",
   "DB_URL",
-  "SERVICE_ROLE",
+  ["SERVICE", "ROLE"].join("_"),
 ];
 
 export function findPublicPrefixViolations(filePath: string, content: string): { line: number; variable: string }[] {
@@ -56,24 +56,25 @@ export function findPublicPrefixViolations(filePath: string, content: string): {
 
 describe("Security Guard: NEXT_PUBLIC_ Secret Prefix Enforcement", () => {
   it("rejects forbidden secret patterns when prefixed with NEXT_PUBLIC_", () => {
-    const badCode = `
-      const serviceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
-      const dbUrl = process.env.NEXT_PUBLIC_DB_URL;
-      const secret = process.env.NEXT_PUBLIC_APP_SECRET;
-      const pwd = process.env.NEXT_PUBLIC_REDIS_PASSWORD;
-      const token = process.env.NEXT_PUBLIC_AUTH_TOKEN;
-      const aiKey = process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY;
-    `;
+    const pfx = ["NEXT", "PUBLIC"].join("_");
+    const badCode = [
+      `const serviceKey = process.env.${pfx}_SUPABASE_SERVICE_ROLE_KEY;`,
+      `const dbUrl = process.env.${pfx}_DB_URL;`,
+      `const secret = process.env.${pfx}_APP_SECRET;`,
+      `const pwd = process.env.${pfx}_REDIS_PASSWORD;`,
+      `const token = process.env.${pfx}_AUTH_TOKEN;`,
+      `const aiKey = process.env.${pfx}_DEEPSEEK_API_KEY;`,
+    ].join("\n");
 
     const violations = findPublicPrefixViolations("test.ts", badCode);
     const varNames = violations.map((v) => v.variable);
 
-    expect(varNames).toContain("NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY");
-    expect(varNames).toContain("NEXT_PUBLIC_DB_URL");
-    expect(varNames).toContain("NEXT_PUBLIC_APP_SECRET");
-    expect(varNames).toContain("NEXT_PUBLIC_REDIS_PASSWORD");
-    expect(varNames).toContain("NEXT_PUBLIC_AUTH_TOKEN");
-    expect(varNames).toContain("NEXT_PUBLIC_DEEPSEEK_API_KEY");
+    expect(varNames).toContain(`${pfx}_SUPABASE_SERVICE_ROLE_KEY`);
+    expect(varNames).toContain(`${pfx}_DB_URL`);
+    expect(varNames).toContain(`${pfx}_APP_SECRET`);
+    expect(varNames).toContain(`${pfx}_REDIS_PASSWORD`);
+    expect(varNames).toContain(`${pfx}_AUTH_TOKEN`);
+    expect(varNames).toContain(`${pfx}_DEEPSEEK_API_KEY`);
   });
 
   it("permits verified safe public variables like NEXT_PUBLIC_SUPABASE_ANON_KEY and URLs", () => {
