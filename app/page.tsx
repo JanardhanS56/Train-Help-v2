@@ -19,10 +19,10 @@ export default function LandingPage() {
   return (
     <div className="min-h-dvh flex flex-col bg-background text-foreground antialiased selection:bg-primary/20">
       {/* 1. Header & Navigation */}
-      <LandingNavbar />
+      <LandingNavbar enableScrollHide />
 
       {/* 2. Main Content Outline */}
-      <main id="main-content" className="flex-1">
+      <main id="main-content" className="flex-1 pt-16">
         {/* Hero Section (#top) with Ambient Rails Scene & Interactive Rescue Demo */}
         <LandingHero />
 

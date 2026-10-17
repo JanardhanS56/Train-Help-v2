@@ -332,3 +332,30 @@
     color: #1f2328 !important;
   }
 }
+
+/* ─── Landing Navigation Scroll-Hide & Anchor Spacing ────────────── */
+:root {
+  --nav-h: 72px;
+}
+
+[data-landing-nav] {
+  transform: translateY(0);
+}
+
+[data-landing-nav][data-nav-hidden="true"] {
+  transform: translateY(calc(-100% - 1px));
+}
+
+[data-landing-nav][data-instant-reveal="true"] {
+  transition: none !important;
+}
+
+#top,
+#features,
+#how-it-works,
+#simulation,
+#help,
+#privacy,
+#rescue-demo {
+  scroll-margin-top: calc(var(--nav-h, 72px) + 16px);
+}
