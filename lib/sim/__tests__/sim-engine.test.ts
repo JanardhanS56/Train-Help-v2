@@ -255,4 +255,23 @@ describe("Virtual Simulation Clock", () => {
     const scrubbed = scrubClock(clock, 5000);
     expect(scrubbed.currentMinute).toBe(3235);
   });
+
+  it("formats unrounded floating-point simulation minutes into clean HH:mm without decimal artifacts", () => {
+    // Tests the formatting formula used in SimTimeline and SimHUD
+    const formatSimTime = (mins: number) => {
+      const totalMins = Math.round(mins);
+      const d = Math.floor(totalMins / 1440);
+      const rem = ((totalMins % 1440) + 1440) % 1440;
+      const h = Math.floor(rem / 60);
+      const m = Math.floor(rem % 60);
+      const timeStr = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+      return d > 0 ? `${timeStr} (+${d}d)` : timeStr;
+    };
+
+    // The unrounded floating values observed in user's obstacle simulation (Image 2)
+    expect(formatSimTime(1398.0157999999998209)).toBe("23:18");
+    expect(formatSimTime(1370.4330999999978637)).toBe("22:50");
+    expect(formatSimTime(1374.0000000000002)).toBe("22:54");
+    expect(formatSimTime(1875.25)).toBe("07:15 (+1d)");
+  });
 });

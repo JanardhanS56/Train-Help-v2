@@ -26,10 +26,11 @@ interface SimEventLogProps {
 
 export function SimEventLog({ events, className }: SimEventLogProps) {
   const formatTime = (mins: number) => {
-    const d = Math.floor(mins / 1440);
-    const rem = mins % 1440;
+    const totalMins = Math.round(mins);
+    const d = Math.floor(totalMins / 1440);
+    const rem = ((totalMins % 1440) + 1440) % 1440;
     const h = Math.floor(rem / 60);
-    const m = rem % 60;
+    const m = Math.floor(rem % 60);
     const timeStr = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
     return d > 0 ? `${timeStr} (+${d}d)` : timeStr;
   };

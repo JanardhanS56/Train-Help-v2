@@ -52,10 +52,11 @@ import {
 import { simSoundscape } from "@/lib/sim/soundscape";
 
 function formatSimTime(mins: number): string {
-  const d = Math.floor(mins / 1440);
-  const rem = mins % 1440;
+  const totalMins = Math.round(mins);
+  const d = Math.floor(totalMins / 1440);
+  const rem = ((totalMins % 1440) + 1440) % 1440;
   const h = Math.floor(rem / 60);
-  const m = rem % 60;
+  const m = Math.floor(rem % 60);
   const timeStr = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
   return d > 0 ? `${timeStr} (+${d}d)` : timeStr;
 }
@@ -414,23 +415,42 @@ export default function SimulationPage() {
       const updatedStops = [...stops];
       const insertIdx = Math.max(1, position.currentStopIndex + 1);
 
-      // Create synthetic detour stops
-      const detourStops: SimScheduleStop[] = plan.detourStationCodes.map((code, idx) => ({
-        seq: insertIdx + idx,
-        stationCode: code,
-        stationName: `${code} Junction (Detour Loop)`,
-        latitude: position.latitude + (idx + 1) * 0.25,
-        longitude: position.longitude + (idx + 1) * 0.35,
-        arrivalMin: simMinute + 25 * (idx + 1),
-        departureMin: simMinute + 25 * (idx + 1) + 2,
-        haltMin: 2,
-        distanceKm: Math.round(position.distanceKm + 30 * (idx + 1)),
-        dayOffset: 0,
-        timeSource: "derived",
-      }));
+      // Filter out detour station codes that are already at or next to insertion point
+      const existingCodes = new Set([
+        updatedStops[insertIdx - 1]?.stationCode,
+        updatedStops[insertIdx]?.stationCode,
+      ]);
+      const validDetourCodes = plan.detourStationCodes.filter((c) => !existingCodes.has(c));
 
-      updatedStops.splice(insertIdx, 0, ...detourStops);
-      setStops(updatedStops);
+      if (validDetourCodes.length > 0) {
+        const baseMin = Math.round(simMinute);
+        const baseKm = Math.round(position.distanceKm);
+
+        // Create synthetic detour stops with rounded integer minutes and kms
+        const detourStops: SimScheduleStop[] = validDetourCodes.map((code, idx) => {
+          const arr = baseMin + 25 * (idx + 1);
+          return {
+            seq: insertIdx + idx,
+            stationCode: code,
+            stationName: `${code} Junction (Detour Loop)`,
+            latitude: position.latitude + (idx + 1) * 0.25,
+            longitude: position.longitude + (idx + 1) * 0.35,
+            arrivalMin: arr,
+            departureMin: arr + 2,
+            haltMin: 2,
+            distanceKm: baseKm + 30 * (idx + 1),
+            dayOffset: 0,
+            timeSource: "derived",
+          };
+        });
+
+        updatedStops.splice(insertIdx, 0, ...detourStops);
+        // Re-number sequence indices
+        updatedStops.forEach((s, i) => {
+          s.seq = i + 1;
+        });
+        setStops(updatedStops);
+      }
     }
   };
 

@@ -45,12 +45,13 @@ export function SimTimeline({
     }
   }, [position.currentStopIndex]);
 
-  // Format time helper
+  // Format time helper (clean HH:mm format without floating point decimals)
   const formatTime = (mins: number) => {
-    const d = Math.floor(mins / 1440);
-    const rem = mins % 1440;
+    const totalMins = Math.round(mins);
+    const d = Math.floor(totalMins / 1440);
+    const rem = ((totalMins % 1440) + 1440) % 1440;
     const h = Math.floor(rem / 60);
-    const m = rem % 60;
+    const m = Math.floor(rem % 60);
     const timeStr = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
     return d > 0 ? `${timeStr} (+${d}d)` : timeStr;
   };
@@ -134,8 +135,8 @@ export function SimTimeline({
                 style={{ minWidth: "90px" }}
               >
                 {/* Distance Chip */}
-                <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 mb-2">
-                  {stop.distanceKm} km
+                <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 mb-2 whitespace-nowrap">
+                  {Math.round(stop.distanceKm)} km
                 </span>
 
                 {/* Node Indicator Dot */}
@@ -187,7 +188,7 @@ export function SimTimeline({
                 </div>
 
                 {/* Scheduled Times & Halt */}
-                <div className="mt-2 text-[10px] font-mono text-slate-500 dark:text-slate-400 space-y-0.5">
+                <div className="mt-2 text-[10px] font-mono text-slate-500 dark:text-slate-400 space-y-0.5 whitespace-nowrap">
                   <div>
                     {idx === 0 ? "Dep " : "Arr "}
                     <span className="font-semibold text-slate-700 dark:text-slate-300">
@@ -196,7 +197,7 @@ export function SimTimeline({
                   </div>
                   {stop.haltMin > 0 && (
                     <span className="inline-block px-1.5 py-0.2 rounded bg-amber-100/70 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-[9px]">
-                      Halt {stop.haltMin}m
+                      Halt {Math.round(stop.haltMin)}m
                     </span>
                   )}
                 </div>
