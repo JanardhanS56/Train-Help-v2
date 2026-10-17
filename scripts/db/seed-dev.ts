@@ -12,35 +12,35 @@
  */
 
 import { createClient } from "@supabase/supabase-js";
-import * as fs from "fs";
-import * as path from "path";
 
-function loadEnvLocal(): void {
-  const envPath = path.resolve(process.cwd(), ".env.local");
-  if (fs.existsSync(envPath)) {
-    const lines = fs.readFileSync(envPath, "utf-8").split("\n");
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith("#")) continue;
-      const eqIdx = trimmed.indexOf("=");
-      if (eqIdx !== -1) {
-        const key = trimmed.slice(0, eqIdx).trim();
-        const val = trimmed.slice(eqIdx + 1).trim().replace(/^["']|["']$/g, "");
-        if (!process.env[key]) {
-          process.env[key] = val;
-        }
-      }
-    }
-  }
-}
+import {
+  assertValidSecret,
+  getHostOnly,
+  loadEnvLocal,
+  maskSecret,
+} from "./env-helper";
 
 loadEnvLocal();
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const rawServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!SUPABASE_URL || !SERVICE_KEY) {
-  console.error("ERR: Missing Supabase credentials in .env.local.");
+let SUPABASE_URL: string;
+let SERVICE_KEY: string;
+
+try {
+  SUPABASE_URL = assertValidSecret(
+    "NEXT_PUBLIC_SUPABASE_URL",
+    rawUrl,
+    "Ensure NEXT_PUBLIC_SUPABASE_URL is set in .env.local and is not a placeholder."
+  );
+  SERVICE_KEY = assertValidSecret(
+    "SUPABASE_SERVICE_ROLE_KEY",
+    rawServiceKey,
+    "seed:dev requires SUPABASE_SERVICE_ROLE_KEY to bypass Row Level Security. Falling back to ANON_KEY is disabled to prevent silent write failures."
+  );
+} catch (err: unknown) {
+  console.error(err instanceof Error ? err.message : String(err));
   process.exit(1);
 }
 
@@ -53,7 +53,8 @@ type UpsertPayload = Parameters<ReturnType<typeof supabase.from>["upsert"]>[0];
 async function seedDevDatabase(): Promise<void> {
   console.log("==================================================");
   console.log("TravelRescue AI: Developer Seed Script (seed:dev)");
-  console.log(`Connecting to: ${SUPABASE_URL}`);
+  console.log(`Target Project Host: ${getHostOnly(SUPABASE_URL)}`);
+  console.log(`Service Key:         ${maskSecret(SERVICE_KEY)}`);
   console.log("==================================================");
 
   // 1. STATIONS (10 Core Junctions)
