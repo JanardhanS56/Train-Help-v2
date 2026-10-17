@@ -1,205 +1,53 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { Fraunces, DM_Sans, JetBrains_Mono } from "next/font/google";
 import {
   Train,
-  CheckCircle2,
+  Check,
   Eye,
   EyeOff,
   ArrowRight,
-  User,
-  Mail,
-  Lock,
-  Sparkles,
   AlertCircle,
-  Compass,
+  CheckCircle2,
+  Loader2,
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { APP_NAME } from "@/lib/constants";
+import styles from "./auth-screen.module.css";
 
-// ─── Indian Railway Junction Canvas ───────────────────────────────
+// Scoped Google Fonts
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
 
-interface StationNode {
-  code: string;
-  name: string;
-  x: number;
-  y: number;
-}
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
-const STATIONS: StationNode[] = [
-  { code: "NDLS", name: "New Delhi", x: 0.38, y: 0.22 },
-  { code: "CSMT", name: "Mumbai", x: 0.24, y: 0.52 },
-  { code: "HYB", name: "Hyderabad", x: 0.44, y: 0.62 },
-  { code: "SBC", name: "Bengaluru", x: 0.38, y: 0.8 },
-  { code: "MAS", name: "Chennai", x: 0.54, y: 0.78 },
-  { code: "HWH", name: "Kolkata", x: 0.74, y: 0.42 },
-];
-
-const CORRIDORS = [
-  { from: 0, to: 1 }, // Delhi - Mumbai
-  { from: 0, to: 5 }, // Delhi - Kolkata
-  { from: 1, to: 2 }, // Mumbai - Hyderabad
-  { from: 2, to: 3 }, // Hyderabad - Bengaluru
-  { from: 3, to: 4 }, // Bengaluru - Chennai
-  { from: 0, to: 3 }, // Delhi - Bengaluru (Karnataka Express corridor!)
-  { from: 5, to: 4 }, // Kolkata - Chennai
-];
-
-function RailwayCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    let animId: number;
-    const startTime = performance.now();
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-
-    const render = (now: number) => {
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      const dpr = window.devicePixelRatio || 1;
-      const w = canvas.width / dpr;
-      const h = canvas.height / dpr;
-
-      ctx.save();
-      ctx.scale(dpr, dpr);
-      ctx.clearRect(0, 0, w, h);
-
-      // Subtle track grid
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
-      ctx.lineWidth = 1;
-      const grid = 32;
-      for (let x = 0; x < w; x += grid) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      for (let y = 0; y < h; y += grid) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-      }
-
-      // Draw railway corridors
-      CORRIDORS.forEach((c) => {
-        const s1 = STATIONS[c.from];
-        const s2 = STATIONS[c.to];
-        const x1 = s1.x * w;
-        const y1 = s1.y * h;
-        const x2 = s2.x * w;
-        const y2 = s2.y * h;
-
-        // Base track line
-        ctx.strokeStyle = "rgba(147, 197, 253, 0.25)";
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-      });
-
-      // Animated trains moving along corridors
-      const t = (now - startTime) / 1000;
-      CORRIDORS.forEach((c, idx) => {
-        const s1 = STATIONS[c.from];
-        const s2 = STATIONS[c.to];
-        const x1 = s1.x * w;
-        const y1 = s1.y * h;
-        const x2 = s2.x * w;
-        const y2 = s2.y * h;
-
-        const speed = 0.15 + (idx % 3) * 0.05;
-        const progress = ((t * speed + idx * 0.2) % 1);
-        const px = x1 + (x2 - x1) * progress;
-        const py = y1 + (y2 - y1) * progress;
-
-        // Glowing train head
-        const grad = ctx.createRadialGradient(px, py, 1, px, py, 8);
-        grad.addColorStop(0, "rgba(255, 255, 255, 0.95)");
-        grad.addColorStop(0.5, "rgba(59, 130, 246, 0.8)");
-        grad.addColorStop(1, "rgba(59, 130, 246, 0)");
-
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(px, py, 8, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = "#ffffff";
-        ctx.beginPath();
-        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Station nodes
-      STATIONS.forEach((s, idx) => {
-        const sx = s.x * w;
-        const sy = s.y * h;
-
-        // Pulse ring around stations
-        const pulse = (Math.sin(t * 2 + idx) + 1) / 2;
-        ctx.strokeStyle = `rgba(96, 165, 250, ${0.15 + pulse * 0.35})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(sx, sy, 8 + pulse * 6, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // Node dot
-        ctx.fillStyle = idx === 3 ? "#ef4444" : "#60a5fa"; // Bengaluru red for cancelled train
-        ctx.beginPath();
-        ctx.arc(sx, sy, 4.5, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = "#ffffff";
-        ctx.beginPath();
-        ctx.arc(sx, sy, 1.8, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Label
-        ctx.font = "600 11px ui-monospace, SFMono-Regular, monospace";
-        ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-        ctx.fillText(s.code, sx + 10, sy + 3);
-
-        ctx.font = "400 9px sans-serif";
-        ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-        ctx.fillText(s.name, sx + 10, sy + 14);
-      });
-
-      ctx.restore();
-      animId = requestAnimationFrame(render);
-    };
-
-    animId = requestAnimationFrame(render);
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="w-full h-full absolute inset-0 pointer-events-none" />;
-}
-
-// ─── Main Auth Screen ─────────────────────────────────────────────
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
 
 export type AuthTab = "sign-in" | "sign-up";
 
 interface AuthScreenProps {
   initialTab?: AuthTab;
 }
+
+// Station flip states for mechanical flap board
+const FLAP_STATUSES = [
+  "NDLS → SBC · Delayed 3h 15m",
+  "NDLS → SBC · Alternate Found (12650)",
+  "NDLS → SBC · Confirmed Berth B4-23",
+];
 
 export function AuthScreen({ initialTab = "sign-in" }: AuthScreenProps) {
   const {
@@ -227,14 +75,51 @@ export function AuthScreen({ initialTab = "sign-in" }: AuthScreenProps) {
   const [signUpRemember, setSignUpRemember] = useState(true);
   const [showSignUpPass, setShowSignUpPass] = useState(false);
 
-  // Shared State
+  // Shared Interaction States
   const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [stationFlapIndex, setStationFlapIndex] = useState(0);
+  const [signalGreen, setSignalGreen] = useState(false);
+  const [hasVideo, setHasVideo] = useState(false);
+  const [isPageVisible, setIsPageVisible] = useState(true);
+
+  // Check for optional video background
+  useEffect(() => {
+    fetch("/media/train-loop.mp4", { method: "HEAD" })
+      .then((res) => {
+        if (res.ok) setHasVideo(true);
+      })
+      .catch(() => setHasVideo(false));
+  }, []);
+
+  // Station flap rotation and signal light cycle
+  useEffect(() => {
+    const flapInterval = setInterval(() => {
+      setStationFlapIndex((prev) => (prev + 1) % FLAP_STATUSES.length);
+    }, 6000);
+
+    const signalInterval = setInterval(() => {
+      setSignalGreen((prev) => !prev);
+    }, 10000);
+
+    const handleVisibility = () => {
+      setIsPageVisible(!document.hidden);
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      clearInterval(flapInterval);
+      clearInterval(signalInterval);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, []);
 
   // Handle Sign In submission
   const handleSignInSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
+    setSuccessMsg(null);
 
     if (!signInEmail.trim()) {
       setError("Please enter your email address.");
@@ -248,11 +133,13 @@ export function AuthScreen({ initialTab = "sign-in" }: AuthScreenProps) {
     setIsSubmitting(true);
     try {
       const success = await signIn(signInEmail, signInPassword, signInRemember);
-      if (!success) {
-        setError("Invalid email or password. Please check your credentials.");
+      if (success) {
+        setSuccessMsg("Welcome aboard! Loading your journey dashboard...");
+      } else {
+        setError("Invalid email or password. Please verify your credentials.");
       }
     } catch {
-      setError("An unexpected error occurred during sign-in.");
+      setError("Network interruption: could not connect to railway auth server.");
     } finally {
       setIsSubmitting(false);
     }
@@ -262,9 +149,10 @@ export function AuthScreen({ initialTab = "sign-in" }: AuthScreenProps) {
   const handleSignUpSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
+    setSuccessMsg(null);
 
     if (!signUpName.trim()) {
-      setError("Please enter your full name.");
+      setError("Please enter your full name as on your ticket.");
       return;
     }
     if (!signUpEmail.trim()) {
@@ -288,541 +176,769 @@ export function AuthScreen({ initialTab = "sign-in" }: AuthScreenProps) {
       return;
     }
     if (!signUpAgree) {
-      setError("Please accept the Passenger Charter and terms to proceed.");
+      setError("Please accept the Passenger Charter and refund protocol.");
       return;
     }
 
     setIsSubmitting(true);
     try {
       const success = await signUp(signUpName, signUpEmail, signUpPassword, signUpRemember);
-      if (!success) {
-        setError("Sign-up could not be completed. Please try again.");
+      if (success) {
+        setSuccessMsg("Account created! Directing to passenger recovery...");
+      } else {
+        setError("Account creation could not be completed. Please try again.");
       }
     } catch {
-      setError("An unexpected error occurred during account creation.");
+      setError("Network interruption: could not connect to railway auth server.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Demo sign in shortcut
+  // 1-Click Demo Shortcut
   const handleDemoLogin = async () => {
     setError(null);
+    setSuccessMsg("Launching Instant Portfolio Demo (Vikram Patel)...");
     setIsSubmitting(true);
     try {
       await signInDemo();
-    } finally {
+    } catch {
+      setError("Unable to launch demo session. Please try again.");
       setIsSubmitting(false);
     }
   };
 
-  // Google sign in shortcut
+  // Google Sign In Shortcut
   const handleGoogleLogin = async () => {
     setError(null);
+    setSuccessMsg(null);
     setIsSubmitting(true);
     try {
       await signInGoogle();
-    } finally {
+    } catch {
+      setError("Google authentication could not be completed.");
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-dvh w-full flex items-center justify-center p-4 md:p-8 bg-[#0b1329] bg-gradient-to-br from-[#070d1d] via-[#0f1d38] to-[#122244] text-white">
-      <div className="w-full max-w-5xl rounded-2xl overflow-hidden border border-slate-700/60 bg-[#0d162a]/90 shadow-2xl backdrop-blur-xl grid grid-cols-1 lg:grid-cols-12 min-h-[660px]">
+    <main
+      className={`${styles.root} ${fraunces.className}`}
+      style={{
+        ["--font-heading" as string]: fraunces.style.fontFamily,
+        ["--font-body" as string]: dmSans.style.fontFamily,
+        ["--font-mono" as string]: jetbrainsMono.style.fontFamily,
+      }}
+    >
+      <div className={styles.container}>
         
-        {/* ─── Left Hero Panel (5 cols on lg) ────────────────────────── */}
-        <div className="hidden lg:flex lg:col-span-5 relative flex-col justify-between p-8 bg-gradient-to-b from-[#111e3b] to-[#0a1226] border-r border-slate-700/50 overflow-hidden">
-          {/* Animated Canvas */}
-          <RailwayCanvas />
-
-          {/* Top Brand Banner */}
-          <div className="relative z-10 space-y-3">
-            <div className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25 border border-blue-400/30">
-                <Train className="h-5 w-5 text-white" />
-              </div>
-              <div className="leading-tight">
-                <div className="text-sm font-semibold tracking-wide text-white">
-                  {APP_NAME}
-                </div>
-                <div className="text-[10px] uppercase font-mono tracking-wider text-blue-300">
-                  Railway Disruption Recovery
-                </div>
+        {/* Mobile Top Animated Train Strip (<=1023px) */}
+        <div className={styles.mobileStrip} aria-hidden="true">
+          <svg className={styles.skyElements} viewBox="0 0 600 130" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="mobileSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#2A1A33" />
+                <stop offset="60%" stopColor="#E8783A" />
+                <stop offset="100%" stopColor="#F2A33A" />
+              </linearGradient>
+            </defs>
+            <rect width="600" height="130" fill="url(#mobileSky)" />
+            {/* Setting sun */}
+            <circle cx="80" cy="95" r="32" fill="#FFE3A0" opacity="0.8" />
+            {/* Hills */}
+            <path d="M0 130 L0 100 Q 150 75 300 105 T 600 95 L 600 130 Z" fill="#251624" />
+          </svg>
+          <div className={styles.trackGround}>
+            <div className={styles.sleepersTrack} />
+          </div>
+          {isPageVisible && (
+            <div className={styles.trainTrackLane}>
+              <div className={styles.trainWrapper}>
+                <TrainSvg />
               </div>
             </div>
-
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-red-500/15 border border-red-500/30 text-red-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-red-400 animate-ping" />
-              Live Rail Disruption Monitoring
-            </div>
-          </div>
-
-          {/* Middle Value Proposition */}
-          <div className="relative z-10 space-y-4 my-auto py-8">
-            <h2 className="text-2xl font-semibold text-white tracking-tight leading-snug">
-              Something went wrong.
-              <br />
-              <span className="text-blue-400 italic font-serif">We&rsquo;ve got this.</span>
-            </h2>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Instantly resolve train cancellations and severe delays with verified alternative berths, 100% automated refund tracking, and zero station counter queues.
-            </p>
-
-            <div className="space-y-2.5 pt-2 text-xs text-slate-200">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                <span>Deterministic berth scoring: Confirmed &gt; RAC &gt; WL</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                <span>Automatic 100% refund tracker with zero clerkage fee</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                <span>Indian Railways Passenger Charter compliant</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Corridor Metric */}
-          <div className="relative z-10 pt-4 border-t border-slate-700/50 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-            <span>SBC · KSR Bengaluru</span>
-            <Compass className="h-3.5 w-3.5 text-blue-400" />
-            <span>NDLS · New Delhi</span>
-          </div>
+          )}
         </div>
 
-        {/* ─── Right Form Panel (7 cols on lg) ───────────────────────── */}
-        <div className="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between bg-[#0e172d]/80">
-          <div>
-            {/* Top Segmented Choice: ALWAYS ASK FOR SIGN IN OR SIGN UP */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono">
-                  Select an Option
-                </span>
-                <span className="text-xs text-slate-400">
-                  {activeTab === "sign-in" ? "Existing Passenger" : "New Registration"}
-                </span>
+        {/* ─── LEFT SCENE: 55% DESKTOP ─── */}
+        <section className={styles.leftScene} aria-hidden="true">
+          {/* Optional Video Fallback if train-loop.mp4 exists */}
+          {hasVideo ? (
+            <>
+              <video
+                src="/media/train-loop.mp4"
+                muted
+                autoPlay
+                loop
+                playsInline
+                preload="metadata"
+                className={styles.videoBackground}
+              />
+              <div className={styles.videoOverlay} />
+            </>
+          ) : (
+            /* Procedural Night Train Scene (Pure SVG & CSS) */
+            <div className={styles.sceneLayers}>
+              {/* Sky Backdrop */}
+              <div className={styles.skyElements}>
+                <div className={styles.sun} />
+                
+                {/* Stars twinkling in plum dusk */}
+                <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="22%" cy="14%" r="1.5" fill="#FFEAC2" opacity="0.75" />
+                  <circle cx="45%" cy="18%" r="1.2" fill="#FFFFFF" opacity="0.85" />
+                  <circle cx="78%" cy="12%" r="1.6" fill="#FFEAC2" opacity="0.65" />
+                  <circle cx="62%" cy="26%" r="1.2" fill="#FFFFFF" opacity="0.9" />
+                  <circle cx="88%" cy="22%" r="1.4" fill="#FFEAC2" opacity="0.7" />
+                  <circle cx="15%" cy="32%" r="1.1" fill="#FFFFFF" opacity="0.6" />
+                </svg>
+
+                {/* Drifting Birds */}
+                <svg className={styles.birds} viewBox="0 0 100 30" fill="none">
+                  <path d="M5 15 Q 12 8 20 15 Q 28 8 35 15" stroke="#1c1119" strokeWidth="1.8" strokeLinecap="round" />
+                  <path d="M45 10 Q 51 4 58 10 Q 64 4 70 10" stroke="#1c1119" strokeWidth="1.6" strokeLinecap="round" />
+                  <path d="M72 18 Q 78 13 84 18 Q 90 13 96 18" stroke="#1c1119" strokeWidth="1.4" strokeLinecap="round" />
+                </svg>
               </div>
 
-              {/* Segmented Control Buttons */}
-              <div className="grid grid-cols-2 p-1.5 rounded-xl bg-slate-900/90 border border-slate-700/80 shadow-inner">
-                <button
-                  type="button"
-                  id="tab-sign-in"
-                  onClick={() => {
-                    setError(null);
-                    setActiveTab("sign-in");
-                  }}
-                  className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
-                    activeTab === "sign-in"
-                      ? "bg-blue-600 text-white shadow-md shadow-blue-600/30 font-medium"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
-                  }`}
-                >
-                  <Lock className="h-4 w-4" />
-                  <span>Sign In</span>
-                </button>
+              {/* Far Mountain Ridge (Slow Parallax) */}
+              <div className={styles.farHills}>
+                <svg viewBox="0 0 1000 140" className="w-1/2 h-full shrink-0" preserveAspectRatio="none">
+                  <path d="M0 140 L0 80 Q 200 35 450 75 T 800 50 Q 900 65 1000 80 L 1000 140 Z" fill="#2c1a2c" opacity="0.75" />
+                </svg>
+                <svg viewBox="0 0 1000 140" className="w-1/2 h-full shrink-0" preserveAspectRatio="none">
+                  <path d="M0 140 L0 80 Q 200 35 450 75 T 800 50 Q 900 65 1000 80 L 1000 140 Z" fill="#2c1a2c" opacity="0.75" />
+                </svg>
+              </div>
 
-                <button
-                  type="button"
-                  id="tab-sign-up"
-                  onClick={() => {
-                    setError(null);
-                    setActiveTab("sign-up");
-                  }}
-                  className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
-                    activeTab === "sign-up"
-                      ? "bg-blue-600 text-white shadow-md shadow-blue-600/30 font-medium"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
-                  }`}
-                >
-                  <Sparkles className="h-4 w-4" />
-                  <span>Create Account</span>
-                </button>
+              {/* Mid Rolling Hills (Medium Parallax) */}
+              <div className={styles.midHills}>
+                <svg viewBox="0 0 1000 120" className="w-1/2 h-full shrink-0" preserveAspectRatio="none">
+                  <path d="M0 120 L0 60 Q 180 25 360 55 T 720 40 Q 880 30 1000 60 L 1000 120 Z" fill="#201321" />
+                </svg>
+                <svg viewBox="0 0 1000 120" className="w-1/2 h-full shrink-0" preserveAspectRatio="none">
+                  <path d="M0 120 L0 60 Q 180 25 360 55 T 720 40 Q 880 30 1000 60 L 1000 120 Z" fill="#201321" />
+                </svg>
+              </div>
+
+              {/* Silhouette Trees and Electric Catenary Masts */}
+              <div className={styles.treesPoles}>
+                <svg viewBox="0 0 1000 90" className="w-1/2 h-full shrink-0" preserveAspectRatio="none">
+                  {/* Trees */}
+                  <circle cx="120" cy="60" r="18" fill="#140b15" />
+                  <circle cx="134" cy="55" r="14" fill="#140b15" />
+                  <rect x="125" y="65" width="4" height="25" fill="#140b15" />
+                  <circle cx="480" cy="55" r="22" fill="#140b15" />
+                  <rect x="478" y="70" width="5" height="20" fill="#140b15" />
+                  <circle cx="820" cy="58" r="19" fill="#140b15" />
+                  <rect x="818" y="70" width="4" height="20" fill="#140b15" />
+                  {/* Overhead Electric Poles */}
+                  <line x1="260" y1="15" x2="260" y2="90" stroke="#1c1119" strokeWidth="3" />
+                  <line x1="245" y1="25" x2="275" y2="25" stroke="#1c1119" strokeWidth="2.5" />
+                  <line x1="680" y1="15" x2="680" y2="90" stroke="#1c1119" strokeWidth="3" />
+                  <line x1="665" y1="25" x2="695" y2="25" stroke="#1c1119" strokeWidth="2.5" />
+                </svg>
+                <svg viewBox="0 0 1000 90" className="w-1/2 h-full shrink-0" preserveAspectRatio="none">
+                  <circle cx="120" cy="60" r="18" fill="#140b15" />
+                  <circle cx="134" cy="55" r="14" fill="#140b15" />
+                  <rect x="125" y="65" width="4" height="25" fill="#140b15" />
+                  <circle cx="480" cy="55" r="22" fill="#140b15" />
+                  <rect x="478" y="70" width="5" height="20" fill="#140b15" />
+                  <circle cx="820" cy="58" r="19" fill="#140b15" />
+                  <rect x="818" y="70" width="4" height="20" fill="#140b15" />
+                  <line x1="260" y1="15" x2="260" y2="90" stroke="#1c1119" strokeWidth="3" />
+                  <line x1="245" y1="25" x2="275" y2="25" stroke="#1c1119" strokeWidth="2.5" />
+                  <line x1="680" y1="15" x2="680" y2="90" stroke="#1c1119" strokeWidth="3" />
+                  <line x1="665" y1="25" x2="695" y2="25" stroke="#1c1119" strokeWidth="2.5" />
+                </svg>
+              </div>
+
+              {/* Dual Rails & Wooden Sleepers */}
+              <div className={styles.trackGround}>
+                <div className={styles.sleepersTrack} />
+              </div>
+
+              {/* Railway Signal Mast */}
+              <div className={styles.signalPost}>
+                <svg viewBox="0 0 24 110" className="w-full h-full">
+                  <line x1="12" y1="20" x2="12" y2="110" stroke="#251a22" strokeWidth="3.5" />
+                  <rect x="4" y="10" width="16" height="32" rx="4" fill="#0f090d" stroke="#2c2128" strokeWidth="1.5" />
+                  {/* Signal Light (Red vs Green) */}
+                  <circle cx="12" cy="19" r="4.5" fill={signalGreen ? "#3b1a1c" : "#D9453B"} />
+                  <circle cx="12" cy="33" r="4.5" fill={signalGreen ? "#22c55e" : "#143320"} />
+                  {!signalGreen && <circle cx="12" cy="19" r="7" fill="none" stroke="#D9453B" strokeWidth="1" opacity="0.6" />}
+                  {signalGreen && <circle cx="12" cy="33" r="7" fill="none" stroke="#22c55e" strokeWidth="1" opacity="0.6" />}
+                </svg>
+              </div>
+
+              {/* Indian Railway Train: Electric Loco + 5 Coaches */}
+              {isPageVisible && (
+                <div className={styles.trainTrackLane}>
+                  <div className={styles.trainWrapper}>
+                    <TrainSvg />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Calm Sky Content Overlay */}
+          <div className={styles.sceneOverlay}>
+            <div className={styles.sceneHeader}>
+              <div className={styles.brandBadge}>
+                <div className={styles.brandIcon}>
+                  <Train className="h-5 w-5" />
+                </div>
+                <div>
+                  <div className={styles.brandTitle}>{APP_NAME}</div>
+                  <div className={styles.brandSub}>Railway Recovery Operations</div>
+                </div>
+              </div>
+              <div className={styles.corridorPill}>
+                <span>NDLS</span>
+                <span className="text-[#F2A33A]">→</span>
+                <span>SBC</span>
               </div>
             </div>
 
-            {/* Error Notification Alert */}
-            {error && (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-5 p-3.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-200 text-xs flex items-start gap-2.5"
-                role="alert"
-              >
-                <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-                <span className="leading-relaxed">{error}</span>
-              </motion.div>
-            )}
-
-            {/* Tab Body Switching with Framer Motion */}
-            <AnimatePresence mode="wait">
-              {activeTab === "sign-in" ? (
-                /* ─── Sign In View ─── */
-                <motion.div
-                  key="sign-in-tab"
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 12 }}
-                  transition={{ duration: 0.2 }}
-                  className="space-y-4"
-                >
-                  <div>
-                    <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                      Sign in to your account
-                    </h1>
-                    <p className="text-xs text-slate-400 mt-1">
-                      Access active PNR recovery status, coach allotments, and refund timelines.
-                    </p>
+            <div className={styles.headlineBlock}>
+              <h2 className={styles.sceneHeadline}>
+                Train cancelled? We&apos;ve <span className={styles.italicWord}>got</span> you.
+              </h2>
+              <div className={styles.trustList}>
+                <div className={styles.trustItem}>
+                  <div className={styles.trustCheck}>
+                    <Check className="h-3 w-3 stroke-[3]" />
                   </div>
-
-                  {/* 1-Click Demo Shortcut */}
-                  <div className="p-3.5 rounded-xl bg-blue-950/40 border border-blue-600/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="space-y-0.5">
-                      <div className="text-xs font-semibold text-blue-200 flex items-center gap-1.5">
-                        <Sparkles className="h-3.5 w-3.5 text-blue-400" />
-                        <span>Instant Portfolio Demo</span>
-                      </div>
-                      <div className="text-[11px] text-slate-400">
-                        Continue as Vikram Patel (Train 12627 Karnataka Exp disruption)
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      id="btn-demo-login"
-                      disabled={isSubmitting}
-                      onClick={handleDemoLogin}
-                      className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs font-semibold whitespace-nowrap transition-colors shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
-                    >
-                      <span>1-Click Demo</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </button>
+                  <span>Deterministic berth scoring: Confirmed &gt; RAC &gt; Waitlist</span>
+                </div>
+                <div className={styles.trustItem}>
+                  <div className={styles.trustCheck}>
+                    <Check className="h-3 w-3 stroke-[3]" />
                   </div>
-
-                  {/* Divider */}
-                  <div className="relative my-4">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-slate-700/60" />
-                    </div>
-                    <div className="relative flex justify-center text-[11px] uppercase tracking-wider font-mono">
-                      <span className="px-3 bg-[#0e172d] text-slate-400">or sign in with email</span>
-                    </div>
+                  <span>Automatic 100% refund tracker with zero clerkage deduction</span>
+                </div>
+                <div className={styles.trustItem}>
+                  <div className={styles.trustCheck}>
+                    <Check className="h-3 w-3 stroke-[3]" />
                   </div>
+                  <span>Indian Railways Passenger Charter &amp; IRCTC compliant</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                  {/* Sign In Form */}
-                  <form onSubmit={handleSignInSubmit} className="space-y-3.5">
-                    <div>
-                      <label
-                        htmlFor="signin-email"
-                        className="block text-xs font-medium text-slate-300 mb-1"
-                      >
-                        Email Address <span className="text-blue-400">*</span>
-                      </label>
-                      <div className="relative">
-                        <Mail className="h-4 w-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        <input
-                          id="signin-email"
-                          type="email"
-                          autoComplete="email"
-                          value={signInEmail}
-                          onChange={(e) => setSignInEmail(e.target.value)}
-                          placeholder="e.g. vikram.patel@railmail.in"
-                          className="w-full pl-10 pr-4 py-2.5 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                          required
-                        />
-                      </div>
-                    </div>
+          {/* Mechanical Flap Station Board */}
+          <div className={styles.stationBoard}>
+            <span className={styles.stationLed} />
+            <span>{FLAP_STATUSES[stationFlapIndex]}</span>
+          </div>
+        </section>
 
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label
-                          htmlFor="signin-password"
-                          className="block text-xs font-medium text-slate-300"
-                        >
-                          Password <span className="text-blue-400">*</span>
-                        </label>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSignInEmail("vikram.patel@railmail.in");
-                            setSignInPassword("demo1234");
-                          }}
-                          className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
-                        >
-                          Fill demo credentials
-                        </button>
-                      </div>
-                      <div className="relative">
-                        <Lock className="h-4 w-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        <input
-                          id="signin-password"
-                          type={showSignInPass ? "text" : "password"}
-                          autoComplete="current-password"
-                          value={signInPassword}
-                          onChange={(e) => setSignInPassword(e.target.value)}
-                          placeholder="Enter your password"
-                          className="w-full pl-10 pr-10 py-2.5 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                          required
-                        />
-                        <button
-                          type="button"
-                          aria-label={showSignInPass ? "Hide password" : "Show password"}
-                          onClick={() => setShowSignInPass(!showSignInPass)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
-                        >
-                          {showSignInPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </button>
-                      </div>
-                    </div>
+        {/* ─── RIGHT FORM PANEL: 45% CREAM RAILWAY TICKET ─── */}
+        <section className={styles.rightPanel}>
+          <div className={styles.paperGrain} />
 
-                    <div className="flex items-center justify-between text-xs pt-1">
-                      <label className="flex items-center gap-2 cursor-pointer text-slate-300">
-                        <input
-                          type="checkbox"
-                          checked={signInRemember}
-                          onChange={(e) => setSignInRemember(e.target.checked)}
-                          className="rounded border-slate-700 bg-slate-900 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span>Remember me on this browser</span>
-                      </label>
-                    </div>
+          <div className={styles.ticketCard}>
+            {/* Perforation line & Ticket Notches */}
+            <div className={styles.ticketPerforation} />
 
-                    <button
-                      type="submit"
-                      id="btn-submit-signin"
-                      disabled={isSubmitting}
-                      className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:from-blue-700 active:to-indigo-700 text-white font-medium text-sm rounded-lg shadow-lg shadow-blue-600/25 transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
-                    >
-                      <span>{isSubmitting ? "Signing In..." : "Sign In to Dashboard"}</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </form>
-                </motion.div>
-              ) : (
-                /* ─── Sign Up View ─── */
-                <motion.div
-                  key="sign-up-tab"
-                  initial={{ opacity: 0, x: 12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -12 }}
-                  transition={{ duration: 0.2 }}
-                  className="space-y-4"
-                >
-                  <div>
-                    <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                      Create your passenger account
-                    </h1>
-                    <p className="text-xs text-slate-400 mt-1">
-                      Get immediate disruption alerts, alternative berth confirmations, and zero-fee refunds.
-                    </p>
-                  </div>
+            {/* BOLD DESIGN RISK: Tactile Indian Railways Punch Hole & Date Emboss */}
+            <div className={styles.ticketPunchHole}>
+              <span>SEC 12627</span>
+              <div className={styles.punchCircle} title="Inspected & Punched" />
+            </div>
 
-                  {/* Sign Up Form */}
-                  <form onSubmit={handleSignUpSubmit} className="space-y-3.5">
-                    <div>
-                      <label
-                        htmlFor="signup-name"
-                        className="block text-xs font-medium text-slate-300 mb-1"
-                      >
-                        Full Name <span className="text-blue-400">*</span>
-                      </label>
-                      <div className="relative">
-                        <User className="h-4 w-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        <input
-                          id="signup-name"
-                          type="text"
-                          autoComplete="name"
-                          value={signUpName}
-                          onChange={(e) => setSignUpName(e.target.value)}
-                          placeholder="e.g. Vikram Patel"
-                          className="w-full pl-10 pr-4 py-2 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                          required
-                        />
-                      </div>
-                    </div>
+            {/* Rubber Stamp: EXISTING PASSENGER */}
+            <div className={styles.rubberStamp}>
+              {activeTab === "sign-in" ? "PASSENGER CHECK-IN" : "NEW RESERVATION"}
+            </div>
 
-                    <div>
-                      <label
-                        htmlFor="signup-email"
-                        className="block text-xs font-medium text-slate-300 mb-1"
-                      >
-                        Email Address <span className="text-blue-400">*</span>
-                      </label>
-                      <div className="relative">
-                        <Mail className="h-4 w-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        <input
-                          id="signup-email"
-                          type="email"
-                          autoComplete="email"
-                          value={signUpEmail}
-                          onChange={(e) => setSignUpEmail(e.target.value)}
-                          placeholder="e.g. vikram.patel@railmail.in"
-                          className="w-full pl-10 pr-4 py-2 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                          required
-                        />
-                      </div>
-                    </div>
+            {/* Ticket Header */}
+            <div className={styles.ticketTop}>
+              <h1 className={styles.ticketTitle}>
+                {activeTab === "sign-in"
+                  ? "Welcome back, traveller."
+                  : "Your next journey starts here."}
+              </h1>
+              <p className={styles.ticketSubtitle}>
+                {activeTab === "sign-in"
+                  ? "Let's get you on the next train with verified berth allotments."
+                  : "Create your passenger profile for real-time disruption recovery."}
+              </p>
+            </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label
-                          htmlFor="signup-password"
-                          className="block text-xs font-medium text-slate-300 mb-1"
-                        >
-                          Password <span className="text-blue-400">*</span>
-                        </label>
-                        <div className="relative">
-                          <Lock className="h-4 w-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                          <input
-                            id="signup-password"
-                            type={showSignUpPass ? "text" : "password"}
-                            autoComplete="new-password"
-                            value={signUpPassword}
-                            onChange={(e) => setSignUpPassword(e.target.value)}
-                            placeholder="Min 6 characters"
-                            className="w-full pl-10 pr-8 py-2 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                            required
-                          />
-                          <button
-                            type="button"
-                            aria-label={showSignUpPass ? "Hide password" : "Show password"}
-                            onClick={() => setShowSignUpPass(!showSignUpPass)}
-                            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
-                          >
-                            {showSignUpPass ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-                          </button>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="signup-confirm-password"
-                          className="block text-xs font-medium text-slate-300 mb-1"
-                        >
-                          Confirm Password <span className="text-blue-400">*</span>
-                        </label>
-                        <div className="relative">
-                          <Lock className="h-4 w-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                          <input
-                            id="signup-confirm-password"
-                            type={showSignUpPass ? "text" : "password"}
-                            autoComplete="new-password"
-                            value={signUpConfirmPassword}
-                            onChange={(e) => setSignUpConfirmPassword(e.target.value)}
-                            placeholder="Re-enter password"
-                            className="w-full pl-10 pr-4 py-2 bg-slate-900/80 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 pt-1 text-xs">
-                      <label className="flex items-center gap-2 cursor-pointer text-slate-300">
-                        <input
-                          type="checkbox"
-                          checked={signUpRemember}
-                          onChange={(e) => setSignUpRemember(e.target.checked)}
-                          className="rounded border-slate-700 bg-slate-900 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="text-[11px] text-slate-300">Remember me on this browser</span>
-                      </label>
-                      <label className="flex items-start gap-2 cursor-pointer text-slate-300">
-                        <input
-                          type="checkbox"
-                          checked={signUpAgree}
-                          onChange={(e) => setSignUpAgree(e.target.checked)}
-                          className="mt-0.5 rounded border-slate-700 bg-slate-900 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="leading-tight text-[11px] text-slate-300">
-                          I agree to the Indian Railway Passenger Charter and automated refund claims protocol.
-                        </span>
-                      </label>
-                    </div>
-
-                    <button
-                      type="submit"
-                      id="btn-submit-signup"
-                      disabled={isSubmitting}
-                      className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:from-blue-700 active:to-indigo-700 text-white font-medium text-sm rounded-lg shadow-lg shadow-blue-600/25 transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
-                    >
-                      <span>{isSubmitting ? "Creating Account..." : "Create Account & Continue"}</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </form>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Quick Social / Google Option */}
-            <div className="pt-4 mt-4 border-t border-slate-800">
+            {/* Sliding Saffron Tab Pill */}
+            <div className={styles.tabContainer}>
+              <div
+                className={`${styles.tabPill} ${activeTab === "sign-up" ? styles.tabPillRight : ""}`}
+              />
               <button
                 type="button"
-                id="btn-google-login"
-                onClick={handleGoogleLogin}
-                className="w-full py-2 px-3 rounded-lg bg-slate-900/60 hover:bg-slate-800/80 border border-slate-700/70 text-slate-300 text-xs font-medium flex items-center justify-center gap-2 transition-colors"
+                id="tab-sign-in"
+                onClick={() => {
+                  setError(null);
+                  setActiveTab("sign-in");
+                }}
+                className={styles.tabBtn}
               >
-                <svg className="h-4 w-4" viewBox="0 0 24 24">
-                  <path
-                    fill="#4285F4"
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  />
-                </svg>
-                <span>Continue with Google</span>
+                <span>Sign In</span>
+                {activeTab === "sign-in" && <span className={styles.activeUnderline} />}
+              </button>
+              <button
+                type="button"
+                id="tab-sign-up"
+                onClick={() => {
+                  setError(null);
+                  setActiveTab("sign-up");
+                }}
+                className={styles.tabBtn}
+              >
+                <span>Create Account</span>
+                {activeTab === "sign-up" && <span className={styles.activeUnderline} />}
               </button>
             </div>
-          </div>
 
-          {/* Bottom Switcher Note */}
-          <div className="pt-4 text-center text-xs text-slate-400">
-            {activeTab === "sign-in" ? (
-              <p>
-                Don&apos;t have an account yet?{" "}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setError(null);
-                    setActiveTab("sign-up");
-                  }}
-                  className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
-                >
-                  Create one now
-                </button>
-              </p>
-            ) : (
-              <p>
-                Already have an account?{" "}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setError(null);
-                    setActiveTab("sign-in");
-                  }}
-                  className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
-                >
-                  Sign in here
-                </button>
-              </p>
+            {/* Inline Error State */}
+            {error && (
+              <div className={styles.errorAlert} role="alert" aria-live="polite">
+                <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-[#D9453B]" />
+                <span>{error}</span>
+              </div>
             )}
+
+            {/* Inline Success State */}
+            {successMsg && (
+              <div className={styles.successAlert} role="status" aria-live="polite">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-[#2F6F6A]" />
+                <span>{successMsg}</span>
+              </div>
+            )}
+
+            {/* 1-Click Demo Recovery Card (Sign-In view) */}
+            {activeTab === "sign-in" && (
+              <div className={styles.demoCard}>
+                <div className={styles.demoText}>
+                  <span className={styles.demoLabel}>Try the recovery demo</span>
+                  <span className={styles.demoSub}>
+                    Vikram Patel · Train 12627 Karnataka Exp
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  id="btn-demo-login"
+                  disabled={isSubmitting}
+                  onClick={handleDemoLogin}
+                  className={styles.demoBtn}
+                >
+                  <span>1-Click Demo</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            )}
+
+            {activeTab === "sign-in" && (
+              <div className={styles.orDivider}>
+                <span className={styles.orText}>or sign in with credentials</span>
+              </div>
+            )}
+
+            {/* Sign In Form */}
+            {activeTab === "sign-in" ? (
+              <form onSubmit={handleSignInSubmit}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="signin-email" className={styles.formLabel}>
+                    Email Address
+                  </label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      id="signin-email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      disabled={isSubmitting}
+                      value={signInEmail}
+                      onChange={(e) => setSignInEmail(e.target.value)}
+                      placeholder="vikram.patel@railmail.in"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <div className={styles.fieldHeader}>
+                    <label htmlFor="signin-password" className={styles.formLabel}>
+                      Password
+                    </label>
+                    <button
+                      type="button"
+                      disabled={isSubmitting}
+                      onClick={() => {
+                        setSignInEmail("vikram.patel@railmail.in");
+                        setSignInPassword("demo1234");
+                      }}
+                      className={styles.demoCredsLink}
+                    >
+                      Fill demo credentials
+                    </button>
+                  </div>
+                  <div className={styles.inputWrap}>
+                    <input
+                      id="signin-password"
+                      type={showSignInPass ? "text" : "password"}
+                      autoComplete="current-password"
+                      required
+                      disabled={isSubmitting}
+                      value={signInPassword}
+                      onChange={(e) => setSignInPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className={styles.inputField}
+                    />
+                    <button
+                      type="button"
+                      aria-label={showSignInPass ? "Hide password" : "Show password"}
+                      onClick={() => setShowSignInPass(!showSignInPass)}
+                      className={styles.showPassBtn}
+                    >
+                      {showSignInPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={signInRemember}
+                    onChange={(e) => setSignInRemember(e.target.checked)}
+                    className={styles.checkboxInput}
+                  />
+                  <span>Remember me on this station browser</span>
+                </label>
+
+                <button
+                  type="submit"
+                  id="btn-submit-signin"
+                  disabled={isSubmitting}
+                  className={styles.primaryBtn}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>Verifying PNR Ticket...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Sign In to Recovery Board</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
+                </button>
+              </form>
+            ) : (
+              /* Create Account Form */
+              <form onSubmit={handleSignUpSubmit}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="signup-name" className={styles.formLabel}>
+                    Full Name (as per ID/Ticket)
+                  </label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      id="signup-name"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      disabled={isSubmitting}
+                      value={signUpName}
+                      onChange={(e) => setSignUpName(e.target.value)}
+                      placeholder="e.g. Vikram Patel"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="signup-email" className={styles.formLabel}>
+                    Email Address
+                  </label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      id="signup-email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      disabled={isSubmitting}
+                      value={signUpEmail}
+                      onChange={(e) => setSignUpEmail(e.target.value)}
+                      placeholder="vikram.patel@railmail.in"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="signup-password" className={styles.formLabel}>
+                    Create Password
+                  </label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      id="signup-password"
+                      type={showSignUpPass ? "text" : "password"}
+                      autoComplete="new-password"
+                      required
+                      disabled={isSubmitting}
+                      value={signUpPassword}
+                      onChange={(e) => setSignUpPassword(e.target.value)}
+                      placeholder="Min 6 characters"
+                      className={styles.inputField}
+                    />
+                    <button
+                      type="button"
+                      aria-label={showSignUpPass ? "Hide password" : "Show password"}
+                      onClick={() => setShowSignUpPass(!showSignUpPass)}
+                      className={styles.showPassBtn}
+                    >
+                      {showSignUpPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="signup-confirm-password" className={styles.formLabel}>
+                    Confirm Password
+                  </label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      id="signup-confirm-password"
+                      type={showSignUpPass ? "text" : "password"}
+                      autoComplete="new-password"
+                      required
+                      disabled={isSubmitting}
+                      value={signUpConfirmPassword}
+                      onChange={(e) => setSignUpConfirmPassword(e.target.value)}
+                      placeholder="Re-enter password"
+                      className={styles.inputField}
+                    />
+                  </div>
+                </div>
+
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={signUpRemember}
+                    onChange={(e) => setSignUpRemember(e.target.checked)}
+                    className={styles.checkboxInput}
+                  />
+                  <span>Remember me on this station browser</span>
+                </label>
+
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={signUpAgree}
+                    onChange={(e) => setSignUpAgree(e.target.checked)}
+                    className={styles.checkboxInput}
+                  />
+                  <span className="text-[11px] leading-tight">
+                    I agree to the Indian Railway Passenger Charter and automated refund claims protocol.
+                  </span>
+                </label>
+
+                <button
+                  type="submit"
+                  id="btn-submit-signup"
+                  disabled={isSubmitting}
+                  className={styles.primaryBtn}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>Creating Account...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Register Passenger Profile</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
+
+            {/* Google Authentication */}
+            <div className={styles.orDivider}>
+              <span className={styles.orText}>or continue with</span>
+            </div>
+
+            <button
+              type="button"
+              id="btn-google-login"
+              disabled={isSubmitting}
+              onClick={handleGoogleLogin}
+              className={styles.googleBtn}
+            >
+              <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
+                <path
+                  fill="#4285F4"
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                />
+                <path
+                  fill="#EA4335"
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                />
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+
+            {/* Bottom Switcher Note */}
+            <div className={styles.bottomSwitcher}>
+              {activeTab === "sign-in" ? (
+                <p>
+                  New passenger?{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setError(null);
+                      setActiveTab("sign-up");
+                    }}
+                    className={styles.switchLink}
+                  >
+                    Create an account here
+                  </button>
+                </p>
+              ) : (
+                <p>
+                  Already hold a reservation?{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setError(null);
+                      setActiveTab("sign-in");
+                    }}
+                    className={styles.switchLink}
+                  >
+                    Sign in here
+                  </button>
+                </p>
+              )}
+            </div>
           </div>
-        </div>
+        </section>
 
       </div>
-    </div>
+    </main>
+  );
+}
+
+// ─── Indian Railway Train SVG (Loco + 5 Coaches) ───────────────────
+function TrainSvg() {
+  return (
+    <svg width="1080" height="75" viewBox="0 0 1080 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        {/* Coach Symbol reused 5 times */}
+        <g id="railCoach">
+          {/* Main Body */}
+          <rect x="0" y="16" width="160" height="38" rx="6" fill="#1b1219" stroke="#382534" strokeWidth="1.5" />
+          {/* Saffron & Cream Livery Stripe */}
+          <rect x="0" y="32" width="160" height="4.5" fill="#F2A33A" />
+          <rect x="0" y="36.5" width="160" height="2" fill="#F4EBDD" />
+          {/* Windows: Warm illuminated yellow glow */}
+          <rect x="14" y="20" width="18" height="10" rx="2" fill="#FFEAA7" opacity="0.9" />
+          <rect x="38" y="20" width="18" height="10" rx="2" fill="#FFEAA7" opacity="0.95" />
+          <rect x="62" y="20" width="18" height="10" rx="2" fill="#FFEAA7" opacity="0.85" />
+          <rect x="86" y="20" width="18" height="10" rx="2" fill="#FFEAA7" opacity="0.9" />
+          <rect x="110" y="20" width="18" height="10" rx="2" fill="#FFEAA7" opacity="0.95" />
+          <rect x="134" y="20" width="14" height="10" rx="2" fill="#FFEAA7" opacity="0.8" />
+          {/* Doors */}
+          <rect x="2" y="18" width="8" height="34" rx="1" fill="#140d13" />
+          <rect x="150" y="18" width="8" height="34" rx="1" fill="#140d13" />
+          {/* Under-chassis equipment & Bogies */}
+          <rect x="24" y="54" width="36" height="6" rx="2" fill="#0d080c" />
+          <rect x="100" y="54" width="36" height="6" rx="2" fill="#0d080c" />
+          {/* Wheels */}
+          <circle cx="28" cy="62" r="7.5" fill="#0d080c" stroke="#4a3b45" strokeWidth="2" />
+          <circle cx="52" cy="62" r="7.5" fill="#0d080c" stroke="#4a3b45" strokeWidth="2" />
+          <circle cx="104" cy="62" r="7.5" fill="#0d080c" stroke="#4a3b45" strokeWidth="2" />
+          <circle cx="128" cy="62" r="7.5" fill="#0d080c" stroke="#4a3b45" strokeWidth="2" />
+        </g>
+      </defs>
+
+      {/* Coach 5 (Rear) */}
+      <g transform="translate(0, 0)" className={styles.coachRattle}>
+        <use href="#railCoach" />
+      </g>
+      {/* Coupler */}
+      <rect x="160" y="44" width="14" height="4" fill="#0a0508" />
+
+      {/* Coach 4 */}
+      <g transform="translate(174, 0)" className={styles.coachRattle}>
+        <use href="#railCoach" />
+      </g>
+      {/* Coupler */}
+      <rect x="334" y="44" width="14" height="4" fill="#0a0508" />
+
+      {/* Coach 3 */}
+      <g transform="translate(348, 0)" className={styles.coachRattle}>
+        <use href="#railCoach" />
+      </g>
+      {/* Coupler */}
+      <rect x="508" y="44" width="14" height="4" fill="#0a0508" />
+
+      {/* Coach 2 */}
+      <g transform="translate(522, 0)" className={styles.coachRattle}>
+        <use href="#railCoach" />
+      </g>
+      {/* Coupler */}
+      <rect x="682" y="44" width="14" height="4" fill="#0a0508" />
+
+      {/* Coach 1 */}
+      <g transform="translate(696, 0)" className={styles.coachRattle}>
+        <use href="#railCoach" />
+      </g>
+      {/* Coupler */}
+      <rect x="856" y="44" width="14" height="4" fill="#0a0508" />
+
+      {/* Electric Locomotive WAP-7 (Front) */}
+      <g transform="translate(870, 0)">
+        {/* Pantograph */}
+        <path d="M 40 14 L 55 2 L 70 14" stroke="#c25e24" strokeWidth="2" fill="none" />
+        <line x1="45" y1="2" x2="65" y2="2" stroke="#c25e24" strokeWidth="2.5" />
+        <line x1="55" y1="2" x2="55" y2="14" stroke="#c25e24" strokeWidth="1.5" />
+
+        {/* Loco Body */}
+        <path d="M 0 14 L 160 14 Q 185 14 195 28 L 200 48 Q 200 54 190 54 L 0 54 Z" fill="#b93b28" stroke="#4a1811" strokeWidth="1.5" />
+        {/* White / Saffron Racing Stripe */}
+        <path d="M 0 34 L 175 34 L 195 40 L 0 40 Z" fill="#F2A33A" />
+        <path d="M 0 40 L 185 40 L 190 44 L 0 44 Z" fill="#F4EBDD" />
+        {/* Cab Windshield */}
+        <path d="M 160 20 L 180 20 Q 188 22 190 30 L 160 30 Z" fill="#FFEAA7" opacity="0.9" />
+        {/* WAP-7 Number Plate */}
+        <rect x="80" y="24" width="45" height="10" rx="2" fill="#140a08" />
+        <text x="86" y="32" fill="#F2A33A" fontSize="7" fontFamily="monospace" fontWeight="bold">WAP-7</text>
+        {/* Loco Bogies & Wheels */}
+        <circle cx="35" cy="62" r="8" fill="#0d080c" stroke="#4a3b45" strokeWidth="2" />
+        <circle cx="65" cy="62" r="8" fill="#0d080c" stroke="#4a3b45" strokeWidth="2" />
+        <circle cx="135" cy="62" r="8" fill="#0d080c" stroke="#4a3b45" strokeWidth="2" />
+        <circle cx="165" cy="62" r="8" fill="#0d080c" stroke="#4a3b45" strokeWidth="2" />
+
+        {/* Headlight Beam Cone */}
+        <path d="M 198 42 L 320 20 L 320 68 Z" fill="url(#headlightCone)" opacity="0.45" />
+        <circle cx="198" cy="42" r="4" fill="#FFFFFF" />
+      </g>
+
+      <defs>
+        <linearGradient id="headlightCone" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stopColor="#FFF2A3" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#FFF2A3" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
   );
 }
