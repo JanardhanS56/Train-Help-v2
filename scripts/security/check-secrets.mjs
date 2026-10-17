@@ -59,13 +59,17 @@ export const SECRET_RULES = [
   },
   {
     name: "Supabase Service Role Exposure",
-    regex: /\bservice_role\b/gi,
+    regex: new RegExp("\\b" + "service" + "_" + "role" + "\\b", "gi"),
     test: (match, line, filePath) => {
       // In SQL migrations, service_role is a PostgreSQL role identifier used in RLS policies and grants
       if (filePath.endsWith(".sql")) {
         return false;
       }
       if (/SUPABASE_SERVICE_ROLE_KEY/i.test(line)) {
+        return false;
+      }
+      // Avoid scanner and test from self-matching when defining or testing the rule
+      if (filePath.endsWith("check-secrets.mjs") || filePath.endsWith("check-secrets.test.ts")) {
         return false;
       }
       return true;
@@ -94,6 +98,19 @@ export const SECRET_RULES = [
     regex: /\b(?:sk-ant-[a-zA-Z0-9_-]{20,}|sk-proj-[a-zA-Z0-9_-]{20,}|sk-[a-zA-Z0-9_-]{20,}|gsk_[a-zA-Z0-9_-]{20,}|nvapi-[a-zA-Z0-9_-]{20,}|AIza[0-9A-Za-z_-]{35})\b/g,
     test: (match) => {
       if (isPlaceholder(match)) return false;
+      return true;
+    },
+  },
+  {
+    name: "Public Secret Prefix Leak",
+    regex: /\bNEXT_PUBLIC_[A-Za-z0-9_]*(?:KEY|SECRET|PASSWORD|TOKEN|DB_URL)[A-Za-z0-9_]*\b/g,
+    test: (match, line) => {
+      if (match === "NEXT_PUBLIC_SUPABASE_ANON_KEY") {
+        return false;
+      }
+      if (/never prefix with|do not expose/i.test(line)) {
+        return false;
+      }
       return true;
     },
   },
