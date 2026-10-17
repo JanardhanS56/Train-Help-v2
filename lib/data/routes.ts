@@ -3,7 +3,7 @@
  * Supabase Data Access for Railway Routes.
  */
 
-import { getSupabaseClient } from "./supabase-client";
+import { getSupabaseClient, isTableMissing } from "./supabase-client";
 import type { DbRoute } from "./types";
 
 export async function getAllRoutes(): Promise<DbRoute[]> {
@@ -16,7 +16,9 @@ export async function getAllRoutes(): Promise<DbRoute[]> {
     .order("name", { ascending: true });
 
   if (error) {
-    console.error("Failed to fetch routes:", error.message);
+    if (!isTableMissing(error)) {
+      console.error("Failed to fetch routes:", error.message);
+    }
     return [];
   }
 
@@ -34,7 +36,9 @@ export async function getRouteById(id: string): Promise<DbRoute | null> {
     .maybeSingle();
 
   if (error) {
-    console.error(`Failed to fetch route ${id}:`, error.message);
+    if (!isTableMissing(error)) {
+      console.error(`Failed to fetch route ${id}:`, error.message);
+    }
     return null;
   }
 
@@ -54,7 +58,9 @@ export async function createRoute(
     .single();
 
   if (error) {
-    console.error("Failed to create route:", error.message);
+    if (!isTableMissing(error)) {
+      console.error("Failed to create route:", error.message);
+    }
     return null;
   }
 

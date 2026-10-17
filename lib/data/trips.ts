@@ -3,7 +3,7 @@
  * Supabase Data Access for Passenger Trips and Bookings.
  */
 
-import { getSupabaseClient } from "./supabase-client";
+import { getSupabaseClient, isTableMissing } from "./supabase-client";
 import type { DbTrip } from "./types";
 
 export async function getAllTrips(passengerId?: string): Promise<DbTrip[]> {
@@ -22,7 +22,9 @@ export async function getAllTrips(passengerId?: string): Promise<DbTrip[]> {
   const { data, error } = await query;
 
   if (error) {
-    console.error("Failed to fetch trips:", error.message);
+    if (!isTableMissing(error)) {
+      console.error("Failed to fetch trips:", error.message);
+    }
     return [];
   }
 
@@ -40,7 +42,9 @@ export async function getTripById(id: string): Promise<DbTrip | null> {
     .maybeSingle();
 
   if (error) {
-    console.error(`Failed to fetch trip ${id}:`, error.message);
+    if (!isTableMissing(error)) {
+      console.error(`Failed to fetch trip ${id}:`, error.message);
+    }
     return null;
   }
 
@@ -60,7 +64,9 @@ export async function createTrip(
     .single();
 
   if (error) {
-    console.error("Failed to create trip:", error.message);
+    if (!isTableMissing(error)) {
+      console.error("Failed to create trip:", error.message);
+    }
     return null;
   }
 
@@ -86,7 +92,9 @@ export async function updateTripStatus(
     .eq("id", id);
 
   if (error) {
-    console.error(`Failed to update trip ${id} status:`, error.message);
+    if (!isTableMissing(error)) {
+      console.error(`Failed to update trip ${id} status:`, error.message);
+    }
     return false;
   }
 

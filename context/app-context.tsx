@@ -29,6 +29,7 @@ import {
   getTrainsBetween,
   dbTripToAppTrip,
   dbDisruptionToNotification,
+  isTableMissing,
 } from "@/lib/data";
 import { getTodayIST, formatISTDate, type JourneyItinerary } from "@/lib/journeys";
 
@@ -202,7 +203,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
           });
         }
       } catch (err) {
-        console.error("Failed to load trips from Supabase:", err);
+        if (!isTableMissing(err)) {
+          console.error("Failed to load trips from Supabase:", err);
+        }
       }
     }
 

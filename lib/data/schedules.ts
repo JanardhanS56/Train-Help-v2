@@ -3,7 +3,7 @@
  * Supabase Data Access for Train Schedules.
  */
 
-import { getSupabaseClient } from "./supabase-client";
+import { getSupabaseClient, isTableMissing } from "./supabase-client";
 import type { DbSchedule } from "./types";
 
 export async function getAllSchedules(routeId?: string): Promise<DbSchedule[]> {
@@ -22,7 +22,9 @@ export async function getAllSchedules(routeId?: string): Promise<DbSchedule[]> {
   const { data, error } = await query;
 
   if (error) {
-    console.error("Failed to fetch schedules:", error.message);
+    if (!isTableMissing(error)) {
+      console.error("Failed to fetch schedules:", error.message);
+    }
     return [];
   }
 
@@ -40,7 +42,9 @@ export async function getScheduleByTrainNumber(trainNumber: string): Promise<DbS
     .maybeSingle();
 
   if (error) {
-    console.error(`Failed to fetch schedule for train ${trainNumber}:`, error.message);
+    if (!isTableMissing(error)) {
+      console.error(`Failed to fetch schedule for train ${trainNumber}:`, error.message);
+    }
     return null;
   }
 
@@ -60,7 +64,9 @@ export async function createSchedule(
     .single();
 
   if (error) {
-    console.error("Failed to create schedule:", error.message);
+    if (!isTableMissing(error)) {
+      console.error("Failed to create schedule:", error.message);
+    }
     return null;
   }
 

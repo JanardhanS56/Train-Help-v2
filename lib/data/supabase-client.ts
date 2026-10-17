@@ -23,3 +23,18 @@ export function getSupabaseClient(): SupabaseClient | null {
 
   return clientInstance;
 }
+
+export function isTableMissing(error: unknown): boolean {
+  if (!error || typeof error !== "object") return false;
+  const err = error as { code?: string; message?: string; details?: string };
+  const msg = err.message || "";
+  const code = err.code || "";
+  return (
+    code === "PGRST204" ||
+    code === "PGRST205" ||
+    code === "42P01" ||
+    msg.includes("schema cache") ||
+    msg.includes("Could not find the table") ||
+    (msg.includes("relation") && msg.includes("does not exist"))
+  );
+}

@@ -3,7 +3,7 @@
  * Supabase Data Access for Network Disruptions and Alerts.
  */
 
-import { getSupabaseClient } from "./supabase-client";
+import { getSupabaseClient, isTableMissing } from "./supabase-client";
 import type { DbDisruption } from "./types";
 
 export async function getAllDisruptions(activeOnly = false): Promise<DbDisruption[]> {
@@ -22,7 +22,9 @@ export async function getAllDisruptions(activeOnly = false): Promise<DbDisruptio
   const { data, error } = await query;
 
   if (error) {
-    console.error("Failed to fetch disruptions:", error.message);
+    if (!isTableMissing(error)) {
+      console.error("Failed to fetch disruptions:", error.message);
+    }
     return [];
   }
 
@@ -40,7 +42,9 @@ export async function getDisruptionById(id: string): Promise<DbDisruption | null
     .maybeSingle();
 
   if (error) {
-    console.error(`Failed to fetch disruption ${id}:`, error.message);
+    if (!isTableMissing(error)) {
+      console.error(`Failed to fetch disruption ${id}:`, error.message);
+    }
     return null;
   }
 
@@ -60,7 +64,9 @@ export async function createDisruption(
     .single();
 
   if (error) {
-    console.error("Failed to create disruption:", error.message);
+    if (!isTableMissing(error)) {
+      console.error("Failed to create disruption:", error.message);
+    }
     return null;
   }
 
@@ -77,7 +83,9 @@ export async function resolveDisruption(id: string): Promise<boolean> {
     .eq("id", id);
 
   if (error) {
-    console.error(`Failed to resolve disruption ${id}:`, error.message);
+    if (!isTableMissing(error)) {
+      console.error(`Failed to resolve disruption ${id}:`, error.message);
+    }
     return false;
   }
 

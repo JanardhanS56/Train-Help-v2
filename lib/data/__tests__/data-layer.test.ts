@@ -105,4 +105,29 @@ describe("Supabase Data Layer Adapters", () => {
     expect(notif.message).toBe(disruption.description);
     expect(notif.read).toBe(false);
   });
+
+  it("identifies PostgREST schema cache and missing table errors", async () => {
+    const { isTableMissing } = await import("../supabase-client");
+
+    expect(isTableMissing(null)).toBe(false);
+    expect(isTableMissing({ message: "Network error" })).toBe(false);
+    expect(
+      isTableMissing({
+        message: "Could not find the table 'public.trips' in the schema cache",
+        code: "PGRST204",
+      })
+    ).toBe(true);
+    expect(
+      isTableMissing({
+        message: "Could not find the table 'public.disruptions' in the schema cache",
+      })
+    ).toBe(true);
+    expect(
+      isTableMissing({
+        code: "42P01",
+        message: 'relation "trips" does not exist',
+      })
+    ).toBe(true);
+  });
 });
+
