@@ -1,55 +1,91 @@
 /**
- * Scene Design Tokens mapped to TravelRescue theme palette.
- * Light paper: #FAF7F2, Dark background: #14171A
- * Navy primary: #1E3A5F, Warm stripe: #F4EFE6
- * Disruption signal (coral): #C2574A, Success signal (green): #2F7D6B
+ * Cinematic 3D Scene Design Tokens mapped to TravelRescue theme specifications.
+ * Section 4: Palette specifications for Dark ("blue hour") and Light ("golden morning").
  */
+
 export const SCENE_COLORS = {
-  light: {
-    paper: 0xfaf7f2,
-    ground: 0xf3efe8,
-    hills: 0xe5dfd5,
-    hillsDistant: 0xede8e0,
-    ballast: 0xddd7cc,
-    rails: 0x8a929a,
-    sleepers: 0x5a4a3c,
-    trainNavy: 0x1e3a5f,
-    trainStripe: 0xfdfaf5,
-    trainRoof: 0xd2cbbf,
-    trainWindows: 0x1a2430,
-    canopyRoof: 0x3d4752,
-    canopyPillars: 0x2c3540,
-    pole: 0x6e7882,
-    wire: 0x9aa2ab,
-    signalMast: 0x2a3038,
-    signalRed: 0xc2574a,
-    signalGreen: 0x2f7d6b,
-    ambientLight: 0xffffff,
-    directionalLight: 0xfffaed,
-  },
   dark: {
-    paper: 0x14171a,
-    ground: 0x191d21,
-    hills: 0x22272c,
-    hillsDistant: 0x1c2125,
-    ballast: 0x282e34,
-    rails: 0x5a636c,
-    sleepers: 0x3a322b,
-    trainNavy: 0x23456e,
-    trainStripe: 0xdfe4ea,
-    trainRoof: 0x353d45,
-    trainWindows: 0x0d1217,
-    canopyRoof: 0x2c343d,
-    canopyPillars: 0x1a2128,
-    pole: 0x48515a,
-    wire: 0x606972,
-    signalMast: 0x181c20,
-    signalRed: 0xe07a6c,
-    signalGreen: 0x5db89f,
-    ambientLight: 0x90a4ae,
-    directionalLight: 0xdfe8f0,
+    skyTop: "#070B1A",
+    skyMid: "#14224A",
+    horizonGlow: "#E58A4F",
+    fog: "#14224A",
+    pageBackground: "#14171A",
+    warmLight: "#FFB347",
+    fillLight: "#2E3B59",
+    farHills: "#1B2748",
+    midHills: "#141C36",
+    nearHills: "#0C1226",
+    nearHillsRim: "#E58A4F",
+    ground: "#1A1814",
+    ballast: "#252320",
+    rails: "#8B95A5",
+    sleepers: "#423A32",
+    platform: "#24272C",
+    canopyRoof: "#181D24",
+    canopyPillars: "#2E3640",
+    trainNavy: "#1E3A5F",
+    creamStripe: "#F3E9D8",
+    amberTrim: "#E8A33D",
+    trainRoof: "#2D3748",
+    windows: "#FFC878",
+    windowEmissive: "#FFC878",
+    windowEmissiveIntensity: 0.85,
+    headlight: "#FFF1CF",
+    headlightIntensity: 1.8,
+    signalRed: "#E5533D",
+    signalGreen: "#3FB58F",
+    pole: "#3B4252",
+    wire: "#616E85",
+    dust: "#FFB347",
+    townLights: "#FFCA85",
+    foliage: "#121F24",
+  },
+  light: {
+    skyTop: "#BFD3E6",
+    skyMid: "#DFE8F2",
+    horizonGlow: "#F6C9A0",
+    fog: "#FAF7F2",
+    pageBackground: "#FAF7F2",
+    warmLight: "#FFF1DE",
+    fillLight: "#C4D4E8",
+    farHills: "#D7D0C8",
+    midHills: "#B7B0A6",
+    nearHills: "#8E8A80",
+    nearHillsRim: "#F6C9A0",
+    ground: "#CDBFA6",
+    ballast: "#B8ABA0",
+    rails: "#94A0B0",
+    sleepers: "#7A7065",
+    platform: "#DFD9D0",
+    canopyRoof: "#4A5568",
+    canopyPillars: "#2D3748",
+    trainNavy: "#1E3A5F",
+    creamStripe: "#F3E9D8",
+    amberTrim: "#E8A33D",
+    trainRoof: "#CBD5E1",
+    windows: "#1E293B",
+    windowEmissive: "#000000",
+    windowEmissiveIntensity: 0.0,
+    headlight: "#FFF8E7",
+    headlightIntensity: 0.8,
+    signalRed: "#E5533D",
+    signalGreen: "#3FB58F",
+    pole: "#718096",
+    wire: "#A0AEC0",
+    dust: "#EDD8B6",
+    townLights: "#D4AF37",
+    foliage: "#4A6B53",
   },
 } as const;
 
 export type SceneMode = "light" | "dark";
 export type DemoSceneState = "idle" | "cancelled" | "recovered";
+export type QualityTier = "high" | "medium";
+
+export interface SceneMetrics {
+  drawCalls: number;
+  triangles: number;
+  textures: number;
+  geometries: number;
+  frameTimeMs: number;
+}
