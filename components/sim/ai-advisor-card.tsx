@@ -35,17 +35,17 @@ export function AiAdvisorCard({
     return (
       <div
         className={cn(
-          "rounded-2xl border border-dashed border-[#1E3A5F]/20 dark:border-slate-800 bg-[#FAF7F2]/60 dark:bg-slate-900/40 p-6 text-center space-y-2",
+          "rounded-2xl border border-dashed border-border bg-surface/60 p-6 text-center space-y-2",
           className
         )}
       >
-        <div className="h-10 w-10 mx-auto rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+        <div className="h-10 w-10 mx-auto rounded-xl bg-primary/10 text-primary flex items-center justify-center">
           <BrainCircuit className="h-5 w-5" />
         </div>
-        <h3 className="font-semibold text-sm text-slate-800 dark:text-slate-200">
+        <h3 className="font-semibold text-sm text-foreground">
           AI Dispatch Advisor Monitoring Corridor
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+        <p className="text-xs text-muted-foreground max-w-md mx-auto leading-relaxed">
           No active track disruptions detected on the running schedule. Inject an obstacle above or
           select a preset scenario to see the AI agent compute multi-objective rerouting plans.
         </p>
@@ -58,27 +58,27 @@ export function AiAdvisorCard({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-[#1E3A5F]/20 dark:border-slate-800 bg-[#FAF7F2] dark:bg-slate-900/95 shadow-md p-4 md:p-5 backdrop-blur-sm space-y-4",
+        "rounded-2xl border border-border bg-surface shadow-md p-4 md:p-5 backdrop-blur-sm space-y-4",
         className
       )}
       aria-label="TravelRescue AI Rail Dispatch Advisor"
     >
       {/* Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E3A5F]/10 dark:border-slate-800 pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#1E3A5F] to-blue-700 text-white flex items-center justify-center shadow-xs">
+          <div className="h-9 w-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-xs">
             <BrainCircuit className="h-5 w-5 animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-sm md:text-base text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+              <h3 className="font-bold text-sm md:text-base text-foreground flex items-center gap-1.5">
                 AI Railway Dispatch Advisor
-                <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300">
+                <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
                   Llama-3.3-70B
                 </span>
               </h3>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-xs text-muted-foreground mt-0.5">
               Multi-criteria optimization: minimizing passenger delay, transfer friction, and section risk.
             </p>
           </div>
@@ -86,7 +86,7 @@ export function AiAdvisorCard({
 
         {recommendedPlan && (
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-semibold px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center gap-1">
+            <span className="text-xs font-mono font-semibold px-2.5 py-1 rounded-full bg-success-tint text-success border border-success/30 flex items-center gap-1">
               <ShieldCheck className="h-3.5 w-3.5" />
               {recommendedPlan.confidence}% AI Confidence
             </span>
@@ -96,8 +96,8 @@ export function AiAdvisorCard({
 
       {isLoading ? (
         <div className="py-12 text-center space-y-3">
-          <div className="animate-spin h-7 w-7 border-2 border-blue-600 border-t-transparent rounded-full mx-auto" />
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-mono">
+          <div className="animate-spin h-7 w-7 border-2 border-primary border-t-transparent rounded-full mx-auto" />
+          <p className="text-xs text-muted-foreground font-mono">
             Evaluating alternate track topology, loop lines, and connecting rakes...
           </p>
         </div>
@@ -113,15 +113,15 @@ export function AiAdvisorCard({
                 className={cn(
                   "rounded-xl p-4 border transition-all flex flex-col justify-between relative",
                   isSelected
-                    ? "bg-blue-50/70 dark:bg-blue-950/40 border-blue-500 dark:border-blue-500 ring-2 ring-blue-500/20 shadow-sm"
+                    ? "bg-primary/10 border-primary ring-2 ring-primary/20 shadow-sm"
                     : isRec
-                    ? "bg-white/80 dark:bg-slate-800/80 border-amber-300 dark:border-amber-700/80 shadow-2xs"
-                    : "bg-white/60 dark:bg-slate-800/50 border-slate-200/80 dark:border-slate-700/80 hover:border-slate-300"
+                    ? "bg-surface border-warning/50 shadow-2xs"
+                    : "bg-surface border-border hover:border-muted-foreground/40"
                 )}
               >
                 {/* Recommended Badge */}
                 {isRec && (
-                  <div className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-amber-500 text-white font-mono text-[10px] font-bold flex items-center gap-1 shadow-xs tracking-wider">
+                  <div className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-warning text-primary-foreground font-mono text-[10px] font-bold flex items-center gap-1 shadow-xs tracking-wider">
                     <Sparkles className="h-2.5 w-2.5" />
                     RECOMMENDED
                   </div>
@@ -198,15 +198,15 @@ export function AiAdvisorCard({
                 </div>
 
                 {/* Actions: Preview & Accept */}
-                <div className="flex items-center gap-2 pt-3 mt-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-2 pt-3 mt-2 border-t border-border">
                   <button
                     type="button"
                     onClick={() => onPreviewPlan(isSelected ? null : plan)}
                     className={cn(
                       "flex-1 py-1.5 px-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 border transition-colors",
                       isSelected
-                        ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-surface border-border text-foreground hover:bg-muted"
                     )}
                   >
                     <Eye className="h-3.5 w-3.5" />
@@ -216,7 +216,7 @@ export function AiAdvisorCard({
                   <button
                     type="button"
                     onClick={() => onAcceptPlan(plan)}
-                    className="flex-1 py-1.5 px-2.5 rounded-lg text-xs font-semibold bg-[#1E3A5F] hover:bg-[#152a45] text-[#FAF7F2] dark:bg-blue-600 dark:hover:bg-blue-700 flex items-center justify-center gap-1.5 shadow-2xs transition-colors"
+                    className="flex-1 py-1.5 px-2.5 rounded-lg text-xs font-semibold bg-primary hover:bg-primary-hover text-primary-foreground flex items-center justify-center gap-1.5 shadow-2xs transition-colors"
                   >
                     <CheckCircle className="h-3.5 w-3.5" />
                     Accept Plan

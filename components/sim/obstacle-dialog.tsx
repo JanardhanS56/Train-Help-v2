@@ -258,7 +258,7 @@ export function ObstacleDialog({
                     <button
                       type="button"
                       onClick={() => handleApplyPlausibleHazard(hazard)}
-                      className="px-3 py-1.5 rounded-lg bg-[#1E3A5F] hover:bg-[#152a45] text-[#FAF7F2] dark:bg-blue-600 dark:hover:bg-blue-700 text-xs font-semibold shrink-0 shadow-2xs transition-colors"
+                      className="px-3 py-1.5 rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground text-xs font-semibold shrink-0 shadow-2xs transition-colors"
                     >
                       Inject Ahead
                     </button>
@@ -438,7 +438,7 @@ export function ObstacleDialog({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded-xl bg-[#1E3A5F] hover:bg-[#152a45] text-[#FAF7F2] dark:bg-blue-600 dark:hover:bg-blue-700 font-semibold shadow-xs"
+                className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground font-semibold shadow-xs"
               >
                 Inject Disruption
               </button>

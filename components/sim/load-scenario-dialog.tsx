@@ -163,7 +163,7 @@ export function LoadScenarioDialog({
                   type="button"
                   onClick={() => handleLoad(s.id)}
                   disabled={loadingId === s.id}
-                  className="px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-[#1E3A5F] hover:bg-[#152a45] dark:bg-blue-600 dark:hover:bg-blue-700 flex items-center gap-1.5 shadow-2xs transition-all shrink-0"
+                  className="px-3 py-1.5 rounded-xl text-xs font-semibold text-primary-foreground bg-primary hover:bg-primary-hover flex items-center gap-1.5 shadow-2xs transition-all shrink-0"
                 >
                   {loadingId === s.id ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />

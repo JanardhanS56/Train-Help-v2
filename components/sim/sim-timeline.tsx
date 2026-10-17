@@ -101,12 +101,12 @@ export function SimTimeline({
       >
         <div className="relative min-w-[700px] flex items-start justify-between px-6">
           {/* Background Connecting Rail Line */}
-          <div className="absolute top-9 left-8 right-8 h-1 bg-slate-200 dark:bg-slate-700 -z-0 rounded-full" />
+          <div className="absolute top-9 left-8 right-8 h-1 bg-border -z-0 rounded-full" />
 
           {/* Progress Completed Rail Line */}
           {origin && destination && (
             <div
-              className="absolute top-9 left-8 h-1 bg-[#1E3A5F] dark:bg-blue-500 -z-0 rounded-full transition-all duration-300"
+              className="absolute top-9 left-8 h-1 bg-primary -z-0 rounded-full transition-all duration-300"
               style={{
                 width: `calc(${Math.min(100, Math.max(0, (position.distanceKm / totalDistance) * 100))}% - 16px)`,
               }}
@@ -135,7 +135,7 @@ export function SimTimeline({
                 style={{ minWidth: "90px" }}
               >
                 {/* Distance Chip */}
-                <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 mb-2 whitespace-nowrap">
+                <span className="text-[10px] font-mono text-muted-foreground mb-2 whitespace-nowrap">
                   {Math.round(stop.distanceKm)} km
                 </span>
 
@@ -144,14 +144,14 @@ export function SimTimeline({
                   className={cn(
                     "h-7 w-7 rounded-full flex items-center justify-center border-2 transition-all shadow-xs",
                     hasObstacle
-                      ? "bg-rose-500 border-rose-600 text-white animate-bounce"
+                      ? "bg-destructive border-destructive text-white animate-bounce"
                       : isCurrent
-                      ? "bg-[#1E3A5F] border-amber-400 text-amber-300 ring-4 ring-amber-400/30 scale-110"
+                      ? "bg-primary border-primary-hover text-primary-foreground ring-4 ring-primary/30 scale-110"
                       : isDeparted
-                      ? "bg-[#1E3A5F] border-[#1E3A5F] text-white dark:bg-blue-600 dark:border-blue-600"
+                      ? "bg-primary border-primary text-primary-foreground"
                       : isNext
-                      ? "bg-white border-teal-500 text-teal-600 dark:bg-slate-800 ring-2 ring-teal-500/20"
-                      : "bg-white border-slate-300 dark:bg-slate-800 dark:border-slate-600 text-slate-400"
+                      ? "bg-surface border-success text-success ring-2 ring-success/20"
+                      : "bg-surface border-border text-muted-foreground"
                   )}
                 >
                   {hasObstacle ? (

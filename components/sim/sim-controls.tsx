@@ -196,7 +196,7 @@ export function SimControls({
                       key={t.train_number}
                       className={cn(
                         "px-3.5 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-800/80 cursor-pointer flex items-center justify-between text-xs transition-colors",
-                        t.train_number === selectedTrainNumber && "bg-blue-50/70 dark:bg-blue-950/40"
+                        t.train_number === selectedTrainNumber && "bg-primary/10 text-primary"
                       )}
                       onClick={() => {
                         onSelectTrain(t.train_number);
@@ -204,20 +204,20 @@ export function SimControls({
                       }}
                     >
                       <div className="flex items-center gap-2 truncate">
-                        <span className="font-mono font-bold text-slate-900 dark:text-slate-100 w-14">
+                        <span className="font-mono font-bold text-foreground w-14">
                           {t.train_number}
                         </span>
-                        <span className="font-medium text-slate-700 dark:text-slate-300 truncate">
+                        <span className="font-medium text-foreground truncate">
                           {t.train_name}
                         </span>
                       </div>
-                      <span className="text-[11px] font-mono text-slate-400 shrink-0 ml-2">
+                      <span className="text-[11px] font-mono text-muted-foreground shrink-0 ml-2">
                         {t.origin_station_code} → {t.destination_station_code}
                       </span>
                     </div>
                   ))}
                   {!isSearchingRemote && displayTrains.length === 0 && (
-                    <div className="p-4 text-center text-xs text-slate-400">
+                    <div className="p-4 text-center text-xs text-muted-foreground">
                       No trains found matching &quot;{searchQuery}&quot;. Try searching &quot;raj-&quot; or &quot;exp&quot;.
                     </div>
                   )}
@@ -229,16 +229,16 @@ export function SimControls({
 
         {/* Replay Mode Header or 1-Click Preset Scenario Buttons */}
         {isReplayMode ? (
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-xs">
-            <span className="h-2 w-2 rounded-full bg-purple-600 animate-pulse" />
-            <span className="font-semibold text-purple-900 dark:text-purple-200">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-primary/10 border border-primary/20 text-xs">
+            <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span className="font-semibold text-primary">
               Replay Mode: {replayScenarioName || "Archived Scenario Run"}
             </span>
             {onExitReplay && (
               <button
                 type="button"
                 onClick={onExitReplay}
-                className="ml-2 px-2.5 py-0.5 rounded-lg text-[11px] font-medium bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-700 text-purple-800 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 flex items-center gap-1 transition-colors"
+                className="ml-2 px-2.5 py-0.5 rounded-lg text-[11px] font-medium bg-surface border border-border text-foreground hover:bg-muted flex items-center gap-1 transition-colors"
               >
                 <LogOut className="h-3 w-3" />
                 Exit Replay
@@ -247,14 +247,14 @@ export function SimControls({
           </div>
         ) : (
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1 mr-1">
-              <Sparkles className="h-3 w-3 text-amber-500" />
+            <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1 mr-1">
+              <Sparkles className="h-3 w-3 text-warning" />
               Presets:
             </span>
             <button
               type="button"
               onClick={() => onSelectPresetScenario("konkan")}
-              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-200 border border-amber-200/60 dark:border-amber-800 transition-colors"
+              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-warning/10 hover:bg-warning/20 text-warning border border-warning/20 transition-colors"
               title="Panchaganga Express 16595 with Chiplun-Ratnagiri Landslide"
             >
               Konkan (16595)
@@ -262,7 +262,7 @@ export function SimControls({
             <button
               type="button"
               onClick={() => onSelectPresetScenario("fog")}
-              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors"
+              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-muted hover:bg-muted/80 text-foreground border border-border transition-colors"
               title="Karnataka Express 12627 with Kanpur-Prayagraj Fog Restriction"
             >
               Fog (12627)
@@ -270,7 +270,7 @@ export function SimControls({
             <button
               type="button"
               onClick={() => onSelectPresetScenario("ohe")}
-              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/40 dark:hover:bg-blue-900/60 text-blue-800 dark:text-blue-200 border border-blue-200/60 dark:border-blue-800 transition-colors"
+              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 transition-colors"
               title="Bengaluru Rajdhani 22691 with Bhopal OHE Cable Snap"
             >
               OHE Snap (22691)
@@ -332,7 +332,7 @@ export function SimControls({
       </div>
 
       {/* Bottom Bar: Playback Controls & Speed Acceleration */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-[#1E3A5F]/10 dark:border-slate-800">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-border">
         {/* Play/Pause/Step/Reset */}
         <div className="flex items-center gap-2">
           <button
@@ -341,8 +341,8 @@ export function SimControls({
             className={cn(
               "px-4 py-2 rounded-xl font-semibold text-xs flex items-center gap-2 shadow-xs transition-all active:scale-95",
               isPlaying
-                ? "bg-amber-600 hover:bg-amber-700 text-white"
-                : "bg-[#1E3A5F] hover:bg-[#152a45] text-[#FAF7F2] dark:bg-blue-600 dark:hover:bg-blue-700"
+                ? "bg-warning hover:bg-warning/80 text-primary-foreground"
+                : "bg-primary hover:bg-primary-hover text-primary-foreground"
             )}
           >
             {isPlaying ? (
@@ -361,7 +361,7 @@ export function SimControls({
           <button
             type="button"
             onClick={onStepForward}
-            className="p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/60 shadow-2xs transition-colors"
+            className="p-2 rounded-xl bg-surface border border-border text-foreground hover:bg-muted shadow-2xs transition-colors"
             title="Step to next station"
           >
             <SkipForward className="h-4 w-4" />
@@ -370,7 +370,7 @@ export function SimControls({
           <button
             type="button"
             onClick={onReset}
-            className="p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/60 shadow-2xs transition-colors"
+            className="p-2 rounded-xl bg-surface border border-border text-foreground hover:bg-muted shadow-2xs transition-colors"
             title="Reset simulation to origin"
           >
             <RotateCcw className="h-4 w-4" />
@@ -378,8 +378,8 @@ export function SimControls({
         </div>
 
         {/* Speed Multiplier Toggles */}
-        <div className="flex items-center gap-1.5 bg-white/70 dark:bg-slate-800/70 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-mono">
-          <span className="text-[10px] text-slate-400 font-sans px-1 hidden sm:inline">Speed:</span>
+        <div className="flex items-center gap-1.5 bg-surface/70 p-1 rounded-xl border border-border text-xs font-mono">
+          <span className="text-[10px] text-muted-foreground font-sans px-1 hidden sm:inline">Speed:</span>
           {([1, 2, 5, 10, 60] as SpeedMultiplier[]).map((spd) => (
             <button
               key={spd}
@@ -388,8 +388,8 @@ export function SimControls({
               className={cn(
                 "px-2 py-1 rounded-lg font-bold transition-all",
                 speedMultiplier === spd
-                  ? "bg-[#1E3A5F] text-[#FAF7F2] dark:bg-blue-600 shadow-2xs"
-                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
+                  ? "bg-primary text-primary-foreground shadow-2xs"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
               {spd}x
