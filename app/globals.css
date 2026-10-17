@@ -156,6 +156,189 @@
   --radius: 8px;
 }
 
+/* ─── Authenticated App Sunset Theme (Golden-Hour Indian Railway Sunset) ─── */
+body:has(.app-sunset-theme),
+.app-sunset-theme {
+  --background: #FAF6EE;
+  --foreground: #2B1710;
+  --surface: #FFFFFF;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #2B1710;
+  --sidebar-border: #E8DECB;
+  --sidebar-accent: rgba(242, 169, 59, 0.18);
+  --sidebar-accent-foreground: #9A5A08;
+  --sidebar-primary: #F2A93B;
+  --sidebar-primary-foreground: #2B1710;
+
+  --border: #E8DECB;
+  --hairline: #EFE6D6;
+  --input: #E8DECB;
+  --ring: #B86A0B;
+
+  --primary: #F2A93B;
+  --primary-hover: #E8892B;
+  --primary-foreground: #2B1710;
+
+  --secondary: #F4EBDD;
+  --secondary-foreground: #2B1710;
+  --muted: #F4EBDD;
+  --muted-foreground: #796F66;
+  --accent: rgba(242, 169, 59, 0.18);
+  --accent-foreground: #2B1710;
+
+  --card: #FFFFFF;
+  --card-foreground: #2B1710;
+  --popover: #FFFFFF;
+  --popover-foreground: #2B1710;
+  --destructive: #B42318;
+
+  --disruption: #B42318;
+  --disruption-tint: rgba(180, 35, 24, 0.12);
+  --warning: #895300;
+  --warning-tint: rgba(242, 169, 59, 0.16);
+  --success: #237A49;
+  --success-tint: rgba(35, 122, 73, 0.14);
+  --neutral-tint: #F4EBDD;
+
+  --chart-1: #F5A83A;
+  --chart-2: #E8603C;
+  --chart-3: #C94F7C;
+  --chart-4: #7A3E6B;
+  --chart-5: #2F8F9D;
+  --chart-6: #3FA66B;
+}
+
+.dark:has(.app-sunset-theme),
+.dark .app-sunset-theme {
+  --background: #150E14;
+  --foreground: #F6EBDD;
+  --surface: #281C20;
+  --sidebar: #1E1519;
+  --sidebar-foreground: #F6EBDD;
+  --sidebar-border: #45322F;
+  --sidebar-accent: rgba(245, 168, 58, 0.14);
+  --sidebar-accent-foreground: #F5A83A;
+  --sidebar-primary: #F5A83A;
+  --sidebar-primary-foreground: #24170D;
+
+  --border: #45322F;
+  --hairline: #382826;
+  --input: #45322F;
+  --ring: #FFB84D;
+
+  --primary: #F5A83A;
+  --primary-hover: #FFB84D;
+  --primary-foreground: #24170D;
+
+  --secondary: #281C20;
+  --secondary-foreground: #F6EBDD;
+  --muted: #33242A;
+  --muted-foreground: #A08F86;
+  --accent: rgba(245, 168, 58, 0.14);
+  --accent-foreground: #F6EBDD;
+
+  --card: #281C20;
+  --card-foreground: #F6EBDD;
+  --popover: #33242A;
+  --popover-foreground: #F6EBDD;
+  --destructive: #EF6A5E;
+
+  --disruption: #EF6A5E;
+  --disruption-tint: rgba(239, 106, 94, 0.18);
+  --warning: #F5A83A;
+  --warning-tint: rgba(245, 168, 58, 0.18);
+  --success: #4DBB7C;
+  --success-tint: rgba(77, 187, 124, 0.18);
+  --neutral-tint: #33242A;
+
+  --chart-1: #F5A83A;
+  --chart-2: #E8603C;
+  --chart-3: #C94F7C;
+  --chart-4: #7A3E6B;
+  --chart-5: #2F8F9D;
+  --chart-6: #3FA66B;
+}
+
+.dark .app-sunset-theme {
+  background: linear-gradient(180deg, #150E14 0%, #1F1220 100%);
+  background-attachment: fixed;
+}
+
+/* Scoped selection & scrollbar for authenticated sunset app */
+.app-sunset-theme ::selection {
+  background-color: rgba(245, 168, 58, 0.3);
+  color: inherit;
+}
+
+.app-sunset-theme ::placeholder {
+  color: var(--muted-foreground);
+  opacity: 0.65;
+}
+
+.app-sunset-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.app-sunset-theme ::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.app-sunset-theme ::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.app-sunset-theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Sunset Theme Button Gradients and Focus Rings */
+.app-sunset-theme button.bg-primary,
+.app-sunset-theme a.bg-primary {
+  background-image: linear-gradient(180deg, #FFC15A 0%, var(--primary) 60%, #EE8A2B 100%);
+  color: var(--primary-foreground);
+  box-shadow: 0 1px 3px rgba(36, 23, 13, 0.2);
+}
+
+.app-sunset-theme button.bg-primary:hover,
+.app-sunset-theme a.bg-primary:hover {
+  background-image: linear-gradient(180deg, #FFC96B 0%, var(--primary-hover) 60%, #F5973A 100%);
+}
+
+.app-sunset-theme button.bg-primary:active,
+.app-sunset-theme a.bg-primary:active {
+  background-image: linear-gradient(180deg, #E0922A 0%, #D4841E 100%);
+}
+
+.dark .app-sunset-theme :focus-visible {
+  outline-color: #FFB84D;
+  box-shadow: 0 0 12px rgba(245, 168, 58, 0.25);
+}
+
+.app-sunset-theme :focus-visible {
+  outline-color: #B86A0B;
+}
+
+.app-sunset-theme a.text-primary:hover {
+  color: #7C4706;
+}
+
+.dark .app-sunset-theme a.text-primary:hover {
+  color: #FFB84D;
+}
+
+.app-sunset-theme .interactive-row:hover {
+  border-color: #CDB8AB;
+  background-color: var(--secondary);
+}
+
+.dark .app-sunset-theme .interactive-row:hover {
+  border-color: #7A3E6B;
+  background-color: var(--muted);
+}
+
+
 @layer base {
   * {
     border-color: var(--border);
