@@ -123,10 +123,10 @@ export function loadPersistedState(initialState: AppState): Partial<AppState> {
         if (!raw) return [];
         interface StoredSegment { departureTime: string; arrivalTime: string }
         interface StoredTrip extends Omit<Trip, "segments"> { segments: (Omit<TrainSegment, "departureTime" | "arrivalTime"> & StoredSegment)[] }
-        const parsed: StoredTrip[] = JSON.parse(raw);
         return parsed.map((t) => ({
           ...t,
-          segments: t.segments.map((s) => ({
+          neededByTime: t.neededByTime ? new Date(t.neededByTime) : undefined,
+          segments: (t.segments || []).map((s) => ({
             ...s,
             departureTime: new Date(s.departureTime),
             arrivalTime: new Date(s.arrivalTime),

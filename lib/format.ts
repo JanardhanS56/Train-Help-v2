@@ -26,6 +26,31 @@ export const formatFareDifference = formatPriceDifference;
 
 // ─── Date & Time ───────────────────────────────────────────────────
 
+function toValidDate(input: unknown): Date | null {
+  if (!input) return null;
+  if (input instanceof Date) {
+    return isNaN(input.getTime()) ? null : input;
+  }
+  if (typeof input === "string") {
+    const parsed = new Date(input);
+    if (!isNaN(parsed.getTime())) {
+      return parsed;
+    }
+    const timeMatch = input.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+    if (timeMatch) {
+      const now = new Date();
+      now.setHours(parseInt(timeMatch[1], 10), parseInt(timeMatch[2], 10), timeMatch[3] ? parseInt(timeMatch[3], 10) : 0, 0);
+      return now;
+    }
+    return null;
+  }
+  if (typeof input === "number") {
+    const parsed = new Date(input);
+    return isNaN(parsed.getTime()) ? null : parsed;
+  }
+  return null;
+}
+
 const timeFormatter = new Intl.DateTimeFormat("en-IN", {
   hour: "2-digit",
   minute: "2-digit",
@@ -45,23 +70,36 @@ const fullDateFormatter = new Intl.DateTimeFormat("en-IN", {
   year: "numeric",
 });
 
-export function formatTime(date: Date): string {
-  return timeFormatter.format(date);
+export function formatTime(date: Date | string | number): string {
+  const d = toValidDate(date);
+  if (!d) {
+    if (typeof date === "string" && /^\d{1,2}:\d{2}/.test(date)) {
+      return date.slice(0, 5);
+    }
+    return "--:--";
+  }
+  return timeFormatter.format(d);
 }
 
-export function formatDate(date: Date): string {
-  return dateFormatter.format(date);
+export function formatDate(date: Date | string | number): string {
+  const d = toValidDate(date);
+  if (!d) return "--";
+  return dateFormatter.format(d);
 }
 
-export function formatFullDate(date: Date): string {
-  return fullDateFormatter.format(date);
+export function formatFullDate(date: Date | string | number): string {
+  const d = toValidDate(date);
+  if (!d) return "--";
+  return fullDateFormatter.format(d);
 }
 
-export function formatDateTime(date: Date): string {
-  return `${formatDate(date)}, ${formatTime(date)}`;
+export function formatDateTime(date: Date | string | number): string {
+  const d = toValidDate(date);
+  if (!d) return "--";
+  return `${formatDate(d)}, ${formatTime(d)}`;
 }
 
-export function formatTimeWithDay(date: Date, dayOffset?: string): string {
+export function formatTimeWithDay(date: Date | string | number, dayOffset?: string): string {
   const timeStr = formatTime(date);
   return dayOffset ? `${timeStr} (${dayOffset})` : timeStr;
 }
@@ -80,9 +118,11 @@ export function formatDuration(minutes: number): string {
 
 import { getNow } from "@/lib/clock";
 
-export function formatRelativeTime(date: Date): string {
+export function formatRelativeTime(date: Date | string | number): string {
+  const d = toValidDate(date);
+  if (!d) return "--";
   const now = getNow();
-  const diffMs = now.getTime() - date.getTime();
+  const diffMs = now.getTime() - d.getTime();
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMins / 60);
   const diffDays = Math.floor(diffHours / 24);
@@ -91,7 +131,7 @@ export function formatRelativeTime(date: Date): string {
   if (diffMins < 60) return `${diffMins}m ago`;
   if (diffHours < 24) return `${diffHours}h ago`;
   if (diffDays < 7) return `${diffDays}d ago`;
-  return formatDate(date);
+  return formatDate(d);
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────

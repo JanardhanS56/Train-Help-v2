@@ -66,7 +66,25 @@ async function fetchJourneysApi(params: {
   if (!res.ok) {
     throw new Error(`Journey search failed: ${res.statusText}`);
   }
-  return res.json();
+  const data = (await res.json()) as { direct: JourneyItinerary[]; connecting: JourneyItinerary[] };
+
+  const reviveItinerary = (it: JourneyItinerary): JourneyItinerary => ({
+    ...it,
+    departureTime: new Date(it.departureTime),
+    arrivalTime: new Date(it.arrivalTime),
+    legs: (it.legs || []).map((leg) => ({
+      ...leg,
+      departureTime: new Date(leg.departureTime),
+      arrivalTime: new Date(leg.arrivalTime),
+      originDate: new Date(leg.originDate),
+      boardingDate: new Date(leg.boardingDate),
+    })),
+  });
+
+  return {
+    direct: (data.direct || []).map(reviveItinerary),
+    connecting: (data.connecting || []).map(reviveItinerary),
+  };
 }
 
 interface TrainBookingDialogProps {
@@ -379,6 +397,7 @@ export function TrainBookingDialog({
       coach: berthInfo.coach,
       berth: berthInfo.berths.join(", "),
       status: "on-time",
+      neededByTime: new Date(selectedJourney.arrivalTime),
       segments: selectedJourney.legs.map((leg) => ({
         trainName: leg.trainName,
         trainNumber: leg.trainNumber,
@@ -392,13 +411,14 @@ export function TrainBookingDialog({
           name: leg.toStationName,
           city: leg.toStationName,
         },
-        departureTime: leg.departureTime,
-        arrivalTime: leg.arrivalTime,
+        departureTime: leg.departureTime instanceof Date ? leg.departureTime : new Date(leg.departureTime),
+        arrivalTime: leg.arrivalTime instanceof Date ? leg.arrivalTime : new Date(leg.arrivalTime),
+        dayOffset: leg.arrivalDayLabel || undefined,
         status: "on-time",
         travelClass: selectedClass,
         coach: berthInfo.coach,
         berth: berthInfo.berths.join(", "),
-        platform: "Platform TBA",
+        platform: leg.platform || "Platform TBA",
       })),
     };
 

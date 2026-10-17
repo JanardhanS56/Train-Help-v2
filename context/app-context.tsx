@@ -130,12 +130,24 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, chatMessages: [...state.chatMessages, action.message] };
     case "CLEAR_CHAT_MESSAGES":
       return { ...state, chatMessages: [] };
-    case "ADD_TRIP":
+    case "ADD_TRIP": {
+      const normalizedTrip: Trip = {
+        ...action.trip,
+        neededByTime: action.trip.neededByTime
+          ? (action.trip.neededByTime instanceof Date ? action.trip.neededByTime : new Date(action.trip.neededByTime))
+          : undefined,
+        segments: action.trip.segments.map((seg) => ({
+          ...seg,
+          departureTime: seg.departureTime instanceof Date ? seg.departureTime : new Date(seg.departureTime),
+          arrivalTime: seg.arrivalTime instanceof Date ? seg.arrivalTime : new Date(seg.arrivalTime),
+        })),
+      };
       return {
         ...state,
-        trips: [action.trip, ...state.trips],
-        selectedTripId: action.trip.id,
+        trips: [normalizedTrip, ...state.trips],
+        selectedTripId: normalizedTrip.id,
       };
+    }
     case "SUBMIT_VIBE_FEEDBACK": {
       const trainNum = action.feedback.trainNumber;
       const existing = state.vibeRatings?.[trainNum] || [];
