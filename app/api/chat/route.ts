@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getProviderConfig } from "@/lib/ai/providers";
 import { buildGroundedSystemPrompt, type GroundingContext } from "@/lib/ai/grounding";
 import { parseStructuredActions } from "@/lib/ai/action-parser";
+import { generateDeterministicAdvice } from "@/lib/ai/fallback-advisor";
 import { saveChatMessage } from "@/lib/data/chat";
 import { CHAT_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
 
@@ -14,9 +15,109 @@ export interface ChatRequestBody {
   stream?: boolean;
 }
 
+/**
+ * Helper to produce a deterministic fallback SSE stream.
+ */
+function createFallbackStreamResponse(
+  adviceText: string,
+  conversationId: string,
+  extraHeaders: Record<string, string> = {}
+): Response {
+  const { cleanContent, actions } = parseStructuredActions(adviceText);
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        const tokens = adviceText.match(/\S+|\s+/g) || [adviceText];
+        for (const token of tokens) {
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify({ token, done: false })}\n\n`)
+          );
+        }
+
+        await saveChatMessage({
+          conversation_id: conversationId,
+          role: "assistant",
+          content: cleanContent,
+          actions,
+        }).catch((e) => console.warn("Failed to persist fallback chat message:", e));
+
+        controller.enqueue(
+          encoder.encode(
+            `data: ${JSON.stringify({
+              token: "",
+              done: true,
+              cleanContent,
+              actions,
+              provider: "deterministic-fallback",
+              model: "offline-rule-engine",
+            })}\n\n`
+          )
+        );
+      } catch (streamErr) {
+        console.error("Error during fallback SSE streaming:", streamErr);
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/event-stream; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      Connection: "keep-alive",
+      "X-Fallback-Mode": "true",
+      ...extraHeaders,
+    },
+  });
+}
+
+/**
+ * Helper to produce a deterministic fallback JSON response.
+ */
+async function createFallbackJsonResponse(
+  adviceText: string,
+  conversationId: string,
+  extraHeaders: Record<string, string> = {}
+): Promise<NextResponse> {
+  const { cleanContent, actions } = parseStructuredActions(adviceText);
+
+  await saveChatMessage({
+    conversation_id: conversationId,
+    role: "assistant",
+    content: cleanContent,
+    actions,
+  }).catch((e) => console.warn("Failed to persist fallback chat message:", e));
+
+  return NextResponse.json(
+    {
+      reply: cleanContent,
+      rawReply: adviceText,
+      actions,
+      provider: "deterministic-fallback",
+      model: "offline-rule-engine",
+    },
+    {
+      status: 200,
+      headers: {
+        "X-Fallback-Mode": "true",
+        ...extraHeaders,
+      },
+    }
+  );
+}
+
 export async function POST(req: NextRequest) {
   const rateLimit = await enforceRateLimit(req, CHAT_RATE_LIMIT);
   if (!rateLimit.success) return rateLimit.response;
+
+  const rateLimitHeaders: Record<string, string> = {
+    "X-RateLimit-Remaining": String(rateLimit.limit.remaining),
+    "X-RateLimit-Reset": String(Math.ceil(rateLimit.limit.resetMs / 1000)),
+  };
 
   try {
     const body: ChatRequestBody = await req.json();
@@ -32,30 +133,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check for DeepSeek / AI API key
-    const config = getProviderConfig();
-    const apiKey = process.env.DEEPSEEK_API_KEY || config.apiKey;
-
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          error:
-            "DEEPSEEK_API_KEY is not configured in the environment. Please add DEEPSEEK_API_KEY to your .env.local file to enable the live AI assistant.",
-          isError: true,
-          code: "MISSING_API_KEY",
-        },
-        { status: 503 }
-      );
-    }
-
     // Save latest user message to Supabase / store
     const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
+    const userQuery = lastUserMsg?.content || "";
+
     if (lastUserMsg) {
       await saveChatMessage({
         conversation_id: conversationId,
         role: "user",
-        content: lastUserMsg.content,
+        content: userQuery,
       }).catch((e) => console.warn("Failed to persist user chat message:", e));
+    }
+
+    // Check for DeepSeek / AI API key
+    const config = getProviderConfig();
+    const apiKey = process.env.DEEPSEEK_API_KEY || config.apiKey;
+
+    // Deterministic fallback if API key is missing
+    if (!apiKey) {
+      const fallbackAdvice = generateDeterministicAdvice(userQuery, groundingContext);
+      if (!wantsStream) {
+        return await createFallbackJsonResponse(fallbackAdvice, conversationId, rateLimitHeaders);
+      }
+      return createFallbackStreamResponse(fallbackAdvice, conversationId, rateLimitHeaders);
     }
 
     // Build grounded system prompt with live session context
@@ -76,8 +176,63 @@ export async function POST(req: NextRequest) {
     const model = config.model || "deepseek-chat";
 
     if (!wantsStream) {
-      // Non-streaming fallback for tests or specific callers
-      const res = await fetch(endpointUrl, {
+      // Non-streaming Mode with upstream error / rate-limit fallback
+      try {
+        const res = await fetch(endpointUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model,
+            messages: payloadMessages,
+            temperature: 0.3,
+            max_tokens: 1024,
+          }),
+        });
+
+        if (!res.ok) {
+          console.warn(`Upstream AI provider error (Status: ${res.status}). Triggering deterministic fallback.`);
+          const fallbackAdvice = generateDeterministicAdvice(userQuery, groundingContext);
+          return await createFallbackJsonResponse(fallbackAdvice, conversationId, rateLimitHeaders);
+        }
+
+        const json = await res.json();
+        const rawReply = json.choices?.[0]?.message?.content || "";
+        const { cleanContent, actions } = parseStructuredActions(rawReply);
+
+        // Persist assistant message
+        await saveChatMessage({
+          conversation_id: conversationId,
+          role: "assistant",
+          content: cleanContent,
+          actions,
+        }).catch((e) => console.warn("Failed to persist assistant chat message:", e));
+
+        return NextResponse.json(
+          {
+            reply: cleanContent,
+            rawReply,
+            actions,
+            provider: config.provider,
+            model,
+          },
+          {
+            headers: rateLimitHeaders,
+          }
+        );
+      } catch (upstreamErr) {
+        console.warn("Upstream fetch exception. Triggering deterministic fallback.", upstreamErr);
+        const fallbackAdvice = generateDeterministicAdvice(userQuery, groundingContext);
+        return await createFallbackJsonResponse(fallbackAdvice, conversationId, rateLimitHeaders);
+      }
+    }
+
+    // Streaming SSE Mode with upstream error / rate-limit fallback
+    let upstreamRes: Response;
+    try {
+      upstreamRes = await fetch(endpointUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,67 +243,21 @@ export async function POST(req: NextRequest) {
           messages: payloadMessages,
           temperature: 0.3,
           max_tokens: 1024,
+          stream: true,
         }),
       });
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        return NextResponse.json(
-          { error: `Upstream AI provider error: ${errorText}`, isError: true },
-          { status: res.status }
-        );
-      }
-
-      const json = await res.json();
-      const rawReply = json.choices?.[0]?.message?.content || "";
-      const { cleanContent, actions } = parseStructuredActions(rawReply);
-
-      // Persist assistant message
-      await saveChatMessage({
-        conversation_id: conversationId,
-        role: "assistant",
-        content: cleanContent,
-        actions,
-      }).catch((e) => console.warn("Failed to persist assistant chat message:", e));
-
-      return NextResponse.json({
-        reply: cleanContent,
-        rawReply,
-        actions,
-        provider: config.provider,
-        model,
-      });
+    } catch (networkErr) {
+      console.warn("Network error reaching upstream AI provider. Triggering deterministic fallback.", networkErr);
+      const fallbackAdvice = generateDeterministicAdvice(userQuery, groundingContext);
+      return createFallbackStreamResponse(fallbackAdvice, conversationId, rateLimitHeaders);
     }
 
-    // Streaming SSE Mode
-    const upstreamRes = await fetch(endpointUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: payloadMessages,
-        temperature: 0.3,
-        max_tokens: 1024,
-        stream: true,
-      }),
-    });
-
-    if (!upstreamRes.ok) {
-      const errorText = await upstreamRes.text();
-      return NextResponse.json(
-        { error: `Upstream AI provider error: ${errorText}`, isError: true },
-        { status: upstreamRes.status }
+    if (!upstreamRes.ok || !upstreamRes.body) {
+      console.warn(
+        `Upstream AI returned status ${upstreamRes.status}. Triggering deterministic fallback.`
       );
-    }
-
-    if (!upstreamRes.body) {
-      return NextResponse.json(
-        { error: "No response stream received from AI provider", isError: true },
-        { status: 502 }
-      );
+      const fallbackAdvice = generateDeterministicAdvice(userQuery, groundingContext);
+      return createFallbackStreamResponse(fallbackAdvice, conversationId, rateLimitHeaders);
     }
 
     const encoder = new TextEncoder();
@@ -240,8 +349,7 @@ export async function POST(req: NextRequest) {
         "Content-Type": "text/event-stream; charset=utf-8",
         "Cache-Control": "no-cache, no-transform",
         Connection: "keep-alive",
-        "X-RateLimit-Remaining": String(rateLimit.limit.remaining),
-        "X-RateLimit-Reset": String(Math.ceil(rateLimit.limit.resetMs / 1000)),
+        ...rateLimitHeaders,
       },
     });
   } catch (error: unknown) {
