@@ -1,0 +1,960 @@
+/* Scoped styles for the "Night train through India at dusk" Auth Screen */
+
+.root {
+  --ink: #14110F;
+  --cream: #F4EBDD;
+  --cream-deep: #E9DCC6;
+  --saffron: #F2A33A;
+  --signal: #D9453B;
+  --teal: #2F6F6A;
+  --plum: #2A1A33;
+  --dusk: #E8783A;
+  
+  --font-heading: inherit;
+  --font-body: inherit;
+  --font-mono: inherit;
+
+  min-height: 100dvh;
+  width: 100%;
+  background-color: var(--plum);
+  color: var(--ink);
+  display: flex;
+  position: relative;
+  overflow-x: hidden;
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 55/45 Desktop Split */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100dvh;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    flex-direction: row;
+    height: 100dvh;
+    overflow: hidden;
+  }
+}
+
+/* ─── LEFT SCENE (55%) ─── */
+.leftScene {
+  position: relative;
+  background: linear-gradient(180deg, var(--plum) 0%, #3e1f32 40%, var(--dusk) 75%, #f59e42 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem 3rem;
+  overflow: hidden;
+  color: var(--cream);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 1023px) {
+  .leftScene {
+    display: none; /* Desktop full scene */
+  }
+}
+
+@media (min-width: 1024px) {
+  .leftScene {
+    flex: 0 0 55%;
+    height: 100%;
+  }
+}
+
+/* Mobile top train strip (<=768px or tablet) */
+.mobileStrip {
+  display: block;
+  position: relative;
+  height: 130px;
+  width: 100%;
+  background: linear-gradient(180deg, var(--plum) 0%, var(--dusk) 70%, #f59e42 100%);
+  overflow: hidden;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .mobileStrip {
+    display: none;
+  }
+}
+
+/* Text overlay placed only over the calm sky */
+.sceneOverlay {
+  position: relative;
+  z-index: 20;
+  max-width: 520px;
+  pointer-events: auto;
+}
+
+.sceneHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.brandBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--cream);
+}
+
+.brandIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background-color: var(--saffron);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.brandTitle {
+  font-family: var(--font-heading), serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--cream);
+}
+
+.brandSub {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream-deep);
+  opacity: 0.85;
+}
+
+.corridorPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(20, 17, 15, 0.55);
+  border: 1px solid rgba(244, 235, 221, 0.2);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--cream);
+  letter-spacing: 0.04em;
+}
+
+.headlineBlock {
+  margin-bottom: 1.75rem;
+}
+
+.sceneHeadline {
+  font-family: var(--font-heading), serif;
+  font-size: clamp(2rem, 3.2vw, 2.85rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.italicWord {
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.12em;
+  color: var(--saffron);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.trustList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  color: var(--cream);
+  line-height: 1.4;
+}
+
+.trustCheck {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(47, 111, 106, 0.45);
+  border: 1.5px solid var(--teal);
+  color: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mechanical Station Board in Corner */
+.stationBoard {
+  position: relative;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: #0f0d0c;
+  border: 1.5px solid #2f2722;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  color: var(--saffron);
+  letter-spacing: 0.05em;
+  max-width: fit-content;
+}
+
+.stationLed {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  animation: signalPulse 2s infinite ease-in-out;
+}
+
+@keyframes signalPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* ─── SCENE LAYERS CONTAINER ─── */
+.sceneLayers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Parallax Endless Seamless Tracks & Scenery */
+.skyElements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+}
+
+.sun {
+  position: absolute;
+  bottom: 8%;
+  left: 14%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe6a3 0%, var(--saffron) 60%, rgba(242, 163, 58, 0) 100%);
+  opacity: 0.85;
+  filter: blur(1px);
+}
+
+.birds {
+  position: absolute;
+  top: 18%;
+  right: 20%;
+  width: 120px;
+  height: 40px;
+  animation: birdDrift 30s linear infinite;
+}
+
+@keyframes birdDrift {
+  0% { transform: translateX(40px); }
+  50% { transform: translateX(-30px) translateY(6px); }
+  100% { transform: translateX(40px); }
+}
+
+/* Rolling Hills Layers */
+.farHills {
+  position: absolute;
+  bottom: 22%;
+  left: 0;
+  width: 200%;
+  height: 140px;
+  display: flex;
+  animation: parallaxFar 40s linear infinite;
+}
+
+.midHills {
+  position: absolute;
+  bottom: 15%;
+  left: 0;
+  width: 200%;
+  height: 120px;
+  display: flex;
+  animation: parallaxMid 20s linear infinite;
+}
+
+.treesPoles {
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  width: 200%;
+  height: 90px;
+  display: flex;
+  animation: parallaxNear 10s linear infinite;
+}
+
+@keyframes parallaxFar {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes parallaxMid {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes parallaxNear {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Foreground Track & Ground */
+.trackGround {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 12%;
+  background: #100d0c;
+  border-top: 3px solid #2c2420;
+}
+
+.sleepersTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 18px;
+  background: repeating-linear-gradient(
+    90deg,
+    #2c2420 0px,
+    #2c2420 8px,
+    transparent 8px,
+    transparent 24px
+  );
+  border-bottom: 2.5px solid #6b5c54;
+  animation: trackMove 1.25s linear infinite;
+}
+
+@keyframes trackMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-24px); }
+}
+
+/* Signal Post */
+.signalPost {
+  position: absolute;
+  bottom: 12%;
+  right: 15%;
+  width: 20px;
+  height: 110px;
+  z-index: 12;
+}
+
+/* Train Layer: 20s pass from off-screen left to off-screen right */
+.trainTrackLane {
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 15;
+  overflow: visible;
+}
+
+.trainWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  animation: trainPass 20s linear infinite;
+  will-change: transform;
+}
+
+@keyframes trainPass {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(120vw);
+  }
+}
+
+.coachRattle {
+  animation: rattle 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes rattle {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-1.2px); }
+}
+
+/* Reduced Motion Mode */
+@media (prefers-reduced-motion: reduce) {
+  .farHills, .midHills, .treesPoles, .sleepersTrack, .birds {
+    animation: none !important;
+  }
+  .trainWrapper {
+    animation: none !important;
+    transform: translateX(18%) !important;
+  }
+  .coachRattle {
+    animation: none !important;
+  }
+  .stationLed {
+    animation: none !important;
+  }
+}
+
+/* ─── RIGHT FORM (45%) = CREAM RAILWAY TICKET ─── */
+.rightPanel {
+  position: relative;
+  background-color: var(--cream);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1.5rem;
+  min-height: 100dvh;
+  flex: 1;
+  overflow-y: auto;
+}
+
+@media (min-width: 1024px) {
+  .rightPanel {
+    flex: 0 0 45%;
+    padding: 3rem 2.5rem;
+    height: 100%;
+  }
+}
+
+/* Inline paper grain texture overlay */
+.paperGrain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+/* Authentic Indian Railway Ticket Container */
+.ticketCard {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--cream);
+  border: 1.5px solid var(--ink);
+  box-shadow: 
+    0 12px 36px rgba(20, 17, 15, 0.12),
+    0 2px 6px rgba(20, 17, 15, 0.08);
+  border-radius: 14px;
+  padding: 2rem 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .ticketCard {
+    padding: 2.25rem 2.25rem;
+  }
+}
+
+/* Ticket Notches on left & right sides */
+.ticketCard::before,
+.ticketCard::after {
+  content: "";
+  position: absolute;
+  top: 108px;
+  width: 22px;
+  height: 22px;
+  background-color: var(--plum);
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  z-index: 10;
+}
+
+.ticketCard::before {
+  left: -12px;
+  box-shadow: inset -2px 0 3px rgba(0, 0, 0, 0.15);
+}
+
+.ticketCard::after {
+  right: -12px;
+  box-shadow: inset 2px 0 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Dashed Perforation Line Connecting Notches */
+.ticketPerforation {
+  position: absolute;
+  top: 118px;
+  left: 10px;
+  right: 10px;
+  height: 1px;
+  border-top: 1.5px dashed rgba(20, 17, 15, 0.35);
+  pointer-events: none;
+}
+
+/* BOLD DESIGN RISK: Tactile Brass PNR Berth Safety Pin & Punch Hole */
+.ticketPunchHole {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.65rem;
+  color: rgba(20, 17, 15, 0.6);
+  pointer-events: none;
+}
+
+.punchCircle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--plum);
+  border: 1.5px solid var(--ink);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Rubber Stamp for "EXISTING PASSENGER" */
+.rubberStamp {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  transform: rotate(-4deg);
+  border: 1.5px solid var(--signal);
+  color: var(--signal);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0.88;
+}
+
+/* Ticket Top Header */
+.ticketTop {
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.ticketTitle {
+  font-family: var(--font-heading), serif;
+  font-size: 1.7rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 0.4rem 0;
+}
+
+.ticketSubtitle {
+  font-size: 0.85rem;
+  color: rgba(20, 17, 15, 0.75);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Tabs: Sliding Saffron Pill */
+.tabContainer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: var(--cream-deep);
+  border: 1.5px solid var(--ink);
+  border-radius: 9999px;
+  padding: 3px;
+  margin-bottom: 1.5rem;
+}
+
+.tabPill {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  width: calc(50% - 3px);
+  background-color: var(--saffron);
+  border: 1.5px solid var(--ink);
+  border-radius: 9999px;
+  box-shadow: 0 1px 3px rgba(20, 17, 15, 0.15);
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.tabPillRight {
+  transform: translateX(100%);
+}
+
+.tabBtn {
+  position: relative;
+  z-index: 2;
+  border: none;
+  background: transparent;
+  padding: 0.6rem 1rem;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 9999px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: color 150ms ease;
+}
+
+/* Hand-drawn underline under active tab label */
+.activeUnderline {
+  position: absolute;
+  bottom: 4px;
+  width: 28px;
+  height: 2px;
+  background-color: var(--ink);
+  border-radius: 2px;
+  transform: rotate(-1.5deg);
+}
+
+/* 1-Click Demo Recovery Card */
+.demoCard {
+  background-color: var(--cream-deep);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+@media (min-width: 480px) {
+  .demoCard {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.demoText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.demoLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.demoSub {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  color: rgba(20, 17, 15, 0.7);
+}
+
+.demoBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  background-color: transparent;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 120ms ease;
+  white-space: nowrap;
+}
+
+.demoBtn:hover {
+  background-color: var(--ink);
+  color: var(--cream);
+}
+
+.demoBtn:active {
+  transform: translateY(1px);
+}
+
+/* Or Divider */
+.orDivider {
+  position: relative;
+  text-align: center;
+  margin: 1.25rem 0;
+}
+
+.orDivider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(20, 17, 15, 0.2);
+}
+
+.orText {
+  position: relative;
+  background-color: var(--cream);
+  padding: 0 0.75rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: rgba(20, 17, 15, 0.55);
+}
+
+/* Form Fields */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.fieldHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.demoCredsLink {
+  border: none;
+  background: transparent;
+  color: var(--teal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.demoCredsLink:hover {
+  color: var(--ink);
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputField {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  background-color: var(--cream);
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.92rem;
+  color: var(--ink);
+  transition: all 120ms ease;
+}
+
+.inputField::placeholder {
+  color: rgba(20, 17, 15, 0.45);
+}
+
+.inputField:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--saffron);
+}
+
+.inputField:disabled {
+  background-color: var(--cream-deep);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.showPassBtn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+/* Checkboxes */
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: rgba(20, 17, 15, 0.85);
+  margin-bottom: 0.75rem;
+  user-select: none;
+}
+
+.checkboxInput {
+  accent-color: var(--saffron);
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+/* Primary Submit Button: Saffron with 12px radius, translateY(1px) on :active */
+.primaryBtn {
+  width: 100%;
+  min-height: 48px;
+  background-color: var(--saffron);
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 80ms ease, background-color 150ms ease;
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 0 var(--ink);
+}
+
+.primaryBtn:hover {
+  background-color: #f7b258;
+}
+
+.primaryBtn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.primaryBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Google Sign In Button */
+.googleBtn {
+  width: 100%;
+  min-height: 44px;
+  background-color: var(--cream);
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.googleBtn:hover {
+  background-color: var(--cream-deep);
+}
+
+/* Inline Signal Error Banner */
+.errorAlert {
+  background-color: rgba(217, 69, 59, 0.12);
+  border: 1.5px solid var(--signal);
+  color: var(--signal);
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+/* Success Confirmation Banner */
+.successAlert {
+  background-color: rgba(47, 111, 106, 0.15);
+  border: 1.5px solid var(--teal);
+  color: var(--teal);
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+/* Bottom Switcher Note */
+.bottomSwitcher {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.82rem;
+  color: rgba(20, 17, 15, 0.75);
+}
+
+.switchLink {
+  background: transparent;
+  border: none;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.25rem;
+}
+
+/* Video Background (if file exists) */
+.videoBackground {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.videoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(42, 26, 51, 0.6) 0%, rgba(20, 17, 15, 0.8) 100%);
+  pointer-events: none;
+}
