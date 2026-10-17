@@ -109,33 +109,34 @@ interface RailLinkRow {
   traversals: number;
 }
 
-function loadEnvLocal(): void {
-  const envPath = path.resolve(process.cwd(), ".env.local");
-  if (fs.existsSync(envPath)) {
-    const lines = fs.readFileSync(envPath, "utf-8").split("\n");
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith("#")) continue;
-      const eqIdx = trimmed.indexOf("=");
-      if (eqIdx !== -1) {
-        const key = trimmed.slice(0, eqIdx).trim();
-        const val = trimmed.slice(eqIdx + 1).trim().replace(/^["']|["']$/g, "");
-        if (!process.env[key]) {
-          process.env[key] = val;
-        }
-      }
-    }
-  }
-}
+import {
+  assertValidSecret,
+  getHostOnly,
+  loadEnvLocal,
+  maskSecret,
+} from "./env-helper";
 
 loadEnvLocal();
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const rawServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!SUPABASE_URL || !SERVICE_KEY) {
-  console.error("ERR: missing Supabase credentials.");
-  console.error("Please add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to .env.local");
+let SUPABASE_URL: string;
+let SERVICE_KEY: string;
+
+try {
+  SUPABASE_URL = assertValidSecret(
+    "NEXT_PUBLIC_SUPABASE_URL",
+    rawUrl,
+    "Ensure NEXT_PUBLIC_SUPABASE_URL is set in .env.local and is not a placeholder."
+  );
+  SERVICE_KEY = assertValidSecret(
+    "SUPABASE_SERVICE_ROLE_KEY",
+    rawServiceKey,
+    "Ensure SUPABASE_SERVICE_ROLE_KEY is set in .env.local and is not a placeholder. (Local seed/migration scripts only)."
+  );
+} catch (err: unknown) {
+  console.error(err instanceof Error ? err.message : String(err));
   process.exit(1);
 }
 
@@ -170,7 +171,8 @@ async function runSeed(): Promise<void> {
   const startTime = Date.now();
   console.log("==================================================");
   console.log("TravelRescue AI: Seeding Supabase Database");
-  console.log(`Target URL: ${SUPABASE_URL}`);
+  console.log(`Target Project Host: ${getHostOnly(SUPABASE_URL)}`);
+  console.log(`Service Key:         ${maskSecret(SERVICE_KEY)}`);
   console.log("==================================================");
 
   const cleanDir = path.resolve(process.cwd(), "data", "clean");

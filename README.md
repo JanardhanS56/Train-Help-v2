@@ -50,7 +50,11 @@ cd Train-Help/travel-rescue
 # 3. Install packages (only needed on first run)
 npm install
 
-# 4. Start the local server
+# 4. Configure local environment
+cp .env.example .env.local
+# Fill in your project credentials in .env.local (never commit .env.local!)
+
+# 5. Start the local server
 npm run dev
 ```
 
@@ -62,6 +66,22 @@ Once you see:
 ```
 
 You can click any of the links below in your browser:
+
+### 🔐 Environment Configuration
+
+To connect to Supabase, AI services, and Redis, configure your local environment:
+
+1. Copy the example configuration template into an untracked `.env.local` file:
+   ```bash
+   cp .env.example .env.local
+   ```
+2. Open `.env.local` and fill in your actual credentials.
+3. **Strict Security Guidelines**:
+   - **Never commit `.env.local` or any `.env*` file with real credentials.**
+   - The repository tracks `.env.example` with safe placeholder values only (`https://YOUR-PROJECT-REF.supabase.co`, empty keys). No real credentials are included in this repository.
+   - Never prefix server-only variables (`AI_API_KEY`, `REDIS_URL`, `SUPABASE_SERVICE_ROLE_KEY`) with `NEXT_PUBLIC_`.
+   - `SUPABASE_SERVICE_ROLE_KEY` is for local developer scripts only (`npm run db:seed`); never input it into Vercel or public hosting dashboards.
+   - Review [`SECURITY.md`](./SECURITY.md) for full secret categorization, reporting policies, and key rotation procedures.
 
 ### Shared API Rate Limits
 
@@ -227,13 +247,19 @@ travel-rescue/
 Run the test suite and validation scripts locally:
 
 ```bash
-# 1. Typecheck TypeScript across all files
+# 1. Run all unit and security test suites
+npm test -- --run
+
+# 2. Scan tracked repository files for hardcoded secrets
+npm run check:secrets
+
+# 3. Typecheck TypeScript across all files
 npx tsc --noEmit
 
-# 2. Run ESLint checks
+# 4. Run ESLint checks
 npm run lint
 
-# 3. Create production build bundle
+# 5. Create production build bundle
 npm run build
 ```
 

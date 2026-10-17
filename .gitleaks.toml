@@ -1,0 +1,29 @@
+# .gitleaks.toml
+# Gitleaks configuration for TravelRescue AI
+# Enforces repository secret hygiene while allowlisting lockfiles and test fixtures
+
+title = "TravelRescue AI Secret Scanning Configuration"
+
+[allowlist]
+description = "Global allowlist for lockfiles, test fixtures, and safe placeholders"
+paths = [
+  '''(^|/)package-lock\.json$''',
+  '''(^|/)yarn\.lock$''',
+  '''(^|/)pnpm-lock\.yaml$''',
+  '''(^|/)\.env\.example$''',
+  '''(^|/)data/clean/.*\.json$''',
+  '''(^|/)scripts/security/__tests__/.*''',
+  '''(^|/)scripts/db/__tests__/.*''',
+  '''(^|/)lib/.*__tests__/.*''',
+  '''(^|/)components/.*__tests__/.*'''
+]
+
+stopwords = [
+  "YOUR-PROJECT-REF",
+  "YOUR-PASSWORD",
+  "YOUR-ANON-KEY",
+  "YOUR-SERVICE-ROLE-KEY",
+  "YOUR-API-KEY",
+  "dummyToken",
+  "test_synthetic_token"
+]

@@ -26,24 +26,11 @@ interface TrainQueryResult {
   }[];
 }
 
-function loadEnvLocal(): void {
-  const envPath = path.resolve(process.cwd(), ".env.local");
-  if (fs.existsSync(envPath)) {
-    const lines = fs.readFileSync(envPath, "utf-8").split("\n");
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith("#")) continue;
-      const eqIdx = trimmed.indexOf("=");
-      if (eqIdx !== -1) {
-        const key = trimmed.slice(0, eqIdx).trim();
-        const val = trimmed.slice(eqIdx + 1).trim().replace(/^["']|["']$/g, "");
-        if (!process.env[key]) {
-          process.env[key] = val;
-        }
-      }
-    }
-  }
-}
+import {
+  getHostOnly,
+  isPlaceholder,
+  loadEnvLocal,
+} from "./env-helper";
 
 loadEnvLocal();
 
@@ -55,8 +42,8 @@ async function checkDatabase(): Promise<void> {
   console.log("TravelRescue AI: Database Health Diagnostic");
   console.log("==================================================");
 
-  if (!SUPABASE_URL || !ANON_KEY) {
-    console.warn("WARN: Supabase credentials not found in environment or .env.local.");
+  if (!SUPABASE_URL || !ANON_KEY || isPlaceholder(SUPABASE_URL) || isPlaceholder(ANON_KEY)) {
+    console.warn("WARN: Supabase credentials not found or contain placeholder values in .env.local.");
     console.warn("Falling back to verified offline snapshot (data/clean/sim-snapshot.json).");
     const snapshotPath = path.resolve(process.cwd(), "data", "clean", "sim-snapshot.json");
     if (fs.existsSync(snapshotPath)) {
@@ -109,7 +96,7 @@ async function checkDatabase(): Promise<void> {
     const totalLatency = Date.now() - start;
     const train22691 = data as unknown as TrainQueryResult | null;
 
-    console.log(`✓ Connected to Supabase: ${SUPABASE_URL}`);
+    console.log(`✓ Connected to Supabase host: ${getHostOnly(SUPABASE_URL)}`);
     console.log(`  Ping Latency:    ${totalLatency}ms`);
     console.log(`  Query Latency:   ${qLatency}ms (Train ${targetTrainNumber} with nested stops)`);
     console.log(`  Stations Count:  ${stationCount ?? 0}`);
