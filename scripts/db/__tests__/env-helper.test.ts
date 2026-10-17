@@ -32,7 +32,7 @@ describe("Database Scripts Security Env Helper", () => {
     expect(maskSecret(undefined)).toBe("(not set)");
     expect(maskSecret("123")).toBe("[REDACTED]");
     expect(maskSecret("1234")).toBe("[REDACTED]");
-    expect(maskSecret("secretKey123456789")).toBe("secr...[REDACTED]");
+    expect(maskSecret("dummyToken123456789")).toBe("dumm...[REDACTED]");
   });
 
   it("extracts only the host name and avoids printing credentials or paths", () => {
@@ -40,7 +40,7 @@ describe("Database Scripts Security Env Helper", () => {
     expect(getHostOnly("")).toBe("(none)");
     expect(getHostOnly("not a url")).toBe("(invalid-url)");
     expect(getHostOnly("https://myproject.supabase.co")).toBe("myproject.supabase.co");
-    expect(getHostOnly("postgres://postgres:password123@db.myproject.supabase.co:5432/postgres")).toBe("db.myproject.supabase.co:5432");
+    expect(getHostOnly("postgres://postgres:YOUR-PASSWORD@db.myproject.supabase.co:5432/postgres")).toBe("db.myproject.supabase.co:5432");
   });
 
   it("assertValidSecret throws clear error for missing or placeholder credentials", () => {
