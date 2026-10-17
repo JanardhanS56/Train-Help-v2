@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LandingNavbar } from "@/components/landing/landing-navbar";
-import { Shield, Lock, FileText, CheckCircle2, ArrowLeft, Cookie, Server, HelpCircle } from "lucide-react";
+import { Shield, Lock, FileText, CheckCircle2, ArrowLeft, Cookie, Server } from "lucide-react";
 import { APP_NAME, APP_TAGLINE } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -132,21 +132,6 @@ export default function PrivacyPage() {
               <li>Verification of alternative berths before booking confirmation.</li>
               <li>Zero hidden markup on Indian Railways base fares and GST tariffs.</li>
             </ul>
-          </section>
-
-          <section className="space-y-2">
-            <h2 className="text-base sm:text-lg font-medium text-foreground flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-primary" />
-              5. Grievance Officer & Contact
-            </h2>
-            <p>
-              If you have inquiries regarding your passenger data, wish to request immediate erasure of your trip records, or report suspicious connection behavior, contact our privacy officer:
-            </p>
-            <div className="p-4 rounded-lg bg-surface border border-hairline text-xs space-y-1">
-              <p className="font-semibold text-foreground">Passenger Data Protection Officer</p>
-              <p>Email: <span className="font-mono text-primary">privacy@travelrescue.railmail.in</span></p>
-              <p>Address: Rail Bhavan, New Delhi, India 110001</p>
-            </div>
           </section>
         </div>
       </main>
