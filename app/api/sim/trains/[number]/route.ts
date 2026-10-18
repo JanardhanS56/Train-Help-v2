@@ -17,11 +17,16 @@ export async function GET(
   if (!rateLimit.success) return rateLimit.response;
 
   const { number } = await context.params;
+  const trainNumber = number?.trim();
+
+  if (!trainNumber) {
+    return NextResponse.json({ error: "Train number is required" }, { status: 400 });
+  }
 
   try {
-    const train = await trainRepository.getTrainWithStops(number);
+    const train = await trainRepository.getTrainWithStops(trainNumber);
     if (!train) {
-      return NextResponse.json({ error: `Train ${number} not found` }, { status: 404 });
+      return NextResponse.json({ error: `Train ${trainNumber} not found` }, { status: 404 });
     }
 
     return NextResponse.json({
