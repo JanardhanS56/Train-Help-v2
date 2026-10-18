@@ -68,11 +68,9 @@ export function Sidebar() {
   const tripsSubnavId = useId();
   const recoverySubnavId = useId();
 
-  // Tablet popover state for icon-only rail (768-1023px)
   const [tabletOpenGroup, setTabletOpenGroup] = useState<"trips" | "recovery" | null>(null);
   const tabletPopoverRef = useRef<HTMLDivElement>(null);
 
-  // Synchronized expanded choices via useSyncExternalStore (SSR and hydration safe)
   const expandedSnapshot = useSyncExternalStore(
     subscribeExpanded,
     getExpandedSnapshot,
@@ -87,7 +85,6 @@ export function Sidebar() {
     }
   }, [expandedSnapshot]);
 
-  // Close tablet popover on Escape
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape" && tabletOpenGroup) {
@@ -98,7 +95,6 @@ export function Sidebar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [tabletOpenGroup]);
 
-  // Close tablet popover on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (
@@ -114,7 +110,6 @@ export function Sidebar() {
     }
   }, [tabletOpenGroup]);
 
-  // Helper to persist only manual open/closed choices
   const setTripsManual = useCallback((open: boolean) => {
     try {
       const next = { ...manualExpanded, trips: open };
@@ -135,10 +130,8 @@ export function Sidebar() {
     }
   }, [manualExpanded]);
 
-  // Auto-expand rule: current route wins over saved preference
   const isTripsRoute = pathname.startsWith("/trips");
   const isRecoveryRoute = pathname.startsWith("/recovery");
-
   const isTripsExpanded = isTripsRoute || Boolean(manualExpanded.trips);
   const isRecoveryExpanded = isRecoveryRoute || Boolean(manualExpanded.recovery);
 
@@ -155,7 +148,6 @@ export function Sidebar() {
     });
   }
 
-  // Active sub-item resolution
   const currentTripsStatus = searchParams.get("status") || "all";
   const currentRecoveryTab = searchParams.get("tab") || "active";
 
@@ -195,7 +187,6 @@ export function Sidebar() {
           />
         </Link>
 
-        {/* Theme toggle */}
         <button
           type="button"
           onClick={toggleTheme}
@@ -211,10 +202,9 @@ export function Sidebar() {
         </button>
       </div>
 
-      {/* ── Scrollable Nav ── */}
       <ScrollArea className="flex-1 py-2">
         <nav className="flex flex-col gap-0.5">
-          {/* 1. Dashboard */}
+          {/* Dashboard */}
           {(() => {
             const isActive = pathname === "/dashboard";
             return (
@@ -232,18 +222,11 @@ export function Sidebar() {
                   <LayoutDashboard className="w-5 h-5 stroke-[1.5] shrink-0" aria-hidden="true" />
                   <span className="hidden lg:inline flex-1">Dashboard</span>
                 </Link>
-                {/* Tablet Tooltip */}
-                <div
-                  role="tooltip"
-                  className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
-                >
-                  Dashboard
-                </div>
               </div>
             );
           })()}
 
-          {/* 2. My Trips (Expandable) */}
+          {/* My Trips */}
           {(() => {
             const isActive = pathname === "/trips";
             return (
@@ -265,12 +248,9 @@ export function Sidebar() {
                     <span className="hidden lg:inline flex-1 text-left">My Trips</span>
                   </Link>
 
-                  {/* Tablet trigger: toggles tablet popover */}
                   <button
                     type="button"
-                    onClick={() =>
-                      setTabletOpenGroup((curr) => (curr === "trips" ? null : "trips"))
-                    }
+                    onClick={() => setTabletOpenGroup((curr) => (curr === "trips" ? null : "trips"))}
                     className="lg:hidden p-1 text-muted-foreground hover:text-foreground"
                     aria-label="Toggle My Trips options"
                     aria-expanded={tabletOpenGroup === "trips"}
@@ -278,7 +258,6 @@ export function Sidebar() {
                     <ChevronDown className="w-3.5 h-3.5 stroke-[1.5]" />
                   </button>
 
-                  {/* Desktop Chevron button */}
                   <div className="hidden lg:flex items-center gap-1.5">
                     {renderBadge(
                       tripGroups.counts.attention,
@@ -304,15 +283,6 @@ export function Sidebar() {
                   </div>
                 </div>
 
-                {/* Tablet Tooltip */}
-                <div
-                  role="tooltip"
-                  className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
-                >
-                  My Trips
-                </div>
-
-                {/* Desktop Sub-list: 14px muted text, 32px indent, 1px guide line */}
                 {isTripsExpanded && (
                   <ul
                     id={tripsSubnavId}
@@ -332,8 +302,7 @@ export function Sidebar() {
                       { key: "recovered", label: "Recovered", count: tripGroups.counts.recovered },
                       { key: "past", label: "Past", count: tripGroups.counts.past },
                     ].map((sub) => {
-                      const isChildActive =
-                        pathname === "/trips" && currentTripsStatus === sub.key;
+                      const isChildActive = pathname === "/trips" && currentTripsStatus === sub.key;
 
                       return (
                         <li key={sub.key}>
@@ -359,7 +328,7 @@ export function Sidebar() {
             );
           })()}
 
-          {/* 3. Recovery Centre (Expandable) */}
+          {/* Recovery Centre */}
           {(() => {
             const isActive = pathname === "/recovery";
             return (
@@ -381,7 +350,6 @@ export function Sidebar() {
                     <span className="hidden lg:inline flex-1 text-left">Recovery Centre</span>
                   </Link>
 
-                  {/* Tablet trigger: toggles tablet popover */}
                   <button
                     type="button"
                     onClick={() =>
@@ -394,7 +362,6 @@ export function Sidebar() {
                     <ChevronDown className="w-3.5 h-3.5 stroke-[1.5]" />
                   </button>
 
-                  {/* Desktop Chevron button */}
                   <div className="hidden lg:flex items-center gap-1.5">
                     {renderBadge(
                       tripGroups.counts.activeRecovery,
@@ -407,9 +374,7 @@ export function Sidebar() {
                       aria-expanded={isRecoveryExpanded}
                       aria-controls={recoverySubnavId}
                       aria-label={
-                        isRecoveryExpanded
-                          ? "Collapse Recovery Centre"
-                          : "Expand Recovery Centre"
+                        isRecoveryExpanded ? "Collapse Recovery Centre" : "Expand Recovery Centre"
                       }
                       className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-sidebar-border/40 transition-transform duration-150 motion-reduce:transition-none"
                     >
@@ -424,15 +389,6 @@ export function Sidebar() {
                   </div>
                 </div>
 
-                {/* Tablet Tooltip */}
-                <div
-                  role="tooltip"
-                  className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
-                >
-                  Recovery Centre
-                </div>
-
-                {/* Desktop Sub-list */}
                 {isRecoveryExpanded && (
                   <ul
                     id={recoverySubnavId}
@@ -450,8 +406,7 @@ export function Sidebar() {
                       { key: "refunds", label: "Refunds", count: tripGroups.counts.refunds },
                       { key: "history", label: "History", count: tripGroups.counts.history },
                     ].map((sub) => {
-                      const isChildActive =
-                        pathname === "/recovery" && currentRecoveryTab === sub.key;
+                      const isChildActive = pathname === "/recovery" && currentRecoveryTab === sub.key;
 
                       return (
                         <li key={sub.key}>
@@ -477,7 +432,7 @@ export function Sidebar() {
             );
           })()}
 
-          {/* 3.5 Simulation */}
+          {/* Simulation */}
           {(() => {
             const isActive = pathname.startsWith("/simulation");
             return (
@@ -498,18 +453,10 @@ export function Sidebar() {
                     Live
                   </span>
                 </Link>
-                {/* Tablet Tooltip */}
-                <div
-                  role="tooltip"
-                  className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
-                >
-                  Simulation
-                </div>
               </div>
             );
           })()}
 
-          {/* 4. AI Assistant (Opens existing chat panel, no route) */}
           <div className="relative group">
             <button
               ref={assistantBtnRef}
@@ -526,16 +473,8 @@ export function Sidebar() {
               <Bot className="w-5 h-5 stroke-[1.5] shrink-0" aria-hidden="true" />
               <span className="hidden lg:inline flex-1">AI Assistant</span>
             </button>
-            {/* Tablet Tooltip */}
-            <div
-              role="tooltip"
-              className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
-            >
-              AI Assistant
-            </div>
           </div>
 
-          {/* 5. Notifications */}
           {(() => {
             const isActive = pathname.startsWith("/notifications");
             return (
@@ -556,21 +495,12 @@ export function Sidebar() {
                     {renderBadge(unreadCount, false, `${unreadCount} unread notifications`)}
                   </span>
                 </Link>
-                {/* Tablet Tooltip */}
-                <div
-                  role="tooltip"
-                  className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
-                >
-                  Notifications {unreadCount > 0 ? `(${unreadCount})` : ""}
-                </div>
               </div>
             );
           })()}
 
-          {/* ── Hairline Divider ── */}
           <div className="my-2 border-t border-hairline mx-3 lg:mx-5" role="separator" />
 
-          {/* 6. Preferences */}
           {(() => {
             const isActive = pathname.startsWith("/preferences");
             return (
@@ -588,18 +518,10 @@ export function Sidebar() {
                   <Settings className="w-5 h-5 stroke-[1.5] shrink-0" aria-hidden="true" />
                   <span className="hidden lg:inline flex-1">Preferences</span>
                 </Link>
-                {/* Tablet Tooltip */}
-                <div
-                  role="tooltip"
-                  className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
-                >
-                  Preferences
-                </div>
               </div>
             );
           })()}
 
-          {/* 7. Help */}
           {(() => {
             const isActive = pathname.startsWith("/help");
             return (
@@ -617,20 +539,12 @@ export function Sidebar() {
                   <HelpCircle className="w-5 h-5 stroke-[1.5] shrink-0" aria-hidden="true" />
                   <span className="hidden lg:inline flex-1">Help</span>
                 </Link>
-                {/* Tablet Tooltip */}
-                <div
-                  role="tooltip"
-                  className="lg:hidden absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-50 whitespace-nowrap"
-                >
-                  Help
-                </div>
               </div>
             );
           })()}
         </nav>
       </ScrollArea>
 
-      {/* ── Tablet Popover for Rail (768-1023px) ── */}
       {tabletOpenGroup && (
         <div
           ref={tabletPopoverRef}
@@ -695,9 +609,7 @@ export function Sidebar() {
         </div>
       )}
 
-      {/* ── User Profile & Sign Out ── */}
       <div className="border-t border-sidebar-border/60 p-3 lg:p-4 bg-surface/50">
-        {/* Desktop User Row */}
         <div className="hidden lg:flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center font-semibold text-xs shrink-0">
@@ -724,7 +636,6 @@ export function Sidebar() {
           </button>
         </div>
 
-        {/* Tablet Rail User Icon */}
         <div className="lg:hidden flex justify-center relative group">
           <button
             type="button"
@@ -735,16 +646,9 @@ export function Sidebar() {
           >
             <LogOut className="h-4 w-4" />
           </button>
-          <div
-            role="tooltip"
-            className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 bg-foreground text-background text-xs rounded shadow-md pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap"
-          >
-            Sign out ({user?.name || "Passenger"})
-          </div>
         </div>
       </div>
 
-      {/* ── Footer & DB Status ── */}
       <div className="hidden lg:block px-5 py-3 border-t border-sidebar-border/60 space-y-2 text-xs text-muted-foreground">
         <DatabaseConnectionStatus />
         <div className="space-y-0.5">
