@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Train body -->
+  <path d="M18 48V24C18 16.268 24.268 10 32 10C39.732 10 46 16.268 46 24V48L43 54H21L18 48Z" fill="#1E3A5F"/>
+  <!-- Windshield left -->
+  <path d="M23 21C23 18.239 25.239 16 28 16H30.5V28H23V21Z" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Windshield right -->
+  <path d="M33.5 16H36C38.761 16 41 18.239 41 21V28H33.5V16Z" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Rescue cross vertical -->
+  <rect x="29" y="32" width="6" height="14" rx="1" fill="#2F7D6B"/>
+  <!-- Rescue cross horizontal -->
+  <rect x="25" y="36" width="14" height="6" rx="1" fill="#2F7D6B"/>
+  <!-- Wheels -->
+  <rect x="20" y="52" width="8" height="3" rx="1.5" fill="#FFFFFF" opacity="0.6"/>
+  <rect x="36" y="52" width="8" height="3" rx="1.5" fill="#FFFFFF" opacity="0.6"/>
+  <!-- Headlight -->
+  <rect x="29" y="11" width="6" height="3" rx="1.5" fill="#2F7D6B" opacity="0.8"/>
+</svg>

@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { TrainFront, ArrowRight, LogOut, Menu, X } from "lucide-react";
+import { ArrowRight, LogOut, Menu, X } from "lucide-react";
 import { APP_NAME } from "@/lib/constants";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { useAuth } from "@/context/auth-context";
 
 interface NavLinkItem {
@@ -160,14 +161,9 @@ export function LandingNavbar() {
           {/* 1. Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md p-1"
+            className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md p-1"
           >
-            <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center">
-              <TrainFront className="w-3.5 h-3.5 stroke-[1.5]" />
-            </div>
-            <span className="font-semibold text-sm text-foreground tracking-tight">
-              {APP_NAME}
-            </span>
+            <BrandLogo variant="wordmark" size="xs" />
           </Link>
 
           {/* 2. Middle Navigation Links (Desktop) */}

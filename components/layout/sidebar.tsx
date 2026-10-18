@@ -12,7 +12,6 @@ import {
   Settings,
   HelpCircle,
   ChevronDown,
-  Shield,
   Sun,
   Moon,
   LogOut,
@@ -25,6 +24,7 @@ import { useAuth } from "@/context/auth-context";
 import { useTripGroups } from "@/lib/tripGroups";
 import { useChatAssistantState } from "@/components/chat/chat-controller";
 import { APP_NAME } from "@/lib/constants";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { DatabaseConnectionStatus } from "@/components/status/database-connection-status";
 
 const STORAGE_EXPANDED_KEY = "tr_nav_expanded_v1";
@@ -189,12 +189,8 @@ export function Sidebar() {
           className="flex items-center gap-2.5 hover:opacity-85 transition-opacity"
           aria-label={`${APP_NAME} Dashboard`}
         >
-          <div className="flex items-center justify-center w-7 h-7 rounded bg-primary text-primary-foreground shrink-0 shadow-sm">
-            <Shield className="w-4 h-4 stroke-[1.5]" aria-hidden="true" />
-          </div>
-          <span className="hidden lg:inline text-sm font-semibold tracking-tight text-foreground font-sans">
-            {APP_NAME}
-          </span>
+          <BrandLogo variant="compact" size="sm" className="lg:hidden" />
+          <BrandLogo variant="wordmark" size="sm" className="hidden lg:flex" />
         </Link>
 
         {/* Theme toggle */}

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { APP_NAME } from "@/lib/constants";
+import { BrandLogo } from "@/components/ui/brand-logo";
 
 // ─── Indian Railway Junction Canvas ───────────────────────────────
 
@@ -339,17 +340,7 @@ export function AuthScreen({ initialTab = "sign-in" }: AuthScreenProps) {
           {/* Top Brand Banner */}
           <div className="relative z-10 space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25 border border-blue-400/30">
-                <Train className="h-5 w-5 text-white" />
-              </div>
-              <div className="leading-tight">
-                <div className="text-sm font-semibold tracking-wide text-white">
-                  {APP_NAME}
-                </div>
-                <div className="text-[10px] uppercase font-mono tracking-wider text-blue-300">
-                  Railway Disruption Recovery
-                </div>
-              </div>
+              <BrandLogo variant="wordmark" size="md" showTagline className="[&_span]:text-white [&_div]:text-blue-300" />
             </div>
 
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-red-500/15 border border-red-500/30 text-red-300">
