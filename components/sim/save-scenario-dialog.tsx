@@ -120,7 +120,7 @@ export function SaveScenarioDialog({
               type="submit"
               disabled={isSaving || !name.trim()}
               className={cn(
-                "px-4 py-2 rounded-xl text-xs font-semibold text-white bg-[#1E3A5F] hover:bg-[#152a45] dark:bg-blue-600 dark:hover:bg-blue-700 flex items-center gap-1.5 shadow-xs transition-all",
+                "px-4 py-2 rounded-xl text-xs font-semibold text-primary-foreground bg-primary hover:bg-primary-hover flex items-center gap-1.5 shadow-xs transition-all",
                 isSaving && "opacity-75 cursor-not-allowed"
               )}
             >

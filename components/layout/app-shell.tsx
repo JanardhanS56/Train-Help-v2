@@ -11,7 +11,7 @@ interface AppShellProps {
 
 export function AppShell({ children }: AppShellProps) {
   return (
-    <div className="flex h-dvh overflow-hidden">
+    <div className="flex h-dvh overflow-hidden app-sunset-theme" data-app-theme="sunset">
       <GlobalLoadingIndicator />
       {/* Accessible skip to main content */}
       <a

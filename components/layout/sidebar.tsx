@@ -174,14 +174,17 @@ export function Sidebar() {
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="flex items-center justify-between px-3 lg:px-5 py-4 border-b border-sidebar-border/60">
+      {/* ── Brand Header ── */}
+      <div className="flex items-center justify-between px-2.5 lg:px-5 py-3 border-b border-sidebar-border/60">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2.5 hover:opacity-85 transition-opacity"
+          className="flex items-center hover:opacity-85 transition-opacity"
           aria-label={`${APP_NAME} Dashboard`}
         >
-          <BrandLogo variant="compact" size="sm" className="lg:hidden" />
-          <BrandLogo variant="wordmark" size="sm" className="hidden lg:flex" />
+          <BrandLogo
+            hideTextOnCollapse
+            textClassName="text-sm font-semibold tracking-tight text-foreground font-sans"
+          />
         </Link>
 
         <button
@@ -212,7 +215,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -440,7 +443,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -464,7 +467,7 @@ export function Sidebar() {
                 "w-full flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2 text-left",
                 isAssistantOpen
                   ? "border-primary bg-sidebar-accent text-primary font-medium"
-                  : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                  : "border-transparent text-foreground hover:bg-sidebar-accent/50"
               )}
             >
               <Bot className="w-5 h-5 stroke-[1.5] shrink-0" aria-hidden="true" />
@@ -482,7 +485,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -508,7 +511,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -529,7 +532,7 @@ export function Sidebar() {
                     "flex items-center justify-center lg:justify-start gap-3 px-3 lg:px-5 py-2.5 text-sm transition-colors duration-150 border-l-2",
                     isActive
                       ? "border-primary bg-sidebar-accent text-primary font-medium"
-                      : "border-transparent text-foreground hover:bg-sidebar-accent/50 text-[#1F2328] dark:text-[#ECEDEE]"
+                      : "border-transparent text-foreground hover:bg-sidebar-accent/50"
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >

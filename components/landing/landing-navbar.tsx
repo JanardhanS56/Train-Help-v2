@@ -4,8 +4,8 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { ArrowRight, LogOut, Menu, X } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
-import { APP_NAME } from "@/lib/constants";
 import { useAuth } from "@/context/auth-context";
+import { useLandingNavScroll } from "./use-landing-nav-scroll";
 
 interface NavLinkItem {
   name: string;
@@ -27,24 +27,49 @@ const NAV_ITEMS: NavLinkItem[] = [
   { name: "Privacy", href: "/privacy", isHash: false, sectionId: "privacy" },
 ];
 
-export function LandingNavbar() {
+interface LandingNavbarProps {
+  enableScrollHide?: boolean;
+}
+
+export function LandingNavbar({ enableScrollHide = false }: LandingNavbarProps) {
   const { user, isAuthenticated, signOut } = useAuth();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [legacyScrolled, setLegacyScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   const toggleBtnRef = useRef<HTMLButtonElement | null>(null);
 
-  // 1. Sticky scroll compaction listener
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false);
+    toggleBtnRef.current?.focus();
+  }, []);
+
+  const {
+    navRef,
+    isVisible,
+    isScrolled: navScrolled,
+    instantReveal,
+    triggerAnchorNav,
+    handleFocusIn,
+    handleFocusOut,
+  } = useLandingNavScroll({
+    enabled: enableScrollHide,
+    isMenuOpen,
+  });
+
+  const isScrolled = enableScrollHide ? navScrolled : legacyScrolled;
+
+  // 1. Sticky scroll listener for non-landing pages
   useEffect(() => {
+    if (enableScrollHide) return;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 24);
+      setLegacyScrolled(window.scrollY > 24);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [enableScrollHide]);
 
   // 2. Scroll-spy via IntersectionObserver
   useEffect(() => {
@@ -77,10 +102,6 @@ export function LandingNavbar() {
   }, []);
 
   // 3. Mobile menu focus trap & body scroll lock
-  const closeMenu = useCallback(() => {
-    setIsMenuOpen(false);
-    toggleBtnRef.current?.focus();
-  }, []);
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -139,6 +160,30 @@ export function LandingNavbar() {
     };
   }, [isMenuOpen, closeMenu]);
 
+  const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (enableScrollHide) {
+      triggerAnchorNav();
+    }
+    const targetEl = document.querySelector(href);
+    if (targetEl) {
+      e.preventDefault();
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      targetEl.scrollIntoView({
+        behavior: prefersReducedMotion ? "instant" : "smooth",
+        block: "start",
+      });
+      history.pushState(null, "", href);
+    }
+  };
+
+  const handleLinkClick = () => {
+    if (enableScrollHide) {
+      triggerAnchorNav();
+    }
+  };
+
   return (
     <>
       <a
@@ -149,18 +194,41 @@ export function LandingNavbar() {
       </a>
 
       <header
-        className={`sticky top-0 z-40 w-full bg-surface/95 backdrop-blur-sm transition-all duration-200 ${
-          isScrolled
-            ? "h-14 border-b border-hairline shadow-xs"
-            : "h-16 border-b border-border"
+        ref={enableScrollHide ? (navRef as React.RefObject<HTMLElement>) : undefined}
+        data-landing-nav={enableScrollHide ? "true" : undefined}
+        data-nav-hidden={enableScrollHide && !isVisible ? "true" : undefined}
+        data-instant-reveal={enableScrollHide && instantReveal ? "true" : undefined}
+        onFocusCapture={enableScrollHide ? handleFocusIn : undefined}
+        onBlurCapture={enableScrollHide ? handleFocusOut : undefined}
+        className={`${
+          enableScrollHide
+            ? `fixed top-0 left-0 right-0 z-40 w-full bg-surface ${
+                instantReveal
+                  ? ""
+                  : "transition-transform duration-200 ease-out motion-reduce:transition-none"
+              } ${
+                !isVisible
+                  ? "-translate-y-[calc(100%+1px)]"
+                  : "translate-y-0"
+              } ${
+                isScrolled
+                  ? "h-16 border-b border-border shadow-2xs"
+                  : "h-16 border-b border-transparent"
+              }`
+            : `sticky top-0 z-40 w-full bg-surface ${
+                isScrolled
+                  ? "h-14 border-b border-border shadow-2xs"
+                  : "h-16 border-b border-border"
+              }`
         }`}
       >
         <div className="max-w-[1120px] mx-auto px-4 md:px-6 h-full flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md p-1"
+            onClick={handleLinkClick}
+            className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md p-0.5"
           >
-            <BrandLogo variant="wordmark" size="xs" />
+            <BrandLogo textClassName="font-semibold text-sm text-foreground tracking-tight" />
           </Link>
 
           <nav
@@ -176,6 +244,7 @@ export function LandingNavbar() {
                     key={item.name}
                     href={item.href}
                     aria-current={isCurrent ? "true" : undefined}
+                    onClick={(e) => handleHashClick(e, item.href)}
                     className={`transition-colors hover:text-foreground py-1 px-0.5 relative ${
                       isCurrent
                         ? "text-foreground font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
@@ -192,6 +261,7 @@ export function LandingNavbar() {
                   key={item.name}
                   href={item.href}
                   aria-current={isCurrent ? "true" : undefined}
+                  onClick={handleLinkClick}
                   className={`transition-colors hover:text-foreground py-1 px-0.5 relative ${
                     isCurrent
                       ? "text-foreground font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
@@ -216,7 +286,8 @@ export function LandingNavbar() {
 
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 h-9 px-4 rounded-[8px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              onClick={handleLinkClick}
+              className="inline-flex items-center gap-1.5 h-9 px-4 rounded-[8px] bg-primary text-primary-foreground text-xs font-medium hover:bg-primary-hover transition-colors shadow-xs focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               <span>Open Dashboard</span>
               <ArrowRight className="w-3.5 h-3.5 stroke-[1.5]" />
@@ -274,7 +345,10 @@ export function LandingNavbar() {
                       key={item.name}
                       href={item.href}
                       aria-current={isCurrent ? "true" : undefined}
-                      onClick={closeMenu}
+                      onClick={(e) => {
+                        closeMenu();
+                        handleHashClick(e, item.href);
+                      }}
                       className={`py-2 px-3 rounded-lg transition-colors ${
                         isCurrent ? "bg-primary/10 text-primary font-semibold" : "hover:bg-muted/40"
                       }`}
@@ -289,7 +363,10 @@ export function LandingNavbar() {
                     key={item.name}
                     href={item.href}
                     aria-current={isCurrent ? "true" : undefined}
-                    onClick={closeMenu}
+                    onClick={() => {
+                      closeMenu();
+                      handleLinkClick();
+                    }}
                     className={`py-2 px-3 rounded-lg transition-colors ${
                       isCurrent ? "bg-primary/10 text-primary font-semibold" : "hover:bg-muted/40"
                     }`}

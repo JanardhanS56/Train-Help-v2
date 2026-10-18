@@ -37,7 +37,7 @@ export function LandingHero() {
     <section
       id="top"
       aria-label="Travel disruption recovery introduction"
-      className="relative overflow-hidden pt-12 pb-20 md:py-24 px-4 md:px-6"
+      className="relative overflow-hidden min-h-[max(100svh,900px)] pt-8 sm:pt-12 pb-36 px-4 md:px-6 flex flex-col justify-start"
     >
       {/* 3D WebGL Rails Scene with Automatic Capability Detection & SVG Fallback */}
       <Hero3DScene demoState={demoSceneState} />

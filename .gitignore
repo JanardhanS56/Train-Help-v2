@@ -45,3 +45,10 @@ next-env.d.ts
 __pycache__/
 *.pyc
 
+# ide & agent scratchpads
+.agents
+/AGENTS.md
+/CLAUDE.md
+
+
+

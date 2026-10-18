@@ -20,10 +20,10 @@ const ICON_SIZES: Record<
   NonNullable<BrandLogoProps["size"]>,
   { box: string; svg: string; text: string; tagline: string }
 > = {
-  xs: { box: "w-5 h-5", svg: "w-5 h-5", text: "text-xs", tagline: "text-[8px]" },
-  sm: { box: "w-7 h-7", svg: "w-7 h-7", text: "text-sm", tagline: "text-[9px]" },
-  md: { box: "w-9 h-9", svg: "w-9 h-9", text: "text-base", tagline: "text-[10px]" },
-  lg: { box: "w-12 h-12", svg: "w-12 h-12", text: "text-lg", tagline: "text-xs" },
+  xs: { box: "w-6 h-6", svg: "w-5 h-5", text: "text-xs", tagline: "text-[8px]" },
+  sm: { box: "w-7 h-7", svg: "w-6 h-6", text: "text-sm", tagline: "text-[9px]" },
+  md: { box: "w-9 h-9", svg: "w-8 h-8", text: "text-base", tagline: "text-[10px]" },
+  lg: { box: "w-12 h-12", svg: "w-10 h-10", text: "text-lg", tagline: "text-xs" },
 };
 
 function LogoIcon({ className }: { className?: string }) {
@@ -74,7 +74,7 @@ export function BrandLogo({
   const logoNode = (
     <div
       className={cn(
-        "relative flex items-center justify-center shrink-0",
+        "relative flex items-center justify-center shrink-0 rounded-lg bg-primary/10 border border-primary/20",
         s.box,
         boxClassName
       )}

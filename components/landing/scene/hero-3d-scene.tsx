@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useId } from "react";
+import React, { useState, useEffect, useCallback, useId, useRef } from "react";
 import dynamic from "next/dynamic";
 import { Pause, Play } from "lucide-react";
 import { AmbientScene } from "../ambient-scene";
 import { SceneErrorBoundary } from "./scene-error-boundary";
-import type { DemoSceneState } from "./scene-tokens";
+import type { DemoSceneState, QualityTier } from "./scene-tokens";
 
 // Lazy dynamic import of RailwayScene with SSR disabled
 const DynamicRailwayScene = dynamic(
@@ -25,10 +25,39 @@ export function Hero3DScene({ demoState }: Hero3DSceneProps) {
   const [useFallback, setUseFallback] = useState<boolean>(true);
   const [isReady, setIsReady] = useState<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [qualityTier, setQualityTier] = useState<QualityTier>(() => {
+    if (typeof navigator !== "undefined") {
+      const nav = navigator as Navigator & { deviceMemory?: number };
+      const isLowConcurrency =
+        typeof nav.hardwareConcurrency === "number" && nav.hardwareConcurrency <= 4;
+      const isLowMemory =
+        typeof nav.deviceMemory === "number" && nav.deviceMemory <= 4;
+      if (isLowConcurrency || isLowMemory) return "medium";
+    }
+    return "high";
+  });
   const pauseButtonId = useId();
+  const downgradedRef = useRef<{ highToMedium: boolean; mediumToFallback: boolean }>({
+    highToMedium: false,
+    mediumToFallback: false,
+  });
 
   const handleContextLost = useCallback(() => {
     setUseFallback(true);
+  }, []);
+
+  const handleAdaptiveDowngrade = useCallback(() => {
+    setQualityTier((prev) => {
+      if (prev === "high" && !downgradedRef.current.highToMedium) {
+        downgradedRef.current.highToMedium = true;
+        return "medium";
+      }
+      if (prev === "medium" && !downgradedRef.current.mediumToFallback) {
+        downgradedRef.current.mediumToFallback = true;
+        setUseFallback(true);
+      }
+      return prev;
+    });
   }, []);
 
   useEffect(() => {
@@ -51,7 +80,7 @@ export function Hero3DScene({ demoState }: Hero3DSceneProps) {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // 3. Viewport check (<768px)
+    // 3. Viewport check (<768px uses SVG fallback)
     const isMobileViewport = window.innerWidth < 768;
 
     // 4. Low-end device checks (hardwareConcurrency, deviceMemory, saveData)
@@ -60,32 +89,33 @@ export function Hero3DScene({ demoState }: Hero3DSceneProps) {
       connection?: { saveData?: boolean };
     };
 
-    const isLowConcurrency =
-      typeof nav.hardwareConcurrency === "number" &&
-      nav.hardwareConcurrency <= 4;
-    const isLowMemory =
-      typeof nav.deviceMemory === "number" && nav.deviceMemory <= 4;
     const isSaveData = Boolean(nav.connection?.saveData);
 
-    // If ANY condition triggers, keep the default SVG/CSS fallback scene
+    // If ANY condition triggers, keep the default SVG fallback scene (useFallback is already true)
     if (
       !isWebGLAvailable() ||
       prefersReducedMotion ||
       isMobileViewport ||
-      isLowConcurrency ||
-      isLowMemory ||
       isSaveData
     ) {
       return;
     }
 
-    // Otherwise, delay loading until main content is settled (requestIdleCallback or short timeout)
+    // Viewport resize guard to switch to fallback on screen shrink < 768px
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setUseFallback(true);
+      }
+    };
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    // Delay 3D mount until hero text and layout have settled (requestIdleCallback / short delay)
     let idleId: number | null = null;
     let timeoutId: NodeJS.Timeout | null = null;
 
     const startScene = () => {
       setUseFallback(false);
-      // Fade in over 300ms
+      // Smooth 300ms fade-in
       timeoutId = setTimeout(() => {
         setIsReady(true);
       }, 100);
@@ -93,13 +123,14 @@ export function Hero3DScene({ demoState }: Hero3DSceneProps) {
 
     if ("requestIdleCallback" in window) {
       idleId = (window as Window).requestIdleCallback(startScene, {
-        timeout: 600,
+        timeout: 500,
       });
     } else {
-      timeoutId = setTimeout(startScene, 200);
+      timeoutId = setTimeout(startScene, 150);
     }
 
     return () => {
+      window.removeEventListener("resize", handleResize);
       if (idleId !== null && "cancelIdleCallback" in window) {
         (window as Window).cancelIdleCallback(idleId);
       }
@@ -125,12 +156,14 @@ export function Hero3DScene({ demoState }: Hero3DSceneProps) {
           <DynamicRailwayScene
             demoState={demoState}
             isPaused={isPaused}
+            qualityTier={qualityTier}
             onContextLost={handleContextLost}
+            onAdaptiveDowngrade={handleAdaptiveDowngrade}
           />
         </SceneErrorBoundary>
       </div>
 
-      {/* Quiet "Pause animation" control at bottom-right of hero */}
+      {/* Accessible "Pause animation" control at bottom-right of hero */}
       <div className="absolute bottom-3 right-4 sm:right-6 pointer-events-auto z-20">
         <button
           id={pauseButtonId}
