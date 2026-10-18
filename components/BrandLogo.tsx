@@ -16,7 +16,10 @@ export interface BrandLogoProps {
   showTagline?: boolean;
 }
 
-const ICON_SIZES: Record<NonNullable<BrandLogoProps["size"]>, { box: string; svg: string; text: string; tagline: string }> = {
+const ICON_SIZES: Record<
+  NonNullable<BrandLogoProps["size"]>,
+  { box: string; svg: string; text: string; tagline: string }
+> = {
   xs: { box: "w-5 h-5", svg: "w-5 h-5", text: "text-xs", tagline: "text-[8px]" },
   sm: { box: "w-7 h-7", svg: "w-7 h-7", text: "text-sm", tagline: "text-[9px]" },
   md: { box: "w-9 h-9", svg: "w-9 h-9", text: "text-base", tagline: "text-[10px]" },
@@ -73,7 +76,7 @@ export function BrandLogo({
       className={cn(
         "relative flex items-center justify-center shrink-0",
         s.box,
-        boxClassName,
+        boxClassName
       )}
       aria-hidden="true"
     >
@@ -97,7 +100,7 @@ export function BrandLogo({
           className={cn(
             "font-semibold tracking-tight text-foreground",
             s.text,
-            textClassName,
+            textClassName
           )}
         >
           {APP_NAME}
