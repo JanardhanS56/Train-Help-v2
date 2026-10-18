@@ -1,11 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { createTrip, updateTripStatus } from "@/lib/data/trips";
 import type { DbTrip } from "@/lib/data/types";
 import type { SyncItem } from "@/lib/data/sync-queue";
+import { enforceRateLimit, GENERAL_API_RATE_LIMIT } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const rateLimit = await enforceRateLimit(req, GENERAL_API_RATE_LIMIT);
+  if (!rateLimit.success) return rateLimit.response;
   try {
     const body = await req.json();
     const item: SyncItem = body.item || body;
