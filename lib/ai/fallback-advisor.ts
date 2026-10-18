@@ -246,7 +246,100 @@ function adviceSafetyEmergency(): string {
 }
 
 /**
- * Advice Handler: General Fallback
+ * Advice Handler: Natural Conversational Greeting
+ */
+function adviceGreeting(context: GroundingContext): string {
+  const activeTrip = context.activeTrip;
+  const pnr = activeTrip?.pnr;
+  const trainName = activeTrip?.segments[0]?.trainName;
+  const status = activeTrip?.status;
+
+  const lines = [
+    `👋 **Hello! Welcome to TravelRescue.**`,
+    `I am your 24/7 Railway Travel Assistant. How can I assist you with your journey today?`,
+    `Here are a few things you can ask me:`,
+    `- **Alternative Trains**: *"Find me another train to New Delhi"* or *"Show faster alternatives"*.`,
+    `- **Full Refund & TDR**: *"Am I eligible for a 100% refund?"* or *"How to file TDR for delayed train?"*.`,
+    `- **Ticket Rules**: *"What are RAC cancellation charges?"* or *"Tatkal refund rules"*.`,
+    `- **Helplines & Safety**: *"Railway police or emergency contacts"*.`,
+  ];
+
+  if (activeTrip) {
+    lines.push(
+      `\n📍 *Current Selected Booking*: PNR **${pnr}** (${trainName || "Express"} · Status: **${status?.toUpperCase() || "SCHEDULED"}**). Would you like to check alternatives or refund eligibility for this ticket?`
+    );
+  }
+
+  return lines.join("\n\n");
+}
+
+/**
+ * Advice Handler: Friendly Wellness / Small Talk
+ */
+function adviceWellness(): string {
+  return [
+    `I'm doing well, thank you for asking! 😊`,
+    `I'm actively monitoring Indian Railways schedules, disruptions, and IRCTC policies.`,
+    `How is your journey going? Let me know if you need help finding alternative trains, checking refund status, or understanding ticket cancellation rules!`,
+  ].join("\n\n");
+}
+
+/**
+ * Advice Handler: Gratitude & Appreciation
+ */
+function adviceGratitude(): string {
+  return [
+    `You're very welcome! 😊 Glad I could help.`,
+    `If you have any other questions regarding your train, seat availability, or Indian Railways guidelines, feel free to ask anytime.`,
+    `Wishing you a smooth and safe journey! 🚆`,
+  ].join("\n\n");
+}
+
+/**
+ * Advice Handler: Identity & Purpose
+ */
+function adviceIdentity(): string {
+  return [
+    `### 🚆 About TravelRescue Assistant`,
+    `I am an AI-powered co-pilot built specifically for **Indian Railways passengers** to provide instant assistance when journeys encounter delays, cancellations, or schedule changes.`,
+    `#### What I can help you with:`,
+    `1. **Disruption Recovery**: Recommend confirmed alternate trains when your original train is cancelled or severely delayed.`,
+    `2. **100% Refund Filing**: Guide you through IRCTC TDR filing when a train is delayed by >3 hours with zero clerkage deductions.`,
+    `3. **RAC & Tatkal Guidelines**: Clarify cancellation fees, timeframes, and chart preparation timings.`,
+    `4. **Safety & Medical Helplines**: Immediate access to Dial 139 (RailMadad) and onboard RPF support.`,
+  ].join("\n\n");
+}
+
+/**
+ * Advice Handler: Travel Class Comparison
+ */
+function adviceClassComparison(): string {
+  return [
+    `### 🛋️ Indian Railways Travel Classes Overview`,
+    `- **1A (First AC)**: Highest comfort; 2-berth coupes and 4-berth cabins with lockable sliding doors, reading lights, and full bedding.`,
+    `- **2A (AC 2-Tier)**: 4 berths across the bay (2 upper, 2 lower) plus 2 side berths (Side Lower, Side Upper). Curtains for individual privacy and full bedding included.`,
+    `- **3A (AC 3-Tier)**: 6 berths across the bay (Upper, Middle, Lower) plus 2 side berths. Cost-effective air-conditioned travel with bedding provided.`,
+    `- **3E (3 AC Economy)**: Modern compact 3-tier coaches with 3 side berths (including Side Middle), individual AC vents, and USB charging points.`,
+    `- **CC (AC Chair Car)**: Push-back seats in a 3x2 configuration, ideal for daytime intercity trains (Shatabdi, Vande Bharat, Intercity Express).`,
+    `- **SL (Sleeper Class)**: Non-air-conditioned open berths (8 per bay). Budget travel; bedding is not provided.`,
+  ].join("\n\n");
+}
+
+/**
+ * Advice Handler: Chart Preparation Timings
+ */
+function adviceChartPreparation(): string {
+  return [
+    `### 📊 IRCTC Chart Preparation Timings`,
+    `- **First Reservation Chart**: Prepared at least **4 hours** prior to scheduled train departure from the originating station.`,
+    `- **Early Morning Trains (departing up to 06:00 AM)**: The first chart is finalized by **08:00 PM** the previous evening.`,
+    `- **Second & Final Chart**: Prepared **30 minutes** before train departure, allocating cancelled or vacant quota berths to waitlisted/RAC passengers.`,
+    `*Tip*: If your ticket is RAC or Waitlisted, check your PNR status after the first chart is prepared for your confirmed coach and berth numbers.`,
+  ].join("\n\n");
+}
+
+/**
+ * Advice Handler: General Fallback Overview
  */
 function adviceGeneral(context: GroundingContext): string {
   const activeTrip = context.activeTrip;
@@ -295,7 +388,46 @@ export function generateDeterministicAdvice(
     case "safety_emergency":
       return adviceSafetyEmergency();
     case "general":
-    default:
+    default: {
+      const q = query.toLowerCase().trim();
+
+      // Explicit help / capabilities request (satisfies standard fallback contract)
+      if (q.includes("help me") || q.includes("what can you do") || q.includes("capabilities")) {
+        return adviceGeneral(context);
+      }
+
+      // 1. Gratitude & Courtesy
+      if (/\b(thanks?|thank\s*you|shukriya|dhanyawad|appreciate\s*it|great\s*job)\b/i.test(q)) {
+        return adviceGratitude();
+      }
+
+      // 2. Wellness / Small Talk
+      if (/\b(how\s*are\s*you|how\s*do\s*you\s*do|how\s*is\s*it\s*going|how\'?s\s*it\s*going|what\'?s\s*up)\b/i.test(q)) {
+        return adviceWellness();
+      }
+
+      // 3. Identity / About
+      if (/\b(who\s*are\s*you|what\s*are\s*you|who\s*made\s*you|what\s*is\s*this\s*app)\b/i.test(q)) {
+        return adviceIdentity();
+      }
+
+      // 4. Travel Class comparison
+      if (/\b(1a|2a|3a|3e|cc|sleeper|first\s*ac|second\s*ac|third\s*ac)\b/i.test(q) && /\b(class|difference|what\s*is|mean|berth)\b/i.test(q)) {
+        return adviceClassComparison();
+      }
+
+      // 5. Chart preparation timings
+      if (/\b(chart|charting)\b/i.test(q) && /\b(prepared|time|when|timing|status)\b/i.test(q)) {
+        return adviceChartPreparation();
+      }
+
+      // 6. Conversational Greetings
+      if (/^(hi|hello|hey|namaste|greetings|good\s*(morning|afternoon|evening|day))(\s+there|\s+assistant|\s+bot)?[\.!]?$/i.test(q)) {
+        return adviceGreeting(context);
+      }
+
+      // Fallback to structured general overview
       return adviceGeneral(context);
+    }
   }
 }
