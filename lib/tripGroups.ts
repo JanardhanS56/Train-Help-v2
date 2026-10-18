@@ -64,7 +64,7 @@ export function classifyTrips(trips: Trip[], now: Date = getNow()): TripGroupsRe
     const arrivalPassed = arrivalMs < nowMs;
 
     // RULE 1: recovered — status recovered (even if the date has passed)
-    if (trip.status === "recovered") {
+    if (trip.status === "recovered" || trip.status === "rebooked") {
       recovered.push(trip);
       continue;
     }

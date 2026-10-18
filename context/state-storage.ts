@@ -178,7 +178,7 @@ export function savePersistedState(state: AppState) {
   if (typeof window === "undefined") return;
   try {
     const recoveredUpdates = state.trips
-      .filter((t) => t.status === "recovered" && t.recoveredAlternativeId)
+      .filter((t) => (t.status === "recovered" || t.status === "rebooked") && t.recoveredAlternativeId)
       .map((t) => ({ tripId: t.id, altId: t.recoveredAlternativeId! }));
 
     const readIds = state.notifications.filter((n) => n.read).map((n) => n.id);
