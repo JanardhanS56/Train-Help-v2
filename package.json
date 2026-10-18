@@ -5,12 +5,16 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
     "db:seed": "tsx scripts/db/seed.ts",
     "seed:dev": "tsx scripts/db/seed-dev.ts",
     "db:check": "tsx scripts/db/check.ts",
     "check:secrets": "node scripts/security/check-secrets.mjs"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
