@@ -12,12 +12,12 @@ import {
   Settings,
   HelpCircle,
   ChevronDown,
-  Shield,
   Sun,
   Moon,
   LogOut,
   Activity,
 } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useApp, useAppDispatch } from "@/context/app-context";
@@ -183,18 +183,16 @@ export function Sidebar() {
       aria-label="Main navigation"
     >
       {/* ── Brand Header ── */}
-      <div className="flex items-center justify-between px-3 lg:px-5 py-4 border-b border-sidebar-border/60">
+      <div className="flex items-center justify-between px-2.5 lg:px-5 py-3 border-b border-sidebar-border/60">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2.5 hover:opacity-85 transition-opacity"
+          className="flex items-center hover:opacity-85 transition-opacity"
           aria-label={`${APP_NAME} Dashboard`}
         >
-          <div className="flex items-center justify-center w-7 h-7 rounded bg-primary text-primary-foreground shrink-0 shadow-sm">
-            <Shield className="w-4 h-4 stroke-[1.5]" aria-hidden="true" />
-          </div>
-          <span className="hidden lg:inline text-sm font-semibold tracking-tight text-foreground font-sans">
-            {APP_NAME}
-          </span>
+          <BrandLogo
+            hideTextOnCollapse
+            textClassName="text-sm font-semibold tracking-tight text-foreground font-sans"
+          />
         </Link>
 
         {/* Theme toggle */}
