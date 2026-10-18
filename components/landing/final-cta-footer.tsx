@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { TrainFront, ArrowRight, Shield } from "lucide-react";
-import { APP_NAME, APP_TAGLINE } from "@/lib/constants";
+import { ArrowRight } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
+import { APP_TAGLINE } from "@/lib/constants";
 
 export function FinalCtaFooter() {
   return (
@@ -13,7 +14,7 @@ export function FinalCtaFooter() {
       >
         <div className="max-w-[700px] mx-auto space-y-6">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 text-primary mx-auto">
-            <TrainFront className="w-6 h-6 stroke-[1.5]" />
+            <BrandLogo variant="icon" size="sm" />
           </div>
 
           <h2
@@ -44,10 +45,9 @@ export function FinalCtaFooter() {
       <footer className="border-t border-hairline py-10 px-4 md:px-6 bg-background text-xs text-muted-foreground">
         <div className="max-w-[1120px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2.5">
-            <Shield className="w-4 h-4 text-primary shrink-0 stroke-[1.6]" />
-            <span className="font-semibold text-foreground">{APP_NAME}</span>
-            <span>—</span>
-            <span>{APP_TAGLINE}</span>
+            <BrandLogo variant="wordmark" size="xs" />
+            <span className="text-muted-foreground/60">—</span>
+            <span className="hidden sm:inline">{APP_TAGLINE}</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded border border-border bg-surface">
               Sample data
             </span>

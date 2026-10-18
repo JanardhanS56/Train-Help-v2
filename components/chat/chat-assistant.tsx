@@ -264,7 +264,7 @@ export function ChatAssistant() {
         <button
           type="button"
           onClick={() => toggleChat()}
-          className="fixed bottom-6 right-6 z-40 h-12 px-4 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary-hover flex items-center gap-2 transition-all hover:scale-105 focus-visible:ring-2 focus-visible:ring-primary"
+          className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 h-11 md:h-12 px-3.5 md:px-4 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary-hover flex items-center gap-2 transition-all hover:scale-105 focus-visible:ring-2 focus-visible:ring-primary shadow-primary/20"
           aria-label="Open AI Assistant"
         >
           <Bot className="w-5 h-5" />

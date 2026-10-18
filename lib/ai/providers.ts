@@ -6,30 +6,40 @@ export function getProviderConfig(): AIProviderConfig {
   const providerEnv = process.env.AI_PROVIDER?.toLowerCase();
   const provider = (deepseekKey ? "deepseek" : providerEnv || "deepseek") as AIProviderName;
   const apiKey = deepseekKey || process.env.AI_API_KEY || "";
-  const modelOverride = process.env.AI_MODEL || process.env.DEEPSEEK_MODEL;
+  const rawModel = process.env.AI_MODEL || process.env.DEEPSEEK_MODEL;
   const baseOverride = process.env.AI_BASE_URL || process.env.DEEPSEEK_BASE_URL;
 
+  function normalizeEndpoint(base: string | undefined, defaultEndpoint: string): string {
+    if (!base) return defaultEndpoint;
+    const clean = base.trim().replace(/\/+$/, "");
+    if (clean.endsWith("/chat/completions")) return clean;
+    if (clean.endsWith("/v1")) return `${clean}/chat/completions`;
+    return `${clean}/v1/chat/completions`;
+  }
+
   switch (provider) {
-    case "deepseek":
+    case "deepseek": {
+      const validModel = rawModel === "deepseek-flash" ? "deepseek-chat" : rawModel || "deepseek-chat";
       return {
         provider: "deepseek",
         apiKey,
-        model: modelOverride || "deepseek-chat",
-        baseUrl: baseOverride || "https://api.deepseek.com/v1/chat/completions",
+        model: validModel,
+        baseUrl: normalizeEndpoint(baseOverride, "https://api.deepseek.com/v1/chat/completions"),
       };
+    }
     case "openrouter":
       return {
         provider: "openrouter",
         apiKey,
-        model: modelOverride || "meta-llama/llama-3.3-70b-instruct",
-        baseUrl: baseOverride || "https://openrouter.ai/api/v1/chat/completions",
+        model: rawModel || "meta-llama/llama-3.3-70b-instruct",
+        baseUrl: normalizeEndpoint(baseOverride, "https://openrouter.ai/api/v1/chat/completions"),
       };
     case "nvidia":
       return {
         provider: "nvidia",
         apiKey,
-        model: modelOverride || "meta/llama-3.3-70b-instruct",
-        baseUrl: baseOverride || "https://integrate.api.nvidia.com/v1/chat/completions",
+        model: rawModel || "meta/llama-3.3-70b-instruct",
+        baseUrl: normalizeEndpoint(baseOverride, "https://integrate.api.nvidia.com/v1/chat/completions"),
       };
     case "mock":
       return {
@@ -43,8 +53,8 @@ export function getProviderConfig(): AIProviderConfig {
       return {
         provider: "groq",
         apiKey,
-        model: modelOverride || "llama-3.3-70b-versatile",
-        baseUrl: baseOverride || "https://api.groq.com/openai/v1/chat/completions",
+        model: rawModel || "llama-3.3-70b-versatile",
+        baseUrl: normalizeEndpoint(baseOverride, "https://api.groq.com/openai/v1/chat/completions"),
       };
   }
 }

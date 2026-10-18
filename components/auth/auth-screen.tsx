@@ -12,7 +12,6 @@ import {
   Loader2,
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
-import { APP_NAME } from "@/lib/constants";
 import { BrandLogo } from "@/components/BrandLogo";
 import styles from "./auth-screen.module.css";
 
