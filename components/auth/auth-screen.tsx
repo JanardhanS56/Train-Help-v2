@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { Fraunces, DM_Sans, JetBrains_Mono } from "next/font/google";
 import {
-  Train,
   Check,
   Eye,
   EyeOff,
@@ -13,7 +12,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
-import { APP_NAME } from "@/lib/constants";
+import { BrandLogo } from "@/components/BrandLogo";
 import styles from "./auth-screen.module.css";
 
 // Scoped Google Fonts
@@ -386,13 +385,12 @@ export function AuthScreen({ initialTab = "sign-in" }: AuthScreenProps) {
           <div className={styles.sceneOverlay}>
             <div className={styles.sceneHeader}>
               <div className={styles.brandBadge}>
-                <div className={styles.brandIcon}>
-                  <Train className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className={styles.brandTitle}>{APP_NAME}</div>
-                  <div className={styles.brandSub}>Railway Recovery Operations</div>
-                </div>
+                <BrandLogo
+                  textClassName={styles.brandTitle}
+                  subtitle={
+                    <div className={styles.brandSub}>Railway Recovery Operations</div>
+                  }
+                />
               </div>
               <div className={styles.corridorPill}>
                 <span>NDLS</span>
