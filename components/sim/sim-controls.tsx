@@ -247,23 +247,31 @@ export function SimControls({
           </div>
         ) : (
           <div className="flex flex-wrap items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => onSelectPresetScenario("demo")}
+              className="px-3 py-1 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-xs flex items-center gap-1.5 transition-all transform hover:scale-[1.02] active:scale-[0.98] mr-1"
+              title="Launch instant 1-Click Disruption Simulation Showcase"
+            >
+              <Sparkles className="h-3.5 w-3.5 animate-pulse text-amber-200" />
+              <span>1-Click Demo</span>
+            </button>
             <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1 mr-1">
-              <Sparkles className="h-3 w-3 text-warning" />
               Presets:
             </span>
             <button
               type="button"
               onClick={() => onSelectPresetScenario("konkan")}
               className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-warning/10 hover:bg-warning/20 text-warning border border-warning/20 transition-colors"
-              title="Panchaganga Express 16595 with Chiplun-Ratnagiri Landslide"
+              title="Mao Jan Shatabdi 12051 with Chiplun-Ratnagiri Landslide"
             >
-              Konkan (16595)
+              Konkan (12051)
             </button>
             <button
               type="button"
               onClick={() => onSelectPresetScenario("fog")}
               className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-muted hover:bg-muted/80 text-foreground border border-border transition-colors"
-              title="Karnataka Express 12627 with Kanpur-Prayagraj Fog Restriction"
+              title="Karnataka Express 12627 with Agra-Mathura Fog Restriction"
             >
               Fog (12627)
             </button>

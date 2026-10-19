@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { trainRepository } from "@/lib/data/train-repository";
+import { getSnapshotTrainByNumber } from "@/lib/data/snapshot-fallback";
 import { GENERAL_API_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
@@ -20,17 +21,35 @@ export async function GET(
 
   try {
     const train = await trainRepository.getTrainWithStops(number);
-    if (!train) {
-      return NextResponse.json({ error: `Train ${number} not found` }, { status: 404 });
+    if (train) {
+      return NextResponse.json({
+        train,
+        isOffline: trainRepository.isOffline(),
+      });
     }
 
-    return NextResponse.json({
-      train,
-      isOffline: trainRepository.isOffline(),
-    });
+    // Try snapshot fallback directly
+    const fallbackTrain = getSnapshotTrainByNumber(number);
+    if (fallbackTrain) {
+      return NextResponse.json({
+        train: fallbackTrain,
+        isOffline: true,
+      });
+    }
+
+    return NextResponse.json({ error: `Train ${number} not found` }, { status: 404 });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error(`ERR in /api/sim/trains/${number}:`, message);
+    console.error(`ERR in /api/sim/trains/${number}, falling back to snapshot:`, message);
+
+    const fallbackTrain = getSnapshotTrainByNumber(number) || getSnapshotTrainByNumber("22691");
+    if (fallbackTrain) {
+      return NextResponse.json({
+        train: fallbackTrain,
+        isOffline: true,
+      });
+    }
+
     return NextResponse.json({ error: "Failed to fetch train details" }, { status: 500 });
   }
 }

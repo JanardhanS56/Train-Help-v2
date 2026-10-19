@@ -16,6 +16,13 @@ import {
   getRailLinks as fetchRailLinks,
   getTrainsBetween as fetchTrainsBetween,
 } from "./trains";
+import {
+  getSnapshotTrains,
+  getSnapshotTrainByNumber,
+  getSnapshotStations,
+  getSnapshotStation,
+  getSnapshotRailLinks,
+} from "./snapshot-fallback";
 import type {
   DbStation,
   DbRailLink,
@@ -31,31 +38,72 @@ class SupabaseTrainRepository implements TrainRepository {
   }
 
   async searchTrains(query: string, limit = 20): Promise<TrainSearchResult[]> {
-    return fetchSearchTrains(query, limit);
+    try {
+      const results = await fetchSearchTrains(query, limit);
+      if (results && results.length > 0) return results;
+    } catch (err) {
+      console.warn("Supabase searchTrains failed, falling back to snapshot:", err);
+    }
+    return getSnapshotTrains(query, limit);
   }
 
   async getTrainWithStops(trainNumber: string): Promise<TrainWithStops | null> {
-    return fetchTrainByNumber(trainNumber);
+    try {
+      const train = await fetchTrainByNumber(trainNumber);
+      if (train && train.stops && train.stops.length > 0) return train;
+    } catch (err) {
+      console.warn(`Supabase getTrainWithStops (${trainNumber}) failed, falling back to snapshot:`, err);
+    }
+    return getSnapshotTrainByNumber(trainNumber);
   }
 
   async getStation(code: string): Promise<DbStation | null> {
-    return fetchStationByCode(code);
+    try {
+      const station = await fetchStationByCode(code);
+      if (station) return station;
+    } catch (err) {
+      console.warn(`Supabase getStation (${code}) failed, falling back to snapshot:`, err);
+    }
+    return getSnapshotStation(code);
   }
 
   async getAllStations(): Promise<DbStation[]> {
-    return fetchAllStations(1000);
+    try {
+      const stations = await fetchAllStations(1000);
+      if (stations && stations.length > 0) return stations;
+    } catch (err) {
+      console.warn("Supabase getAllStations failed, falling back to snapshot:", err);
+    }
+    return getSnapshotStations("", 1000);
   }
 
   async searchStations(query: string, limit = 20): Promise<DbStation[]> {
-    return fetchSearchStations(query, limit);
+    try {
+      const stations = await fetchSearchStations(query, limit);
+      if (stations && stations.length > 0) return stations;
+    } catch (err) {
+      console.warn("Supabase searchStations failed, falling back to snapshot:", err);
+    }
+    return getSnapshotStations(query, limit);
   }
 
   async getRailLinks(): Promise<DbRailLink[]> {
-    return fetchRailLinks();
+    try {
+      const links = await fetchRailLinks();
+      if (links && links.length > 0) return links;
+    } catch (err) {
+      console.warn("Supabase getRailLinks failed, falling back to snapshot:", err);
+    }
+    return getSnapshotRailLinks();
   }
 
   async getTrainsBetween(fromCode: string, toCode: string): Promise<TrainsBetweenResult[]> {
-    return fetchTrainsBetween(fromCode, toCode);
+    try {
+      return await fetchTrainsBetween(fromCode, toCode);
+    } catch (err) {
+      console.warn("Supabase getTrainsBetween failed:", err);
+      return [];
+    }
   }
 }
 
