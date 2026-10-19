@@ -49,7 +49,7 @@ export function RecoveryView({ tripId }: RecoveryViewProps) {
   const stage = state.recoveryStage;
 
   // If already recovered and stage is not explicitly itinerary/success
-  if (trip.status === "recovered" && stage !== "success" && stage !== "itinerary") {
+  if ((trip.status === "recovered" || trip.status === "rebooked") && stage !== "success" && stage !== "itinerary") {
     return (
       <div className="max-w-2xl mx-auto py-10 space-y-6">
         <div className="p-6 rounded-xl border border-success/30 bg-success/10 text-center space-y-3">

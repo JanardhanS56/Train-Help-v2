@@ -88,7 +88,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
         trip.id === action.tripId
           ? {
               ...trip,
-              status: "rebooked" as const,
+              status: "recovered" as const,
               recoveredAlternativeId: action.alternativeId,
               refund: action.refundAmount !== undefined ? {
                 originalFare: trip.fare,

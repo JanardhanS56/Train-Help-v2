@@ -1,7 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { executeRebooking, type RebookingRequest } from "@/lib/data/rebooking";
+import { enforceRateLimit, GENERAL_API_RATE_LIMIT } from "@/lib/rate-limit";
 
-export async function POST(req: Request) {
+export const runtime = "nodejs";
+
+export async function POST(req: NextRequest) {
+  const rateLimit = await enforceRateLimit(req, GENERAL_API_RATE_LIMIT);
+  if (!rateLimit.success) return rateLimit.response;
   try {
     const body: RebookingRequest = await req.json();
 

@@ -47,12 +47,16 @@ import { SaveScenarioDialog } from "@/components/sim/save-scenario-dialog";
 import { LoadScenarioDialog } from "@/components/sim/load-scenario-dialog";
 import { AiAdvisorCard } from "@/components/sim/ai-advisor-card";
 import { SimEventLog, SimEventItem } from "@/components/sim/sim-event-log";
+import Link from "next/link";
 import {
   Train,
   Info,
   RefreshCw,
   Volume2,
   VolumeX,
+  AlertCircle,
+  AlertTriangle,
+  ArrowLeft,
 } from "lucide-react";
 import { simSoundscape } from "@/lib/sim/soundscape";
 
@@ -72,6 +76,12 @@ export default function SimulationPage() {
   const [currentTrain, setCurrentTrain] = useState<TrainWithStops | null>(null);
   const [railLinks, setRailLinks] = useState<DbRailLink[]>([]);
   const [, setIsLoading] = useState(true);
+  const [trainLoadError, setTrainLoadError] = useState<{
+    message: string;
+    trainNumber: string;
+    isNotFound: boolean;
+  } | null>(null);
+  const activeLoadRequestIdRef = useRef<number>(0);
 
   // 2. Simulation dynamic state
   const [stops, setStops] = useState<SimScheduleStop[]>([]);
@@ -158,15 +168,22 @@ export default function SimulationPage() {
 
   // Fetch full details of selected train (with resilient snapshot fallback)
   const loadTrain = useCallback(async (trainNumber: string) => {
+    const trimmedNumber = trainNumber?.trim();
+    if (!trimmedNumber) return;
+
+    const requestId = ++activeLoadRequestIdRef.current;
+
     try {
       setIsLoading(true);
       let train: TrainWithStops | null = null;
 
       try {
-        const res = await fetch(`/api/sim/trains/${trainNumber}`);
+        const res = await fetch(`/api/sim/trains/${encodeURIComponent(trimmedNumber)}`);
+        if (requestId !== activeLoadRequestIdRef.current) return;
+
         if (res.ok) {
           const data = await res.json();
-          if (data && data.train && data.train.stops && data.train.stops.length > 0) {
+          if (data && data.train && Array.isArray(data.train.stops)) {
             train = data.train;
           }
         }
@@ -174,12 +191,23 @@ export default function SimulationPage() {
         console.warn("API train fetch note, engaging fallback snapshot:", e);
       }
 
+      if (requestId !== activeLoadRequestIdRef.current) return;
+
       if (!train) {
-        train = getSnapshotTrainByNumber(trainNumber) || getSnapshotTrainByNumber("22691");
+        train = getSnapshotTrainByNumber(trimmedNumber) || getSnapshotTrainByNumber("22691");
       }
 
-      if (!train) throw new Error("Train not found");
+      if (!train) {
+        setTrainLoadError({
+          message: `Train ${trimmedNumber} was not found in the timetable records.`,
+          trainNumber: trimmedNumber,
+          isNotFound: true,
+        });
+        return;
+      }
 
+      // Successful fetch: clear previous error and update simulation models
+      setTrainLoadError(null);
       setCurrentTrain(train);
       const expanded = expandSchedule(train);
       setStops(expanded);
@@ -202,10 +230,24 @@ export default function SimulationPage() {
           detail: `Schedule expanded across ${expanded.length} stops from ${expanded[0]?.stationName} to ${expanded[expanded.length - 1]?.stationName}.`,
         },
       ]);
-    } catch (err) {
-      console.error("Error loading train details:", err);
+    } catch (err: unknown) {
+      if (requestId !== activeLoadRequestIdRef.current) return;
+      const isNetwork = err instanceof TypeError;
+      const detail = isNetwork
+        ? "Network connection issue while communicating with simulation server."
+        : err instanceof Error
+        ? err.message
+        : "Failed to load train details";
+
+      setTrainLoadError({
+        message: detail,
+        trainNumber: trimmedNumber,
+        isNotFound: false,
+      });
     } finally {
-      setIsLoading(false);
+      if (requestId === activeLoadRequestIdRef.current) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -225,11 +267,11 @@ export default function SimulationPage() {
 
           if (trainsRes.ok) {
             const trainsData = await trainsRes.json();
-            trains = trainsData.trains || [];
+            trains = Array.isArray(trainsData.trains) ? trainsData.trains : [];
           }
           if (linksRes.ok) {
             const linksData = await linksRes.json();
-            links = linksData.links || [];
+            links = Array.isArray(linksData.links) ? linksData.links : [];
           }
         } catch (e) {
           console.warn("Initial API fetch note, using local snapshot fallback:", e);
@@ -245,8 +287,12 @@ export default function SimulationPage() {
         setTrainsList(trains);
         setRailLinks(links);
 
-        // Default to 22691 (Bengaluru Rajdhani) or first train
-        const defaultTrainNumber = "22691";
+        // Default to configured 22691 (Bengaluru Rajdhani) if present, or first train in list
+        const defaultTrainNumber =
+          trains.find((t) => t.train_number === "22691")?.train_number ||
+          trains[0]?.train_number ||
+          "22691";
+
         await loadTrain(defaultTrainNumber);
 
         // Check if auto-demo was requested via URL query params (?demo=1 or ?preset=...)
@@ -264,7 +310,7 @@ export default function SimulationPage() {
           }
         }
       } catch (err) {
-        console.error("Failed to load simulation data:", err);
+        console.warn("Failed to load initial simulation data:", err);
       } finally {
         setIsLoading(false);
       }
@@ -782,6 +828,80 @@ export default function SimulationPage() {
 
       {/* Main Simulation Workspace Grid */}
       <div className="space-y-5">
+        {/* Error notification banner if a train selection fails while another train is already loaded */}
+        {trainLoadError && currentTrain && (
+          <div className="rounded-xl border border-amber-300 dark:border-amber-900/80 bg-amber-50/90 dark:bg-amber-950/40 p-3.5 flex items-center justify-between gap-3 text-xs text-amber-900 dark:text-amber-200 shadow-2xs">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+              <span>
+                <strong>Could not load train {trainLoadError.trainNumber}:</strong> {trainLoadError.message}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => loadTrain(trainLoadError.trainNumber)}
+                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-200/90 hover:bg-amber-300 dark:bg-amber-900/70 dark:hover:bg-amber-800 text-amber-900 dark:text-amber-100 transition-colors flex items-center gap-1 cursor-pointer"
+              >
+                <RefreshCw className="h-3 w-3" />
+                Retry
+              </button>
+              <button
+                type="button"
+                onClick={() => setTrainLoadError(null)}
+                className="text-amber-700 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-100 p-1 cursor-pointer"
+                aria-label="Dismiss error notification"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Primary error card if no train is currently loaded */}
+        {trainLoadError && !currentTrain && (
+          <div className="rounded-2xl border border-rose-300 dark:border-rose-900/80 bg-rose-50/90 dark:bg-rose-950/40 p-6 shadow-sm space-y-4">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-6 w-6 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <h3 className="text-base font-bold text-rose-950 dark:text-rose-100">
+                  {trainLoadError.isNotFound ? "Train Not Found" : "Unable to Load Train Schedule"}
+                </h3>
+                <p className="text-xs sm:text-sm text-rose-800/90 dark:text-rose-300/90 leading-relaxed">
+                  {trainLoadError.message}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => loadTrain(trainLoadError.trainNumber)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white shadow-xs flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+                Retry Loading {trainLoadError.trainNumber}
+              </button>
+              {trainsList.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => loadTrain(trainsList[0].train_number)}
+                  className="px-4 py-2 rounded-xl text-xs font-medium bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-2xs flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Train className="h-3.5 w-3.5" />
+                  Load Alternative: {trainsList[0].train_name} ({trainsList[0].train_number})
+                </button>
+              )}
+              <Link
+                href="/dashboard"
+                className="px-4 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 flex items-center gap-1.5 transition-colors"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+                Return to Dashboard
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* Row 1: Heads Up Display (HUD) */}
         {currentTrain && stops.length > 0 && (
           <SimHud

@@ -20,7 +20,7 @@ export interface AuthUser {
 
 export interface StoredCredentials {
   email: string;
-  password: string;
+  password?: string;
   name: string;
 }
 
@@ -83,7 +83,13 @@ function loadCredentials(): StoredCredentials | null {
   if (typeof window === "undefined") return null;
   try {
     const stored = localStorage.getItem(AUTH_CREDENTIALS_KEY);
-    return stored ? JSON.parse(stored) : null;
+    if (!stored) return null;
+    const parsed = JSON.parse(stored);
+    if (parsed && typeof parsed === "object") {
+      delete parsed.password;
+      return parsed as StoredCredentials;
+    }
+    return null;
   } catch {
     return null;
   }
@@ -92,7 +98,11 @@ function loadCredentials(): StoredCredentials | null {
 function saveCredentials(creds: StoredCredentials) {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(AUTH_CREDENTIALS_KEY, JSON.stringify(creds));
+    const safeCreds: StoredCredentials = {
+      email: creds.email,
+      name: creds.name,
+    };
+    localStorage.setItem(AUTH_CREDENTIALS_KEY, JSON.stringify(safeCreds));
   } catch {
     // ignore
   }
@@ -127,25 +137,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return false;
       }
 
-      // Check against stored credentials
-      const creds = loadCredentials();
-      if (creds && creds.email.toLowerCase() === cleanEmail.toLowerCase() && creds.password !== cleanPass) {
-        return false; // Wrong password
-      }
-
-      const name = creds?.name || cleanEmail.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      const name = savedCredentials?.name || cleanEmail.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
       const authUser: AuthUser = { name, email: cleanEmail };
       setUser(authUser);
       saveUser(authUser, remember);
 
-      // Remember credentials for suggestions
-      const newCreds: StoredCredentials = { email: cleanEmail, password: cleanPass, name };
+      // Remember credentials for suggestions (omitting plaintext password)
+      const newCreds: StoredCredentials = { email: cleanEmail, name };
       saveCredentials(newCreds);
       setSavedCredentials(newCreds);
 
       return true;
     },
-    []
+    [savedCredentials?.name]
   );
 
   const signUp = useCallback(
@@ -158,7 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return false;
       }
 
-      const creds: StoredCredentials = { email: cleanEmail, password: cleanPass, name: cleanName };
+      const creds: StoredCredentials = { email: cleanEmail, name: cleanName };
       saveCredentials(creds);
       setSavedCredentials(creds);
 

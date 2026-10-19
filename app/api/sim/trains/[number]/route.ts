@@ -18,9 +18,14 @@ export async function GET(
   if (!rateLimit.success) return rateLimit.response;
 
   const { number } = await context.params;
+  const trainNumber = number?.trim();
+
+  if (!trainNumber) {
+    return NextResponse.json({ error: "Train number is required" }, { status: 400 });
+  }
 
   try {
-    const train = await trainRepository.getTrainWithStops(number);
+    const train = await trainRepository.getTrainWithStops(trainNumber);
     if (train) {
       return NextResponse.json({
         train,
@@ -29,7 +34,7 @@ export async function GET(
     }
 
     // Try snapshot fallback directly
-    const fallbackTrain = getSnapshotTrainByNumber(number);
+    const fallbackTrain = getSnapshotTrainByNumber(trainNumber);
     if (fallbackTrain) {
       return NextResponse.json({
         train: fallbackTrain,
@@ -37,12 +42,12 @@ export async function GET(
       });
     }
 
-    return NextResponse.json({ error: `Train ${number} not found` }, { status: 404 });
+    return NextResponse.json({ error: `Train ${trainNumber} not found` }, { status: 404 });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error(`ERR in /api/sim/trains/${number}, falling back to snapshot:`, message);
+    console.error(`ERR in /api/sim/trains/${trainNumber}, falling back to snapshot:`, message);
 
-    const fallbackTrain = getSnapshotTrainByNumber(number) || getSnapshotTrainByNumber("22691");
+    const fallbackTrain = getSnapshotTrainByNumber(trainNumber) || getSnapshotTrainByNumber("22691");
     if (fallbackTrain) {
       return NextResponse.json({
         train: fallbackTrain,
