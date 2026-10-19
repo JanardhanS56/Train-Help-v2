@@ -83,6 +83,16 @@ export function SimTimeline({
           <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-200/60 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
             {stops.length} Stops
           </span>
+
+          {position.delayMinutes > 0 ? (
+            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+              +{Math.round(position.delayMinutes)}m Delay
+            </span>
+          ) : (
+            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+              On Schedule
+            </span>
+          )}
         </div>
 
         {activeObstacle && (
@@ -119,6 +129,10 @@ export function SimTimeline({
             const isCurrent = idx === position.currentStopIndex;
             const isNext = idx === position.nextStopIndex;
             const hasObstacle = isStationObstacle(stop.stationCode);
+            const isDwellingHere = isCurrent && position.state === "dwelling";
+            const remainingDwellMin = isDwellingHere
+              ? Math.max(0, Math.round(stop.departureMin - position.currentMinute))
+              : 0;
 
             return (
               <div
@@ -195,10 +209,22 @@ export function SimTimeline({
                       {formatTime(idx === 0 ? stop.departureMin : stop.arrivalMin)}
                     </span>
                   </div>
-                  {stop.haltMin > 0 && (
+
+                  {isDwellingHere ? (
+                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-500 text-white font-bold text-[9px] animate-pulse">
+                      Halt: {remainingDwellMin}m left
+                    </span>
+                  ) : stop.haltMin > 0 ? (
                     <span className="inline-block px-1.5 py-0.2 rounded bg-amber-100/70 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-[9px]">
                       Halt {Math.round(stop.haltMin)}m
                     </span>
+                  ) : null}
+
+                  {/* Delay projection for upcoming stops */}
+                  {!isDeparted && position.delayMinutes > 0 && (
+                    <div className="text-[9px] text-amber-600 dark:text-amber-400 font-semibold">
+                      Exp: {formatTime((idx === 0 ? stop.departureMin : stop.arrivalMin) + position.delayMinutes)}
+                    </div>
                   )}
                 </div>
               </div>

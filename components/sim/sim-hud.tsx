@@ -11,6 +11,8 @@ import {
   Navigation,
   ArrowRight,
   TrendingUp,
+  ShieldCheck,
+  Activity,
 } from "lucide-react";
 
 interface SimHudProps {
@@ -19,6 +21,7 @@ interface SimHudProps {
   trainNumber: string;
   trainName: string;
   trainType: string;
+  isOfflineFallback?: boolean;
   className?: string;
 }
 
@@ -28,6 +31,7 @@ export function SimHud({
   trainNumber,
   trainName,
   trainType,
+  isOfflineFallback = false,
   className,
 }: SimHudProps) {
   const origin = stops[0];
@@ -157,6 +161,24 @@ export function SimHud({
             {position.state === "blocked" && <AlertTriangle className="h-3 w-3 animate-bounce" />}
             {currentState.label}
           </span>
+
+          {/* Data Engine Resiliency Badge */}
+          <span
+            className={cn(
+              "hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-mono border",
+              isOfflineFallback
+                ? "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-300/60 dark:border-amber-800"
+                : "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-300/60 dark:border-emerald-800"
+            )}
+            title={
+              isOfflineFallback
+                ? "Operating in zero-network snapshot mode"
+                : "Connected to Supabase live database"
+            }
+          >
+            <ShieldCheck className="h-3 w-3" />
+            {isOfflineFallback ? "Snapshot Mode" : "Live DB Sync"}
+          </span>
         </div>
       </div>
 
@@ -271,8 +293,8 @@ export function SimHud({
         </div>
       </div>
 
-      {/* Dynamic Status Message banner */}
-      <div className="mt-3.5 px-3.5 py-2 rounded-xl bg-surface/50 border border-border flex items-center justify-between text-xs">
+      {/* Dynamic Status Message banner & Live Telemetry Coordinates */}
+      <div className="mt-3.5 px-3.5 py-2 rounded-xl bg-surface/50 border border-border flex flex-wrap items-center justify-between gap-2 text-xs">
         <span className="text-foreground font-medium truncate flex items-center gap-2">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/70 opacity-75"></span>
@@ -280,9 +302,18 @@ export function SimHud({
           </span>
           {position.statusMessage}
         </span>
-        <span className="font-mono text-muted-foreground shrink-0 ml-2">
-          t = {formatTime(position.currentMinute)}
-        </span>
+
+        <div className="flex items-center gap-3 font-mono text-[11px] text-muted-foreground shrink-0">
+          <span className="hidden md:inline">
+            GPS: {position.latitude.toFixed(3)}°N, {position.longitude.toFixed(3)}°E
+          </span>
+          <span className="hidden sm:inline">
+            Progress: {Math.round(progressPercent)}%
+          </span>
+          <span className="font-semibold text-foreground">
+            t = {formatTime(position.currentMinute)}
+          </span>
+        </div>
       </div>
     </div>
   );
