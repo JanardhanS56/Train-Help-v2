@@ -17,6 +17,8 @@ import {
   Save,
   History,
   LogOut,
+  Keyboard,
+  X,
 } from "lucide-react";
 
 interface SimControlsProps {
@@ -72,6 +74,52 @@ export function SimControls({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [remoteTrains, setRemoteTrains] = useState<TrainSummary[]>([]);
   const [isSearchingRemote, setIsSearchingRemote] = useState(false);
+  const [isHotkeysOpen, setIsHotkeysOpen] = useState(false);
+
+  // Keyboard navigation and playback hotkeys
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (e.code === "Space") {
+        e.preventDefault();
+        onTogglePlay();
+      } else if (e.key === "ArrowRight" || e.key === "]") {
+        e.preventDefault();
+        onStepForward();
+      } else if (e.key.toLowerCase() === "r") {
+        e.preventDefault();
+        onReset();
+      } else if (e.key.toLowerCase() === "d") {
+        e.preventDefault();
+        onSelectPresetScenario("demo");
+      } else if (e.key === "1") {
+        onChangeSpeed(1);
+      } else if (e.key === "2") {
+        onChangeSpeed(2);
+      } else if (e.key === "3") {
+        onChangeSpeed(5);
+      } else if (e.key === "4") {
+        onChangeSpeed(10);
+      } else if (e.key === "5") {
+        onChangeSpeed(60);
+      } else if (e.key === "?" || (e.shiftKey && e.key === "/")) {
+        e.preventDefault();
+        setIsHotkeysOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onTogglePlay, onStepForward, onReset, onSelectPresetScenario, onChangeSpeed]);
 
   // Debounced live train search suggestion query
   useEffect(() => {
@@ -307,6 +355,16 @@ export function SimControls({
                 Save Run
               </button>
             )}
+
+            <button
+              type="button"
+              onClick={() => setIsHotkeysOpen(true)}
+              className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700 flex items-center gap-1 transition-colors"
+              title="Keyboard shortcuts & hotkeys (?)"
+            >
+              <Keyboard className="h-3 w-3" />
+              Hotkeys
+            </button>
           </div>
         )}
       </div>
@@ -422,6 +480,89 @@ export function SimControls({
           </button>
         </div>
       </div>
+
+      {/* Keyboard Shortcuts Cheatsheet Modal */}
+      {isHotkeysOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="hotkeys-modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in"
+          onClick={() => setIsHotkeysOpen(false)}
+        >
+          <div
+            className="bg-card text-card-foreground border border-border rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-border">
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                  <Keyboard className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 id="hotkeys-modal-title" className="font-bold text-sm">Simulation Keyboard Shortcuts</h3>
+                  <p className="text-xs text-muted-foreground">Quick keyboard navigation & playback controls</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsHotkeysOpen(false)}
+                className="p-1 rounded-lg hover:bg-muted text-muted-foreground transition-colors"
+                aria-label="Close keyboard shortcuts dialog"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center justify-between py-1.5 px-2 rounded-lg bg-muted/40">
+                <span className="text-foreground">Play / Pause simulation</span>
+                <kbd className="px-2 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">Space</kbd>
+              </div>
+              <div className="flex items-center justify-between py-1.5 px-2 rounded-lg bg-muted/40">
+                <span className="text-foreground">Step to next station halt</span>
+                <div className="flex items-center gap-1">
+                  <kbd className="px-2 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">→</kbd>
+                  <span className="text-muted-foreground">or</span>
+                  <kbd className="px-2 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">]</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-1.5 px-2 rounded-lg bg-muted/40">
+                <span className="text-foreground">Reset simulation to origin</span>
+                <kbd className="px-2 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">R</kbd>
+              </div>
+              <div className="flex items-center justify-between py-1.5 px-2 rounded-lg bg-muted/40">
+                <span className="text-foreground">Launch 1-Click Demo scenario</span>
+                <kbd className="px-2 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">D</kbd>
+              </div>
+              <div className="flex items-center justify-between py-1.5 px-2 rounded-lg bg-muted/40">
+                <span className="text-foreground">Speed multiplier (1x, 2x, 5x, 10x, 60x)</span>
+                <div className="flex items-center gap-1">
+                  <kbd className="px-1.5 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">1</kbd>
+                  <kbd className="px-1.5 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">2</kbd>
+                  <kbd className="px-1.5 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">3</kbd>
+                  <kbd className="px-1.5 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">4</kbd>
+                  <kbd className="px-1.5 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">5</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-1.5 px-2 rounded-lg bg-muted/40">
+                <span className="text-foreground">Toggle hotkeys cheat sheet</span>
+                <kbd className="px-2 py-0.5 rounded-md bg-surface border border-border font-mono font-semibold shadow-2xs">?</kbd>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-border flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsHotkeysOpen(false)}
+                className="px-4 py-1.5 rounded-xl bg-primary text-primary-foreground font-semibold text-xs hover:bg-primary-hover shadow-2xs"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
