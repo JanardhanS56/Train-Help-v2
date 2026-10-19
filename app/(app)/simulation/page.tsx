@@ -76,6 +76,7 @@ export default function SimulationPage() {
   const [currentTrain, setCurrentTrain] = useState<TrainWithStops | null>(null);
   const [railLinks, setRailLinks] = useState<DbRailLink[]>([]);
   const [, setIsLoading] = useState(true);
+  const [isOfflineMode, setIsOfflineMode] = useState<boolean>(false);
   const [trainLoadError, setTrainLoadError] = useState<{
     message: string;
     trainNumber: string;
@@ -185,6 +186,7 @@ export default function SimulationPage() {
           const data = await res.json();
           if (data && data.train && Array.isArray(data.train.stops)) {
             train = data.train;
+            setIsOfflineMode(Boolean(data.isOffline));
           }
         }
       } catch (e) {
@@ -195,6 +197,7 @@ export default function SimulationPage() {
 
       if (!train) {
         train = getSnapshotTrainByNumber(trimmedNumber) || getSnapshotTrainByNumber("22691");
+        setIsOfflineMode(true);
       }
 
       if (!train) {
@@ -910,6 +913,7 @@ export default function SimulationPage() {
             trainNumber={currentTrain.train_number}
             trainName={currentTrain.train_name}
             trainType={currentTrain.train_type}
+            isOfflineFallback={isOfflineMode}
           />
         )}
 
