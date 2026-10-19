@@ -14,9 +14,27 @@ export interface ObstaclePreset {
 
 export const OBSTACLE_PRESETS: ObstaclePreset[] = [
   {
+    id: "preset-1click-demo",
+    name: "Flagship 1-Click Demo: Rajdhani OHE Breakdown",
+    corridor: "Itarsi—Bhopal Mainline Corridor (ET—BPL)",
+    obstacle: {
+      id: "obs-1click-ohe-bpl-et",
+      type: "ohe_failure",
+      title: "High-Tension Traction Wire De-energized",
+      description: "Panto entanglement severed 25kV traction line between Itarsi and Bhopal. Electric rakes held; diesel relief locomotive dispatched.",
+      locationType: "segment",
+      fromStationCode: "ET",
+      toStationCode: "BPL",
+      startMinute: 1215, // 20:15
+      durationMinutes: 60,
+      uncertaintyMinutes: 15,
+      effect: "full_block",
+    },
+  },
+  {
     id: "preset-konkan-landslide",
     name: "Konkan Ghat Landslide",
-    corridor: "Konkan / Ghat Railway (CHI—RN)",
+    corridor: "Konkan Railway (CHI—RN)",
     obstacle: {
       id: "obs-landslide-chi-rn",
       type: "track_blockage",
@@ -34,17 +52,17 @@ export const OBSTACLE_PRESETS: ObstaclePreset[] = [
   {
     id: "preset-fog-kanpur",
     name: "Dense Northern Fog Restriction",
-    corridor: "Delhi—Prayagraj Corridor (CNB—PRYJ)",
+    corridor: "Northern Trunk Corridor (AGC—MTJ)",
     obstacle: {
-      id: "obs-fog-cnb-pryj",
+      id: "obs-fog-agc-mtj",
       type: "fog_restriction",
       title: "Severe Winter Fog Advisory",
       description: "Visibility under 50m. IR safety protocol enforces 30 km/h speed limit and detonator fuse warnings.",
       locationType: "segment",
-      fromStationCode: "CNB",
-      toStationCode: "PRYJ",
-      startMinute: 420, // 07:00 AM
-      durationMinutes: 120,
+      fromStationCode: "AGC",
+      toStationCode: "MTJ",
+      startMinute: 3300,
+      durationMinutes: 90,
       uncertaintyMinutes: 30,
       effect: "speed_restriction",
       speedCapKmph: 30,
@@ -53,16 +71,16 @@ export const OBSTACLE_PRESETS: ObstaclePreset[] = [
   {
     id: "preset-ohe-bhopal",
     name: "Overhead OHE Cable Snap",
-    corridor: "Bhopal—Itarsi Mainline (BPL—ET)",
+    corridor: "Bhopal—Itarsi Mainline (ET—BPL)",
     obstacle: {
       id: "obs-ohe-bpl-et",
       type: "ohe_failure",
       title: "High-Tension Traction Wire De-energized",
       description: "Panto entanglement severed 25kV traction line. Electric rakes held; diesel breakdown locomotive en route.",
       locationType: "segment",
-      fromStationCode: "BPL",
-      toStationCode: "ET",
-      startMinute: 780, // 13:00 PM
+      fromStationCode: "ET",
+      toStationCode: "BPL",
+      startMinute: 1215, // 20:15
       durationMinutes: 60,
       uncertaintyMinutes: 15,
       effect: "full_block",

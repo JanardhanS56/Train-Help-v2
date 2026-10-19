@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { trainRepository } from "@/lib/data/train-repository";
+import { getSnapshotTrains } from "@/lib/data/snapshot-fallback";
 import { GENERAL_API_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
@@ -25,10 +26,10 @@ export async function GET(request: NextRequest) {
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error("ERR in /api/sim/trains:", message);
-    return NextResponse.json(
-      { error: "Failed to search trains", trains: [], isOffline: true },
-      { status: 500 }
-    );
+    console.error("ERR in /api/sim/trains, falling back to snapshot:", message);
+    return NextResponse.json({
+      trains: getSnapshotTrains(q, limit),
+      isOffline: true,
+    });
   }
 }

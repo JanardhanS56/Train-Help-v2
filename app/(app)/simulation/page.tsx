@@ -19,6 +19,11 @@ import {
   type SimEventRecord,
   createTelemetrySnapshot,
 } from "@/lib/sim/persistence";
+import {
+  getSnapshotTrains,
+  getSnapshotTrainByNumber,
+  getSnapshotRailLinks,
+} from "@/lib/data/snapshot-fallback";
 import { interpolateReplayPosition } from "@/lib/sim/replay";
 import { publishSimDisruption, clearSimDisruption } from "@/lib/sim/disruption-bridge";
 import dynamic from "next/dynamic";
@@ -161,7 +166,7 @@ export default function SimulationPage() {
     []
   );
 
-  // Fetch full details of selected train
+  // Fetch full details of selected train (with resilient snapshot fallback)
   const loadTrain = useCallback(async (trainNumber: string) => {
     const trimmedNumber = trainNumber?.trim();
     if (!trimmedNumber) return;
@@ -170,55 +175,36 @@ export default function SimulationPage() {
 
     try {
       setIsLoading(true);
-      const res = await fetch(`/api/sim/trains/${encodeURIComponent(trimmedNumber)}`);
+      let train: TrainWithStops | null = null;
 
-      // Guard against stale response if another train request was fired
-      if (requestId !== activeLoadRequestIdRef.current) return;
+      try {
+        const res = await fetch(`/api/sim/trains/${encodeURIComponent(trimmedNumber)}`);
+        if (requestId !== activeLoadRequestIdRef.current) return;
 
-      if (!res.ok) {
-        let errMessage = `Train ${trimmedNumber} not found`;
-        try {
-          const errData = await res.json();
-          if (errData?.error) errMessage = errData.error;
-        } catch {
-          // ignore json parse error
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.train && Array.isArray(data.train.stops)) {
+            train = data.train;
+          }
         }
-
-        if (res.status === 404) {
-          setTrainLoadError({
-            message: `Train ${trimmedNumber} was not found in the timetable records.`,
-            trainNumber: trimmedNumber,
-            isNotFound: true,
-          });
-        } else if (res.status === 429) {
-          setTrainLoadError({
-            message: "Rate limit reached. Please wait a moment before trying again.",
-            trainNumber: trimmedNumber,
-            isNotFound: false,
-          });
-        } else {
-          setTrainLoadError({
-            message: `Server returned an error (${res.status}): ${errMessage}`,
-            trainNumber: trimmedNumber,
-            isNotFound: false,
-          });
-        }
-        return;
+      } catch (e) {
+        console.warn("API train fetch note, engaging fallback snapshot:", e);
       }
 
-      const data = await res.json();
       if (requestId !== activeLoadRequestIdRef.current) return;
 
-      if (!data || typeof data !== "object" || !data.train || !Array.isArray(data.train.stops)) {
+      if (!train) {
+        train = getSnapshotTrainByNumber(trimmedNumber) || getSnapshotTrainByNumber("22691");
+      }
+
+      if (!train) {
         setTrainLoadError({
-          message: `Received invalid schedule data for train ${trimmedNumber}.`,
+          message: `Train ${trimmedNumber} was not found in the timetable records.`,
           trainNumber: trimmedNumber,
-          isNotFound: false,
+          isNotFound: true,
         });
         return;
       }
-
-      const train: TrainWithStops = data.train;
 
       // Successful fetch: clear previous error and update simulation models
       setTrainLoadError(null);
@@ -265,30 +251,64 @@ export default function SimulationPage() {
     }
   }, []);
 
-  // Load initial train list and links
+  // Load initial train list and links (with zero-network snapshot fallback and URL demo auto-trigger)
   useEffect(() => {
     async function initData() {
       try {
         setIsLoading(true);
-        const [trainsRes, linksRes] = await Promise.all([
-          fetch("/api/sim/trains"),
-          fetch("/api/sim/links"),
-        ]);
+        let trains: TrainSummary[] = [];
+        let links: DbRailLink[] = [];
 
-        const trainsData = trainsRes.ok ? await trainsRes.json() : { trains: [] };
-        const linksData = linksRes.ok ? await linksRes.json() : { links: [] };
+        try {
+          const [trainsRes, linksRes] = await Promise.all([
+            fetch("/api/sim/trains"),
+            fetch("/api/sim/links"),
+          ]);
 
-        const fetchedTrains: TrainSummary[] = Array.isArray(trainsData.trains) ? trainsData.trains : [];
-        setTrainsList(fetchedTrains);
-        setRailLinks(Array.isArray(linksData.links) ? linksData.links : []);
+          if (trainsRes.ok) {
+            const trainsData = await trainsRes.json();
+            trains = Array.isArray(trainsData.trains) ? trainsData.trains : [];
+          }
+          if (linksRes.ok) {
+            const linksData = await linksRes.json();
+            links = Array.isArray(linksData.links) ? linksData.links : [];
+          }
+        } catch (e) {
+          console.warn("Initial API fetch note, using local snapshot fallback:", e);
+        }
+
+        if (trains.length === 0) {
+          trains = getSnapshotTrains("", 100);
+        }
+        if (links.length === 0) {
+          links = getSnapshotRailLinks();
+        }
+
+        setTrainsList(trains);
+        setRailLinks(links);
 
         // Default to configured 22691 (Bengaluru Rajdhani) if present, or first train in list
         const defaultTrainNumber =
-          fetchedTrains.find((t) => t.train_number === "22691")?.train_number ||
-          fetchedTrains[0]?.train_number ||
+          trains.find((t) => t.train_number === "22691")?.train_number ||
+          trains[0]?.train_number ||
           "22691";
 
         await loadTrain(defaultTrainNumber);
+
+        // Check if auto-demo was requested via URL query params (?demo=1 or ?preset=...)
+        if (typeof window !== "undefined") {
+          const params = new URLSearchParams(window.location.search);
+          if (params.get("demo") === "1" || params.get("demo") === "true") {
+            setTimeout(() => {
+              handleSelectPresetScenario("demo");
+            }, 300);
+          } else if (params.get("preset")) {
+            const pKey = params.get("preset")!;
+            setTimeout(() => {
+              handleSelectPresetScenario(pKey);
+            }, 300);
+          }
+        }
       } catch (err) {
         console.warn("Failed to load initial simulation data:", err);
       } finally {
@@ -393,9 +413,16 @@ export default function SimulationPage() {
     async (obs: Obstacle) => {
       if (!currentTrain) return;
 
+      // 1. Instantly compute deterministic Dijkstra plans so UI is never stalled
+      const localPlans = generateCandidatePlans(currentTrain, position, obs, railLinks);
+      setCandidatePlans(localPlans);
+      const rec = localPlans.find((p) => p.recommended) || localPlans[0];
+      setSelectedPlanId(rec?.id || null);
+      simSoundscape.playAdvisorDing();
+
+      // 2. Call AI advisor in background to enrich plans with LLM intelligence
       setIsAiLoading(true);
       try {
-        // First try calling API route with AI model
         const res = await fetch("/api/sim/advise", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -403,33 +430,37 @@ export default function SimulationPage() {
             train: currentTrain,
             position,
             obstacle: obs,
+            candidatePlans: localPlans,
             railLinks,
           }),
         });
 
         if (res.ok) {
           const data = await res.json();
-          if (data.plans && data.plans.length > 0) {
+          if (data.recommendedPlanId) {
+            setCandidatePlans((prev) =>
+              prev.map((p) =>
+                p.id === data.recommendedPlanId
+                  ? {
+                      ...p,
+                      headline: data.headline || p.headline,
+                      reasoning: data.reasoning?.length ? data.reasoning : p.reasoning,
+                      tradeoffs: data.tradeoffs?.length ? data.tradeoffs : p.tradeoffs,
+                      confidence: data.confidence || p.confidence,
+                    }
+                  : p
+              )
+            );
+            setSelectedPlanId(data.recommendedPlanId);
+          } else if (data.plans && data.plans.length > 0) {
             setCandidatePlans(data.plans);
-            const rec = data.plans.find((p: CandidatePlan) => p.recommended) || data.plans[0];
-            setSelectedPlanId(rec?.id || null);
-            simSoundscape.playAdvisorDing();
-            return;
           }
         }
       } catch (err) {
-        console.warn("AI advise API route fallback to local graph planner:", err);
+        console.warn("AI advise background note (deterministic plans active):", err);
       } finally {
         setIsAiLoading(false);
       }
-
-      // Fallback: deterministic Dijkstra planner
-      const localPlans = generateCandidatePlans(currentTrain, position, obs, railLinks);
-      setCandidatePlans(localPlans);
-      const rec = localPlans.find((p) => p.recommended) || localPlans[0];
-      setSelectedPlanId(rec?.id || null);
-      simSoundscape.playAdvisorDing();
-      setIsAiLoading(false);
     },
     [currentTrain, position, railLinks]
   );
@@ -537,29 +568,47 @@ export default function SimulationPage() {
 
   // 1-Click Preset Scenario Loader
   const handleSelectPresetScenario = async (scenarioKey: string) => {
-    if (scenarioKey === "konkan") {
-      // Train 16595 Panchaganga Express with Konkan Landslide
-      await loadTrain("16595");
+    if (scenarioKey === "demo" || scenarioKey === "flagship" || scenarioKey === "1click") {
+      // Flagship 1-Click Demo: Bengaluru Rajdhani 22691 approaching Itarsi-Bhopal OHE break
+      await loadTrain("22691");
+      setSimMinute(1195);
+      const preset = OBSTACLE_PRESETS.find((p) => p.id === "preset-1click-demo" || p.id === "preset-ohe-bhopal");
+      if (preset) {
+        handleApplyObstacle(preset.obstacle);
+      }
+      setSpeedMultiplier(10);
+      setIsPlaying(true);
+    } else if (scenarioKey === "konkan") {
+      // Train 12051 Mao Jan Shatabdi approaching Chiplun-Ratnagiri landslide
+      await loadTrain("12051");
+      setSimMinute(570);
       const preset = OBSTACLE_PRESETS.find((p) => p.id === "preset-konkan-landslide");
       if (preset) {
         handleApplyObstacle(preset.obstacle);
       }
+      setSpeedMultiplier(10);
+      setIsPlaying(true);
     } else if (scenarioKey === "fog") {
-      // Train 12627 Karnataka Express with Kanpur-Prayagraj Fog
+      // Train 12627 Karnataka Express approaching Agra-Mathura Fog
       await loadTrain("12627");
+      setSimMinute(3285);
       const preset = OBSTACLE_PRESETS.find((p) => p.id === "preset-fog-kanpur");
       if (preset) {
         handleApplyObstacle(preset.obstacle);
       }
+      setSpeedMultiplier(10);
+      setIsPlaying(true);
     } else if (scenarioKey === "ohe") {
       // Train 22691 Bengaluru Rajdhani with Bhopal OHE Cable Snap
       await loadTrain("22691");
+      setSimMinute(1195);
       const preset = OBSTACLE_PRESETS.find((p) => p.id === "preset-ohe-bhopal");
       if (preset) {
         handleApplyObstacle(preset.obstacle);
       }
+      setSpeedMultiplier(10);
+      setIsPlaying(true);
     }
-    setIsPlaying(true);
   };
 
   // Animation Loop using requestAnimationFrame

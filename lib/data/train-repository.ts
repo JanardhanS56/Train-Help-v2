@@ -15,6 +15,13 @@ import {
   getRailLinks as fetchRailLinks,
   getTrainsBetween as fetchTrainsBetween,
 } from "./trains";
+import {
+  getSnapshotTrains,
+  getSnapshotTrainByNumber,
+  getSnapshotStations,
+  getSnapshotStation,
+  getSnapshotRailLinks,
+} from "./snapshot-fallback";
 import type {
   DbStation,
   DbTrain,

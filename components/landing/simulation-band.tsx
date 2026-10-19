@@ -43,13 +43,13 @@ export function SimulationBand() {
           </div>
         </div>
 
-        {/* Real destination link to /simulation */}
-        <div className="shrink-0">
+        {/* Real destination link to /simulation with 1-click demo auto-trigger */}
+        <div className="shrink-0 flex flex-col sm:flex-row items-center gap-3">
           <Link
-            href="/simulation"
-            className="h-11 px-6 rounded-xl bg-background text-foreground text-sm font-semibold hover:bg-surface transition-colors flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary"
+            href="/simulation?demo=1"
+            className="h-11 px-6 rounded-xl bg-background text-foreground text-sm font-semibold hover:bg-surface transition-all flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-background focus:ring-offset-2 focus:ring-offset-primary hover:scale-[1.02] active:scale-[0.98]"
           >
-            <span>Run the simulation</span>
+            <span>Run 1-Click Demo</span>
             <ArrowRight className="w-4 h-4 stroke-[1.8]" />
           </Link>
         </div>

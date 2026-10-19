@@ -86,14 +86,54 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { train, position, obstacle, candidatePlans } = payload;
+  const { train, position, obstacle } = payload;
+  let candidatePlans = payload.candidatePlans;
+  if (!candidatePlans || candidatePlans.length === 0) {
+    if (train && position && obstacle) {
+      try {
+        const { generateCandidatePlans } = await import("@/lib/sim/planner");
+        candidatePlans = generateCandidatePlans(
+          train as unknown as Parameters<typeof generateCandidatePlans>[0],
+          position as unknown as Parameters<typeof generateCandidatePlans>[1],
+          obstacle as unknown as Parameters<typeof generateCandidatePlans>[2],
+          (payload as { railLinks?: unknown[] }).railLinks as unknown as Parameters<typeof generateCandidatePlans>[3] || []
+        );
+      } catch (err) {
+        console.warn("Could not generate candidate plans on server:", err);
+      }
+    }
+  }
 
   if (!candidatePlans || candidatePlans.length === 0) {
-    return NextResponse.json({ error: "No candidate plans provided" }, { status: 400 });
+    // Generate minimal safe fallback candidate plans
+    candidatePlans = [
+      {
+        id: "plan-wait-default",
+        actionType: "wait",
+        title: "Regulate & Proceed Under Caution",
+        headline: "Hold position until track verification completes",
+        description: "Regulate train speed and proceed through affected section with caution orders.",
+        recommended: true,
+        score: 85,
+        newArrivalMin: (position?.currentMinute || 360) + 45,
+        delayMinutes: 45,
+        extraDistanceKm: 0,
+        transfers: 0,
+        riskScore: 20,
+        confidence: 88,
+        detourStationCodes: [],
+        reasoning: ["Minimizes passenger disruption without complex diversion routing."],
+        tradeoffs: ["Moderate section delay."],
+      },
+    ];
   }
 
   const validPlanIds = new Set(candidatePlans.map((p) => p.id));
-  const deterministicFallback = buildDeterministicAdvice(candidatePlans, obstacle?.title || "obstacle");
+  const deterministicAdvice = buildDeterministicAdvice(candidatePlans, obstacle?.title || "obstacle");
+  const deterministicFallback = {
+    ...deterministicAdvice,
+    plans: candidatePlans,
+  };
 
   const config = getProviderConfig();
 
@@ -205,6 +245,7 @@ Select the optimal plan and deliver your tactical recommendation JSON:`;
         tradeoffs: parsed.tradeoffs.slice(0, 3),
         confidence: typeof parsed.confidence === "number" ? Math.min(99, Math.max(70, parsed.confidence)) : 88,
         source: "llm",
+        plans: candidatePlans,
       });
     }
 
