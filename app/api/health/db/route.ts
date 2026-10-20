@@ -23,11 +23,11 @@ export async function GET(request: NextRequest) {
 
   if (!supabase) {
     return NextResponse.json({
-      ok: true,
-      source: "fallback",
+      ok: false,
+      source: "unconfigured",
       isOffline: true,
       latencyMs: 0,
-      message: "Supabase credentials not configured. Serving verified local snapshot.",
+      message: "Supabase is not configured in this deployment. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
       counts: {
         stations: fallbackSnapshot.stations.length,
         trains: fallbackSnapshot.trains.length,
@@ -78,8 +78,8 @@ export async function GET(request: NextRequest) {
     console.warn("Health check fallback engaged:", message);
 
     return NextResponse.json({
-      ok: true,
-      source: "fallback",
+      ok: false,
+      source: "error",
       isOffline: true,
       latencyMs: Date.now() - start,
       message: `Supabase unreachable (${message}). Offline snapshot active.`,

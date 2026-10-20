@@ -8,6 +8,7 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
+import { getBrowserSupabaseClient } from "@/lib/data/supabase-browser";
 
 // ─── Types ─────────────────────────────────────────────────────────
 
@@ -119,13 +120,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Hydrate user + saved credentials on mount
   useEffect(() => {
-    queueMicrotask(() => {
-      const existingUser = loadUser();
-      const existingCreds = loadCredentials();
-      if (existingUser) setUser(existingUser);
-      if (existingCreds) setSavedCredentials(existingCreds);
+    const supabase = getBrowserSupabaseClient();
+    if (!supabase) {
+      queueMicrotask(() => {
+        const existingUser = loadUser();
+        const existingCreds = loadCredentials();
+        if (existingUser) setUser(existingUser);
+        if (existingCreds) setSavedCredentials(existingCreds);
+        setIsLoading(false);
+      });
+      return;
+    }
+
+    let active = true;
+    const applySession = (sessionUser: { id: string; email?: string; user_metadata?: Record<string, unknown> } | null) => {
+      if (!active) return;
+      if (!sessionUser) {
+        setUser(null);
+        setIsLoading(false);
+        return;
+      }
+      const name = String(sessionUser.user_metadata?.name || sessionUser.email?.split("@")[0] || "Passenger");
+      setUser({ name, email: sessionUser.email || "" });
       setIsLoading(false);
+    };
+
+    void supabase.auth.getSession().then(({ data }) => applySession(data.session?.user ?? null));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      applySession(session?.user ?? null);
     });
+
+    return () => {
+      active = false;
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = useCallback(
@@ -137,16 +165,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return false;
       }
 
+      const supabase = getBrowserSupabaseClient();
+      if (supabase) {
+        const { data, error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password: cleanPass });
+        if (error || !data.user) return false;
+        const name = String(data.user.user_metadata?.name || cleanEmail.split("@")[0]);
+        const authUser: AuthUser = { name, email: cleanEmail };
+        setUser(authUser);
+        saveUser(authUser, remember);
+        return true;
+      }
+
       const name = savedCredentials?.name || cleanEmail.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
       const authUser: AuthUser = { name, email: cleanEmail };
       setUser(authUser);
       saveUser(authUser, remember);
-
-      // Remember credentials for suggestions (omitting plaintext password)
       const newCreds: StoredCredentials = { email: cleanEmail, name };
       saveCredentials(newCreds);
       setSavedCredentials(newCreds);
-
       return true;
     },
     [savedCredentials?.name]
@@ -162,14 +198,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return false;
       }
 
+      const supabase = getBrowserSupabaseClient();
+      if (supabase) {
+        const { data, error } = await supabase.auth.signUp({
+          email: cleanEmail,
+          password: cleanPass,
+          options: {
+            data: { name: cleanName },
+            emailRedirectTo:
+              process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ??
+              `${window.location.origin}/auth/callback`,
+          },
+        });
+        if (error || !data.user) return false;
+        const authUser: AuthUser = { name: cleanName, email: cleanEmail };
+        setUser(authUser);
+        saveUser(authUser, remember);
+        return true;
+      }
+
       const creds: StoredCredentials = { email: cleanEmail, name: cleanName };
       saveCredentials(creds);
       setSavedCredentials(creds);
-
       const authUser: AuthUser = { name: cleanName, email: cleanEmail };
       setUser(authUser);
       saveUser(authUser, remember);
-
       return true;
     },
     []
@@ -197,6 +250,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signOut = useCallback(() => {
+    const supabase = getBrowserSupabaseClient();
+    if (supabase) void supabase.auth.signOut();
     setUser(null);
     clearUser();
   }, []);
