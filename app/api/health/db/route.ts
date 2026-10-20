@@ -3,21 +3,12 @@
  * Health check endpoint for database connectivity and latency monitoring.
  */
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/data/supabase-client";
 import fallbackSnapshot from "@/data/clean/sim-snapshot.json";
-import { DB_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
-
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
-  const rateLimit = await enforceRateLimit(
-    request,
-    DB_RATE_LIMIT,
-    "Too many database status checks. Please wait a moment."
-  );
-  if (!rateLimit.success) return rateLimit.response;
-
+export async function GET(_request: NextRequest) {
   const start = Date.now();
   const supabase = getSupabaseClient();
 
