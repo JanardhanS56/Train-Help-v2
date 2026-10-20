@@ -21,7 +21,6 @@ const PLACEHOLDER_PATTERNS = [
   /placeholder/i,
   /changeme/i,
   /dummy/i,
-  /example/i,
 ];
 
 export function isPlaceholder(val: string | undefined | null): boolean {
