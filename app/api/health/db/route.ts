@@ -3,7 +3,7 @@
  * Health check endpoint for database connectivity and latency monitoring.
  */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/data/supabase-client";
 import fallbackSnapshot from "@/data/clean/sim-snapshot.json";
 export const runtime = "nodejs";
