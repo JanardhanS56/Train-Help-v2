@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { trainRepository } from "@/lib/data/train-repository";
+import { searchStationsDirect } from "@/lib/data/postgres-stations";
 import { getSnapshotStations } from "@/lib/data/snapshot-fallback";
 import { GENERAL_API_RATE_LIMIT, enforceRateLimit } from "@/lib/rate-limit";
 
@@ -22,10 +23,13 @@ export async function GET(request: NextRequest) {
     const stations = q
       ? await trainRepository.searchStations(q, limit)
       : await trainRepository.getAllStations();
+    const directStations = trainRepository.isOffline()
+      ? await searchStationsDirect(q, limit)
+      : stations;
 
     return NextResponse.json({
-      stations: stations && stations.length > 0 ? stations : getSnapshotStations(q, limit),
-      isOffline: trainRepository.isOffline(),
+      stations: directStations.length > 0 ? directStations : getSnapshotStations(q, limit),
+      isOffline: directStations.length === 0 || trainRepository.isOffline(),
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
